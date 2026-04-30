@@ -194,6 +194,14 @@
       "diaper": "متابعة الحفاضات",
       "recovery": "دليل التعافي",
       "lactation": "دعم الرضاعة"
+    },
+    "ribbon": {
+      "ariaLabel": "مراحل الرحلة",
+      "stages": {
+        "fertility": "الخصوبة",
+        "pregnant": "الحمل",
+        "postpartum": "الأمومة"
+      }
     }
   },
   "smartPrompt": {

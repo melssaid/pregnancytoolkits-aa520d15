@@ -194,6 +194,14 @@
       "diaper": "Diaper Tracker",
       "recovery": "Recovery Guide",
       "lactation": "Lactation Support"
+    },
+    "ribbon": {
+      "ariaLabel": "Journey progress",
+      "stages": {
+        "fertility": "Fertility",
+        "pregnant": "Pregnancy",
+        "postpartum": "Motherhood"
+      }
     }
   },
   "smartPrompt": {
