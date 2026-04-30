@@ -200,62 +200,83 @@ export const JourneyTimeline = () => {
             const isBirth = p.kind === "birthDate";
             const isDue = p.kind === "dueDate";
 
+            const handleJump = () => {
+              const node = document.querySelector<HTMLElement>(
+                `[data-stage-card="${p.stage}"]`,
+              );
+              node?.scrollIntoView({ behavior: "smooth", block: "center" });
+            };
+            const stageName = t(`journey.ribbon.stages.${p.stage}`);
+            const ariaLabel = `${stageName} – ${t(p.labelKey)} – ${formatLocalized(
+              p.date.toISOString(),
+              "PP",
+              i18n.language,
+            )}`;
+
             return (
               <li
                 key={p.id}
                 data-tl-idx={idx}
                 className="flex flex-col items-center w-[88px] sm:w-[104px] shrink-0"
               >
-                {/* Year/Month label above the dot keeps the axis tidy */}
-                <span className="text-[10px] font-semibold text-muted-foreground mb-1 truncate max-w-full">
-                  {formatLocalized(p.date.toISOString(), "MMM yyyy", i18n.language)}
-                </span>
-
-                {/* The marker itself sits on the axis line */}
-                <div
+                <button
+                  type="button"
+                  onClick={handleJump}
+                  aria-label={ariaLabel}
                   className={cn(
-                    "relative h-[18px] w-[18px] rounded-full flex items-center justify-center",
-                    "border-2 transition-transform",
-                    isFuture ? "border-dashed" : "border-solid",
+                    "flex flex-col items-center w-full rounded-xl p-1 -m-1 transition-all",
+                    "outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
+                    "hover:bg-muted/40 active:scale-[0.97]",
                   )}
-                  style={{
-                    background: isFuture
-                      ? "hsl(var(--background))"
-                      : `hsl(${hue} / 0.18)`,
-                    borderColor: `hsl(${hue})`,
-                  }}
-                  aria-hidden
                 >
-                  {(isBirth || isDue) && (
-                    <Star
-                      className="h-2.5 w-2.5"
-                      style={{ color: `hsl(${hue})` }}
-                    />
-                  )}
-                </div>
+                  {/* Year/Month label above the dot keeps the axis tidy */}
+                  <span className="text-[10px] font-semibold text-muted-foreground mb-1 truncate max-w-full">
+                    {formatLocalized(p.date.toISOString(), "MMM yyyy", i18n.language)}
+                  </span>
 
-                {/* Stage chip + label */}
-                <div className="mt-2 flex flex-col items-center gap-1 text-center">
+                  {/* The marker itself sits on the axis line */}
                   <div
-                    className="h-7 w-7 rounded-xl flex items-center justify-center"
+                    className={cn(
+                      "relative h-[18px] w-[18px] rounded-full flex items-center justify-center",
+                      "border-2 transition-transform",
+                      isFuture ? "border-dashed" : "border-solid",
+                    )}
                     style={{
-                      background: `hsl(${hue} / 0.12)`,
-                      color: `hsl(${hue})`,
+                      background: isFuture
+                        ? "hsl(var(--background))"
+                        : `hsl(${hue} / 0.18)`,
+                      borderColor: `hsl(${hue})`,
                     }}
                     aria-hidden
                   >
-                    <Icon className="h-3.5 w-3.5" />
+                    {(isBirth || isDue) && (
+                      <Star
+                        className="h-2.5 w-2.5"
+                        style={{ color: `hsl(${hue})` }}
+                      />
+                    )}
                   </div>
-                  <p className="text-[10px] font-semibold text-foreground leading-tight line-clamp-2">
-                    {t(p.labelKey)}
-                  </p>
-                  <p className="text-[9px] text-muted-foreground leading-tight">
-                    {formatLocalized(p.date.toISOString(), "PP", i18n.language)}
-                  </p>
-                  <span className="sr-only">
-                    {t(`journey.ribbon.stages.${p.stage}`)} – {t(p.labelKey)}
-                  </span>
-                </div>
+
+                  {/* Stage chip + label */}
+                  <div className="mt-2 flex flex-col items-center gap-1 text-center">
+                    <div
+                      className="h-7 w-7 rounded-xl flex items-center justify-center"
+                      style={{
+                        background: `hsl(${hue} / 0.12)`,
+                        color: `hsl(${hue})`,
+                      }}
+                      aria-hidden
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                    </div>
+                    <p className="text-[10px] font-semibold text-foreground leading-tight line-clamp-2">
+                      {t(p.labelKey)}
+                    </p>
+                    <p className="text-[9px] text-muted-foreground leading-tight">
+                      {formatLocalized(p.date.toISOString(), "PP", i18n.language)}
+                    </p>
+                  </div>
+                </button>
               </li>
             );
           })}

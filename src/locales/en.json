@@ -201,7 +201,9 @@
         "fertility": "Fertility",
         "pregnant": "Pregnancy",
         "postpartum": "Motherhood"
-      }
+      },
+      "stationGoTo": "Go to {{stage}}",
+      "stationCurrent": "{{stage}} (current)"
     },
     "map": {
       "seo": {

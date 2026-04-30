@@ -35,11 +35,18 @@ const STAGE_ICON: Record<JourneyStage, typeof Sprout> = {
 interface Props {
   /** Optional click handler — typically opens the Journey Map page. */
   onSelect?: () => void;
+  /**
+   * Optional per-station handler. When provided, each station becomes
+   * a focusable button and supports ←/→ keyboard navigation. If absent,
+   * the ribbon falls back to the wrapper-level `onSelect`.
+   */
+  onStationSelect?: (stage: JourneyStage) => void;
   className?: string;
 }
 
 export const JourneyProgressRibbon = memo(function JourneyProgressRibbon({
   onSelect,
+  onStationSelect,
   className,
 }: Props) {
   const { t } = useTranslation();
@@ -54,19 +61,37 @@ export const JourneyProgressRibbon = memo(function JourneyProgressRibbon({
   const progressPct =
     activeIndex <= 0 ? 8 : activeIndex === 1 ? 50 : 92;
 
+  const handleStationKey = (e: React.KeyboardEvent, stage: JourneyStage, idx: number) => {
+    if (!onStationSelect) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onStationSelect(stage);
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const dir = e.key === 'ArrowRight' ? 1 : -1;
+      const nextIdx = (idx + dir + JOURNEY_STAGE_ORDER.length) % JOURNEY_STAGE_ORDER.length;
+      const target = document.querySelector<HTMLElement>(
+        `[data-ribbon-station="${JOURNEY_STAGE_ORDER[nextIdx]}"]`,
+      );
+      target?.focus();
+    }
+  };
+
   return (
     <nav
       aria-label={ariaLabel}
       className={cn(
         'relative w-full select-none',
-        onSelect && 'cursor-pointer',
+        onSelect && !onStationSelect && 'cursor-pointer',
         className,
       )}
-      onClick={onSelect}
-      role={onSelect ? 'button' : 'group'}
-      tabIndex={onSelect ? 0 : -1}
+      onClick={onStationSelect ? undefined : onSelect}
+      role={onSelect && !onStationSelect ? 'button' : 'group'}
+      tabIndex={onSelect && !onStationSelect ? 0 : -1}
       onKeyDown={(e) => {
-        if (!onSelect) return;
+        if (onStationSelect || !onSelect) return;
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           onSelect();
@@ -107,10 +132,35 @@ export const JourneyProgressRibbon = memo(function JourneyProgressRibbon({
           const label = t(STAGE_LABEL_KEY[stage]);
           const Icon = STAGE_ICON[stage];
 
+          const stationLabel = isActive
+            ? t('journey.ribbon.stationCurrent', { stage: label, defaultValue: '{{stage}} (current)' })
+            : t('journey.ribbon.stationGoTo', { stage: label, defaultValue: 'Go to {{stage}}' });
+
+          const Wrapper: any = onStationSelect ? 'button' : 'div';
+          const wrapperProps = onStationSelect
+            ? {
+                type: 'button',
+                'data-ribbon-station': stage,
+                'aria-label': stationLabel,
+                'aria-current': isActive ? ('step' as const) : undefined,
+                onClick: (e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  onStationSelect(stage);
+                },
+                onKeyDown: (e: React.KeyboardEvent) => handleStationKey(e, stage, idx),
+                tabIndex: 0,
+              }
+            : {};
+
           return (
-            <div
+            <Wrapper
               key={stage}
-              className="relative z-10 flex flex-1 flex-col items-center gap-1 min-w-0"
+              {...wrapperProps}
+              className={cn(
+                'relative z-10 flex flex-1 flex-col items-center gap-1 min-w-0',
+                onStationSelect &&
+                  'cursor-pointer rounded-2xl bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-transform active:scale-[0.97]',
+              )}
             >
               {/* Framed medallion */}
               <div className="relative h-9 w-9 shrink-0">
@@ -180,7 +230,7 @@ export const JourneyProgressRibbon = memo(function JourneyProgressRibbon({
               >
                 {label}
               </span>
-            </div>
+            </Wrapper>
           );
         })}
       </div>

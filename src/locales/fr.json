@@ -9381,7 +9381,9 @@
         "fertility": "Fertilité",
         "pregnant": "Grossesse",
         "postpartum": "Maternité"
-      }
+      },
+      "stationGoTo": "Aller à {{stage}}",
+      "stationCurrent": "{{stage}} (actuelle)"
     },
     "map": {
       "seo": {

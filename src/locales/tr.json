@@ -9381,7 +9381,9 @@
         "fertility": "Doğurganlık",
         "pregnant": "Hamilelik",
         "postpartum": "Annelik"
-      }
+      },
+      "stationGoTo": "{{stage}} aşamasına git",
+      "stationCurrent": "{{stage}} (geçerli)"
     },
     "map": {
       "seo": {

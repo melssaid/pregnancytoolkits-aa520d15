@@ -120,11 +120,28 @@ const JourneyMap = () => {
 
   const activeIndex = JOURNEY_STAGE_ORDER.indexOf(profile.journeyStage);
 
+  const scrollToStage = useCallback((stage: JourneyStage) => {
+    const node = document.querySelector<HTMLElement>(`[data-stage-card="${stage}"]`);
+    if (!node) return;
+    node.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Brief focus ring for accessibility/visual confirmation.
+    node.setAttribute("tabindex", "-1");
+    node.focus({ preventScroll: true });
+  }, []);
+
   const handleStageSelect = useCallback((stage: JourneyStage) => {
-    if (stage === profile.journeyStage) return;
     haptic("tap");
+    if (stage === profile.journeyStage) {
+      scrollToStage(stage);
+      return;
+    }
     setPendingStage(stage);
-  }, [profile.journeyStage]);
+  }, [profile.journeyStage, scrollToStage]);
+
+  const handleRibbonStation = useCallback((stage: JourneyStage) => {
+    haptic("tap");
+    scrollToStage(stage);
+  }, [scrollToStage]);
 
   const confirmStageChange = useCallback(() => {
     if (!pendingStage) return;
@@ -186,7 +203,7 @@ const JourneyMap = () => {
           </p>
 
           <div className="mt-3">
-            <JourneyProgressRibbon />
+            <JourneyProgressRibbon onStationSelect={handleRibbonStation} />
           </div>
         </header>
 
@@ -219,6 +236,8 @@ const JourneyMap = () => {
                 transition={{ duration: 0.35, delay: idx * 0.06 }}
               >
                 <Card
+                  data-stage-card={entry.stage}
+                  id={`stage-${entry.stage}`}
                   className={cn(
                     "relative p-4 rounded-2xl border-border/60 transition-all",
                     isActive && "ring-2 ring-primary/40 shadow-md",
