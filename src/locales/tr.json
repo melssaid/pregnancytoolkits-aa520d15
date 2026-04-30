@@ -9415,6 +9415,12 @@
         "description": "Aktif aşamanız {{stage}} olarak ayarlanacak.",
         "cancel": "İptal",
         "confirm": "Onayla"
+      },
+      "memories": {
+        "title": "Kayıtlarınız",
+        "savedResults": "Kaydedilen sonuçlar",
+        "photos": "Karın fotoğrafları",
+        "trackingEntries": "Takip kayıtları"
       }
     }
   }

@@ -9415,6 +9415,12 @@
         "description": "Votre étape active sera définie sur {{stage}}.",
         "cancel": "Annuler",
         "confirm": "Confirmer"
+      },
+      "memories": {
+        "title": "Vos enregistrements",
+        "savedResults": "Résultats sauvegardés",
+        "photos": "Photos du ventre",
+        "trackingEntries": "Entrées de suivi"
       }
     }
   }

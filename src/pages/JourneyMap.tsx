@@ -298,6 +298,10 @@ const JourneyMap = () => {
             );
           })}
         </section>
+
+        <div className="container px-3 sm:px-4 mt-5">
+          <JourneyMemoriesPanel />
+        </div>
       </main>
 
       <AlertDialog open={pendingStage !== null} onOpenChange={(o) => !o && setPendingStage(null)}>

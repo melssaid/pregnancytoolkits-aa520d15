@@ -9415,6 +9415,12 @@
         "description": "Deine aktive Phase wird auf {{stage}} gesetzt.",
         "cancel": "Abbrechen",
         "confirm": "Bestätigen"
+      },
+      "memories": {
+        "title": "Deine Aufzeichnungen",
+        "savedResults": "Gespeicherte Ergebnisse",
+        "photos": "Bauchfotos",
+        "trackingEntries": "Tracking-Einträge"
       }
     }
   }
