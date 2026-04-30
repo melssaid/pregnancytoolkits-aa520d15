@@ -9421,6 +9421,12 @@
         "savedResults": "Gespeicherte Ergebnisse",
         "photos": "Bauchfotos",
         "trackingEntries": "Tracking-Einträge"
+      },
+      "timeline": {
+        "title": "Reise-Zeitstrahl",
+        "empty": "Dein Zeitstrahl erscheint hier, sobald du wichtige Momente festhältst.",
+        "count_one": "{{count}} Meilenstein",
+        "count_other": "{{count}} Meilensteine"
       }
     },
     "recovery": {

@@ -9421,6 +9421,12 @@
         "savedResults": "Résultats sauvegardés",
         "photos": "Photos du ventre",
         "trackingEntries": "Entrées de suivi"
+      },
+      "timeline": {
+        "title": "Chronologie du parcours",
+        "empty": "Votre chronologie apparaîtra ici à mesure que vous enregistrez des moments clés.",
+        "count_one": "{{count}} étape",
+        "count_other": "{{count}} étapes"
       }
     },
     "recovery": {
