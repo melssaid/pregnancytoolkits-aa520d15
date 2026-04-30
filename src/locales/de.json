@@ -9373,5 +9373,15 @@
     "nothingToReset": "Keine Daten zum Zurücksetzen",
     "dangerZone": "Gefahrenbereich",
     "dangerZoneDesc": "Alle Tracker und Ergebnisse löschen. Profil und Sprache bleiben."
+  },
+  "journey": {
+    "ribbon": {
+      "ariaLabel": "Verlauf der Reise",
+      "stages": {
+        "fertility": "Kinderwunsch",
+        "pregnant": "Schwangerschaft",
+        "postpartum": "Mutterschaft"
+      }
+    }
   }
 }

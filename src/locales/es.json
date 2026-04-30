@@ -9373,5 +9373,15 @@
     "nothingToReset": "Sin datos para restablecer",
     "dangerZone": "Zona de peligro",
     "dangerZoneDesc": "Borra todos los registros y resultados. Perfil e idioma se mantienen."
+  },
+  "journey": {
+    "ribbon": {
+      "ariaLabel": "Progreso del recorrido",
+      "stages": {
+        "fertility": "Fertilidad",
+        "pregnant": "Embarazo",
+        "postpartum": "Maternidad"
+      }
+    }
   }
 }

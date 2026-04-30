@@ -9373,5 +9373,15 @@
     "nothingToReset": "Sem dados para redefinir",
     "dangerZone": "Zona de perigo",
     "dangerZoneDesc": "Apaga todos os rastreadores e resultados. Perfil e idioma mantidos."
+  },
+  "journey": {
+    "ribbon": {
+      "ariaLabel": "Progresso da jornada",
+      "stages": {
+        "fertility": "Fertilidade",
+        "pregnant": "Gravidez",
+        "postpartum": "Maternidade"
+      }
+    }
   }
 }

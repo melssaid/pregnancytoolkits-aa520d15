@@ -9373,5 +9373,15 @@
     "nothingToReset": "Aucune donnée à réinitialiser",
     "dangerZone": "Zone sensible",
     "dangerZoneDesc": "Effacer tous les suivis et résultats. Profil et langue préservés."
+  },
+  "journey": {
+    "ribbon": {
+      "ariaLabel": "Progression du parcours",
+      "stages": {
+        "fertility": "Fertilité",
+        "pregnant": "Grossesse",
+        "postpartum": "Maternité"
+      }
+    }
   }
 }

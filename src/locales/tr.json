@@ -9373,5 +9373,15 @@
     "nothingToReset": "Sıfırlanacak veri yok",
     "dangerZone": "Tehlike bölgesi",
     "dangerZoneDesc": "Tüm izleyici ve sonuçları sil. Profil ve dil korunur."
+  },
+  "journey": {
+    "ribbon": {
+      "ariaLabel": "Yolculuk aşamaları",
+      "stages": {
+        "fertility": "Doğurganlık",
+        "pregnant": "Hamilelik",
+        "postpartum": "Annelik"
+      }
+    }
   }
 }
