@@ -35,11 +35,18 @@ const STAGE_ICON: Record<JourneyStage, typeof Sprout> = {
 interface Props {
   /** Optional click handler — typically opens the Journey Map page. */
   onSelect?: () => void;
+  /**
+   * Optional per-station handler. When provided, each station becomes
+   * a focusable button and supports ←/→ keyboard navigation. If absent,
+   * the ribbon falls back to the wrapper-level `onSelect`.
+   */
+  onStationSelect?: (stage: JourneyStage) => void;
   className?: string;
 }
 
 export const JourneyProgressRibbon = memo(function JourneyProgressRibbon({
   onSelect,
+  onStationSelect,
   className,
 }: Props) {
   const { t } = useTranslation();
@@ -54,19 +61,37 @@ export const JourneyProgressRibbon = memo(function JourneyProgressRibbon({
   const progressPct =
     activeIndex <= 0 ? 8 : activeIndex === 1 ? 50 : 92;
 
+  const handleStationKey = (e: React.KeyboardEvent, stage: JourneyStage, idx: number) => {
+    if (!onStationSelect) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onStationSelect(stage);
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const dir = e.key === 'ArrowRight' ? 1 : -1;
+      const nextIdx = (idx + dir + JOURNEY_STAGE_ORDER.length) % JOURNEY_STAGE_ORDER.length;
+      const target = document.querySelector<HTMLElement>(
+        `[data-ribbon-station="${JOURNEY_STAGE_ORDER[nextIdx]}"]`,
+      );
+      target?.focus();
+    }
+  };
+
   return (
     <nav
       aria-label={ariaLabel}
       className={cn(
         'relative w-full select-none',
-        onSelect && 'cursor-pointer',
+        onSelect && !onStationSelect && 'cursor-pointer',
         className,
       )}
-      onClick={onSelect}
-      role={onSelect ? 'button' : 'group'}
-      tabIndex={onSelect ? 0 : -1}
+      onClick={onStationSelect ? undefined : onSelect}
+      role={onSelect && !onStationSelect ? 'button' : 'group'}
+      tabIndex={onSelect && !onStationSelect ? 0 : -1}
       onKeyDown={(e) => {
-        if (!onSelect) return;
+        if (onStationSelect || !onSelect) return;
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           onSelect();
