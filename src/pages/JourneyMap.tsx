@@ -203,7 +203,7 @@ const JourneyMap = () => {
           </p>
 
           <div className="mt-3">
-            <JourneyProgressRibbon />
+            <JourneyProgressRibbon onStationSelect={handleRibbonStation} />
           </div>
         </header>
 
@@ -236,6 +236,8 @@ const JourneyMap = () => {
                 transition={{ duration: 0.35, delay: idx * 0.06 }}
               >
                 <Card
+                  data-stage-card={entry.stage}
+                  id={`stage-${entry.stage}`}
                   className={cn(
                     "relative p-4 rounded-2xl border-border/60 transition-all",
                     isActive && "ring-2 ring-primary/40 shadow-md",
