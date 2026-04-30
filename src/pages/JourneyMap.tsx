@@ -36,6 +36,7 @@ import { useUserProfile, type JourneyStage } from "@/hooks/useUserProfile";
 import { useStageTheme, JOURNEY_STAGE_ORDER } from "@/hooks/useStageTheme";
 import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbon";
 import { JourneyMemoriesPanel } from "@/components/journey/JourneyMemoriesPanel";
+import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
 import { Sprout, Heart, Baby, CalendarDays, ArrowRight } from "lucide-react";
@@ -188,7 +189,11 @@ const JourneyMap = () => {
           </div>
         </header>
 
-        <section className="container px-3 sm:px-4 mt-2 space-y-3">
+        <div className="container px-3 sm:px-4 mt-3">
+          <JourneyTimeline />
+        </div>
+
+        <section className="container px-3 sm:px-4 mt-3 space-y-3">
           {entries.map((entry, idx) => {
             const Icon = STAGE_ICONS[entry.stage];
             const isActive = entry.stage === profile.journeyStage;

@@ -9421,6 +9421,12 @@
         "savedResults": "Resultados salvos",
         "photos": "Fotos da barriga",
         "trackingEntries": "Entradas de rastreamento"
+      },
+      "timeline": {
+        "title": "Linha do tempo da jornada",
+        "empty": "Sua linha do tempo aparecerá aqui à medida que você registrar momentos importantes.",
+        "count_one": "{{count}} marco",
+        "count_other": "{{count}} marcos"
       }
     },
     "recovery": {

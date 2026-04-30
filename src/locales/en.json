@@ -241,6 +241,12 @@
         "savedResults": "Saved results",
         "photos": "Bump photos",
         "trackingEntries": "Tracking entries"
+      },
+      "timeline": {
+        "title": "Journey timeline",
+        "empty": "Your timeline will appear here as you record key moments.",
+        "count_one": "{{count}} milestone",
+        "count_other": "{{count}} milestones"
       }
     },
     "recovery": {

@@ -9421,6 +9421,12 @@
         "savedResults": "Kaydedilen sonuçlar",
         "photos": "Karın fotoğrafları",
         "trackingEntries": "Takip kayıtları"
+      },
+      "timeline": {
+        "title": "Yolculuk zaman çizelgesi",
+        "empty": "Önemli anları kaydettikçe zaman çizelgen burada görünecek.",
+        "count_one": "{{count}} kilometre taşı",
+        "count_other": "{{count}} kilometre taşı"
       }
     },
     "recovery": {

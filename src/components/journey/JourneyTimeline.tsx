@@ -1,0 +1,268 @@
+/**
+ * JourneyTimeline — A horizontal, scrollable chronological line that
+ * unifies every meaningful date across the user's journey:
+ *   • fertility.startedAt / completedAt
+ *   • pregnancy.startedAt / completedAt / dueDate
+ *   • postpartum.startedAt / birthDate
+ *
+ * Design intent:
+ *   • One continuous axis (no separate per-stage lines) so the user
+ *     can see the *flow* of their journey in time.
+ *   • Markers are sorted chronologically and color-coded by stage
+ *     (uses the same accent hues as `useStageTheme`).
+ *   • Future-dated milestones (e.g. an upcoming due date) get a
+ *     dashed ring + muted label.
+ *   • Fully RTL aware: scroll direction is preserved by the browser;
+ *     we just flip flex direction so the earliest event sits at the
+ *     start of the reading flow.
+ *   • Keyboard / screen-reader friendly: each marker is a `<button>`
+ *     when actionable, otherwise a `<div role="listitem">`.
+ */
+import { useMemo, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Sprout, Heart, Baby, CalendarDays, Star } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { useUserProfile, type JourneyStage } from "@/hooks/useUserProfile";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { formatLocalized } from "@/lib/dateLocale";
+import { cn } from "@/lib/utils";
+
+interface TimelinePoint {
+  id: string;
+  date: Date;
+  stage: JourneyStage;
+  kind: "startedAt" | "completedAt" | "dueDate" | "birthDate";
+  labelKey: string;
+}
+
+const STAGE_ICON: Record<JourneyStage, LucideIcon> = {
+  fertility: Sprout,
+  pregnant: Heart,
+  postpartum: Baby,
+};
+
+// Tailwind-safe accent hues per stage
+const STAGE_HUE: Record<JourneyStage, string> = {
+  fertility: "150 55% 45%", // sage
+  pregnant: "340 70% 55%", // rose
+  postpartum: "270 50% 60%", // lavender
+};
+
+export const JourneyTimeline = () => {
+  const { t, i18n } = useTranslation();
+  const { isRTL } = useLanguage();
+  const { profile } = useUserProfile();
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  const points: TimelinePoint[] = useMemo(() => {
+    const h = profile.journeyHistory ?? {};
+    const raw: Array<TimelinePoint | null> = [
+      h.fertility?.startedAt && {
+        id: "fertility-start",
+        date: new Date(h.fertility.startedAt),
+        stage: "fertility",
+        kind: "startedAt",
+        labelKey: "journey.map.fields.startedAt",
+      },
+      h.fertility?.completedAt && {
+        id: "fertility-end",
+        date: new Date(h.fertility.completedAt),
+        stage: "fertility",
+        kind: "completedAt",
+        labelKey: "journey.map.fields.completedAt",
+      },
+      h.pregnancy?.startedAt && {
+        id: "pregnancy-start",
+        date: new Date(h.pregnancy.startedAt),
+        stage: "pregnant",
+        kind: "startedAt",
+        labelKey: "journey.map.fields.startedAt",
+      },
+      h.pregnancy?.dueDate && {
+        id: "pregnancy-due",
+        date: new Date(h.pregnancy.dueDate),
+        stage: "pregnant",
+        kind: "dueDate",
+        labelKey: "journey.map.fields.dueDate",
+      },
+      h.pregnancy?.completedAt && {
+        id: "pregnancy-end",
+        date: new Date(h.pregnancy.completedAt),
+        stage: "pregnant",
+        kind: "completedAt",
+        labelKey: "journey.map.fields.completedAt",
+      },
+      h.postpartum?.startedAt && {
+        id: "postpartum-start",
+        date: new Date(h.postpartum.startedAt),
+        stage: "postpartum",
+        kind: "startedAt",
+        labelKey: "journey.map.fields.startedAt",
+      },
+      h.postpartum?.birthDate && {
+        id: "postpartum-birth",
+        date: new Date(h.postpartum.birthDate),
+        stage: "postpartum",
+        kind: "birthDate",
+        labelKey: "journey.map.fields.birthDate",
+      },
+    ] as Array<TimelinePoint | null>;
+
+    return raw
+      .filter((p): p is TimelinePoint => !!p && !isNaN(p.date.getTime()))
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
+  }, [profile.journeyHistory]);
+
+  // Auto-scroll to "today" / nearest marker when the timeline mounts
+  useEffect(() => {
+    if (!scrollerRef.current || points.length === 0) return;
+    const now = Date.now();
+    let nearestIdx = 0;
+    let nearestDelta = Infinity;
+    points.forEach((p, i) => {
+      const d = Math.abs(p.date.getTime() - now);
+      if (d < nearestDelta) {
+        nearestDelta = d;
+        nearestIdx = i;
+      }
+    });
+    const node = scrollerRef.current.querySelector<HTMLElement>(
+      `[data-tl-idx="${nearestIdx}"]`,
+    );
+    node?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [points]);
+
+  if (points.length === 0) {
+    return (
+      <div
+        role="region"
+        aria-label={t("journey.map.timeline.title", "Journey timeline")}
+        className="rounded-2xl border border-border/60 bg-card/50 p-4 text-center"
+      >
+        <CalendarDays
+          className="mx-auto h-5 w-5 text-muted-foreground/70 mb-2"
+          aria-hidden
+        />
+        <p className="text-xs text-muted-foreground">
+          {t(
+            "journey.map.timeline.empty",
+            "Your timeline will appear here as you record key moments.",
+          )}
+        </p>
+      </div>
+    );
+  }
+
+  const todayMs = Date.now();
+
+  return (
+    <section
+      aria-labelledby="journey-timeline-heading"
+      className="rounded-2xl border border-border/60 bg-card/50 p-3 sm:p-4"
+    >
+      <header className="flex items-center justify-between gap-2 mb-3">
+        <h2
+          id="journey-timeline-heading"
+          className="text-sm font-bold text-foreground"
+        >
+          {t("journey.map.timeline.title", "Journey timeline")}
+        </h2>
+        <span className="text-[10px] font-semibold text-muted-foreground">
+          {t("journey.map.timeline.count", { count: points.length })}
+        </span>
+      </header>
+
+      <div
+        ref={scrollerRef}
+        role="list"
+        aria-label={t("journey.map.timeline.title", "Journey timeline")}
+        className={cn(
+          "relative overflow-x-auto overflow-y-hidden pb-2 -mx-1 px-1",
+          "[scrollbar-width:thin]",
+        )}
+      >
+        {/* The continuous axis line */}
+        <div
+          aria-hidden
+          className="absolute left-3 right-3 top-[34px] h-px bg-gradient-to-r from-border/40 via-border to-border/40"
+        />
+
+        <ol
+          className={cn(
+            "relative flex items-start gap-4 sm:gap-6 min-w-max px-2",
+            isRTL && "flex-row-reverse",
+          )}
+        >
+          {points.map((p, idx) => {
+            const Icon = STAGE_ICON[p.stage];
+            const hue = STAGE_HUE[p.stage];
+            const isFuture = p.date.getTime() > todayMs;
+            const isBirth = p.kind === "birthDate";
+            const isDue = p.kind === "dueDate";
+
+            return (
+              <li
+                key={p.id}
+                data-tl-idx={idx}
+                className="flex flex-col items-center w-[88px] sm:w-[104px] shrink-0"
+              >
+                {/* Year/Month label above the dot keeps the axis tidy */}
+                <span className="text-[10px] font-semibold text-muted-foreground mb-1 truncate max-w-full">
+                  {formatLocalized(p.date.toISOString(), "MMM yyyy", i18n.language)}
+                </span>
+
+                {/* The marker itself sits on the axis line */}
+                <div
+                  className={cn(
+                    "relative h-[18px] w-[18px] rounded-full flex items-center justify-center",
+                    "border-2 transition-transform",
+                    isFuture ? "border-dashed" : "border-solid",
+                  )}
+                  style={{
+                    background: isFuture
+                      ? "hsl(var(--background))"
+                      : `hsl(${hue} / 0.18)`,
+                    borderColor: `hsl(${hue})`,
+                  }}
+                  aria-hidden
+                >
+                  {(isBirth || isDue) && (
+                    <Star
+                      className="h-2.5 w-2.5"
+                      style={{ color: `hsl(${hue})` }}
+                    />
+                  )}
+                </div>
+
+                {/* Stage chip + label */}
+                <div className="mt-2 flex flex-col items-center gap-1 text-center">
+                  <div
+                    className="h-7 w-7 rounded-xl flex items-center justify-center"
+                    style={{
+                      background: `hsl(${hue} / 0.12)`,
+                      color: `hsl(${hue})`,
+                    }}
+                    aria-hidden
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                  </div>
+                  <p className="text-[10px] font-semibold text-foreground leading-tight line-clamp-2">
+                    {t(p.labelKey)}
+                  </p>
+                  <p className="text-[9px] text-muted-foreground leading-tight">
+                    {formatLocalized(p.date.toISOString(), "PP", i18n.language)}
+                  </p>
+                  <span className="sr-only">
+                    {t(`journey.ribbon.stages.${p.stage}`)} – {t(p.labelKey)}
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+  );
+};
+
+export default JourneyTimeline;

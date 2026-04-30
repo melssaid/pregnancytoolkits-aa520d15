@@ -241,6 +241,12 @@
         "savedResults": "نتائج محفوظة",
         "photos": "صور البطن",
         "trackingEntries": "إدخالات التتبع"
+      },
+      "timeline": {
+        "title": "المخطط الزمني للرحلة",
+        "empty": "سيظهر مخططك الزمني هنا عند تسجيل المحطات المهمة.",
+        "count_one": "محطة واحدة",
+        "count_other": "{{count}} محطات"
       }
     },
     "recovery": {

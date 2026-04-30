@@ -9421,6 +9421,12 @@
         "savedResults": "Resultados guardados",
         "photos": "Fotos del vientre",
         "trackingEntries": "Entradas de seguimiento"
+      },
+      "timeline": {
+        "title": "Línea de tiempo del viaje",
+        "empty": "Tu línea de tiempo aparecerá aquí a medida que registres momentos clave.",
+        "count_one": "{{count}} hito",
+        "count_other": "{{count}} hitos"
       }
     },
     "recovery": {
