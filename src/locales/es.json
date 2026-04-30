@@ -9428,12 +9428,26 @@
         "title": "Línea de tiempo del viaje",
         "empty": "Tu línea de tiempo aparecerá aquí a medida que registres momentos clave.",
         "count_one": "{{count}} hito",
-        "count_other": "{{count}} hitos"
+        "count_other": "{{count}} hitos",
+        "emptyTitle": "Tu línea de tiempo está vacía",
+        "emptyHint": "Añade tus fechas clave abajo para construir una línea personal de tu viaje."
       },
       "autoDetect": {
         "title": "Detección inteligente de etapa",
         "descriptionOn": "Tu etapa se actualiza automáticamente según las fechas que registres (fecha probable, nacimiento).",
         "descriptionOff": "La detección automática está desactivada. Tú controlas la etapa manualmente."
+      },
+      "missing": {
+        "title": "Completa tu línea de tiempo",
+        "subtitle": "Añade fechas clave para que tu línea de tiempo refleje tu viaje real.",
+        "add": "Añadir",
+        "saved": "Guardado",
+        "hints": {
+          "dueDate": "Tu fecha probable — activa el conteo semanal y los recordatorios.",
+          "birthDate": "Fecha de nacimiento de tu bebé — marca el inicio del posparto.",
+          "pregnancyStart": "¿Cuándo empezaste a registrar tu embarazo?",
+          "fertilityStart": "¿Cuándo comenzó tu preparación para el embarazo?"
+        }
       }
     },
     "recovery": {

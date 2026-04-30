@@ -9428,12 +9428,26 @@
         "title": "Reise-Zeitstrahl",
         "empty": "Dein Zeitstrahl erscheint hier, sobald du wichtige Momente festhältst.",
         "count_one": "{{count}} Meilenstein",
-        "count_other": "{{count}} Meilensteine"
+        "count_other": "{{count}} Meilensteine",
+        "emptyTitle": "Dein Zeitstrahl ist leer",
+        "emptyHint": "Füge unten wichtige Daten hinzu, um einen persönlichen Zeitstrahl zu erstellen."
       },
       "autoDetect": {
         "title": "Intelligente Phasenerkennung",
         "descriptionOn": "Deine Phase aktualisiert sich automatisch anhand der erfassten Daten (Geburtstermin, Geburtsdatum).",
         "descriptionOff": "Auto-Erkennung ist aus. Du steuerst deine Phase manuell."
+      },
+      "missing": {
+        "title": "Vervollständige deinen Zeitstrahl",
+        "subtitle": "Füge wichtige Daten hinzu, damit dein Zeitstrahl deine echte Reise widerspiegelt.",
+        "add": "Hinzufügen",
+        "saved": "Gespeichert",
+        "hints": {
+          "dueDate": "Dein Geburtstermin — steuert Wochenzählung und Erinnerungen.",
+          "birthDate": "Geburtsdatum deines Babys — markiert den Beginn der Wochenbettphase.",
+          "pregnancyStart": "Wann hast du begonnen, deine Schwangerschaft zu verfolgen?",
+          "fertilityStart": "Wann begann deine Vorbereitung auf die Schwangerschaft?"
+        }
       }
     },
     "recovery": {

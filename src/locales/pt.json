@@ -9428,12 +9428,26 @@
         "title": "Linha do tempo da jornada",
         "empty": "Sua linha do tempo aparecerá aqui à medida que você registrar momentos importantes.",
         "count_one": "{{count}} marco",
-        "count_other": "{{count}} marcos"
+        "count_other": "{{count}} marcos",
+        "emptyTitle": "Sua linha do tempo está vazia",
+        "emptyHint": "Adicione suas datas-chave abaixo para criar uma linha do tempo pessoal."
       },
       "autoDetect": {
         "title": "Detecção inteligente de etapa",
         "descriptionOn": "Sua etapa é atualizada automaticamente a partir das datas registradas (data prevista, nascimento).",
         "descriptionOff": "A detecção automática está desativada. Você controla sua etapa manualmente."
+      },
+      "missing": {
+        "title": "Complete sua linha do tempo",
+        "subtitle": "Adicione algumas datas-chave para que sua linha do tempo reflita sua jornada real.",
+        "add": "Adicionar",
+        "saved": "Salvo",
+        "hints": {
+          "dueDate": "Sua data prevista — ativa a contagem semanal e os lembretes.",
+          "birthDate": "Data de nascimento do bebê — marca o início do pós-parto.",
+          "pregnancyStart": "Quando você começou a acompanhar sua gravidez?",
+          "fertilityStart": "Quando começou sua preparação pré-gestacional?"
+        }
       }
     },
     "recovery": {
