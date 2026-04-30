@@ -248,12 +248,26 @@
         "title": "Journey timeline",
         "empty": "Your timeline will appear here as you record key moments.",
         "count_one": "{{count}} milestone",
-        "count_other": "{{count}} milestones"
+        "count_other": "{{count}} milestones",
+        "emptyTitle": "Your timeline is empty",
+        "emptyHint": "Add your key dates below to build a personal timeline of your journey."
       },
       "autoDetect": {
         "title": "Smart stage detection",
         "descriptionOn": "Your stage updates automatically from dates you record (due date, birth date).",
         "descriptionOff": "Auto-detection is off. You control your stage manually."
+      },
+      "missing": {
+        "title": "Complete your timeline",
+        "subtitle": "Add a few key dates so your timeline reflects your real journey.",
+        "add": "Add",
+        "saved": "Saved",
+        "hints": {
+          "dueDate": "Your due date — powers weekly counts and reminders.",
+          "birthDate": "Your baby's birth date — anchors the postpartum stage.",
+          "pregnancyStart": "When did you start tracking your pregnancy?",
+          "fertilityStart": "When did your pre-pregnancy preparation begin?"
+        }
       }
     },
     "recovery": {

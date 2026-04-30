@@ -9428,12 +9428,26 @@
         "title": "Chronologie du parcours",
         "empty": "Votre chronologie apparaîtra ici à mesure que vous enregistrez des moments clés.",
         "count_one": "{{count}} étape",
-        "count_other": "{{count}} étapes"
+        "count_other": "{{count}} étapes",
+        "emptyTitle": "Votre chronologie est vide",
+        "emptyHint": "Ajoutez vos dates clés ci-dessous pour construire une chronologie personnelle."
       },
       "autoDetect": {
         "title": "Détection intelligente d'étape",
         "descriptionOn": "Votre étape se met à jour automatiquement selon les dates enregistrées (terme prévu, naissance).",
         "descriptionOff": "La détection auto est désactivée. Vous gérez votre étape manuellement."
+      },
+      "missing": {
+        "title": "Complétez votre chronologie",
+        "subtitle": "Ajoutez des dates clés pour que votre chronologie reflète votre vrai parcours.",
+        "add": "Ajouter",
+        "saved": "Enregistré",
+        "hints": {
+          "dueDate": "Votre terme prévu — active le décompte hebdomadaire et les rappels.",
+          "birthDate": "Date de naissance de votre bébé — marque le début du post-partum.",
+          "pregnancyStart": "Quand avez-vous commencé à suivre votre grossesse ?",
+          "fertilityStart": "Quand votre préparation à la grossesse a-t-elle commencé ?"
+        }
       }
     },
     "recovery": {

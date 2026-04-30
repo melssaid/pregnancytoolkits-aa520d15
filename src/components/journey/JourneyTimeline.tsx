@@ -137,16 +137,21 @@ export const JourneyTimeline = () => {
       <div
         role="region"
         aria-label={t("journey.map.timeline.title", "Journey timeline")}
-        className="rounded-2xl border border-border/60 bg-card/50 p-4 text-center"
+        className="rounded-2xl border border-dashed border-border/70 bg-card/40 p-5 text-center"
       >
-        <CalendarDays
-          className="mx-auto h-5 w-5 text-muted-foreground/70 mb-2"
+        <div
           aria-hidden
-        />
-        <p className="text-xs text-muted-foreground">
+          className="mx-auto mb-2 h-10 w-10 rounded-2xl bg-muted/60 flex items-center justify-center"
+        >
+          <CalendarDays className="h-5 w-5 text-muted-foreground/80" />
+        </div>
+        <p className="text-xs font-bold text-foreground">
+          {t("journey.map.timeline.emptyTitle", "Your timeline is empty")}
+        </p>
+        <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
           {t(
-            "journey.map.timeline.empty",
-            "Your timeline will appear here as you record key moments.",
+            "journey.map.timeline.emptyHint",
+            "Add your key dates below to build a personal timeline of your journey.",
           )}
         </p>
       </div>
