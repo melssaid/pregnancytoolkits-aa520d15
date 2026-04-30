@@ -35,6 +35,7 @@ import {
 import { useUserProfile, type JourneyStage } from "@/hooks/useUserProfile";
 import { useStageTheme, JOURNEY_STAGE_ORDER } from "@/hooks/useStageTheme";
 import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbon";
+import { JourneyMemoriesPanel } from "@/components/journey/JourneyMemoriesPanel";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
 import { Sprout, Heart, Baby, CalendarDays, ArrowRight } from "lucide-react";
@@ -297,6 +298,10 @@ const JourneyMap = () => {
             );
           })}
         </section>
+
+        <div className="container px-3 sm:px-4 mt-5">
+          <JourneyMemoriesPanel />
+        </div>
       </main>
 
       <AlertDialog open={pendingStage !== null} onOpenChange={(o) => !o && setPendingStage(null)}>

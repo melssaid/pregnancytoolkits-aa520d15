@@ -235,6 +235,12 @@
         "description": "This will set your active stage to {{stage}}.",
         "cancel": "Cancel",
         "confirm": "Confirm"
+      },
+      "memories": {
+        "title": "Your records",
+        "savedResults": "Saved results",
+        "photos": "Bump photos",
+        "trackingEntries": "Tracking entries"
       }
     }
   },

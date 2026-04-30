@@ -9415,6 +9415,12 @@
         "description": "Sua etapa ativa será definida como {{stage}}.",
         "cancel": "Cancelar",
         "confirm": "Confirmar"
+      },
+      "memories": {
+        "title": "Seus registros",
+        "savedResults": "Resultados salvos",
+        "photos": "Fotos da barriga",
+        "trackingEntries": "Entradas de rastreamento"
       }
     }
   }

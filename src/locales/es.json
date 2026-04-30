@@ -9415,6 +9415,12 @@
         "description": "Tu etapa activa se establecerá en {{stage}}.",
         "cancel": "Cancelar",
         "confirm": "Confirmar"
+      },
+      "memories": {
+        "title": "Tus registros",
+        "savedResults": "Resultados guardados",
+        "photos": "Fotos del vientre",
+        "trackingEntries": "Entradas de seguimiento"
       }
     }
   }

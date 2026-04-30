@@ -235,6 +235,12 @@
         "description": "سيتم تعيين مرحلتك النشطة إلى {{stage}}.",
         "cancel": "إلغاء",
         "confirm": "تأكيد"
+      },
+      "memories": {
+        "title": "سجلاتك",
+        "savedResults": "نتائج محفوظة",
+        "photos": "صور البطن",
+        "trackingEntries": "إدخالات التتبع"
       }
     }
   },
