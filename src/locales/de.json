@@ -9381,7 +9381,9 @@
         "fertility": "Kinderwunsch",
         "pregnant": "Schwangerschaft",
         "postpartum": "Mutterschaft"
-      }
+      },
+      "stationGoTo": "Zu {{stage}} wechseln",
+      "stationCurrent": "{{stage}} (aktuell)"
     },
     "map": {
       "seo": {

@@ -201,7 +201,9 @@
         "fertility": "الخصوبة",
         "pregnant": "الحمل",
         "postpartum": "الأمومة"
-      }
+      },
+      "stationGoTo": "انتقلي إلى {{stage}}",
+      "stationCurrent": "{{stage}} (الحالية)"
     },
     "map": {
       "seo": {
