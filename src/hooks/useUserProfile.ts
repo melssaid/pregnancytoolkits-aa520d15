@@ -148,6 +148,76 @@ export function useUserProfile() {
    
   }, [profile.lastPeriodDate]);
 
+  /**
+   * Smart stage auto-detection.
+   *
+   * Heuristic (only runs when `autoStageDetection !== false`):
+   *   • postpartum.birthDate in the past → `postpartum`
+   *   • pregnancy.dueDate in the future (or LMP set) → `pregnant`
+   *   • otherwise leave the existing stage untouched
+   *
+   * We never *downgrade* postpartum back to pregnant automatically,
+   * since a recorded birthDate is a strong, irreversible signal.
+   * History timestamps are seeded so the timeline stays accurate.
+   */
+  useEffect(() => {
+    if (profile.autoStageDetection === false) return;
+
+    const now = Date.now();
+    const h = profile.journeyHistory ?? {};
+    const birthDateStr = h.postpartum?.birthDate;
+    const dueDateStr = h.pregnancy?.dueDate ?? profile.dueDate;
+
+    let nextStage: JourneyStage | null = null;
+    if (birthDateStr) {
+      const birthMs = new Date(birthDateStr).getTime();
+      if (!isNaN(birthMs) && birthMs <= now) nextStage = 'postpartum';
+    }
+    if (!nextStage && dueDateStr) {
+      const dueMs = new Date(dueDateStr).getTime();
+      if (!isNaN(dueMs) && dueMs > now) nextStage = 'pregnant';
+    }
+    if (!nextStage && profile.lastPeriodDate) {
+      nextStage = 'pregnant';
+    }
+
+    if (!nextStage || nextStage === profile.journeyStage) return;
+    // Never auto-downgrade postpartum → pregnant
+    if (profile.journeyStage === 'postpartum' && nextStage === 'pregnant') return;
+
+    setProfile(prev => {
+      if (prev.journeyStage === nextStage) return prev;
+      const nowIso = new Date().toISOString();
+      const nextHistory: JourneyHistory = { ...(prev.journeyHistory ?? {}) };
+      // Mark outgoing
+      if (prev.journeyStage === 'fertility' && nextHistory.fertility && !nextHistory.fertility.completedAt) {
+        nextHistory.fertility = { ...nextHistory.fertility, completedAt: nowIso };
+      } else if (prev.journeyStage === 'pregnant' && nextHistory.pregnancy && !nextHistory.pregnancy.completedAt) {
+        nextHistory.pregnancy = { ...nextHistory.pregnancy, completedAt: nowIso };
+      }
+      // Seed incoming
+      if (nextStage === 'pregnant') {
+        nextHistory.pregnancy = { startedAt: nowIso, ...(nextHistory.pregnancy ?? {}) };
+      } else if (nextStage === 'postpartum') {
+        nextHistory.postpartum = { startedAt: nowIso, ...(nextHistory.postpartum ?? {}) };
+      }
+      return {
+        ...prev,
+        journeyStage: nextStage!,
+        isPregnant: nextStage === 'pregnant',
+        journeyHistory: nextHistory,
+        updatedAt: nowIso,
+      };
+    });
+  }, [
+    profile.autoStageDetection,
+    profile.journeyHistory?.postpartum?.birthDate,
+    profile.journeyHistory?.pregnancy?.dueDate,
+    profile.dueDate,
+    profile.lastPeriodDate,
+    profile.journeyStage,
+  ]);
+
   const updateProfile = useCallback((updates: Partial<Omit<UserProfile, "updatedAt">>) => {
     setProfile(prev => ({
       ...prev,
