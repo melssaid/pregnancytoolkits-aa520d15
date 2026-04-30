@@ -48,6 +48,13 @@ export interface UserProfile {
   goals: string[];
   /** Per-stage timeline memory; empty by default for older profiles. */
   journeyHistory?: JourneyHistory;
+  /**
+   * When true (default), the journey stage is auto-derived from data
+   * the user enters (e.g. a future `dueDate` → pregnant; a past
+   * `birthDate` → postpartum). The user can disable this from the
+   * Journey Map to keep manual control.
+   */
+  autoStageDetection?: boolean;
   updatedAt: string;
 }
 
@@ -68,6 +75,7 @@ const DEFAULT_PROFILE: UserProfile = {
   healthConditions: [],
   goals: [],
   journeyHistory: {},
+  autoStageDetection: true,
   updatedAt: new Date().toISOString(),
 };
 
