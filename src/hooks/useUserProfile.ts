@@ -8,6 +8,31 @@ import { safeSaveToLocalStorage, safeParseLocalStorage } from "@/lib/safeStorage
 
 export type JourneyStage = 'fertility' | 'pregnant' | 'postpartum';
 
+/**
+ * Lightweight per-stage memory carried across journey transitions so the
+ * user keeps a continuous narrative (e.g. when moving from fertility →
+ * pregnancy → postpartum). All fields are optional and additive — older
+ * profiles auto-upgrade with an empty `journeyHistory` object.
+ */
+export interface JourneyHistory {
+  fertility?: {
+    startedAt?: string;
+    longestCycle?: number | null;
+    completedAt?: string;
+  };
+  pregnancy?: {
+    startedAt?: string;
+    prePregnancyWeight?: number | null;
+    dueDate?: string | null;
+    completedAt?: string;
+  };
+  postpartum?: {
+    startedAt?: string;
+    birthDate?: string;
+    babyName?: string | null;
+  };
+}
+
 export interface UserProfile {
   isPregnant: boolean;
   journeyStage: JourneyStage;
@@ -21,6 +46,8 @@ export interface UserProfile {
   bloodType: string | null;
   healthConditions: string[];
   goals: string[];
+  /** Per-stage timeline memory; empty by default for older profiles. */
+  journeyHistory?: JourneyHistory;
   updatedAt: string;
 }
 
@@ -40,6 +67,7 @@ const DEFAULT_PROFILE: UserProfile = {
   bloodType: null,
   healthConditions: [],
   goals: [],
+  journeyHistory: {},
   updatedAt: new Date().toISOString(),
 };
 
