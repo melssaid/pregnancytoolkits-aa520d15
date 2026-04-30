@@ -132,10 +132,35 @@ export const JourneyProgressRibbon = memo(function JourneyProgressRibbon({
           const label = t(STAGE_LABEL_KEY[stage]);
           const Icon = STAGE_ICON[stage];
 
+          const stationLabel = isActive
+            ? t('journey.ribbon.stationCurrent', { stage: label, defaultValue: '{{stage}} (current)' })
+            : t('journey.ribbon.stationGoTo', { stage: label, defaultValue: 'Go to {{stage}}' });
+
+          const Wrapper: any = onStationSelect ? 'button' : 'div';
+          const wrapperProps = onStationSelect
+            ? {
+                type: 'button',
+                'data-ribbon-station': stage,
+                'aria-label': stationLabel,
+                'aria-current': isActive ? ('step' as const) : undefined,
+                onClick: (e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  onStationSelect(stage);
+                },
+                onKeyDown: (e: React.KeyboardEvent) => handleStationKey(e, stage, idx),
+                tabIndex: 0,
+              }
+            : {};
+
           return (
-            <div
+            <Wrapper
               key={stage}
-              className="relative z-10 flex flex-1 flex-col items-center gap-1 min-w-0"
+              {...wrapperProps}
+              className={cn(
+                'relative z-10 flex flex-1 flex-col items-center gap-1 min-w-0',
+                onStationSelect &&
+                  'cursor-pointer rounded-2xl bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-transform active:scale-[0.97]',
+              )}
             >
               {/* Framed medallion */}
               <div className="relative h-9 w-9 shrink-0">
@@ -205,7 +230,7 @@ export const JourneyProgressRibbon = memo(function JourneyProgressRibbon({
               >
                 {label}
               </span>
-            </div>
+            </Wrapper>
           );
         })}
       </div>
