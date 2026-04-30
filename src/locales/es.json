@@ -9422,6 +9422,40 @@
         "photos": "Fotos del vientre",
         "trackingEntries": "Entradas de seguimiento"
       }
+    },
+    "recovery": {
+      "title": "Línea de recuperación",
+      "weekLabel": "Semana {{count}}",
+      "weekRange": "Semana {{from}}–{{to}}",
+      "phases": {
+        "rest": {
+          "title": "Descanso y recuperación",
+          "note": "Permite que tu cuerpo se restaure"
+        },
+        "healing": {
+          "title": "Sanación suave",
+          "note": "Movimiento ligero y comidas equilibradas"
+        },
+        "rhythm": {
+          "title": "Encontrar tu ritmo",
+          "note": "Sueño regular y rutinas tranquilas"
+        },
+        "strength": {
+          "title": "Recuperar fuerza",
+          "note": "Ejercicio progresivo y confianza"
+        },
+        "longTerm": {
+          "title": "Bienestar a largo plazo",
+          "note": "Seguimiento atento de cuerpo y mente"
+        }
+      }
+    },
+    "transition": {
+      "title": "Un nuevo capítulo",
+      "message": "Estás entrando en: {{stage}}.",
+      "subtitle": "Hemos actualizado tu compañera para esta etapa.",
+      "viewJourney": "Ver mi camino",
+      "dismiss": "Continuar"
     }
   }
 }

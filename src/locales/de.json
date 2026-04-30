@@ -9422,6 +9422,40 @@
         "photos": "Bauchfotos",
         "trackingEntries": "Tracking-Einträge"
       }
+    },
+    "recovery": {
+      "title": "Erholungs-Zeitlinie",
+      "weekLabel": "Woche {{count}}",
+      "weekRange": "Woche {{from}}–{{to}}",
+      "phases": {
+        "rest": {
+          "title": "Ruhe & Erholung",
+          "note": "Lass deinen Körper genesen"
+        },
+        "healing": {
+          "title": "Sanfte Heilung",
+          "note": "Leichte Bewegung und ausgewogene Ernährung"
+        },
+        "rhythm": {
+          "title": "Rhythmus finden",
+          "note": "Regelmäßiger Schlaf und ruhige Routinen"
+        },
+        "strength": {
+          "title": "Kraft aufbauen",
+          "note": "Schrittweise Bewegung und Vertrauen"
+        },
+        "longTerm": {
+          "title": "Langfristiges Wohl",
+          "note": "Achtsame Begleitung von Körper und Geist"
+        }
+      }
+    },
+    "transition": {
+      "title": "Ein neues Kapitel",
+      "message": "Du beginnst die Phase: {{stage}}.",
+      "subtitle": "Wir haben deinen Begleiter an diese Phase angepasst.",
+      "viewJourney": "Meine Reise ansehen",
+      "dismiss": "Weiter"
     }
   }
 }

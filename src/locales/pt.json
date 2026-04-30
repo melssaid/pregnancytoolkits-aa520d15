@@ -9422,6 +9422,40 @@
         "photos": "Fotos da barriga",
         "trackingEntries": "Entradas de rastreamento"
       }
+    },
+    "recovery": {
+      "title": "Linha de recuperação",
+      "weekLabel": "Semana {{count}}",
+      "weekRange": "Semana {{from}}–{{to}}",
+      "phases": {
+        "rest": {
+          "title": "Descanso e recuperação",
+          "note": "Deixe seu corpo se restaurar"
+        },
+        "healing": {
+          "title": "Cura suave",
+          "note": "Movimento leve e refeições equilibradas"
+        },
+        "rhythm": {
+          "title": "Encontrar o ritmo",
+          "note": "Sono regular e rotinas tranquilas"
+        },
+        "strength": {
+          "title": "Recuperar a força",
+          "note": "Exercício gradual e confiança"
+        },
+        "longTerm": {
+          "title": "Bem-estar a longo prazo",
+          "note": "Acompanhamento atento do corpo e da mente"
+        }
+      }
+    },
+    "transition": {
+      "title": "Um novo capítulo",
+      "message": "Você está entrando em: {{stage}}.",
+      "subtitle": "Atualizamos sua companheira para esta etapa.",
+      "viewJourney": "Ver minha jornada",
+      "dismiss": "Continuar"
     }
   }
 }

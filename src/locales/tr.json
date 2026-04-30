@@ -9422,6 +9422,40 @@
         "photos": "Karın fotoğrafları",
         "trackingEntries": "Takip kayıtları"
       }
+    },
+    "recovery": {
+      "title": "İyileşme zaman çizelgesi",
+      "weekLabel": "Hafta {{count}}",
+      "weekRange": "Hafta {{from}}–{{to}}",
+      "phases": {
+        "rest": {
+          "title": "Dinlenme ve toparlanma",
+          "note": "Vücudunuzun kendini onarmasına izin verin"
+        },
+        "healing": {
+          "title": "Nazik iyileşme",
+          "note": "Hafif hareket ve dengeli beslenme"
+        },
+        "rhythm": {
+          "title": "Ritim bulma",
+          "note": "Düzenli uyku ve sakin rutinler"
+        },
+        "strength": {
+          "title": "Gücü yeniden kazanma",
+          "note": "Aşamalı egzersiz ve özgüven"
+        },
+        "longTerm": {
+          "title": "Uzun vadeli iyilik",
+          "note": "Beden ve zihin için dikkatli takip"
+        }
+      }
+    },
+    "transition": {
+      "title": "Yeni bir bölüm",
+      "message": "Şu aşamaya geçiyorsunuz: {{stage}}.",
+      "subtitle": "Yardımcınızı bu aşamaya göre güncelledik.",
+      "viewJourney": "Yolculuğumu görüntüle",
+      "dismiss": "Devam"
     }
   }
 }
