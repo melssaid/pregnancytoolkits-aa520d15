@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { Layout } from "@/components/Layout";
 import { useSmartConversionPrompt } from "@/hooks/useSmartConversionPrompt";
 import { useTrimesterTheme } from "@/hooks/useTrimesterTheme";
+import { useStageTheme } from "@/hooks/useStageTheme";
+import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbon";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Sun, BarChart3, Calendar, LayoutGrid } from "lucide-react";
@@ -46,6 +48,7 @@ const SmartDashboard = () => {
   const { isRTL } = useLanguage();
   useSmartConversionPrompt();
   const trimesterTheme = useTrimesterTheme();
+  const stageTheme = useStageTheme();
 
   const [activeTab, setActiveTab] = useState<TabKey>(() => {
     try {
@@ -141,9 +144,9 @@ const SmartDashboard = () => {
         description={t("dashboardV2.seo.description")}
       />
 
-      <main dir={isRTL ? "rtl" : "ltr"} className={`relative pb-24 bg-gradient-to-b ${trimesterTheme.gradient}`}>
-        {/* Premium page header — title only, no decorative emblem or icon */}
-        <header className="container relative z-10 px-3 sm:px-4 pt-5 pb-3">
+      <main dir={isRTL ? "rtl" : "ltr"} className={`relative pb-24 bg-gradient-to-b ${stageTheme.gradient}`}>
+        {/* Premium page header — title + discreet journey ribbon */}
+        <header className="container relative z-10 px-3 sm:px-4 pt-5 pb-2">
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -153,6 +156,16 @@ const SmartDashboard = () => {
             <h1 className="text-2xl sm:text-3xl font-black leading-tight tracking-tight text-foreground">
               {t("dashboardV2.header.title")}
             </h1>
+          </motion.div>
+
+          {/* Always-visible journey ribbon — discreet, formal, never gamified */}
+          <motion.div
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-2.5"
+          >
+            <JourneyProgressRibbon />
           </motion.div>
         </header>
 
