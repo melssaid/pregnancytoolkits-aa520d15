@@ -202,6 +202,40 @@
         "pregnant": "الحمل",
         "postpartum": "الأمومة"
       }
+    },
+    "map": {
+      "seo": {
+        "title": "رحلتي",
+        "description": "نظرة شاملة على مراحل رحلتك"
+      },
+      "title": "رحلتي",
+      "subtitle": "نظرة على ما مررتِ به، ما أنتِ فيه الآن، وما هو قادم.",
+      "empty": "لا توجد سجلات لهذه المرحلة بعد.",
+      "switchTo": "الانتقال إلى {{stage}}",
+      "status": {
+        "current": "الحالية",
+        "past": "مكتملة",
+        "upcoming": "قادمة"
+      },
+      "fields": {
+        "startedAt": "تاريخ البدء",
+        "completedAt": "تاريخ الانتهاء",
+        "dueDate": "تاريخ الولادة المتوقع",
+        "birthDate": "تاريخ الولادة",
+        "babyName": "اسم الطفل",
+        "longestCycle": "أطول دورة",
+        "prePregnancyWeight": "الوزن قبل الحمل"
+      },
+      "units": {
+        "days": "{{count}} يوم",
+        "kg": "{{count}} كجم"
+      },
+      "confirm": {
+        "title": "تغيير المرحلة الحالية؟",
+        "description": "سيتم تعيين مرحلتك النشطة إلى {{stage}}.",
+        "cancel": "إلغاء",
+        "confirm": "تأكيد"
+      }
     }
   },
   "smartPrompt": {

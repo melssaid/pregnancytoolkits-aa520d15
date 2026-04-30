@@ -57,6 +57,7 @@ import Index from "@/pages/Index";
 // LAZY LOADED PAGES - 35 Curated Professional Tools
 // ═══════════════════════════════════════════════════════════════
 const SmartDashboard = lazy(() => import("@/pages/SmartDashboard"));
+const JourneyMap = lazy(() => import("@/pages/JourneyMap"));
 const DailyInsights = lazy(() => import("@/pages/DailyInsights"));
 const Settings = lazy(() => import("@/pages/Settings"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
@@ -169,6 +170,7 @@ export function AnimatedRoutes() {
         {/* Multilingual SEO Landing (44 languages, indexable, not in nav) */}
         <Route path="/seo/:lang" element={<PageTransition><LocalizedSEOLanding /></PageTransition>} />
         <Route path="/dashboard" element={<PageTransition><SmartDashboard /></PageTransition>} />
+        <Route path="/my-journey" element={<PageTransition><JourneyMap /></PageTransition>} />
         <Route path="/daily-insights" element={<PageTransition><DailyInsights /></PageTransition>} />
         <Route path="/settings" element={<PageTransition><Settings /></PageTransition>} />
         <Route path="/language" element={<PageTransition><LanguageSelection /></PageTransition>} />

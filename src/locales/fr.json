@@ -9382,6 +9382,40 @@
         "pregnant": "Grossesse",
         "postpartum": "Maternité"
       }
+    },
+    "map": {
+      "seo": {
+        "title": "Mon Parcours",
+        "description": "Vue d'ensemble des étapes de votre parcours"
+      },
+      "title": "Mon Parcours",
+      "subtitle": "Un regard sur votre passé, votre présent et ce qui vient.",
+      "empty": "Aucun enregistrement pour cette étape.",
+      "switchTo": "Passer à {{stage}}",
+      "status": {
+        "current": "Actuelle",
+        "past": "Terminée",
+        "upcoming": "À venir"
+      },
+      "fields": {
+        "startedAt": "Début",
+        "completedAt": "Fin",
+        "dueDate": "Date prévue",
+        "birthDate": "Date de naissance",
+        "babyName": "Prénom du bébé",
+        "longestCycle": "Cycle le plus long",
+        "prePregnancyWeight": "Poids avant grossesse"
+      },
+      "units": {
+        "days": "{{count}} jours",
+        "kg": "{{count}} kg"
+      },
+      "confirm": {
+        "title": "Changer d'étape ?",
+        "description": "Votre étape active sera définie sur {{stage}}.",
+        "cancel": "Annuler",
+        "confirm": "Confirmer"
+      }
     }
   }
 }

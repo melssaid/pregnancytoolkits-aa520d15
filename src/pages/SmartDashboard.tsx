@@ -9,6 +9,7 @@ import { useTrimesterTheme } from "@/hooks/useTrimesterTheme";
 import { useStageTheme } from "@/hooks/useStageTheme";
 import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbon";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Sun, BarChart3, Calendar, LayoutGrid } from "lucide-react";
 import { haptic } from "@/lib/haptics";
@@ -46,6 +47,7 @@ type TabKey = "today" | "insights" | "archive" | "more";
 const SmartDashboard = () => {
   const { t } = useTranslation();
   const { isRTL } = useLanguage();
+  const navigate = useNavigate();
   useSmartConversionPrompt();
   const trimesterTheme = useTrimesterTheme();
   const stageTheme = useStageTheme();
@@ -165,7 +167,7 @@ const SmartDashboard = () => {
             transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="mt-2.5"
           >
-            <JourneyProgressRibbon />
+            <JourneyProgressRibbon onSelect={() => navigate("/my-journey")} />
           </motion.div>
         </header>
 
