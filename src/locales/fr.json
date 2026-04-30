@@ -9422,6 +9422,40 @@
         "photos": "Photos du ventre",
         "trackingEntries": "Entrées de suivi"
       }
+    },
+    "recovery": {
+      "title": "Calendrier de récupération",
+      "weekLabel": "Semaine {{count}}",
+      "weekRange": "Semaine {{from}}–{{to}}",
+      "phases": {
+        "rest": {
+          "title": "Repos et récupération",
+          "note": "Laissez votre corps se restaurer"
+        },
+        "healing": {
+          "title": "Guérison en douceur",
+          "note": "Mouvement léger et repas équilibrés"
+        },
+        "rhythm": {
+          "title": "Trouver son rythme",
+          "note": "Sommeil régulier et routines calmes"
+        },
+        "strength": {
+          "title": "Retrouver des forces",
+          "note": "Exercice progressif et confiance"
+        },
+        "longTerm": {
+          "title": "Bien-être durable",
+          "note": "Suivi attentif du corps et de l'esprit"
+        }
+      }
+    },
+    "transition": {
+      "title": "Un nouveau chapitre",
+      "message": "Vous entrez dans : {{stage}}.",
+      "subtitle": "Votre compagnon a été mis à jour pour cette étape.",
+      "viewJourney": "Voir mon parcours",
+      "dismiss": "Continuer"
     }
   }
 }

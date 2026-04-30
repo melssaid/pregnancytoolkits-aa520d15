@@ -21,6 +21,7 @@ const SubscriptionSuccessSheet = lazy(() => import("@/components/SubscriptionSuc
 const GuidedTour = lazy(() => import("@/components/GuidedTour"));
 const OfflineBanner = lazy(() => import("@/components/OfflineBanner").then(m => ({ default: m.OfflineBanner })));
 const UpdateAvailableBanner = lazy(() => import("@/components/UpdateAvailableBanner").then(m => ({ default: m.UpdateAvailableBanner })));
+const StageTransitionSheet = lazy(() => import("@/components/journey/StageTransitionSheet").then(m => ({ default: m.StageTransitionSheet })));
 
 
 const queryClient = new QueryClient();
@@ -122,6 +123,7 @@ const App = () => {
           
           <Suspense fallback={null}><GuidedTour /></Suspense>
           <Suspense fallback={null}><UpdateAvailableBanner /></Suspense>
+          <Suspense fallback={null}><StageTransitionSheet /></Suspense>
           <Suspense fallback={null}>
             <SubscriptionSuccessSheet
               open={successSheet.open}

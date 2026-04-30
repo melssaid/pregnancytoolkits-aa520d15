@@ -242,6 +242,40 @@
         "photos": "Bump photos",
         "trackingEntries": "Tracking entries"
       }
+    },
+    "recovery": {
+      "title": "Recovery timeline",
+      "weekLabel": "Week {{count}}",
+      "weekRange": "Week {{from}}–{{to}}",
+      "phases": {
+        "rest": {
+          "title": "Rest & recover",
+          "note": "Let your body restore itself"
+        },
+        "healing": {
+          "title": "Gentle healing",
+          "note": "Light movement and balanced meals"
+        },
+        "rhythm": {
+          "title": "Finding rhythm",
+          "note": "Regular sleep and quiet routines"
+        },
+        "strength": {
+          "title": "Rebuilding strength",
+          "note": "Gradual exercise and confidence"
+        },
+        "longTerm": {
+          "title": "Long-term wellness",
+          "note": "Mindful follow-up of body and mind"
+        }
+      }
+    },
+    "transition": {
+      "title": "A new chapter",
+      "message": "You are entering: {{stage}}.",
+      "subtitle": "We have updated your companion to match this stage.",
+      "viewJourney": "View my journey",
+      "dismiss": "Continue"
     }
   },
   "smartPrompt": {
