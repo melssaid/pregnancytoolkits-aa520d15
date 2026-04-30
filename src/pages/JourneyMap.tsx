@@ -37,6 +37,7 @@ import { useStageTheme, JOURNEY_STAGE_ORDER } from "@/hooks/useStageTheme";
 import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbon";
 import { JourneyMemoriesPanel } from "@/components/journey/JourneyMemoriesPanel";
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
+import { JourneyAutoDetectToggle } from "@/components/journey/JourneyAutoDetectToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
 import { Sprout, Heart, Baby, CalendarDays, ArrowRight } from "lucide-react";
@@ -191,6 +192,10 @@ const JourneyMap = () => {
 
         <div className="container px-3 sm:px-4 mt-3">
           <JourneyTimeline />
+        </div>
+
+        <div className="container px-3 sm:px-4 mt-3">
+          <JourneyAutoDetectToggle />
         </div>
 
         <section className="container px-3 sm:px-4 mt-3 space-y-3">

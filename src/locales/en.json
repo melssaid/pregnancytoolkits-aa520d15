@@ -247,6 +247,11 @@
         "empty": "Your timeline will appear here as you record key moments.",
         "count_one": "{{count}} milestone",
         "count_other": "{{count}} milestones"
+      },
+      "autoDetect": {
+        "title": "Smart stage detection",
+        "descriptionOn": "Your stage updates automatically from dates you record (due date, birth date).",
+        "descriptionOff": "Auto-detection is off. You control your stage manually."
       }
     },
     "recovery": {

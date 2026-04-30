@@ -9427,6 +9427,11 @@
         "empty": "Önemli anları kaydettikçe zaman çizelgen burada görünecek.",
         "count_one": "{{count}} kilometre taşı",
         "count_other": "{{count}} kilometre taşı"
+      },
+      "autoDetect": {
+        "title": "Akıllı aşama algılama",
+        "descriptionOn": "Aşaman, kaydettiğin tarihlere (tahmini tarih, doğum tarihi) göre otomatik güncellenir.",
+        "descriptionOff": "Otomatik algılama kapalı. Aşamanı manuel olarak yönetirsin."
       }
     },
     "recovery": {

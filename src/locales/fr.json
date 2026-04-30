@@ -9427,6 +9427,11 @@
         "empty": "Votre chronologie apparaîtra ici à mesure que vous enregistrez des moments clés.",
         "count_one": "{{count}} étape",
         "count_other": "{{count}} étapes"
+      },
+      "autoDetect": {
+        "title": "Détection intelligente d'étape",
+        "descriptionOn": "Votre étape se met à jour automatiquement selon les dates enregistrées (terme prévu, naissance).",
+        "descriptionOff": "La détection auto est désactivée. Vous gérez votre étape manuellement."
       }
     },
     "recovery": {

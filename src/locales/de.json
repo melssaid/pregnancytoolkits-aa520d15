@@ -9427,6 +9427,11 @@
         "empty": "Dein Zeitstrahl erscheint hier, sobald du wichtige Momente festhältst.",
         "count_one": "{{count}} Meilenstein",
         "count_other": "{{count}} Meilensteine"
+      },
+      "autoDetect": {
+        "title": "Intelligente Phasenerkennung",
+        "descriptionOn": "Deine Phase aktualisiert sich automatisch anhand der erfassten Daten (Geburtstermin, Geburtsdatum).",
+        "descriptionOff": "Auto-Erkennung ist aus. Du steuerst deine Phase manuell."
       }
     },
     "recovery": {
