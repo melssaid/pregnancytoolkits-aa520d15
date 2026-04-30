@@ -213,6 +213,10 @@ const JourneyMap = () => {
         </div>
 
         <div className="container px-3 sm:px-4 mt-3">
+          <JourneyMissingMilestones />
+        </div>
+
+        <div className="container px-3 sm:px-4 mt-3">
           <JourneyAutoDetectToggle />
         </div>
 
