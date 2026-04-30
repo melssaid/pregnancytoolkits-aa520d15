@@ -38,6 +38,7 @@ import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbo
 import { JourneyMemoriesPanel } from "@/components/journey/JourneyMemoriesPanel";
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { JourneyAutoDetectToggle } from "@/components/journey/JourneyAutoDetectToggle";
+import { JourneyMissingMilestones } from "@/components/journey/JourneyMissingMilestones";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
 import { Sprout, Heart, Baby, CalendarDays, ArrowRight } from "lucide-react";
