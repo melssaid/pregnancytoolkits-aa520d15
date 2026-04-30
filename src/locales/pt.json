@@ -9382,6 +9382,40 @@
         "pregnant": "Gravidez",
         "postpartum": "Maternidade"
       }
+    },
+    "map": {
+      "seo": {
+        "title": "Minha Jornada",
+        "description": "Uma visão das etapas da sua jornada"
+      },
+      "title": "Minha Jornada",
+      "subtitle": "Um olhar sobre o passado, o presente e o que vem a seguir.",
+      "empty": "Ainda não há registros para esta etapa.",
+      "switchTo": "Mudar para {{stage}}",
+      "status": {
+        "current": "Atual",
+        "past": "Concluída",
+        "upcoming": "Futura"
+      },
+      "fields": {
+        "startedAt": "Início",
+        "completedAt": "Fim",
+        "dueDate": "Data prevista",
+        "birthDate": "Data de nascimento",
+        "babyName": "Nome do bebê",
+        "longestCycle": "Ciclo mais longo",
+        "prePregnancyWeight": "Peso antes da gravidez"
+      },
+      "units": {
+        "days": "{{count}} dias",
+        "kg": "{{count}} kg"
+      },
+      "confirm": {
+        "title": "Mudar de etapa?",
+        "description": "Sua etapa ativa será definida como {{stage}}.",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar"
+      }
     }
   }
 }

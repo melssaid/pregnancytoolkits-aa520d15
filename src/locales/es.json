@@ -9382,6 +9382,40 @@
         "pregnant": "Embarazo",
         "postpartum": "Maternidad"
       }
+    },
+    "map": {
+      "seo": {
+        "title": "Mi Camino",
+        "description": "Una visión de las etapas de tu camino"
+      },
+      "title": "Mi Camino",
+      "subtitle": "Una mirada a tu pasado, tu presente y lo que viene.",
+      "empty": "Aún no hay registros para esta etapa.",
+      "switchTo": "Cambiar a {{stage}}",
+      "status": {
+        "current": "Actual",
+        "past": "Completada",
+        "upcoming": "Próxima"
+      },
+      "fields": {
+        "startedAt": "Inicio",
+        "completedAt": "Fin",
+        "dueDate": "Fecha estimada",
+        "birthDate": "Fecha de nacimiento",
+        "babyName": "Nombre del bebé",
+        "longestCycle": "Ciclo más largo",
+        "prePregnancyWeight": "Peso antes del embarazo"
+      },
+      "units": {
+        "days": "{{count}} días",
+        "kg": "{{count}} kg"
+      },
+      "confirm": {
+        "title": "¿Cambiar de etapa?",
+        "description": "Tu etapa activa se establecerá en {{stage}}.",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar"
+      }
     }
   }
 }

@@ -9382,6 +9382,40 @@
         "pregnant": "Schwangerschaft",
         "postpartum": "Mutterschaft"
       }
+    },
+    "map": {
+      "seo": {
+        "title": "Meine Reise",
+        "description": "Ein Überblick über deine Reise-Etappen"
+      },
+      "title": "Meine Reise",
+      "subtitle": "Ein Blick auf deinen Weg: Vergangenheit, Gegenwart und Zukunft.",
+      "empty": "Noch keine Einträge für diese Phase.",
+      "switchTo": "Wechseln zu {{stage}}",
+      "status": {
+        "current": "Aktuell",
+        "past": "Abgeschlossen",
+        "upcoming": "Bevorstehend"
+      },
+      "fields": {
+        "startedAt": "Begonnen",
+        "completedAt": "Abgeschlossen",
+        "dueDate": "Geburtstermin",
+        "birthDate": "Geburtsdatum",
+        "babyName": "Name des Babys",
+        "longestCycle": "Längster Zyklus",
+        "prePregnancyWeight": "Gewicht vor der Schwangerschaft"
+      },
+      "units": {
+        "days": "{{count}} Tage",
+        "kg": "{{count}} kg"
+      },
+      "confirm": {
+        "title": "Phase wechseln?",
+        "description": "Deine aktive Phase wird auf {{stage}} gesetzt.",
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen"
+      }
     }
   }
 }

@@ -9382,6 +9382,40 @@
         "pregnant": "Hamilelik",
         "postpartum": "Annelik"
       }
+    },
+    "map": {
+      "seo": {
+        "title": "Yolculuğum",
+        "description": "Yolculuk aşamalarınıza genel bakış"
+      },
+      "title": "Yolculuğum",
+      "subtitle": "Geçmişinize, bugününüze ve geleceğinize bir bakış.",
+      "empty": "Bu aşama için henüz kayıt yok.",
+      "switchTo": "{{stage}} aşamasına geç",
+      "status": {
+        "current": "Mevcut",
+        "past": "Tamamlandı",
+        "upcoming": "Yaklaşan"
+      },
+      "fields": {
+        "startedAt": "Başlangıç",
+        "completedAt": "Bitiş",
+        "dueDate": "Tahmini doğum tarihi",
+        "birthDate": "Doğum tarihi",
+        "babyName": "Bebek adı",
+        "longestCycle": "En uzun döngü",
+        "prePregnancyWeight": "Hamilelik öncesi kilo"
+      },
+      "units": {
+        "days": "{{count}} gün",
+        "kg": "{{count}} kg"
+      },
+      "confirm": {
+        "title": "Aşamayı değiştir?",
+        "description": "Aktif aşamanız {{stage}} olarak ayarlanacak.",
+        "cancel": "İptal",
+        "confirm": "Onayla"
+      }
     }
   }
 }
