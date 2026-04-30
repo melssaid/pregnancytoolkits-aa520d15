@@ -120,11 +120,28 @@ const JourneyMap = () => {
 
   const activeIndex = JOURNEY_STAGE_ORDER.indexOf(profile.journeyStage);
 
+  const scrollToStage = useCallback((stage: JourneyStage) => {
+    const node = document.querySelector<HTMLElement>(`[data-stage-card="${stage}"]`);
+    if (!node) return;
+    node.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Brief focus ring for accessibility/visual confirmation.
+    node.setAttribute("tabindex", "-1");
+    node.focus({ preventScroll: true });
+  }, []);
+
   const handleStageSelect = useCallback((stage: JourneyStage) => {
-    if (stage === profile.journeyStage) return;
     haptic("tap");
+    if (stage === profile.journeyStage) {
+      scrollToStage(stage);
+      return;
+    }
     setPendingStage(stage);
-  }, [profile.journeyStage]);
+  }, [profile.journeyStage, scrollToStage]);
+
+  const handleRibbonStation = useCallback((stage: JourneyStage) => {
+    haptic("tap");
+    scrollToStage(stage);
+  }, [scrollToStage]);
 
   const confirmStageChange = useCallback(() => {
     if (!pendingStage) return;
