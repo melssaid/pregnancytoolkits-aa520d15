@@ -9427,6 +9427,11 @@
         "empty": "Sua linha do tempo aparecerá aqui à medida que você registrar momentos importantes.",
         "count_one": "{{count}} marco",
         "count_other": "{{count}} marcos"
+      },
+      "autoDetect": {
+        "title": "Detecção inteligente de etapa",
+        "descriptionOn": "Sua etapa é atualizada automaticamente a partir das datas registradas (data prevista, nascimento).",
+        "descriptionOff": "A detecção automática está desativada. Você controla sua etapa manualmente."
       }
     },
     "recovery": {

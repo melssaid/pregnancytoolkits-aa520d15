@@ -9427,6 +9427,11 @@
         "empty": "Tu línea de tiempo aparecerá aquí a medida que registres momentos clave.",
         "count_one": "{{count}} hito",
         "count_other": "{{count}} hitos"
+      },
+      "autoDetect": {
+        "title": "Detección inteligente de etapa",
+        "descriptionOn": "Tu etapa se actualiza automáticamente según las fechas que registres (fecha probable, nacimiento).",
+        "descriptionOff": "La detección automática está desactivada. Tú controlas la etapa manualmente."
       }
     },
     "recovery": {
