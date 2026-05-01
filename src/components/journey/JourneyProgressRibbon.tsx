@@ -15,7 +15,7 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Sprout, Heart, Baby } from 'lucide-react';
+import { CircleDot, Stethoscope, Baby } from 'lucide-react';
 import { useStageTheme, JOURNEY_STAGE_ORDER } from '@/hooks/useStageTheme';
 import { useUserProfile, type JourneyStage } from '@/hooks/useUserProfile';
 import { cn } from '@/lib/utils';
@@ -26,9 +26,9 @@ const STAGE_LABEL_KEY: Record<JourneyStage, string> = {
   postpartum: 'journey.ribbon.stages.postpartum',
 };
 
-const STAGE_ICON: Record<JourneyStage, typeof Sprout> = {
-  fertility: Sprout,
-  pregnant: Heart,
+const STAGE_ICON: Record<JourneyStage, typeof CircleDot> = {
+  fertility: CircleDot,
+  pregnant: Stethoscope,
   postpartum: Baby,
 };
 

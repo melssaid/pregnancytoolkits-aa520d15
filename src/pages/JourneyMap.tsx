@@ -42,13 +42,13 @@ import { JourneyMissingMilestones } from "@/components/journey/JourneyMissingMil
 import { JourneyDateChangeLog } from "@/components/journey/JourneyDateChangeLog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
-import { Sprout, Heart, Baby, CalendarDays, ArrowRight } from "lucide-react";
+import { CircleDot, Stethoscope, Baby, CalendarDays, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { haptic } from "@/lib/haptics";
 
-const STAGE_ICONS: Record<JourneyStage, typeof Sprout> = {
-  fertility: Sprout,
-  pregnant: Heart,
+const STAGE_ICONS: Record<JourneyStage, typeof CircleDot> = {
+  fertility: CircleDot,
+  pregnant: Stethoscope,
   postpartum: Baby,
 };
 

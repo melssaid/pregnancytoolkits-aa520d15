@@ -20,7 +20,7 @@
  */
 import { useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Sprout, Heart, Baby, CalendarDays, Star } from "lucide-react";
+import { CircleDot, Stethoscope, Baby, CalendarDays, CalendarCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useUserProfile, type JourneyStage } from "@/hooks/useUserProfile";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -36,8 +36,8 @@ interface TimelinePoint {
 }
 
 const STAGE_ICON: Record<JourneyStage, LucideIcon> = {
-  fertility: Sprout,
-  pregnant: Heart,
+  fertility: CircleDot,
+  pregnant: Stethoscope,
   postpartum: Baby,
 };
 
@@ -255,7 +255,7 @@ export const JourneyTimeline = () => {
                     aria-hidden
                   >
                     {(isBirth || isDue) && (
-                      <Star
+                      <CalendarCheck
                         className="h-2.5 w-2.5"
                         style={{ color: `hsl(${hue})` }}
                       />

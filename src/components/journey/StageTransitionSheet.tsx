@@ -14,15 +14,15 @@ import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Sprout, Heart, Baby } from "lucide-react";
+import { CircleDot, Stethoscope, Baby } from "lucide-react";
 import { useStageTransition } from "@/hooks/useStageTransition";
 import { useStageTheme } from "@/hooks/useStageTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { JourneyStage } from "@/hooks/useUserProfile";
 
-const STAGE_ICON: Record<JourneyStage, typeof Sprout> = {
-  fertility: Sprout,
-  pregnant: Heart,
+const STAGE_ICON: Record<JourneyStage, typeof CircleDot> = {
+  fertility: CircleDot,
+  pregnant: Stethoscope,
   postpartum: Baby,
 };
 
