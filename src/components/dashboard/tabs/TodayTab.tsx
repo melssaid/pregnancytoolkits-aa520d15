@@ -12,9 +12,7 @@ import { BirthCountdownCard } from "@/components/dashboard/BirthCountdownCard";
 import { UnifiedToolsGrid } from "@/components/dashboard/UnifiedToolsGrid";
 import { EmptyStateCard } from "@/components/dashboard/EmptyStateCard";
 import { FertilityCycleCard } from "@/components/dashboard/FertilityCycleCard";
-import { PostpartumCareCard } from "@/components/dashboard/PostpartumCareCard";
 import { PostpartumRecoveryTimeline } from "@/components/journey/PostpartumRecoveryTimeline";
-import { QuickProblemSolver } from "@/components/dashboard/QuickProblemSolver";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
