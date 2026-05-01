@@ -116,8 +116,17 @@ export const JourneyMissingMilestones = () => {
       });
     }
 
-    return list;
+    return list.map((m) => ({ ...m, tool: TOOL_DEEP_LINKS[m.id] }));
   }, [profile]);
+
+  const handleOpenTool = useCallback(
+    (m: Milestone) => {
+      if (!m.tool) return;
+      haptic("tap");
+      navigate(`${m.tool.path}?focus=${encodeURIComponent(m.tool.focus)}`);
+    },
+    [navigate],
+  );
 
   const handleSave = useCallback(
     (m: Milestone) => {
