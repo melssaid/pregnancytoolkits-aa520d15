@@ -13,7 +13,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { Bookmark, Camera, Activity, ChevronRight } from "lucide-react";
+import { Bookmark, Camera, Activity } from "lucide-react";
 import { useSavedResults } from "@/hooks/useSavedResults";
 import { useBumpPhotosStorage } from "@/hooks/useBumpPhotosStorage";
 import { safeParseLocalStorage } from "@/lib/safeStorage";
