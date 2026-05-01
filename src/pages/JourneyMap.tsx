@@ -226,7 +226,7 @@ const JourneyMap = () => {
           <section
             id="journey-timeline-section"
             aria-labelledby="journey-timeline-heading"
-            aria-describedby="journey-timeline-subtitle"
+            aria-describedby="journey-timeline-subtitle journey-timeline-status"
           >
             <JourneyTimeline />
           </section>
@@ -234,7 +234,7 @@ const JourneyMap = () => {
           <section
             id="journey-milestones-section"
             aria-labelledby="missing-milestones-heading"
-            aria-describedby="journey-milestones-subtitle"
+            aria-describedby="journey-milestones-subtitle journey-milestones-status"
           >
             <JourneyMissingMilestones />
           </section>
@@ -242,7 +242,7 @@ const JourneyMap = () => {
           <section
             id="journey-changelog-section"
             aria-labelledby="journey-changelog-title"
-            aria-describedby="journey-changelog-subtitle"
+            aria-describedby="journey-changelog-subtitle journey-changelog-status"
           >
             <JourneyDateChangeLog />
           </section>
@@ -250,7 +250,7 @@ const JourneyMap = () => {
           <section
             id="journey-autodetect-section"
             aria-labelledby="journey-autodetect-title"
-            aria-describedby="journey-autodetect-subtitle"
+            aria-describedby="journey-autodetect-subtitle journey-autodetect-status"
           >
             <JourneyAutoDetectToggle />
           </section>
