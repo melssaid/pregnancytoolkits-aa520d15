@@ -267,6 +267,39 @@ export default function AdminUsageDashboard() {
 
                     <Card>
                       <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-bold text-foreground flex items-center gap-2">
+                          <Globe className="h-4 w-4 text-primary" />
+                          الدول التي دخلت التطبيق — آخر 24 ساعة
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        {!stats.countriesLast24h || stats.countriesLast24h.length === 0 ? (
+                          <div className="text-xs text-muted-foreground">لا توجد جلسات في آخر 24 ساعة.</div>
+                        ) : (
+                          <>
+                            <div className="flex items-center justify-between rounded-xl bg-primary/5 px-3 py-2 mb-2">
+                              <span className="text-[11px] font-semibold text-muted-foreground">إجمالي الدول</span>
+                              <span className="text-sm font-black text-primary">{stats.countriesLast24h.length}</span>
+                            </div>
+                            {stats.countriesLast24h.map((item) => (
+                              <div key={item.country} className="flex items-center justify-between rounded-xl border border-border bg-card px-3 py-2.5">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <span className="text-lg leading-none shrink-0">{countryFlag(item.country)}</span>
+                                  <div className="flex flex-col min-w-0">
+                                    <span className="text-xs font-semibold text-foreground truncate">{countryName(item.country)}</span>
+                                    <span className="text-[10px] text-muted-foreground">{item.country} • {item.langs.join(", ")}</span>
+                                  </div>
+                                </div>
+                                <span className="text-sm font-black text-primary shrink-0">{item.sessions}</span>
+                              </div>
+                            ))}
+                          </>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-bold text-foreground">مشتركو الإشعارات حسب اللغة</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-2">
