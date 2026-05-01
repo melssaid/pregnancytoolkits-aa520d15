@@ -9510,6 +9510,15 @@
         "autodetect": "Configuración de detección automática",
         "stages": "Resumen de etapas del viaje",
         "memories": "Recuerdos guardados"
+      },
+      "skip": {
+        "nav": "Enlaces de salto",
+        "timeline": "Ir a la cronología",
+        "milestones": "Ir a los hitos",
+        "changelog": "Ir al registro",
+        "autodetect": "Ir a detección automática",
+        "stages": "Ir a las etapas",
+        "memories": "Ir a los recuerdos"
       }
     },
     "recovery": {

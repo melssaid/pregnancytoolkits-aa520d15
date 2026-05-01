@@ -9510,6 +9510,15 @@
         "autodetect": "Otomatik algılama ayarları",
         "stages": "Yolculuk aşamalarına genel bakış",
         "memories": "Kayıtlı anılar"
+      },
+      "skip": {
+        "nav": "Atlama bağlantıları",
+        "timeline": "Zaman çizelgesine atla",
+        "milestones": "Kilometre taşlarına atla",
+        "changelog": "Değişiklik günlüğüne atla",
+        "autodetect": "Otomatik algılamaya atla",
+        "stages": "Aşamalara atla",
+        "memories": "Anılara atla"
       }
     },
     "recovery": {

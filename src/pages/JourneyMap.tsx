@@ -40,6 +40,7 @@ import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { JourneyAutoDetectToggle } from "@/components/journey/JourneyAutoDetectToggle";
 import { JourneyMissingMilestones } from "@/components/journey/JourneyMissingMilestones";
 import { JourneyDateChangeLog } from "@/components/journey/JourneyDateChangeLog";
+import { JourneySkipLinks } from "@/components/journey/JourneySkipLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
 import { CircleDot, Stethoscope, Baby, CalendarDays, ArrowRight } from "lucide-react";
@@ -189,6 +190,7 @@ const JourneyMap = () => {
         dir={isRTL ? "rtl" : "ltr"}
         className={`relative pb-24 bg-gradient-to-b ${stageTheme.gradient} min-h-screen`}
       >
+        <JourneySkipLinks />
         <header className="container px-3 sm:px-4 pt-4 pb-2" role="banner">
           <BackButton />
           <motion.h1
@@ -221,35 +223,35 @@ const JourneyMap = () => {
           <h2 id="journey-timeline-heading" className="sr-only">
             {t("journey.map.regions.timeline", "Chronological timeline")}
           </h2>
-          <section aria-labelledby="journey-timeline-heading">
+          <section id="journey-timeline-section" aria-labelledby="journey-timeline-heading">
             <JourneyTimeline />
           </section>
 
           <h2 id="journey-milestones-heading" className="sr-only">
             {t("journey.map.regions.milestones", "Missing milestones")}
           </h2>
-          <section aria-labelledby="journey-milestones-heading">
+          <section id="journey-milestones-section" aria-labelledby="journey-milestones-heading">
             <JourneyMissingMilestones />
           </section>
 
           <h2 id="journey-changelog-heading" className="sr-only">
             {t("journey.map.regions.changelog", "Date change log")}
           </h2>
-          <section aria-labelledby="journey-changelog-heading">
+          <section id="journey-changelog-section" aria-labelledby="journey-changelog-heading">
             <JourneyDateChangeLog />
           </section>
 
           <h2 id="journey-autodetect-heading" className="sr-only">
             {t("journey.map.regions.autodetect", "Auto-detect settings")}
           </h2>
-          <section aria-labelledby="journey-autodetect-heading">
+          <section id="journey-autodetect-section" aria-labelledby="journey-autodetect-heading">
             <JourneyAutoDetectToggle />
           </section>
 
           <h2 id="journey-stages-heading" className="sr-only">
             {t("journey.map.regions.stages", "Journey stages overview")}
           </h2>
-          <section aria-labelledby="journey-stages-heading" className="space-y-4 sm:space-y-5">
+          <section id="journey-stages-section" aria-labelledby="journey-stages-heading" className="space-y-4 sm:space-y-5">
           {entries.map((entry, idx) => {
             const Icon = STAGE_ICONS[entry.stage];
             const isActive = entry.stage === profile.journeyStage;
@@ -368,7 +370,7 @@ const JourneyMap = () => {
           <h2 id="journey-memories-heading" className="sr-only">
             {t("journey.map.regions.memories", "Saved memories")}
           </h2>
-          <section aria-labelledby="journey-memories-heading">
+          <section id="journey-memories-section" aria-labelledby="journey-memories-heading">
             <JourneyMemoriesPanel />
           </section>
         </div>
