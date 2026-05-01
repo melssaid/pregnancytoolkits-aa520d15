@@ -184,12 +184,15 @@ const JourneyMap = () => {
       />
 
       <main
+        role="main"
+        aria-labelledby="journey-page-title"
         dir={isRTL ? "rtl" : "ltr"}
         className={`relative pb-24 bg-gradient-to-b ${stageTheme.gradient} min-h-screen`}
       >
-        <header className="container px-3 sm:px-4 pt-4 pb-2">
+        <header className="container px-3 sm:px-4 pt-4 pb-2" role="banner">
           <BackButton />
           <motion.h1
+            id="journey-page-title"
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
@@ -204,20 +207,49 @@ const JourneyMap = () => {
             )}
           </p>
 
-          <div className="mt-3">
+          <nav
+            className="mt-3"
+            aria-label={t("journey.map.nav.stages", "Journey stages navigation")}
+          >
             <JourneyProgressRibbon onStationSelect={handleRibbonStation} />
-          </div>
+          </nav>
         </header>
 
         {/* Unified container — single padding/gap rhythm matching SmartDashboard tabs.
             All sections share px-3 sm:px-4 horizontally and space-y-4 sm:space-y-5 vertically. */}
         <div className="container px-3 sm:px-4 mt-3 space-y-4 sm:space-y-5 pb-6">
-          <JourneyTimeline />
-          <JourneyMissingMilestones />
-          <JourneyDateChangeLog />
-          <JourneyAutoDetectToggle />
+          <h2 id="journey-timeline-heading" className="sr-only">
+            {t("journey.map.regions.timeline", "Chronological timeline")}
+          </h2>
+          <section aria-labelledby="journey-timeline-heading">
+            <JourneyTimeline />
+          </section>
 
-          <section className="space-y-4 sm:space-y-5">
+          <h2 id="journey-milestones-heading" className="sr-only">
+            {t("journey.map.regions.milestones", "Missing milestones")}
+          </h2>
+          <section aria-labelledby="journey-milestones-heading">
+            <JourneyMissingMilestones />
+          </section>
+
+          <h2 id="journey-changelog-heading" className="sr-only">
+            {t("journey.map.regions.changelog", "Date change log")}
+          </h2>
+          <section aria-labelledby="journey-changelog-heading">
+            <JourneyDateChangeLog />
+          </section>
+
+          <h2 id="journey-autodetect-heading" className="sr-only">
+            {t("journey.map.regions.autodetect", "Auto-detect settings")}
+          </h2>
+          <section aria-labelledby="journey-autodetect-heading">
+            <JourneyAutoDetectToggle />
+          </section>
+
+          <h2 id="journey-stages-heading" className="sr-only">
+            {t("journey.map.regions.stages", "Journey stages overview")}
+          </h2>
+          <section aria-labelledby="journey-stages-heading" className="space-y-4 sm:space-y-5">
           {entries.map((entry, idx) => {
             const Icon = STAGE_ICONS[entry.stage];
             const isActive = entry.stage === profile.journeyStage;
