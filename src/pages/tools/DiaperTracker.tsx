@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import WhatsAppShareButton from "@/components/WhatsAppShareButton";
 import { formatStatsShare, openWhatsApp } from "@/lib/whatsappShare";
+import { ToolEmptyState } from "@/components/tools/ToolEmptyState";
 
 type DiaperType = "wet" | "dirty" | "both";
 
@@ -332,6 +333,18 @@ const DiaperTracker = () => {
               {t(`diaperPage.${entries[0].type}`)}
             </span>
           </motion.div>
+        )}
+
+        {/* Empty state — no diaper entries yet */}
+        {entries.length === 0 && (
+          <ToolEmptyState
+            icon={Droplet}
+            title={t("tools.empty.diaper.title")}
+            description={t("tools.empty.diaper.desc")}
+            ctaLabel={t("tools.empty.diaper.cta")}
+            ctaDirection="up"
+            onCta={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
         )}
 
         {/* Weekly Chart */}
