@@ -235,6 +235,7 @@ export const JourneyTimeline = () => {
         <span id="journey-timeline-status" className="sr-only">
           {t("journey.map.srStatus.timelineEmpty", "No points on the timeline yet.")}
         </span>
+        {LiveRegion}
       </div>
     );
   }
