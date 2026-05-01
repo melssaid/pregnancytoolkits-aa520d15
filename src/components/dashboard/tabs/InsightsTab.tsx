@@ -47,9 +47,9 @@ const Section = ({ icon: Icon, label, hint, children }: SectionProps) => (
         <Icon className="w-3.5 h-3.5 text-primary" />
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="text-[13px] font-bold text-foreground leading-tight tracking-tight">
+        <h2 className="text-[13px] font-bold text-foreground leading-tight tracking-tight">
           {label}
-        </h3>
+        </h2>
         {hint && (
           <p className="text-[10.5px] text-muted-foreground leading-tight mt-0.5 truncate">
             {hint}
