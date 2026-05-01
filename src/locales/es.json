@@ -9442,6 +9442,8 @@
         "subtitle": "Añade fechas clave para que tu línea de tiempo refleje tu viaje real.",
         "add": "Añadir",
         "saved": "Guardado",
+        "openInTool": "Abrir en la herramienta dedicada",
+        "openTool": "Abrir herramienta para definir {{field}}",
         "hints": {
           "dueDate": "Tu fecha probable — activa el conteo semanal y los recordatorios.",
           "birthDate": "Fecha de nacimiento de tu bebé — marca el inicio del posparto.",
