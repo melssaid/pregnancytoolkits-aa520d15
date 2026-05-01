@@ -43,13 +43,27 @@ interface Milestone {
   hintKey: string;
   /** When true, this is a high-priority hint shown more prominently. */
   important?: boolean;
+  /**
+   * Optional deep-link to a richer tool that captures this same date.
+   * The tool reads the `focus` query param and auto-opens / scrolls to
+   * the matching field, so the user lands exactly where they need to be.
+   */
+  tool?: { path: string; focus: string };
 }
+
+const TOOL_DEEP_LINKS: Partial<Record<MilestoneId, { path: string; focus: string }>> = {
+  "pregnancy.dueDate": { path: "/tools/due-date-calculator", focus: "lmp" },
+  "pregnancy.startedAt": { path: "/tools/due-date-calculator", focus: "lmp" },
+  "postpartum.birthDate": { path: "/tools/baby-growth", focus: "birthDate" },
+  "fertility.startedAt": { path: "/tools/cycle-tracker", focus: "lastPeriod" },
+};
 
 const todayISO = () => new Date().toISOString().split("T")[0];
 
 export const JourneyMissingMilestones = () => {
   const { t } = useTranslation();
   const { isRTL } = useLanguage();
+  const navigate = useNavigate();
   const { profile, updateProfile } = useUserProfile();
   const [drafts, setDrafts] = useState<Partial<Record<MilestoneId, string>>>({});
   const [saved, setSaved] = useState<Partial<Record<MilestoneId, boolean>>>({});
