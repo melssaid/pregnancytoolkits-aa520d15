@@ -9116,7 +9116,8 @@
       "evening": "Bonsoir",
       "morningTip": "Commencez la journée avec de l'eau et une respiration profonde",
       "afternoonTip": "Un bon moment pour vos vitamines quotidiennes",
-      "eveningTip": "Détendez-vous et notez comment vous vous sentez"
+      "eveningTip": "Détendez-vous et notez comment vous vous sentez",
+      "tipAria": "Conseil du jour"
     },
     "progress": {
       "week": "Semaine",
@@ -9333,7 +9334,8 @@
         "follicular": "Phase folliculaire",
         "fertile": "Fenêtre fertile",
         "luteal": "Phase lutéale"
-      }
+      },
+      "nextPeriod": "Prochaines règles"
     },
     "postpartumCard": {
       "title": "Piliers de la récupération",
@@ -9341,7 +9343,8 @@
         "title": "Bilan émotionnel hebdomadaire",
         "recent_one": "1 entrée ces 7 derniers jours",
         "recent_other": "{{count}} entrées ces 7 derniers jours",
-        "empty": "Commencez votre évaluation EPDS cette semaine"
+        "empty": "Commencez votre évaluation EPDS cette semaine",
+        "recent": "Notes récentes"
       },
       "lactation": {
         "title": "Soutien à l'allaitement",
@@ -9351,7 +9354,8 @@
         "title": "Sommeil de bébé",
         "recent_one": "1 session ces 7 derniers jours",
         "recent_other": "{{count}} sessions ces 7 derniers jours",
-        "empty": "Enregistrez la première séance de sommeil de votre bébé"
+        "empty": "Enregistrez la première séance de sommeil de votre bébé",
+        "recent": "Sommeils récents"
       },
       "emptyHint": "Commencez par n'importe quel pilier ci-dessous — vos rapports se construiront avec le temps."
     }
@@ -9430,7 +9434,8 @@
         "count_one": "{{count}} étape",
         "count_other": "{{count}} étapes",
         "emptyTitle": "Votre chronologie est vide",
-        "emptyHint": "Ajoutez vos dates clés ci-dessous pour construire une chronologie personnelle."
+        "emptyHint": "Ajoutez vos dates clés ci-dessous pour construire une chronologie personnelle.",
+        "count": "{{count}} étapes"
       },
       "autoDetect": {
         "title": "Détection intelligente d'étape",

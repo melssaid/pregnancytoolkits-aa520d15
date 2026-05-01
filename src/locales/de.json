@@ -9116,7 +9116,8 @@
       "evening": "Guten Abend",
       "morningTip": "Starte den Tag mit Wasser und tiefer Atmung",
       "afternoonTip": "Eine gute Zeit für deine täglichen Vitamine",
-      "eveningTip": "Komm zur Ruhe und halte fest, wie du dich fühlst"
+      "eveningTip": "Komm zur Ruhe und halte fest, wie du dich fühlst",
+      "tipAria": "Tipp des Tages"
     },
     "progress": {
       "week": "Woche",
@@ -9333,7 +9334,8 @@
         "follicular": "Follikelphase",
         "fertile": "Fruchtbares Fenster",
         "luteal": "Lutealphase"
-      }
+      },
+      "nextPeriod": "Nächste Periode"
     },
     "postpartumCard": {
       "title": "Säulen der Erholung",
@@ -9341,7 +9343,8 @@
         "title": "Wöchentlicher emotionaler Check-in",
         "recent_one": "1 Eintrag in den letzten 7 Tagen",
         "recent_other": "{{count}} Einträge in den letzten 7 Tagen",
-        "empty": "Starte diese Woche deinen EPDS-Check-in"
+        "empty": "Starte diese Woche deinen EPDS-Check-in",
+        "recent": "Aktuelle Einträge"
       },
       "lactation": {
         "title": "Stillunterstützung",
@@ -9351,7 +9354,8 @@
         "title": "Babyschlaf",
         "recent_one": "1 Sitzung in den letzten 7 Tagen",
         "recent_other": "{{count}} Sitzungen in den letzten 7 Tagen",
-        "empty": "Protokolliere die erste Schlafsitzung deines Babys"
+        "empty": "Protokolliere die erste Schlafsitzung deines Babys",
+        "recent": "Aktuelle Schlafphasen"
       },
       "emptyHint": "Beginne mit einer der Erholungssäulen unten — deine Berichte wachsen mit der Zeit."
     }
@@ -9430,7 +9434,8 @@
         "count_one": "{{count}} Meilenstein",
         "count_other": "{{count}} Meilensteine",
         "emptyTitle": "Dein Zeitstrahl ist leer",
-        "emptyHint": "Füge unten wichtige Daten hinzu, um einen persönlichen Zeitstrahl zu erstellen."
+        "emptyHint": "Füge unten wichtige Daten hinzu, um einen persönlichen Zeitstrahl zu erstellen.",
+        "count": "{{count}} Stationen"
       },
       "autoDetect": {
         "title": "Intelligente Phasenerkennung",

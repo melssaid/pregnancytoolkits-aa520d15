@@ -250,7 +250,8 @@
         "count_one": "{{count}} milestone",
         "count_other": "{{count}} milestones",
         "emptyTitle": "Your timeline is empty",
-        "emptyHint": "Add your key dates below to build a personal timeline of your journey."
+        "emptyHint": "Add your key dates below to build a personal timeline of your journey.",
+        "count": "{{count}} milestones"
       },
       "autoDetect": {
         "title": "Smart stage detection",
@@ -9326,7 +9327,8 @@
       "evening": "Good Evening",
       "morningTip": "Start your day with water and deep breathing",
       "afternoonTip": "A good time for your daily vitamins",
-      "eveningTip": "Wind down and log how you feel today"
+      "eveningTip": "Wind down and log how you feel today",
+      "tipAria": "Tip of the day"
     },
     "progress": {
       "week": "Week",
@@ -9543,7 +9545,8 @@
         "follicular": "Follicular phase",
         "fertile": "Fertile window",
         "luteal": "Luteal phase"
-      }
+      },
+      "nextPeriod": "Next period"
     },
     "postpartumCard": {
       "title": "Recovery Pillars",
@@ -9551,7 +9554,8 @@
         "title": "Weekly emotional check-in",
         "recent_one": "1 entry in last 7 days",
         "recent_other": "{{count}} entries in last 7 days",
-        "empty": "Start your EPDS check-in this week"
+        "empty": "Start your EPDS check-in this week",
+        "recent": "Recent check-ins"
       },
       "lactation": {
         "title": "Breastfeeding support",
@@ -9561,7 +9565,8 @@
         "title": "Baby sleep",
         "recent_one": "1 session in last 7 days",
         "recent_other": "{{count}} sessions in last 7 days",
-        "empty": "Log your baby's first sleep session"
+        "empty": "Log your baby's first sleep session",
+        "recent": "Recent sleeps"
       },
       "emptyHint": "Start with any recovery pillar below — your reports will build over time."
     }

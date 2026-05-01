@@ -9116,7 +9116,8 @@
       "evening": "Buenas noches",
       "morningTip": "Comienza el día con agua y respiración profunda",
       "afternoonTip": "Un buen momento para tus vitaminas diarias",
-      "eveningTip": "Relájate y registra cómo te sientes hoy"
+      "eveningTip": "Relájate y registra cómo te sientes hoy",
+      "tipAria": "Consejo del día"
     },
     "progress": {
       "week": "Semana",
@@ -9333,7 +9334,8 @@
         "follicular": "Fase folicular",
         "fertile": "Ventana fértil",
         "luteal": "Fase lútea"
-      }
+      },
+      "nextPeriod": "Próximo período"
     },
     "postpartumCard": {
       "title": "Pilares de recuperación",
@@ -9341,7 +9343,8 @@
         "title": "Chequeo emocional semanal",
         "recent_one": "1 registro en los últimos 7 días",
         "recent_other": "{{count}} registros en los últimos 7 días",
-        "empty": "Inicia tu evaluación EPDS esta semana"
+        "empty": "Inicia tu evaluación EPDS esta semana",
+        "recent": "Registros recientes"
       },
       "lactation": {
         "title": "Apoyo a la lactancia",
@@ -9351,7 +9354,8 @@
         "title": "Sueño del bebé",
         "recent_one": "1 sesión en los últimos 7 días",
         "recent_other": "{{count}} sesiones en los últimos 7 días",
-        "empty": "Registra la primera sesión de sueño de tu bebé"
+        "empty": "Registra la primera sesión de sueño de tu bebé",
+        "recent": "Sueños recientes"
       },
       "emptyHint": "Empieza por cualquier pilar de recuperación abajo — tus informes se construirán con el tiempo."
     }
@@ -9430,7 +9434,8 @@
         "count_one": "{{count}} hito",
         "count_other": "{{count}} hitos",
         "emptyTitle": "Tu línea de tiempo está vacía",
-        "emptyHint": "Añade tus fechas clave abajo para construir una línea personal de tu viaje."
+        "emptyHint": "Añade tus fechas clave abajo para construir una línea personal de tu viaje.",
+        "count": "{{count}} etapas"
       },
       "autoDetect": {
         "title": "Detección inteligente de etapa",
