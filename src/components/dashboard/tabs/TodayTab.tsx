@@ -73,14 +73,14 @@ export const TodayTab = memo(function TodayTab() {
         upcomingAppointments={stats.planning.upcomingAppointments}
       />
 
-      {/* Stage-specific hero cards */}
+      {/* Stage-specific hero — one card per stage to avoid clutter.
+          Postpartum uses the recovery timeline as its primary identity card;
+          PostpartumCareCard is reached via UnifiedToolsGrid links. */}
       {isFertility && <FertilityCycleCard />}
-      {isPostpartum && <PostpartumCareCard />}
       {isPostpartum && <PostpartumRecoveryTimeline />}
 
-      {/* Quick problem solver — stage-aware shortcuts to the most-asked questions */}
-      <QuickProblemSolver />
-
+      {/* Unified tools grid — single navigation surface (replaces the
+          duplicated QuickProblemSolver shortcuts that overlapped with it). */}
       <UnifiedToolsGrid />
 
       {/* Brand-new user nudge */}
