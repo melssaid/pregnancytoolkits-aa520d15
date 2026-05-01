@@ -44,7 +44,7 @@ export const JourneyAutoDetectToggle = () => {
               checked={enabled}
               onCheckedChange={handleToggle}
               aria-label={t("journey.map.autoDetect.title", "Smart stage detection")}
-              aria-describedby="journey-autodetect-subtitle"
+              aria-describedby="journey-autodetect-subtitle journey-autodetect-status"
             />
           </div>
           <p
