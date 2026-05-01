@@ -40,6 +40,7 @@ import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { JourneyAutoDetectToggle } from "@/components/journey/JourneyAutoDetectToggle";
 import { JourneyMissingMilestones } from "@/components/journey/JourneyMissingMilestones";
 import { JourneyDateChangeLog } from "@/components/journey/JourneyDateChangeLog";
+import { JourneySkipLinks } from "@/components/journey/JourneySkipLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
 import { CircleDot, Stethoscope, Baby, CalendarDays, ArrowRight } from "lucide-react";
