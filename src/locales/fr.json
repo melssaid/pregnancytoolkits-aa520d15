@@ -9499,6 +9499,17 @@
         "fields": {
           "lastPeriodDate": "Premier jour des dernières règles"
         }
+      },
+      "nav": {
+        "stages": "Navigation des étapes du parcours"
+      },
+      "regions": {
+        "timeline": "Chronologie",
+        "milestones": "Étapes manquantes",
+        "changelog": "Journal des modifications de dates",
+        "autodetect": "Paramètres de détection automatique",
+        "stages": "Aperçu des étapes du parcours",
+        "memories": "Souvenirs enregistrés"
       }
     },
     "recovery": {

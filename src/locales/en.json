@@ -283,6 +283,17 @@
         "fields": {
           "lastPeriodDate": "First day of last period"
         }
+      },
+      "nav": {
+        "stages": "Journey stages navigation"
+      },
+      "regions": {
+        "timeline": "Chronological timeline",
+        "milestones": "Missing milestones",
+        "changelog": "Date change log",
+        "autodetect": "Auto-detect settings",
+        "stages": "Journey stages overview",
+        "memories": "Saved memories"
       }
     },
     "recovery": {

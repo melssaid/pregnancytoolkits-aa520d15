@@ -9499,6 +9499,17 @@
         "fields": {
           "lastPeriodDate": "Erster Tag der letzten Periode"
         }
+      },
+      "nav": {
+        "stages": "Navigation der Reise-Etappen"
+      },
+      "regions": {
+        "timeline": "Chronologische Zeitleiste",
+        "milestones": "Fehlende Meilensteine",
+        "changelog": "Datumsänderungsprotokoll",
+        "autodetect": "Automatische Erkennungseinstellungen",
+        "stages": "Übersicht der Reiseetappen",
+        "memories": "Gespeicherte Erinnerungen"
       }
     },
     "recovery": {

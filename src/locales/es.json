@@ -9499,6 +9499,17 @@
         "fields": {
           "lastPeriodDate": "Primer día de la última menstruación"
         }
+      },
+      "nav": {
+        "stages": "Navegación por etapas del viaje"
+      },
+      "regions": {
+        "timeline": "Línea de tiempo cronológica",
+        "milestones": "Hitos faltantes",
+        "changelog": "Registro de cambios de fechas",
+        "autodetect": "Configuración de detección automática",
+        "stages": "Resumen de etapas del viaje",
+        "memories": "Recuerdos guardados"
       }
     },
     "recovery": {
