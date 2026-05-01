@@ -83,6 +83,7 @@ export const PostpartumRecoveryTimeline = memo(function PostpartumRecoveryTimeli
               initial={{ opacity: 0, x: -4 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.35, delay: i * 0.05 }}
+              aria-current={isActive ? "step" : undefined}
               className={cn(
                 "flex items-center gap-3 px-2.5 py-2 rounded-xl transition-colors",
                 isActive && "bg-primary/5 ring-1 ring-primary/20",
@@ -105,6 +106,14 @@ export const PostpartumRecoveryTimeline = memo(function PostpartumRecoveryTimeli
                   isActive ? "text-foreground" : isPast ? "text-foreground/80" : "text-muted-foreground/70",
                 )}>
                   {t(`journey.recovery.phases.${phase.key}.title`)}
+                  <span className="sr-only">
+                    {" — "}
+                    {isActive
+                      ? t("journey.recovery.status.current", "current phase")
+                      : isPast
+                        ? t("journey.recovery.status.completed", "completed")
+                        : t("journey.recovery.status.upcoming", "upcoming")}
+                  </span>
                 </p>
                 <p className="text-[10px] text-muted-foreground leading-tight">
                   {t("journey.recovery.weekRange", {
