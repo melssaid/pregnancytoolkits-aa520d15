@@ -182,6 +182,9 @@ export const JourneyTimeline = () => {
         >
           {t("journey.map.timeline.count", { count: points.length })}
         </span>
+        <span id="journey-timeline-status" className="sr-only">
+          {t("journey.map.srStatus.timelineCount", { count: points.length, defaultValue: `${points.length} timeline markers` })}
+        </span>
       </header>
 
       <div
