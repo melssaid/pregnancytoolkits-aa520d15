@@ -36,7 +36,7 @@ export const ArchiveTab = memo(function ArchiveTab() {
   }
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-4 sm:space-y-5 pb-6">
       {isPregnant && <WeekCertificateCard />}
       {isPregnant && <StageRecommendation />}
 
