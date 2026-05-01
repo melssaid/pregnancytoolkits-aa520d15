@@ -133,58 +133,132 @@ export const JourneyTimeline = () => {
   }, [points]);
 
   // ---- Live-region announcements ----
-  // Detect timeline diffs (additions/removals) and stage changes since the
-  // last render, and surface a short polite message to assistive tech.
+  // Detect timeline diffs (additions/removals/date edits) and stage changes
+  // since the last render, and surface a *specific* polite message naming
+  // exactly what changed (which date, which stage, from → to value).
   const [liveMessage, setLiveMessage] = useState("");
-  const prevIdsRef = useRef<Set<string> | null>(null);
+  const prevPointsRef = useRef<Map<string, string> | null>(null); // id -> ISO date
   const prevStageRef = useRef<JourneyStage | null>(null);
 
   useEffect(() => {
-    const currentIds = new Set(points.map((p) => p.id));
-    const prevIds = prevIdsRef.current;
+    const currentMap = new Map(points.map((p) => [p.id, p.date.toISOString()]));
+    const prevMap = prevPointsRef.current;
 
-    if (prevIds === null) {
+    if (prevMap === null) {
       // First render — establish baseline silently.
-      prevIdsRef.current = currentIds;
+      prevPointsRef.current = currentMap;
       prevStageRef.current = profile.journeyStage;
       return;
     }
 
-    let added = 0;
-    let removed = 0;
-    currentIds.forEach((id) => {
-      if (!prevIds.has(id)) added += 1;
-    });
-    prevIds.forEach((id) => {
-      if (!currentIds.has(id)) removed += 1;
-    });
+    const fmtDate = (iso: string) => formatLocalized(iso, "PP", i18n.language);
+    const labelOf = (id: string) => {
+      const p = points.find((x) => x.id === id);
+      if (p) return { label: t(p.labelKey), stage: t(`journey.ribbon.stages.${p.stage}`) };
+      // Removed entry — derive label/stage from the id (e.g. "pregnancy-due").
+      const [stageKey, kind] = id.split("-");
+      const stageMap: Record<string, JourneyStage> = {
+        fertility: "fertility",
+        pregnancy: "pregnant",
+        postpartum: "postpartum",
+      };
+      const stage = stageMap[stageKey] ?? "pregnant";
+      const kindLabelMap: Record<string, string> = {
+        start: "journey.map.fields.startedAt",
+        end: "journey.map.fields.completedAt",
+        due: "journey.map.fields.dueDate",
+        birth: "journey.map.fields.birthDate",
+      };
+      return {
+        label: t(kindLabelMap[kind] ?? "journey.map.fields.startedAt"),
+        stage: t(`journey.ribbon.stages.${stage}`),
+      };
+    };
 
-    const stageChanged = prevStageRef.current !== profile.journeyStage;
     const messages: string[] = [];
 
-    if (stageChanged) {
+    // Stage change — name both old and new stage.
+    if (prevStageRef.current !== profile.journeyStage) {
+      const toName = t(`journey.ribbon.stages.${profile.journeyStage}`);
       messages.push(
-        t("journey.map.srAnnounce.stageChanged", {
-          stage: t(`journey.ribbon.stages.${profile.journeyStage}`),
-          defaultValue: `Current stage updated to ${profile.journeyStage}.`,
-        }),
+        prevStageRef.current
+          ? t("journey.map.srAnnounce.stageChangedFromTo", {
+              from: t(`journey.ribbon.stages.${prevStageRef.current}`),
+              to: toName,
+              defaultValue: `Current stage changed from ${prevStageRef.current} to ${profile.journeyStage}.`,
+            })
+          : t("journey.map.srAnnounce.stageChangedInitial", {
+              to: toName,
+              defaultValue: `Current stage set to ${profile.journeyStage}.`,
+            }),
       );
     }
-    if (added > 0) {
+
+    // Per-point diff: added, removed, or date edited.
+    const added: string[] = [];
+    const removed: string[] = [];
+    const changed: Array<{ id: string; from: string; to: string }> = [];
+
+    currentMap.forEach((iso, id) => {
+      if (!prevMap.has(id)) {
+        added.push(id);
+      } else if (prevMap.get(id) !== iso) {
+        changed.push({ id, from: prevMap.get(id) as string, to: iso });
+      }
+    });
+    prevMap.forEach((_iso, id) => {
+      if (!currentMap.has(id)) removed.push(id);
+    });
+
+    const totalChanges = added.length + removed.length + changed.length;
+    // Cap detailed lines so the announcement stays digestible; if too many
+    // changed at once (rare) fall back to a count summary.
+    const DETAIL_CAP = 3;
+
+    if (totalChanges > DETAIL_CAP) {
       messages.push(
-        t("journey.map.srAnnounce.timelineAdded", {
-          count: added,
-          defaultValue: `${added} new point(s) added to the timeline.`,
+        t("journey.map.srAnnounce.multipleChanges", {
+          count: totalChanges,
+          defaultValue: `${totalChanges} timeline items updated.`,
         }),
       );
-    }
-    if (removed > 0) {
-      messages.push(
-        t("journey.map.srAnnounce.timelineRemoved", {
-          count: removed,
-          defaultValue: `${removed} point(s) removed from the timeline.`,
-        }),
-      );
+    } else {
+      added.forEach((id) => {
+        const { label, stage } = labelOf(id);
+        const iso = currentMap.get(id)!;
+        messages.push(
+          t("journey.map.srAnnounce.pointAdded", {
+            label,
+            stage,
+            date: fmtDate(iso),
+            defaultValue: `${label} (${stage}) added on ${fmtDate(iso)}.`,
+          }),
+        );
+      });
+      changed.forEach(({ id, from, to }) => {
+        const { label, stage } = labelOf(id);
+        messages.push(
+          t("journey.map.srAnnounce.pointChanged", {
+            label,
+            stage,
+            from: fmtDate(from),
+            to: fmtDate(to),
+            defaultValue: `${label} (${stage}) changed from ${fmtDate(from)} to ${fmtDate(to)}.`,
+          }),
+        );
+      });
+      removed.forEach((id) => {
+        const { label, stage } = labelOf(id);
+        const iso = prevMap.get(id) as string;
+        messages.push(
+          t("journey.map.srAnnounce.pointRemoved", {
+            label,
+            stage,
+            date: fmtDate(iso),
+            defaultValue: `${label} (${stage}) recorded on ${fmtDate(iso)} was removed.`,
+          }),
+        );
+      });
     }
 
     if (messages.length > 0) {
@@ -192,9 +266,9 @@ export const JourneyTimeline = () => {
       setLiveMessage(`${messages.join(" ")} \u200B${Date.now()}`);
     }
 
-    prevIdsRef.current = currentIds;
+    prevPointsRef.current = currentMap;
     prevStageRef.current = profile.journeyStage;
-  }, [points, profile.journeyStage, t]);
+  }, [points, profile.journeyStage, t, i18n.language]);
 
   // Visually-hidden polite live region that mirrors recent updates.
   const LiveRegion = (

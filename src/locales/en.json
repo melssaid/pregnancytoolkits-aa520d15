@@ -325,7 +325,13 @@
         "timelineUpdated": "Timeline updated.",
         "stageChanged": "Current stage updated to {{stage}}.",
         "autoDetectTurnedOn": "Smart stage detection turned on.",
-        "autoDetectTurnedOff": "Smart stage detection turned off."
+        "autoDetectTurnedOff": "Smart stage detection turned off.",
+        "pointAdded": "{{label}} ({{stage}}) added on {{date}}.",
+        "pointRemoved": "{{label}} ({{stage}}) recorded on {{date}} was removed.",
+        "pointChanged": "{{label}} ({{stage}}) changed from {{from}} to {{to}}.",
+        "multipleChanges": "{{count}} timeline items updated.",
+        "stageChangedFromTo": "Current stage changed from {{from}} to {{to}}.",
+        "stageChangedInitial": "Current stage set to {{to}}."
       }
     },
     "recovery": {

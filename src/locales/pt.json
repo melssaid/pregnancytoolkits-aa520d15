@@ -9541,7 +9541,13 @@
         "timelineUpdated": "Linha do tempo atualizada.",
         "stageChanged": "Fase atual atualizada para {{stage}}.",
         "autoDetectTurnedOn": "Deteção inteligente de fase ativada.",
-        "autoDetectTurnedOff": "Deteção inteligente de fase desativada."
+        "autoDetectTurnedOff": "Deteção inteligente de fase desativada.",
+        "pointAdded": "{{label}} ({{stage}}) adicionado em {{date}}.",
+        "pointRemoved": "{{label}} ({{stage}}) registado em {{date}} foi removido.",
+        "pointChanged": "{{label}} ({{stage}}) alterado de {{from}} para {{to}}.",
+        "multipleChanges": "{{count}} itens da linha do tempo atualizados.",
+        "stageChangedFromTo": "Fase atual alterada de {{from}} para {{to}}.",
+        "stageChangedInitial": "Fase atual definida como {{to}}."
       }
     },
     "recovery": {

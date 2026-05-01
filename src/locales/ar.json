@@ -325,7 +325,13 @@
         "timelineUpdated": "تم تحديث المخطط الزمني.",
         "stageChanged": "تم تحديث المرحلة الحالية إلى {{stage}}.",
         "autoDetectTurnedOn": "تم تفعيل الاكتشاف التلقائي للمرحلة.",
-        "autoDetectTurnedOff": "تم إيقاف الاكتشاف التلقائي للمرحلة."
+        "autoDetectTurnedOff": "تم إيقاف الاكتشاف التلقائي للمرحلة.",
+        "pointAdded": "أُضيف {{label}} ({{stage}}) في {{date}}.",
+        "pointRemoved": "أُزيل {{label}} ({{stage}}) المسجَّل في {{date}}.",
+        "pointChanged": "تم تعديل {{label}} ({{stage}}) من {{from}} إلى {{to}}.",
+        "multipleChanges": "تم تحديث {{count}} عناصر في المخطط الزمني.",
+        "stageChangedFromTo": "تغيّرت المرحلة الحالية من {{from}} إلى {{to}}.",
+        "stageChangedInitial": "تم ضبط المرحلة الحالية على {{to}}."
       }
     },
     "recovery": {

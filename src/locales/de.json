@@ -9541,7 +9541,13 @@
         "timelineUpdated": "Zeitachse aktualisiert.",
         "stageChanged": "Aktuelle Phase aktualisiert auf {{stage}}.",
         "autoDetectTurnedOn": "Intelligente Phasenerkennung aktiviert.",
-        "autoDetectTurnedOff": "Intelligente Phasenerkennung deaktiviert."
+        "autoDetectTurnedOff": "Intelligente Phasenerkennung deaktiviert.",
+        "pointAdded": "{{label}} ({{stage}}) am {{date}} hinzugefügt.",
+        "pointRemoved": "{{label}} ({{stage}}) vom {{date}} wurde entfernt.",
+        "pointChanged": "{{label}} ({{stage}}) von {{from}} auf {{to}} geändert.",
+        "multipleChanges": "{{count}} Einträge in der Zeitachse aktualisiert.",
+        "stageChangedFromTo": "Aktuelle Phase von {{from}} auf {{to}} geändert.",
+        "stageChangedInitial": "Aktuelle Phase auf {{to}} gesetzt."
       }
     },
     "recovery": {

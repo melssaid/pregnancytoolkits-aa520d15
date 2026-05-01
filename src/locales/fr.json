@@ -9541,7 +9541,13 @@
         "timelineUpdated": "Chronologie mise à jour.",
         "stageChanged": "Étape actuelle mise à jour vers {{stage}}.",
         "autoDetectTurnedOn": "Détection intelligente de l'étape activée.",
-        "autoDetectTurnedOff": "Détection intelligente de l'étape désactivée."
+        "autoDetectTurnedOff": "Détection intelligente de l'étape désactivée.",
+        "pointAdded": "{{label}} ({{stage}}) ajouté le {{date}}.",
+        "pointRemoved": "{{label}} ({{stage}}) enregistré le {{date}} a été retiré.",
+        "pointChanged": "{{label}} ({{stage}}) modifié de {{from}} à {{to}}.",
+        "multipleChanges": "{{count}} éléments de la chronologie mis à jour.",
+        "stageChangedFromTo": "L'étape actuelle est passée de {{from}} à {{to}}.",
+        "stageChangedInitial": "Étape actuelle définie sur {{to}}."
       }
     },
     "recovery": {
