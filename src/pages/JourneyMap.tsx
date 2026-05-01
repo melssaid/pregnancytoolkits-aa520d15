@@ -240,6 +240,9 @@ const JourneyMap = () => {
                 <Card
                   data-stage-card={entry.stage}
                   id={`stage-${entry.stage}`}
+                  role="article"
+                  aria-labelledby={`stage-heading-${entry.stage}`}
+                  aria-current={isActive ? "step" : undefined}
                   className={cn(
                     "relative p-4 rounded-2xl border-border/60 transition-all",
                     isActive && "ring-2 ring-primary/40 shadow-md",
@@ -264,7 +267,7 @@ const JourneyMap = () => {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline justify-between gap-2 flex-wrap">
-                        <h2 className="text-base font-bold text-foreground truncate">
+                        <h2 id={`stage-heading-${entry.stage}`} className="text-base font-bold text-foreground truncate">
                           {stageLabel}
                         </h2>
                         <span
