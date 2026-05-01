@@ -327,6 +327,18 @@ const BabySleepTracker = () => {
           </Card>
         </div>
 
+        {/* Empty state — no sleep sessions yet */}
+        {sessions.length === 0 && (
+          <ToolEmptyState
+            icon={Moon}
+            title={t("tools.empty.babySleep.title")}
+            description={t("tools.empty.babySleep.desc")}
+            ctaLabel={t("tools.empty.babySleep.cta")}
+            ctaDirection="up"
+            onCta={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
+        )}
+
         {/* Sleep Quality */}
         {sleepQuality !== null && (
           <Card>
