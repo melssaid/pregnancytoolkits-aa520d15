@@ -7,7 +7,7 @@
 import { useTranslation } from "react-i18next";
 import { Switch } from "@/components/ui/switch";
 import { Card } from "@/components/ui/card";
-import { Sparkles } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { haptic } from "@/lib/haptics";
 
@@ -28,7 +28,7 @@ export const JourneyAutoDetectToggle = () => {
           aria-hidden
           className="shrink-0 h-9 w-9 rounded-xl flex items-center justify-center bg-primary/10 text-primary"
         >
-          <Sparkles className="h-4 w-4" />
+          <BadgeCheck className="h-4 w-4" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-3">

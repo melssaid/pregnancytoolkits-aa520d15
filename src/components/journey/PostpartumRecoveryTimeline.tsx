@@ -14,22 +14,22 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { Heart, Moon, Sparkles, Sun, TreePine } from "lucide-react";
+import { BedDouble, HeartPulse, Activity, Dumbbell, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Phase = {
   key: string;
   startWeek: number;
   endWeek: number;
-  icon: typeof Heart;
+  icon: typeof BedDouble;
 };
 
 const PHASES: Phase[] = [
-  { key: "rest",      startWeek: 0,  endWeek: 6,  icon: Moon },
-  { key: "healing",   startWeek: 6,  endWeek: 12, icon: Heart },
-  { key: "rhythm",    startWeek: 12, endWeek: 24, icon: Sun },
-  { key: "strength",  startWeek: 24, endWeek: 40, icon: Sparkles },
-  { key: "longTerm",  startWeek: 40, endWeek: 52, icon: TreePine },
+  { key: "rest",      startWeek: 0,  endWeek: 6,  icon: BedDouble },
+  { key: "healing",   startWeek: 6,  endWeek: 12, icon: HeartPulse },
+  { key: "rhythm",    startWeek: 12, endWeek: 24, icon: Activity },
+  { key: "strength",  startWeek: 24, endWeek: 40, icon: Dumbbell },
+  { key: "longTerm",  startWeek: 40, endWeek: 52, icon: Compass },
 ];
 
 /** Resolve current postpartum week from `journeyHistory.postpartum.birthDate`
