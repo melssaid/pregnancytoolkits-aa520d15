@@ -73,6 +73,29 @@ function formatDuration(seconds: number | null) {
   return remainder ? `${minutes}د ${remainder}ث` : `${minutes}د`;
 }
 
+const COUNTRY_NAMES_AR: Record<string, string> = {
+  SA: "السعودية", AE: "الإمارات", EG: "مصر", BH: "البحرين", KW: "الكويت",
+  QA: "قطر", OM: "عُمان", JO: "الأردن", LB: "لبنان", SY: "سوريا",
+  IQ: "العراق", YE: "اليمن", PS: "فلسطين", MA: "المغرب", DZ: "الجزائر",
+  TN: "تونس", LY: "ليبيا", SD: "السودان", US: "الولايات المتحدة",
+  GB: "المملكة المتحدة", CA: "كندا", AU: "أستراليا", DE: "ألمانيا",
+  FR: "فرنسا", ES: "إسبانيا", IT: "إيطاليا", PT: "البرتغال", BR: "البرازيل",
+  TR: "تركيا", IN: "الهند", PK: "باكستان", ID: "إندونيسيا", MY: "ماليزيا",
+  NL: "هولندا", BE: "بلجيكا", SE: "السويد", NO: "النرويج", DK: "الدنمارك",
+  CH: "سويسرا", AT: "النمسا", RU: "روسيا", JP: "اليابان", CN: "الصين",
+  KR: "كوريا الجنوبية", MX: "المكسيك", AR: "الأرجنتين", CL: "تشيلي",
+};
+
+function countryFlag(code: string): string {
+  if (!code || code.length !== 2 || !/^[A-Z]{2}$/.test(code)) return "🌐";
+  const A = 0x1f1e6;
+  return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65);
+}
+
+function countryName(code: string): string {
+  return COUNTRY_NAMES_AR[code] || code;
+}
+
 export default function AdminUsageDashboard() {
   const [stats, setStats] = useState<UsageResponse | null>(null);
   const [loading, setLoading] = useState(true);
