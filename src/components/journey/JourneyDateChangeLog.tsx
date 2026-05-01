@@ -74,6 +74,12 @@ export const JourneyDateChangeLog = () => {
           <Trash2 className="h-3.5 w-3.5" aria-hidden />
         </Button>
       </div>
+      <span id="journey-changelog-status" className="sr-only" aria-live="polite">
+        {t("journey.map.srStatus.changelogCount", {
+          count: entries.length,
+          defaultValue: `${entries.length} edits recorded`,
+        })}
+      </span>
 
       <ul className="mt-3 space-y-2" role="list">
         {entries.slice(0, 8).map((entry) => {
