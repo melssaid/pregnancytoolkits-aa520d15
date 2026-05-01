@@ -75,6 +75,15 @@ export const JourneyAutoDetectToggle = () => {
           </span>
         </div>
       </div>
+      {/* Polite live region announcing toggle changes (assertive for explicit user action). */}
+      <span
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {announcement.replace(/\s\u200B\d+$/, "")}
+      </span>
     </Card>
   );
 };
