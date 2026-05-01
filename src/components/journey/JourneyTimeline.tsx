@@ -375,6 +375,7 @@ export const JourneyTimeline = () => {
           })}
         </ol>
       </div>
+      {LiveRegion}
     </section>
   );
 };
