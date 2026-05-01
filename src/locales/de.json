@@ -9509,7 +9509,8 @@
         "changelog": "Datumsänderungsprotokoll",
         "autodetect": "Automatische Erkennungseinstellungen",
         "stages": "Übersicht der Reiseetappen",
-        "memories": "Gespeicherte Erinnerungen"
+        "memories": "Gespeicherte Erinnerungen",
+        "stagesHint": "Ihre drei Phasen — ansehen oder die aktive wechseln."
       },
       "skip": {
         "nav": "Sprunglinks",

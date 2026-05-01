@@ -293,7 +293,8 @@
         "changelog": "Date change log",
         "autodetect": "Auto-detect settings",
         "stages": "Journey stages overview",
-        "memories": "Saved memories"
+        "memories": "Saved memories",
+        "stagesHint": "Your three stages — review or switch the active one."
       },
       "skip": {
         "nav": "Skip navigation",

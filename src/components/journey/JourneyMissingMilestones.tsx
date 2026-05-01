@@ -182,7 +182,10 @@ export const JourneyMissingMilestones = () => {
           >
             {t("journey.map.missing.title", "Complete your timeline")}
           </h2>
-          <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
+          <p
+            id="journey-milestones-subtitle"
+            className="mt-0.5 text-xs text-muted-foreground leading-relaxed"
+          >
             {t(
               "journey.map.missing.subtitle",
               "Add a few key dates so your timeline reflects your real journey.",

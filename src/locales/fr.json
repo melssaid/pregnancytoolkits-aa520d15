@@ -9509,7 +9509,8 @@
         "changelog": "Journal des modifications de dates",
         "autodetect": "Paramètres de détection automatique",
         "stages": "Aperçu des étapes du parcours",
-        "memories": "Souvenirs enregistrés"
+        "memories": "Souvenirs enregistrés",
+        "stagesHint": "Vos trois étapes — consultez ou changez l'étape active."
       },
       "skip": {
         "nav": "Liens d'évitement",

@@ -9509,7 +9509,8 @@
         "changelog": "Registro de cambios de fechas",
         "autodetect": "Configuración de detección automática",
         "stages": "Resumen de etapas del viaje",
-        "memories": "Recuerdos guardados"
+        "memories": "Recuerdos guardados",
+        "stagesHint": "Tus tres etapas — revísalas o cambia la activa."
       },
       "skip": {
         "nav": "Enlaces de salto",
