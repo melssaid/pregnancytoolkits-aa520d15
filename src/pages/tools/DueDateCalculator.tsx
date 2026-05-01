@@ -181,7 +181,11 @@ export default function DueDateCalculator() {
       >
             <Card>
               <CardContent className="pt-5 space-y-4">
-                    <div className="space-y-2">
+                    <div
+                      ref={lmpFieldRef}
+                      data-focused={lmpPopoverOpen && !lmpDate ? "true" : "false"}
+                      className="space-y-2 scroll-mt-24 rounded-2xl p-1 transition-shadow data-[focused=true]:ring-2 data-[focused=true]:ring-primary/40"
+                    >
                       <Label className="text-xs">{t('toolsInternal.dueDate.lmpLabel')}</Label>
                       <div className="flex gap-2">
                         <Popover open={lmpPopoverOpen} onOpenChange={setLmpPopoverOpen}>
