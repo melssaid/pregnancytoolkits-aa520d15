@@ -50,6 +50,22 @@ export default function DueDateCalculator() {
     userProfile.lastPeriodDate ? new Date(userProfile.lastPeriodDate + "T00:00:00") : undefined
   );
   const [lmpPopoverOpen, setLmpPopoverOpen] = useState(false);
+  const lmpFieldRef = useRef<HTMLDivElement | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Deep-link from JourneyMissingMilestones: focus & open the LMP picker.
+  useEffect(() => {
+    if (searchParams.get("focus") !== "lmp") return;
+    const id = window.setTimeout(() => {
+      lmpFieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setLmpPopoverOpen(true);
+      // Clean the URL so a refresh doesn't re-trigger.
+      const next = new URLSearchParams(searchParams);
+      next.delete("focus");
+      setSearchParams(next, { replace: true });
+    }, 350);
+    return () => window.clearTimeout(id);
+  }, [searchParams, setSearchParams]);
   const [savedDates, setSavedDates] = useState<SavedDueDate[]>([]);
   const [result, setResult] = useState<{
     dueDate: Date;
