@@ -18,7 +18,7 @@
  *   • Keyboard / screen-reader friendly: each marker is a `<button>`
  *     when actionable, otherwise a `<div role="listitem">`.
  */
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CircleDot, Stethoscope, Baby, CalendarDays, CalendarCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -132,6 +132,83 @@ export const JourneyTimeline = () => {
     node?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   }, [points]);
 
+  // ---- Live-region announcements ----
+  // Detect timeline diffs (additions/removals) and stage changes since the
+  // last render, and surface a short polite message to assistive tech.
+  const [liveMessage, setLiveMessage] = useState("");
+  const prevIdsRef = useRef<Set<string> | null>(null);
+  const prevStageRef = useRef<JourneyStage | null>(null);
+
+  useEffect(() => {
+    const currentIds = new Set(points.map((p) => p.id));
+    const prevIds = prevIdsRef.current;
+
+    if (prevIds === null) {
+      // First render — establish baseline silently.
+      prevIdsRef.current = currentIds;
+      prevStageRef.current = profile.journeyStage;
+      return;
+    }
+
+    let added = 0;
+    let removed = 0;
+    currentIds.forEach((id) => {
+      if (!prevIds.has(id)) added += 1;
+    });
+    prevIds.forEach((id) => {
+      if (!currentIds.has(id)) removed += 1;
+    });
+
+    const stageChanged = prevStageRef.current !== profile.journeyStage;
+    const messages: string[] = [];
+
+    if (stageChanged) {
+      messages.push(
+        t("journey.map.srAnnounce.stageChanged", {
+          stage: t(`journey.ribbon.stages.${profile.journeyStage}`),
+          defaultValue: `Current stage updated to ${profile.journeyStage}.`,
+        }),
+      );
+    }
+    if (added > 0) {
+      messages.push(
+        t("journey.map.srAnnounce.timelineAdded", {
+          count: added,
+          defaultValue: `${added} new point(s) added to the timeline.`,
+        }),
+      );
+    }
+    if (removed > 0) {
+      messages.push(
+        t("journey.map.srAnnounce.timelineRemoved", {
+          count: removed,
+          defaultValue: `${removed} point(s) removed from the timeline.`,
+        }),
+      );
+    }
+
+    if (messages.length > 0) {
+      // Append a unique suffix so identical-looking messages still re-announce.
+      setLiveMessage(`${messages.join(" ")} \u200B${Date.now()}`);
+    }
+
+    prevIdsRef.current = currentIds;
+    prevStageRef.current = profile.journeyStage;
+  }, [points, profile.journeyStage, t]);
+
+  // Visually-hidden polite live region that mirrors recent updates.
+  const LiveRegion = (
+    <span
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      className="sr-only"
+    >
+      {/* Strip the cache-busting suffix from what's read aloud */}
+      {liveMessage.replace(/\s\u200B\d+$/, "")}
+    </span>
+  );
+
   if (points.length === 0) {
     return (
       <div
@@ -158,6 +235,7 @@ export const JourneyTimeline = () => {
         <span id="journey-timeline-status" className="sr-only">
           {t("journey.map.srStatus.timelineEmpty", "No points on the timeline yet.")}
         </span>
+        {LiveRegion}
       </div>
     );
   }
@@ -297,6 +375,7 @@ export const JourneyTimeline = () => {
           })}
         </ol>
       </div>
+      {LiveRegion}
     </section>
   );
 };

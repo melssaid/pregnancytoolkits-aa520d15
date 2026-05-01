@@ -9532,6 +9532,16 @@
         "changelogCount_other": "{{count}} değişiklik kaydedildi",
         "autoDetectOn": "Akıllı aşama algılama şu anda açık.",
         "autoDetectOff": "Otomatik algılama kapalı; manuel kontrol etkin."
+      },
+      "srAnnounce": {
+        "timelineAdded_one": "Zaman çizelgesine {{count}} yeni nokta eklendi.",
+        "timelineAdded_other": "Zaman çizelgesine {{count}} yeni nokta eklendi.",
+        "timelineRemoved_one": "Zaman çizelgesinden {{count}} nokta kaldırıldı.",
+        "timelineRemoved_other": "Zaman çizelgesinden {{count}} nokta kaldırıldı.",
+        "timelineUpdated": "Zaman çizelgesi güncellendi.",
+        "stageChanged": "Mevcut aşama {{stage}} olarak güncellendi.",
+        "autoDetectTurnedOn": "Akıllı aşama algılama açıldı.",
+        "autoDetectTurnedOff": "Akıllı aşama algılama kapatıldı."
       }
     },
     "recovery": {

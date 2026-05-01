@@ -316,6 +316,16 @@
         "changelogCount_other": "{{count}} تعديلات مسجلة",
         "autoDetectOn": "الاكتشاف التلقائي للمرحلة مفعّل حالياً.",
         "autoDetectOff": "الاكتشاف التلقائي للمرحلة موقوف؛ التحكم يدوي."
+      },
+      "srAnnounce": {
+        "timelineAdded_one": "أُضيفت {{count}} نقطة جديدة إلى المخطط الزمني.",
+        "timelineAdded_other": "أُضيفت {{count}} نقاط جديدة إلى المخطط الزمني.",
+        "timelineRemoved_one": "أُزيلت {{count}} نقطة من المخطط الزمني.",
+        "timelineRemoved_other": "أُزيلت {{count}} نقاط من المخطط الزمني.",
+        "timelineUpdated": "تم تحديث المخطط الزمني.",
+        "stageChanged": "تم تحديث المرحلة الحالية إلى {{stage}}.",
+        "autoDetectTurnedOn": "تم تفعيل الاكتشاف التلقائي للمرحلة.",
+        "autoDetectTurnedOff": "تم إيقاف الاكتشاف التلقائي للمرحلة."
       }
     },
     "recovery": {

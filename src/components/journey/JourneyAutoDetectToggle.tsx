@@ -4,6 +4,7 @@
  * `dueDate` / `birthDate` / LMP. When OFF, the user keeps full manual
  * control (still possible via the JourneyProgressRibbon / JourneyMap).
  */
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Switch } from "@/components/ui/switch";
 import { Card } from "@/components/ui/card";
@@ -15,10 +16,16 @@ export const JourneyAutoDetectToggle = () => {
   const { t } = useTranslation();
   const { profile, updateProfile } = useUserProfile();
   const enabled = profile.autoStageDetection !== false;
+  const [announcement, setAnnouncement] = useState("");
 
   const handleToggle = (next: boolean) => {
     haptic("tap");
     updateProfile({ autoStageDetection: next });
+    const msg = next
+      ? t("journey.map.srAnnounce.autoDetectTurnedOn", "Smart stage detection turned on.")
+      : t("journey.map.srAnnounce.autoDetectTurnedOff", "Smart stage detection turned off.");
+    // Append a unique suffix so identical messages still re-announce.
+    setAnnouncement(`${msg} \u200B${Date.now()}`);
   };
 
   return (
@@ -68,6 +75,15 @@ export const JourneyAutoDetectToggle = () => {
           </span>
         </div>
       </div>
+      {/* Polite live region announcing toggle changes (assertive for explicit user action). */}
+      <span
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {announcement.replace(/\s\u200B\d+$/, "")}
+      </span>
     </Card>
   );
 };
