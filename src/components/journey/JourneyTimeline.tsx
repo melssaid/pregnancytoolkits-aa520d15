@@ -140,7 +140,7 @@ export const JourneyTimeline = () => {
   // Detect timeline diffs (additions/removals/date edits) and stage changes
   // since the last render, and surface a *specific* polite message naming
   // exactly what changed (which date, which stage, from → to value).
-  const [liveMessage, setLiveMessage] = useState("");
+  const { announce, message: liveMessage } = useJourneyLiveAnnouncer();
   const prevPointsRef = useRef<Map<string, string> | null>(null); // id -> ISO date
   const prevStageRef = useRef<JourneyStage | null>(null);
 
@@ -266,26 +266,17 @@ export const JourneyTimeline = () => {
     }
 
     if (messages.length > 0) {
-      // Append a unique suffix so identical-looking messages still re-announce.
-      setLiveMessage(`${messages.join(" ")} \u200B${Date.now()}`);
+      // Shared announcer handles re-announce + sr-only rendering.
+      announce(messages.join(" "));
     }
 
     prevPointsRef.current = currentMap;
     prevStageRef.current = profile.journeyStage;
-  }, [points, profile.journeyStage, t, i18n.language]);
+  }, [points, profile.journeyStage, t, i18n.language, announce]);
 
-  // Visually-hidden polite live region that mirrors recent updates.
-  const LiveRegion = (
-    <span
-      role="status"
-      aria-live="polite"
-      aria-atomic="true"
-      className="sr-only"
-    >
-      {/* Strip the cache-busting suffix from what's read aloud */}
-      {liveMessage.replace(/\s\u200B\d+$/, "")}
-    </span>
-  );
+  // Shared sr-only live region — kept as a JSX expression so we can drop
+  // it into either the empty or populated branch below.
+  const LiveRegion = <JourneyLiveRegion message={liveMessage} />;
 
   if (points.length === 0) {
     return (
