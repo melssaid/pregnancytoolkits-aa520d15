@@ -101,7 +101,7 @@ export function JourneyMemoriesPanel({ className }: { className?: string }) {
           const inner = (
             <Card
               className={cn(
-                "p-2.5 rounded-2xl border-border/60 flex flex-col items-center justify-center gap-1 text-center",
+                "h-full p-2.5 rounded-2xl border-border/60 flex flex-col items-center justify-center gap-1 text-center",
                 "transition-all hover:shadow-sm",
                 s.href && "hover:border-primary/40",
               )}
@@ -119,13 +119,13 @@ export function JourneyMemoriesPanel({ className }: { className?: string }) {
             <Link
               key={s.key}
               to={s.href}
-              className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-2xl"
+              className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-2xl"
               aria-label={`${t(s.labelKey)}: ${s.value}`}
             >
               {inner}
             </Link>
           ) : (
-            <div key={s.key}>{inner}</div>
+            <div key={s.key} className="h-full">{inner}</div>
           );
         })}
       </div>
