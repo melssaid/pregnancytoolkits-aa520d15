@@ -240,6 +240,9 @@ const JourneyMap = () => {
                 <Card
                   data-stage-card={entry.stage}
                   id={`stage-${entry.stage}`}
+                  role="article"
+                  aria-labelledby={`stage-heading-${entry.stage}`}
+                  aria-current={isActive ? "step" : undefined}
                   className={cn(
                     "relative p-4 rounded-2xl border-border/60 transition-all",
                     isActive && "ring-2 ring-primary/40 shadow-md",
