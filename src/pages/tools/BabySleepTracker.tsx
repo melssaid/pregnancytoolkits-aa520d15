@@ -16,6 +16,7 @@ import { AIResponseFrame } from "@/components/ai/AIResponseFrame";
 import { PrintableReport } from "@/components/PrintableReport";
 import { Progress } from "@/components/ui/progress";
 import { emitDataChange, STORAGE_KEYS } from "@/lib/dataBus";
+import { ToolEmptyState } from "@/components/tools/ToolEmptyState";
 
 interface SleepSession {
   id: string;
