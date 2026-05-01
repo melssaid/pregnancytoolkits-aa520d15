@@ -9510,6 +9510,15 @@
         "autodetect": "Configurações de detecção automática",
         "stages": "Visão geral das fases da jornada",
         "memories": "Memórias salvas"
+      },
+      "skip": {
+        "nav": "Links de salto",
+        "timeline": "Ir para a linha do tempo",
+        "milestones": "Ir para os marcos",
+        "changelog": "Ir para o registro",
+        "autodetect": "Ir para detecção automática",
+        "stages": "Ir para as etapas",
+        "memories": "Ir para as memórias"
       }
     },
     "recovery": {

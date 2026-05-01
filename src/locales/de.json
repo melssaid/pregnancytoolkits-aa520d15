@@ -9510,6 +9510,15 @@
         "autodetect": "Automatische Erkennungseinstellungen",
         "stages": "Übersicht der Reiseetappen",
         "memories": "Gespeicherte Erinnerungen"
+      },
+      "skip": {
+        "nav": "Sprunglinks",
+        "timeline": "Zur Zeitleiste springen",
+        "milestones": "Zu Meilensteinen springen",
+        "changelog": "Zum Änderungsprotokoll",
+        "autodetect": "Zur Auto-Erkennung",
+        "stages": "Zu den Phasen",
+        "memories": "Zu den Erinnerungen"
       }
     },
     "recovery": {

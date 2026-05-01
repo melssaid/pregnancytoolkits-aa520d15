@@ -294,6 +294,15 @@
         "autodetect": "Auto-detect settings",
         "stages": "Journey stages overview",
         "memories": "Saved memories"
+      },
+      "skip": {
+        "nav": "Skip navigation",
+        "timeline": "Skip to timeline",
+        "milestones": "Skip to milestones",
+        "changelog": "Skip to change log",
+        "autodetect": "Skip to auto-detect",
+        "stages": "Skip to stages",
+        "memories": "Skip to memories"
       }
     },
     "recovery": {

@@ -9510,6 +9510,15 @@
         "autodetect": "Paramètres de détection automatique",
         "stages": "Aperçu des étapes du parcours",
         "memories": "Souvenirs enregistrés"
+      },
+      "skip": {
+        "nav": "Liens d'évitement",
+        "timeline": "Aller à la chronologie",
+        "milestones": "Aller aux étapes",
+        "changelog": "Aller au journal",
+        "autodetect": "Aller à la détection auto",
+        "stages": "Aller aux étapes du parcours",
+        "memories": "Aller aux souvenirs"
       }
     },
     "recovery": {
