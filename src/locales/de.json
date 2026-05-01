@@ -9448,6 +9448,18 @@
           "pregnancyStart": "Wann hast du begonnen, deine Schwangerschaft zu verfolgen?",
           "fertilityStart": "Wann begann deine Vorbereitung auf die Schwangerschaft?"
         }
+      },
+      "changeLog": {
+        "title": "Verlauf der Datumsänderungen",
+        "subtitle": "Letzte Aktualisierungen deiner wichtigsten Daten",
+        "added": "Hinzugefügt",
+        "cleared": "Entfernt",
+        "empty": "Nicht festgelegt",
+        "clear": "Verlauf löschen",
+        "more": "und {{count}} weitere Einträge",
+        "fields": {
+          "lastPeriodDate": "Erster Tag der letzten Periode"
+        }
       }
     },
     "recovery": {

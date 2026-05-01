@@ -9448,6 +9448,18 @@
           "pregnancyStart": "Quand avez-vous commencé à suivre votre grossesse ?",
           "fertilityStart": "Quand votre préparation à la grossesse a-t-elle commencé ?"
         }
+      },
+      "changeLog": {
+        "title": "Historique des modifications de dates",
+        "subtitle": "Dernières mises à jour de vos dates clés",
+        "added": "Ajouté",
+        "cleared": "Effacé",
+        "empty": "Non défini",
+        "clear": "Effacer l'historique",
+        "more": "et {{count}} autres entrées",
+        "fields": {
+          "lastPeriodDate": "Premier jour des dernières règles"
+        }
       }
     },
     "recovery": {

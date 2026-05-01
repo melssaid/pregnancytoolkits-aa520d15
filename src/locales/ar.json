@@ -268,6 +268,18 @@
           "pregnancyStart": "متى بدأتِ تتبّع الحمل؟",
           "fertilityStart": "متى بدأتِ مرحلة التحضير للحمل؟"
         }
+      },
+      "changeLog": {
+        "title": "سجل تغييرات التواريخ",
+        "subtitle": "آخر التحديثات على تواريخك الأساسية",
+        "added": "أُضيف",
+        "cleared": "حُذف",
+        "empty": "غير محدد",
+        "clear": "مسح السجل",
+        "more": "و {{count}} إدخال آخر",
+        "fields": {
+          "lastPeriodDate": "أول يوم في آخر دورة"
+        }
       }
     },
     "recovery": {
