@@ -317,23 +317,23 @@ const SmartDashboard = () => {
 
           {/* Tab contents */}
           <div className="container px-3 sm:px-4 pt-4">
-            <TabsContent value="today" className="mt-0">
+            <TabsContent value="today" className="mt-0 data-[state=active]:animate-in data-[state=active]:fade-in-50 data-[state=active]:slide-in-from-bottom-1 data-[state=active]:duration-300">
               <TodayTab />
             </TabsContent>
 
-            <TabsContent value="insights" className="mt-0">
+            <TabsContent value="insights" className="mt-0 data-[state=active]:animate-in data-[state=active]:fade-in-50 data-[state=active]:slide-in-from-bottom-1 data-[state=active]:duration-300">
               <Suspense fallback={<DashboardTabSkeleton tab="insights" />}>
                 <InsightsTab />
               </Suspense>
             </TabsContent>
 
-            <TabsContent value="archive" className="mt-0">
+            <TabsContent value="archive" className="mt-0 data-[state=active]:animate-in data-[state=active]:fade-in-50 data-[state=active]:slide-in-from-bottom-1 data-[state=active]:duration-300">
               <Suspense fallback={<DashboardTabSkeleton tab="archive" />}>
                 <ArchiveTab />
               </Suspense>
             </TabsContent>
 
-            <TabsContent value="more" className="mt-0">
+            <TabsContent value="more" className="mt-0 data-[state=active]:animate-in data-[state=active]:fade-in-50 data-[state=active]:slide-in-from-bottom-1 data-[state=active]:duration-300">
               <Suspense fallback={<DashboardTabSkeleton tab="more" />}>
                 <MoreTab />
               </Suspense>
