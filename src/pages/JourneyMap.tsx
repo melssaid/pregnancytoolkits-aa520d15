@@ -267,7 +267,7 @@ const JourneyMap = () => {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline justify-between gap-2 flex-wrap">
-                        <h2 className="text-base font-bold text-foreground truncate">
+                        <h2 id={`stage-heading-${entry.stage}`} className="text-base font-bold text-foreground truncate">
                           {stageLabel}
                         </h2>
                         <span
