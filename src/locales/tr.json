@@ -9509,7 +9509,8 @@
         "changelog": "Tarih değişiklik günlüğü",
         "autodetect": "Otomatik algılama ayarları",
         "stages": "Yolculuk aşamalarına genel bakış",
-        "memories": "Kayıtlı anılar"
+        "memories": "Kayıtlı anılar",
+        "stagesHint": "Üç aşamanız — inceleyin veya aktif olanı değiştirin."
       },
       "skip": {
         "nav": "Atlama bağlantıları",

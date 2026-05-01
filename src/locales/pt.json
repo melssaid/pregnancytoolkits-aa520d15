@@ -9509,7 +9509,8 @@
         "changelog": "Registro de alterações de datas",
         "autodetect": "Configurações de detecção automática",
         "stages": "Visão geral das fases da jornada",
-        "memories": "Memórias salvas"
+        "memories": "Memórias salvas",
+        "stagesHint": "Suas três etapas — revise ou altere a ativa."
       },
       "skip": {
         "nav": "Links de salto",
