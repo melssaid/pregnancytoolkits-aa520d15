@@ -379,6 +379,7 @@ Deno.serve(async (req) => {
       daily,
       dailyTotals: totals,
       pushSubscriptions,
+      countriesLast24h,
     });
   } catch (error) {
     console.error("[app-usage-stats]", error);
