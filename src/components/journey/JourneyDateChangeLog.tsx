@@ -119,6 +119,9 @@ export const JourneyDateChangeLog = () => {
                       className={cn("h-3 w-3 shrink-0", isRTL && "rotate-180")}
                       aria-hidden
                     />
+                    <span className="sr-only">
+                      {t("journey.map.changeLog.changedTo", "changed to")}
+                    </span>
                     <span className="text-foreground/90 font-semibold">
                       {fmtDate(entry.next)}
                     </span>
