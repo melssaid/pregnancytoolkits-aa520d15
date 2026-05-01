@@ -333,6 +333,26 @@ Deno.serve(async (req) => {
       { dau: 0, pageViews: 0, pwaInstalls: 0, appOpens: 0 },
     );
 
+    // ===== Countries last 24h (derived from locale region, e.g. ar-BH → BH) =====
+    const last24hIso = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+    const countryCounts = new Map<string, { country: string; sessions: Set<string>; langs: Set<string> }>();
+    for (const row of rows) {
+      if (row.action_type !== "session_start") continue;
+      if (row.created_at < last24hIso) continue;
+      const lang = extractLang(row); // e.g. "ar-BH" or "en"
+      const parts = lang.split("-");
+      const country = parts.length >= 2 && parts[1] ? parts[1].toUpperCase() : "??";
+      if (!countryCounts.has(country)) {
+        countryCounts.set(country, { country, sessions: new Set(), langs: new Set() });
+      }
+      const entry = countryCounts.get(country)!;
+      entry.sessions.add(row.session_id);
+      entry.langs.add(lang);
+    }
+    const countriesLast24h = Array.from(countryCounts.values())
+      .map((e) => ({ country: e.country, sessions: e.sessions.size, langs: Array.from(e.langs) }))
+      .sort((a, b) => b.sessions - a.sessions);
+
     // ===== Push subscriptions distribution =====
     const pushRows = (pushData || []) as Array<{ user_language: string }>;
     const pushByLang: Record<string, number> = {};
@@ -359,6 +379,7 @@ Deno.serve(async (req) => {
       daily,
       dailyTotals: totals,
       pushSubscriptions,
+      countriesLast24h,
     });
   } catch (error) {
     console.error("[app-usage-stats]", error);

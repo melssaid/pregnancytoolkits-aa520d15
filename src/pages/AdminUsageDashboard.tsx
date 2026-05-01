@@ -38,6 +38,7 @@ interface UsageResponse {
   daily: { date: string; dau: number; pageViews: number; pwaInstalls: number; appOpens: number }[];
   dailyTotals: { dau: number; pageViews: number; pwaInstalls: number; appOpens: number };
   pushSubscriptions: { total: number; byLanguage: { lang: string; count: number }[] };
+  countriesLast24h: { country: string; sessions: number; langs: string[] }[];
   sessionDebug: {
     sessionId: string;
     bucket: Exclude<SegmentKey, "combined">;
@@ -70,6 +71,29 @@ function formatDuration(seconds: number | null) {
   const minutes = Math.floor(seconds / 60);
   const remainder = seconds % 60;
   return remainder ? `${minutes}د ${remainder}ث` : `${minutes}د`;
+}
+
+const COUNTRY_NAMES_AR: Record<string, string> = {
+  SA: "السعودية", AE: "الإمارات", EG: "مصر", BH: "البحرين", KW: "الكويت",
+  QA: "قطر", OM: "عُمان", JO: "الأردن", LB: "لبنان", SY: "سوريا",
+  IQ: "العراق", YE: "اليمن", PS: "فلسطين", MA: "المغرب", DZ: "الجزائر",
+  TN: "تونس", LY: "ليبيا", SD: "السودان", US: "الولايات المتحدة",
+  GB: "المملكة المتحدة", CA: "كندا", AU: "أستراليا", DE: "ألمانيا",
+  FR: "فرنسا", ES: "إسبانيا", IT: "إيطاليا", PT: "البرتغال", BR: "البرازيل",
+  TR: "تركيا", IN: "الهند", PK: "باكستان", ID: "إندونيسيا", MY: "ماليزيا",
+  NL: "هولندا", BE: "بلجيكا", SE: "السويد", NO: "النرويج", DK: "الدنمارك",
+  CH: "سويسرا", AT: "النمسا", RU: "روسيا", JP: "اليابان", CN: "الصين",
+  KR: "كوريا الجنوبية", MX: "المكسيك", AR: "الأرجنتين", CL: "تشيلي",
+};
+
+function countryFlag(code: string): string {
+  if (!code || code.length !== 2 || !/^[A-Z]{2}$/.test(code)) return "🌐";
+  const A = 0x1f1e6;
+  return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65);
+}
+
+function countryName(code: string): string {
+  return COUNTRY_NAMES_AR[code] || code;
 }
 
 export default function AdminUsageDashboard() {
@@ -238,6 +262,39 @@ export default function AdminUsageDashboard() {
                             <Line type="monotone" dataKey="pwaInstalls" name="تثبيتات" stroke="hsl(140 60% 45%)" strokeWidth={2} dot={{ r: 2 }} />
                           </LineChart>
                         </ResponsiveContainer>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-bold text-foreground flex items-center gap-2">
+                          <Globe className="h-4 w-4 text-primary" />
+                          الدول التي دخلت التطبيق — آخر 24 ساعة
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        {!stats.countriesLast24h || stats.countriesLast24h.length === 0 ? (
+                          <div className="text-xs text-muted-foreground">لا توجد جلسات في آخر 24 ساعة.</div>
+                        ) : (
+                          <>
+                            <div className="flex items-center justify-between rounded-xl bg-primary/5 px-3 py-2 mb-2">
+                              <span className="text-[11px] font-semibold text-muted-foreground">إجمالي الدول</span>
+                              <span className="text-sm font-black text-primary">{stats.countriesLast24h.length}</span>
+                            </div>
+                            {stats.countriesLast24h.map((item) => (
+                              <div key={item.country} className="flex items-center justify-between rounded-xl border border-border bg-card px-3 py-2.5">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <span className="text-lg leading-none shrink-0">{countryFlag(item.country)}</span>
+                                  <div className="flex flex-col min-w-0">
+                                    <span className="text-xs font-semibold text-foreground truncate">{countryName(item.country)}</span>
+                                    <span className="text-[10px] text-muted-foreground">{item.country} • {item.langs.join(", ")}</span>
+                                  </div>
+                                </div>
+                                <span className="text-sm font-black text-primary shrink-0">{item.sessions}</span>
+                              </div>
+                            ))}
+                          </>
+                        )}
                       </CardContent>
                     </Card>
 
