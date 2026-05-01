@@ -55,7 +55,10 @@ export const JourneyDateChangeLog = () => {
             >
               {t("journey.map.changeLog.title", "Date change history")}
             </h3>
-            <p className="text-[11px] text-muted-foreground">
+            <p
+              id="journey-changelog-subtitle"
+              className="text-[11px] text-muted-foreground"
+            >
               {t("journey.map.changeLog.subtitle", "Recent updates to your key dates")}
             </p>
           </div>
