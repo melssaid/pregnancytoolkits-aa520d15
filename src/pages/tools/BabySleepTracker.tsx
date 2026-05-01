@@ -16,6 +16,7 @@ import { AIResponseFrame } from "@/components/ai/AIResponseFrame";
 import { PrintableReport } from "@/components/PrintableReport";
 import { Progress } from "@/components/ui/progress";
 import { emitDataChange, STORAGE_KEYS } from "@/lib/dataBus";
+import { ToolEmptyState } from "@/components/tools/ToolEmptyState";
 
 interface SleepSession {
   id: string;
@@ -325,6 +326,18 @@ const BabySleepTracker = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Empty state — no sleep sessions yet */}
+        {sessions.length === 0 && (
+          <ToolEmptyState
+            icon={Moon}
+            title={t("tools.empty.babySleep.title")}
+            description={t("tools.empty.babySleep.desc")}
+            ctaLabel={t("tools.empty.babySleep.cta")}
+            ctaDirection="up"
+            onCta={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
+        )}
 
         {/* Sleep Quality */}
         {sleepQuality !== null && (

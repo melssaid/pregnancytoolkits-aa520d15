@@ -451,6 +451,38 @@
     "diaperTracker": {
       "title": "Akıllı Bez Kaydı",
       "description": "İstatistikler ve uyarılarla akıllı günlük bez kaydı."
+    },
+    "empty": {
+      "kickCounter": {
+        "title": "Henüz tekme oturumu yok",
+        "desc": "İlk hareketi hissettiğinde yukarıdaki büyük tekme düğmesine dokunarak oturumu başlat.",
+        "cta": "Oturum başlat"
+      },
+      "contractions": {
+        "title": "Kayıtlı kasılma yok",
+        "desc": "Bir kasılma hissettiğinde Başlat'a dokun. Süre ve aralıklar otomatik ölçülür.",
+        "cta": "Zamanlamayı başlat"
+      },
+      "babySleep": {
+        "title": "Henüz uyku kaydı yok",
+        "desc": "Haftalık grafikleri ve akıllı önerileri açmak için bir uyku oturumu kaydet.",
+        "cta": "Şekerleme kaydet"
+      },
+      "diaper": {
+        "title": "Henüz bez değişimi yok",
+        "desc": "Bebeğinin günlük düzenini izlemek için yukarıdan bez tipine dokun.",
+        "cta": "İlk değişimi kaydet"
+      },
+      "weight": {
+        "title": "Henüz kilo kaydı yok",
+        "desc": "Haftalık eğriyi ve sağlıklı aralık karşılaştırmasını başlatmak için mevcut kilonu ekle.",
+        "cta": "İlk kaydı ekle"
+      },
+      "vitamins": {
+        "title": "Henüz vitamin kaydı yok",
+        "desc": "Bugünün vitaminlerini işaretle, serini oluştur ve akıllı hatırlatmaları aç.",
+        "cta": "Bugünkü dozu kaydet"
+      }
     }
   },
   "dashboard": {

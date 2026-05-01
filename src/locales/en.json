@@ -630,6 +630,38 @@
     "lactationPrep": {
       "title": "Breastfeeding Preparation",
       "description": "Essential guide for feeding your newborn with confidence."
+    },
+    "empty": {
+      "kickCounter": {
+        "title": "No kick session yet",
+        "desc": "Tap the large kick button above when you feel the first movement to start your session.",
+        "cta": "Start a session"
+      },
+      "contractions": {
+        "title": "No contractions logged",
+        "desc": "Tap Start when you feel a contraction. The timer will track duration and intervals for you.",
+        "cta": "Start timing"
+      },
+      "babySleep": {
+        "title": "No sleep recorded yet",
+        "desc": "Log a sleep session to unlock weekly charts and smart sleep recommendations.",
+        "cta": "Log a nap"
+      },
+      "diaper": {
+        "title": "No diaper changes yet",
+        "desc": "Tap a diaper type above to start tracking your baby's daily pattern.",
+        "cta": "Log first change"
+      },
+      "weight": {
+        "title": "No weight entries yet",
+        "desc": "Add your current weight to start the weekly curve and healthy-range comparison.",
+        "cta": "Add first entry"
+      },
+      "vitamins": {
+        "title": "No vitamin doses logged yet",
+        "desc": "Mark today's vitamins to build your streak and unlock smart reminders.",
+        "cta": "Log today's dose"
+      }
     }
   },
   "dashboard": {

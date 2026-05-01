@@ -451,6 +451,38 @@
     "diaperTracker": {
       "title": "Registro Inteligente de Fraldas",
       "description": "Registro diário inteligente de fraldas com estatísticas e alertas."
+    },
+    "empty": {
+      "kickCounter": {
+        "title": "Sem sessão de chutes ainda",
+        "desc": "Toque no botão grande acima ao sentir o primeiro movimento para iniciar a sessão.",
+        "cta": "Iniciar sessão"
+      },
+      "contractions": {
+        "title": "Sem contrações registradas",
+        "desc": "Toque em Iniciar ao sentir uma contração. O cronômetro mede duração e intervalos.",
+        "cta": "Iniciar cronômetro"
+      },
+      "babySleep": {
+        "title": "Sem sono registrado ainda",
+        "desc": "Registre uma sessão de sono para liberar gráficos semanais e recomendações inteligentes.",
+        "cta": "Registrar soneca"
+      },
+      "diaper": {
+        "title": "Sem trocas de fralda ainda",
+        "desc": "Toque em um tipo de fralda acima para começar a acompanhar o padrão diário do bebê.",
+        "cta": "Registrar primeira troca"
+      },
+      "weight": {
+        "title": "Sem registros de peso ainda",
+        "desc": "Adicione seu peso atual para iniciar a curva semanal e a comparação saudável.",
+        "cta": "Adicionar primeiro registro"
+      },
+      "vitamins": {
+        "title": "Sem doses de vitaminas registradas",
+        "desc": "Marque as vitaminas de hoje para construir sua sequência e ativar lembretes.",
+        "cta": "Registrar dose de hoje"
+      }
     }
   },
   "dashboard": {

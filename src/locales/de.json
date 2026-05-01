@@ -451,6 +451,38 @@
     "diaperTracker": {
       "title": "Intelligentes Windelprotokoll",
       "description": "Intelligentes tägliches Windelprotokoll mit Statistiken und Warnungen."
+    },
+    "empty": {
+      "kickCounter": {
+        "title": "Noch keine Kick-Sitzung",
+        "desc": "Tippe oben auf die große Tritt-Taste, sobald du die erste Bewegung spürst.",
+        "cta": "Sitzung starten"
+      },
+      "contractions": {
+        "title": "Keine Kontraktionen erfasst",
+        "desc": "Tippe auf Start, wenn du eine Kontraktion spürst. Dauer und Abstand werden automatisch berechnet.",
+        "cta": "Timing starten"
+      },
+      "babySleep": {
+        "title": "Noch kein Schlaf erfasst",
+        "desc": "Erfasse eine Schlafsitzung, um Wochendiagramme und smarte Empfehlungen freizuschalten.",
+        "cta": "Schlaf erfassen"
+      },
+      "diaper": {
+        "title": "Noch keine Windelwechsel",
+        "desc": "Tippe oben auf einen Windel-Typ, um den Tagesrhythmus deines Babys zu verfolgen.",
+        "cta": "Ersten Wechsel erfassen"
+      },
+      "weight": {
+        "title": "Noch keine Gewichtseinträge",
+        "desc": "Füge dein aktuelles Gewicht hinzu, um die Wochenkurve und den Vergleich zu starten.",
+        "cta": "Ersten Eintrag hinzufügen"
+      },
+      "vitamins": {
+        "title": "Noch keine Vitamine erfasst",
+        "desc": "Markiere die heutigen Vitamine, um deine Serie aufzubauen.",
+        "cta": "Heute eintragen"
+      }
     }
   },
   "dashboard": {

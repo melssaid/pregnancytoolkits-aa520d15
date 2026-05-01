@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { KickService } from '@/services/localStorageServices';
 import { ToolFrame } from '@/components/ToolFrame';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ToolEmptyState } from '@/components/tools/ToolEmptyState';
 
 
 import { useUserProfile } from '@/hooks/useUserProfile';
@@ -427,6 +428,18 @@ const SmartKickCounter: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* ═══ Empty state — no past sessions yet, gentle nudge to start ═══ */}
+        {history.length === 0 && !isActive && (
+          <ToolEmptyState
+            icon={Baby}
+            title={t('tools.empty.kickCounter.title')}
+            description={t('tools.empty.kickCounter.desc')}
+            ctaLabel={t('tools.empty.kickCounter.cta')}
+            ctaDirection="up"
+            onCta={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          />
+        )}
 
         {/* ═══ 2. Movement Score + Quick Stats — summary of past sessions,
                   shown AFTER the counter so the primary action is unobstructed ═══ */}
