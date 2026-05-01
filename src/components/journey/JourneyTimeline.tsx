@@ -18,7 +18,7 @@
  *   • Keyboard / screen-reader friendly: each marker is a `<button>`
  *     when actionable, otherwise a `<div role="listitem">`.
  */
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CircleDot, Stethoscope, Baby, CalendarDays, CalendarCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
