@@ -9541,7 +9541,13 @@
         "timelineUpdated": "Zaman çizelgesi güncellendi.",
         "stageChanged": "Mevcut aşama {{stage}} olarak güncellendi.",
         "autoDetectTurnedOn": "Akıllı aşama algılama açıldı.",
-        "autoDetectTurnedOff": "Akıllı aşama algılama kapatıldı."
+        "autoDetectTurnedOff": "Akıllı aşama algılama kapatıldı.",
+        "pointAdded": "{{label}} ({{stage}}) {{date}} tarihine eklendi.",
+        "pointRemoved": "{{date}} tarihindeki {{label}} ({{stage}}) kaldırıldı.",
+        "pointChanged": "{{label}} ({{stage}}) {{from}} tarihinden {{to}} tarihine değiştirildi.",
+        "multipleChanges": "{{count}} zaman çizelgesi öğesi güncellendi.",
+        "stageChangedFromTo": "Mevcut aşama {{from}} aşamasından {{to}} aşamasına değişti.",
+        "stageChangedInitial": "Mevcut aşama {{to}} olarak ayarlandı."
       }
     },
     "recovery": {

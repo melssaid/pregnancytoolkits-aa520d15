@@ -9541,7 +9541,13 @@
         "timelineUpdated": "Línea de tiempo actualizada.",
         "stageChanged": "Etapa actual actualizada a {{stage}}.",
         "autoDetectTurnedOn": "Detección inteligente de etapa activada.",
-        "autoDetectTurnedOff": "Detección inteligente de etapa desactivada."
+        "autoDetectTurnedOff": "Detección inteligente de etapa desactivada.",
+        "pointAdded": "{{label}} ({{stage}}) añadido el {{date}}.",
+        "pointRemoved": "{{label}} ({{stage}}) registrado el {{date}} fue eliminado.",
+        "pointChanged": "{{label}} ({{stage}}) cambió de {{from}} a {{to}}.",
+        "multipleChanges": "{{count}} elementos de la línea de tiempo actualizados.",
+        "stageChangedFromTo": "La etapa actual cambió de {{from}} a {{to}}.",
+        "stageChangedInitial": "Etapa actual establecida en {{to}}."
       }
     },
     "recovery": {
