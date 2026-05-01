@@ -20,6 +20,7 @@ import { WeeklyGoalCard } from '@/components/weight-gain/WeeklyGoalCard';
 import { TrimesterComparison } from '@/components/weight-gain/TrimesterComparison';
 import { WeightDistributionCard } from '@/components/weight-gain/WeightDistributionCard';
 import { MedicalTipCard } from '@/components/weight-gain/MedicalTipCard';
+import { ToolEmptyState } from '@/components/tools/ToolEmptyState';
 
 // ═══════════════════════════════════════════════════════════════
 // Types & Storage
@@ -414,9 +415,14 @@ Provide personalized advice with: 1) Assessment 2) Nutritional tips 3) Exercise 
           </CardHeader>
           <CardContent>
             {entries.length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-4">
-                {t('toolsInternal.weightGain.noEntries', 'No weight entries yet. Add your first one above.')}
-              </p>
+              <ToolEmptyState
+                icon={Gauge}
+                title={t('tools.empty.weight.title')}
+                description={t('tools.empty.weight.desc')}
+                ctaLabel={t('tools.empty.weight.cta')}
+                ctaDirection="up"
+                onCta={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              />
             ) : (
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {[...entries].sort((a, b) => b.week - a.week).map(entry => (
