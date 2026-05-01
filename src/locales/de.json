@@ -9532,6 +9532,16 @@
         "changelogCount_other": "{{count}} Änderungen aufgezeichnet",
         "autoDetectOn": "Intelligente Phasenerkennung ist aktiviert.",
         "autoDetectOff": "Phasenerkennung ist aus; manuelle Steuerung aktiv."
+      },
+      "srAnnounce": {
+        "timelineAdded_one": "{{count}} neuer Punkt zur Zeitachse hinzugefügt.",
+        "timelineAdded_other": "{{count}} neue Punkte zur Zeitachse hinzugefügt.",
+        "timelineRemoved_one": "{{count}} Punkt aus der Zeitachse entfernt.",
+        "timelineRemoved_other": "{{count}} Punkte aus der Zeitachse entfernt.",
+        "timelineUpdated": "Zeitachse aktualisiert.",
+        "stageChanged": "Aktuelle Phase aktualisiert auf {{stage}}.",
+        "autoDetectTurnedOn": "Intelligente Phasenerkennung aktiviert.",
+        "autoDetectTurnedOff": "Intelligente Phasenerkennung deaktiviert."
       }
     },
     "recovery": {

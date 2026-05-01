@@ -316,6 +316,16 @@
         "changelogCount_other": "{{count}} edits recorded",
         "autoDetectOn": "Smart stage detection is currently on.",
         "autoDetectOff": "Smart stage detection is off; you control the stage manually."
+      },
+      "srAnnounce": {
+        "timelineAdded_one": "{{count}} new point added to the timeline.",
+        "timelineAdded_other": "{{count}} new points added to the timeline.",
+        "timelineRemoved_one": "{{count}} point removed from the timeline.",
+        "timelineRemoved_other": "{{count}} points removed from the timeline.",
+        "timelineUpdated": "Timeline updated.",
+        "stageChanged": "Current stage updated to {{stage}}.",
+        "autoDetectTurnedOn": "Smart stage detection turned on.",
+        "autoDetectTurnedOff": "Smart stage detection turned off."
       }
     },
     "recovery": {

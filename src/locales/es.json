@@ -9532,6 +9532,16 @@
         "changelogCount_other": "{{count}} cambios registrados",
         "autoDetectOn": "La detección inteligente de etapa está activada.",
         "autoDetectOff": "La detección de etapa está desactivada; control manual."
+      },
+      "srAnnounce": {
+        "timelineAdded_one": "Se añadió {{count}} punto nuevo a la línea de tiempo.",
+        "timelineAdded_other": "Se añadieron {{count}} puntos nuevos a la línea de tiempo.",
+        "timelineRemoved_one": "Se eliminó {{count}} punto de la línea de tiempo.",
+        "timelineRemoved_other": "Se eliminaron {{count}} puntos de la línea de tiempo.",
+        "timelineUpdated": "Línea de tiempo actualizada.",
+        "stageChanged": "Etapa actual actualizada a {{stage}}.",
+        "autoDetectTurnedOn": "Detección inteligente de etapa activada.",
+        "autoDetectTurnedOff": "Detección inteligente de etapa desactivada."
       }
     },
     "recovery": {

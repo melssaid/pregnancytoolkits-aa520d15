@@ -9532,6 +9532,16 @@
         "changelogCount_other": "{{count}} modifications enregistrées",
         "autoDetectOn": "La détection intelligente de l'étape est activée.",
         "autoDetectOff": "La détection automatique est désactivée ; contrôle manuel."
+      },
+      "srAnnounce": {
+        "timelineAdded_one": "{{count}} nouveau point ajouté à la chronologie.",
+        "timelineAdded_other": "{{count}} nouveaux points ajoutés à la chronologie.",
+        "timelineRemoved_one": "{{count}} point retiré de la chronologie.",
+        "timelineRemoved_other": "{{count}} points retirés de la chronologie.",
+        "timelineUpdated": "Chronologie mise à jour.",
+        "stageChanged": "Étape actuelle mise à jour vers {{stage}}.",
+        "autoDetectTurnedOn": "Détection intelligente de l'étape activée.",
+        "autoDetectTurnedOff": "Détection intelligente de l'étape désactivée."
       }
     },
     "recovery": {

@@ -9532,6 +9532,16 @@
         "changelogCount_other": "{{count}} alterações registadas",
         "autoDetectOn": "A deteção inteligente de fase está ativada.",
         "autoDetectOff": "A deteção automática está desativada; controlo manual."
+      },
+      "srAnnounce": {
+        "timelineAdded_one": "{{count}} novo ponto adicionado à linha do tempo.",
+        "timelineAdded_other": "{{count}} novos pontos adicionados à linha do tempo.",
+        "timelineRemoved_one": "{{count}} ponto removido da linha do tempo.",
+        "timelineRemoved_other": "{{count}} pontos removidos da linha do tempo.",
+        "timelineUpdated": "Linha do tempo atualizada.",
+        "stageChanged": "Fase atual atualizada para {{stage}}.",
+        "autoDetectTurnedOn": "Deteção inteligente de fase ativada.",
+        "autoDetectTurnedOff": "Deteção inteligente de fase desativada."
       }
     },
     "recovery": {
