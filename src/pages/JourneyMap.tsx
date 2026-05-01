@@ -370,7 +370,7 @@ const JourneyMap = () => {
           <h2 id="journey-memories-heading" className="sr-only">
             {t("journey.map.regions.memories", "Saved memories")}
           </h2>
-          <section aria-labelledby="journey-memories-heading">
+          <section id="journey-memories-section" aria-labelledby="journey-memories-heading">
             <JourneyMemoriesPanel />
           </section>
         </div>
