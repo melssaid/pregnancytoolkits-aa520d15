@@ -55,7 +55,7 @@ export const TodayTab = memo(function TodayTab() {
   const isBrandNew = !isPregnant && !dataCheck.hasAnyData;
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-4 sm:space-y-5 pb-6">
       <TodayStoryHero />
 
       <RiskAlertCard

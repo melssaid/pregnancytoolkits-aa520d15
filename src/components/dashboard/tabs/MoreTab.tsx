@@ -21,7 +21,7 @@ export const MoreTab = memo(function MoreTab() {
   const { profile, isPregnant, dataCheck } = useDashboardData();
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-4 sm:space-y-5 pb-6">
       {isPregnant && <DoctorVisitPrepCard />}
       {isPregnant && <PartnerSummaryCard />}
       {isPregnant && profile.pregnancyWeek >= 32 && dataCheck.hasContractions && <ContractionSummaryCard />}

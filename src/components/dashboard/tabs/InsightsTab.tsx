@@ -86,7 +86,7 @@ export const InsightsTab = memo(function InsightsTab() {
     dataCheck.hasRecentActivity;
 
   return (
-    <div className="space-y-6 pb-6">
+    <div className="space-y-4 sm:space-y-5 pb-6">
       {/* ───── A · OVERVIEW ───── */}
       <Section
         icon={Gauge}

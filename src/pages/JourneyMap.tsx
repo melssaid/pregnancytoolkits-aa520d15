@@ -209,23 +209,15 @@ const JourneyMap = () => {
           </div>
         </header>
 
-        <div className="container px-3 sm:px-4 mt-3">
+        {/* Unified container — single padding/gap rhythm matching SmartDashboard tabs.
+            All sections share px-3 sm:px-4 horizontally and space-y-4 sm:space-y-5 vertically. */}
+        <div className="container px-3 sm:px-4 mt-3 space-y-4 sm:space-y-5 pb-6">
           <JourneyTimeline />
-        </div>
-
-        <div className="container px-3 sm:px-4 mt-3">
           <JourneyMissingMilestones />
-        </div>
-
-        <div className="container px-3 sm:px-4 mt-3">
           <JourneyDateChangeLog />
-        </div>
-
-        <div className="container px-3 sm:px-4 mt-3">
           <JourneyAutoDetectToggle />
-        </div>
 
-        <section className="container px-3 sm:px-4 mt-3 space-y-3">
+          <section className="space-y-4 sm:space-y-5">
           {entries.map((entry, idx) => {
             const Icon = STAGE_ICONS[entry.stage];
             const isActive = entry.stage === profile.journeyStage;
@@ -336,9 +328,8 @@ const JourneyMap = () => {
               </motion.div>
             );
           })}
-        </section>
+          </section>
 
-        <div className="container px-3 sm:px-4 mt-5">
           <JourneyMemoriesPanel />
         </div>
       </main>
