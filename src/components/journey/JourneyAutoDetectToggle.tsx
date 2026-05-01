@@ -44,7 +44,7 @@ export const JourneyAutoDetectToggle = () => {
               checked={enabled}
               onCheckedChange={handleToggle}
               aria-label={t("journey.map.autoDetect.title", "Smart stage detection")}
-              aria-describedby="journey-autodetect-subtitle"
+              aria-describedby="journey-autodetect-subtitle journey-autodetect-status"
             />
           </div>
           <p
@@ -61,6 +61,11 @@ export const JourneyAutoDetectToggle = () => {
                   "Auto-detection is off. You control your stage manually.",
                 )}
           </p>
+          <span id="journey-autodetect-status" className="sr-only" aria-live="polite">
+            {enabled
+              ? t("journey.map.srStatus.autoDetectOn", "Smart stage detection is currently on.")
+              : t("journey.map.srStatus.autoDetectOff", "Smart stage detection is off; you control the stage manually.")}
+          </span>
         </div>
       </div>
     </Card>

@@ -9520,6 +9520,18 @@
         "autodetect": "Ir a detección automática",
         "stages": "Ir a las etapas",
         "memories": "Ir a los recuerdos"
+      },
+      "srStatus": {
+        "timelineEmpty": "Aún no hay puntos en la línea de tiempo.",
+        "timelineCount_one": "{{count}} marcador en la línea de tiempo",
+        "timelineCount_other": "{{count}} marcadores en la línea de tiempo",
+        "milestonesCount_one": "Falta {{count}} fecha por completar",
+        "milestonesCount_other": "Faltan {{count}} fechas por completar",
+        "changelogEmpty": "Aún no hay cambios registrados.",
+        "changelogCount_one": "{{count}} cambio registrado",
+        "changelogCount_other": "{{count}} cambios registrados",
+        "autoDetectOn": "La detección inteligente de etapa está activada.",
+        "autoDetectOff": "La detección de etapa está desactivada; control manual."
       }
     },
     "recovery": {

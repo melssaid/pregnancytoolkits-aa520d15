@@ -9520,6 +9520,18 @@
         "autodetect": "Zur Auto-Erkennung",
         "stages": "Zu den Phasen",
         "memories": "Zu den Erinnerungen"
+      },
+      "srStatus": {
+        "timelineEmpty": "Noch keine Punkte auf der Zeitachse.",
+        "timelineCount_one": "{{count}} Zeitachsenmarkierung",
+        "timelineCount_other": "{{count}} Zeitachsenmarkierungen",
+        "milestonesCount_one": "{{count}} fehlendes Datum muss ergänzt werden",
+        "milestonesCount_other": "{{count}} fehlende Daten müssen ergänzt werden",
+        "changelogEmpty": "Noch keine Änderungen aufgezeichnet.",
+        "changelogCount_one": "{{count}} Änderung aufgezeichnet",
+        "changelogCount_other": "{{count}} Änderungen aufgezeichnet",
+        "autoDetectOn": "Intelligente Phasenerkennung ist aktiviert.",
+        "autoDetectOff": "Phasenerkennung ist aus; manuelle Steuerung aktiv."
       }
     },
     "recovery": {

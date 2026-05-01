@@ -192,6 +192,12 @@ export const JourneyMissingMilestones = () => {
             )}
           </p>
         </div>
+        <span id="journey-milestones-status" className="sr-only" aria-live="polite">
+          {t("journey.map.srStatus.milestonesCount", {
+            count: missing.length,
+            defaultValue: `${missing.length} missing dates need completion`,
+          })}
+        </span>
       </header>
 
       <ul className="space-y-2.5">

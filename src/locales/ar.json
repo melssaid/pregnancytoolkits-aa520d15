@@ -304,6 +304,18 @@
         "autodetect": "تخطّي إلى الكشف التلقائي",
         "stages": "تخطّي إلى المراحل",
         "memories": "تخطّي إلى الذكريات"
+      },
+      "srStatus": {
+        "timelineEmpty": "لا توجد نقاط في المخطط الزمني حتى الآن.",
+        "timelineCount_one": "{{count}} علامة على المخطط",
+        "timelineCount_other": "{{count}} علامات على المخطط",
+        "milestonesCount_one": "{{count}} تاريخ مفقود يحتاج إكمالاً",
+        "milestonesCount_other": "{{count}} تواريخ مفقودة تحتاج إكمالاً",
+        "changelogEmpty": "لا توجد تعديلات مسجلة بعد.",
+        "changelogCount_one": "{{count}} تعديل مسجل",
+        "changelogCount_other": "{{count}} تعديلات مسجلة",
+        "autoDetectOn": "الاكتشاف التلقائي للمرحلة مفعّل حالياً.",
+        "autoDetectOff": "الاكتشاف التلقائي للمرحلة موقوف؛ التحكم يدوي."
       }
     },
     "recovery": {
