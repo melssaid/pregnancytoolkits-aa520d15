@@ -223,35 +223,35 @@ const JourneyMap = () => {
           <h2 id="journey-timeline-heading" className="sr-only">
             {t("journey.map.regions.timeline", "Chronological timeline")}
           </h2>
-          <section aria-labelledby="journey-timeline-heading">
+          <section id="journey-timeline-section" aria-labelledby="journey-timeline-heading">
             <JourneyTimeline />
           </section>
 
           <h2 id="journey-milestones-heading" className="sr-only">
             {t("journey.map.regions.milestones", "Missing milestones")}
           </h2>
-          <section aria-labelledby="journey-milestones-heading">
+          <section id="journey-milestones-section" aria-labelledby="journey-milestones-heading">
             <JourneyMissingMilestones />
           </section>
 
           <h2 id="journey-changelog-heading" className="sr-only">
             {t("journey.map.regions.changelog", "Date change log")}
           </h2>
-          <section aria-labelledby="journey-changelog-heading">
+          <section id="journey-changelog-section" aria-labelledby="journey-changelog-heading">
             <JourneyDateChangeLog />
           </section>
 
           <h2 id="journey-autodetect-heading" className="sr-only">
             {t("journey.map.regions.autodetect", "Auto-detect settings")}
           </h2>
-          <section aria-labelledby="journey-autodetect-heading">
+          <section id="journey-autodetect-section" aria-labelledby="journey-autodetect-heading">
             <JourneyAutoDetectToggle />
           </section>
 
           <h2 id="journey-stages-heading" className="sr-only">
             {t("journey.map.regions.stages", "Journey stages overview")}
           </h2>
-          <section aria-labelledby="journey-stages-heading" className="space-y-4 sm:space-y-5">
+          <section id="journey-stages-section" aria-labelledby="journey-stages-heading" className="space-y-4 sm:space-y-5">
           {entries.map((entry, idx) => {
             const Icon = STAGE_ICONS[entry.stage];
             const isActive = entry.stage === profile.journeyStage;
