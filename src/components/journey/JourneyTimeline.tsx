@@ -172,7 +172,10 @@ export const JourneyTimeline = () => {
         >
           {t("journey.map.timeline.title", "Journey timeline")}
         </h2>
-        <span className="text-[10px] font-semibold text-muted-foreground">
+        <span
+          id="journey-timeline-subtitle"
+          className="text-[10px] font-semibold text-muted-foreground"
+        >
           {t("journey.map.timeline.count", { count: points.length })}
         </span>
       </header>
