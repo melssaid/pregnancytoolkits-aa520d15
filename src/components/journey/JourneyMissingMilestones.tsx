@@ -15,10 +15,11 @@
  */
 import { useMemo, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CalendarPlus, Check, AlertCircle } from "lucide-react";
+import { CalendarPlus, Check, AlertCircle, ExternalLink } from "lucide-react";
 import {
   useUserProfile,
   type JourneyHistory,
