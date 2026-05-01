@@ -9116,7 +9116,8 @@
       "evening": "İyi akşamlar",
       "morningTip": "Güne suyla ve derin nefesle başla",
       "afternoonTip": "Günlük vitaminlerin için uygun bir zaman",
-      "eveningTip": "Sakinleş ve bugün nasıl hissettiğini kaydet"
+      "eveningTip": "Sakinleş ve bugün nasıl hissettiğini kaydet",
+      "tipAria": "Günün ipucu"
     },
     "progress": {
       "week": "Hafta",
@@ -9333,7 +9334,8 @@
         "follicular": "Foliküler faz",
         "fertile": "Doğurgan pencere",
         "luteal": "Luteal faz"
-      }
+      },
+      "nextPeriod": "Sonraki adet"
     },
     "postpartumCard": {
       "title": "İyileşme Sütunları",
@@ -9341,7 +9343,8 @@
         "title": "Haftalık duygusal kontrol",
         "recent_one": "Son 7 günde 1 kayıt",
         "recent_other": "Son 7 günde {{count}} kayıt",
-        "empty": "Bu hafta EPDS kontrolünüzü başlatın"
+        "empty": "Bu hafta EPDS kontrolünüzü başlatın",
+        "recent": "Son kayıtlar"
       },
       "lactation": {
         "title": "Emzirme desteği",
@@ -9351,7 +9354,8 @@
         "title": "Bebek uykusu",
         "recent_one": "Son 7 günde 1 oturum",
         "recent_other": "Son 7 günde {{count}} oturum",
-        "empty": "Bebeğinizin ilk uyku oturumunu kaydedin"
+        "empty": "Bebeğinizin ilk uyku oturumunu kaydedin",
+        "recent": "Son uykular"
       },
       "emptyHint": "Aşağıdaki iyileşme sütunlarından biriyle başlayın — raporlarınız zamanla oluşacak."
     }
@@ -9430,7 +9434,8 @@
         "count_one": "{{count}} kilometre taşı",
         "count_other": "{{count}} kilometre taşı",
         "emptyTitle": "Zaman çizelgen boş",
-        "emptyHint": "Aşağıya önemli tarihlerini ekleyerek kişisel zaman çizelgeni oluştur."
+        "emptyHint": "Aşağıya önemli tarihlerini ekleyerek kişisel zaman çizelgeni oluştur.",
+        "count": "{{count}} aşama"
       },
       "autoDetect": {
         "title": "Akıllı aşama algılama",

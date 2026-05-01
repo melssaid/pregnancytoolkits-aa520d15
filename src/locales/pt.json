@@ -9116,7 +9116,8 @@
       "evening": "Boa noite",
       "morningTip": "Comece o dia com água e respiração profunda",
       "afternoonTip": "Um bom momento para suas vitaminas diárias",
-      "eveningTip": "Relaxe e registre como você se sente hoje"
+      "eveningTip": "Relaxe e registre como você se sente hoje",
+      "tipAria": "Dica do dia"
     },
     "progress": {
       "week": "Semana",
@@ -9333,7 +9334,8 @@
         "follicular": "Fase folicular",
         "fertile": "Janela fértil",
         "luteal": "Fase lútea"
-      }
+      },
+      "nextPeriod": "Próximo período"
     },
     "postpartumCard": {
       "title": "Pilares da recuperação",
@@ -9341,7 +9343,8 @@
         "title": "Check-in emocional semanal",
         "recent_one": "1 registro nos últimos 7 dias",
         "recent_other": "{{count}} registros nos últimos 7 dias",
-        "empty": "Inicie sua avaliação EPDS esta semana"
+        "empty": "Inicie sua avaliação EPDS esta semana",
+        "recent": "Registros recentes"
       },
       "lactation": {
         "title": "Apoio à amamentação",
@@ -9351,7 +9354,8 @@
         "title": "Sono do bebê",
         "recent_one": "1 sessão nos últimos 7 dias",
         "recent_other": "{{count}} sessões nos últimos 7 dias",
-        "empty": "Registre a primeira sessão de sono do seu bebê"
+        "empty": "Registre a primeira sessão de sono do seu bebê",
+        "recent": "Sonos recentes"
       },
       "emptyHint": "Comece por qualquer pilar de recuperação abaixo — seus relatórios serão construídos com o tempo."
     }
@@ -9430,7 +9434,8 @@
         "count_one": "{{count}} marco",
         "count_other": "{{count}} marcos",
         "emptyTitle": "Sua linha do tempo está vazia",
-        "emptyHint": "Adicione suas datas-chave abaixo para criar uma linha do tempo pessoal."
+        "emptyHint": "Adicione suas datas-chave abaixo para criar uma linha do tempo pessoal.",
+        "count": "{{count}} etapas"
       },
       "autoDetect": {
         "title": "Detecção inteligente de etapa",
