@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Info, Calendar, Save, Bell, Trash2, CalendarIcon } from "lucide-react";
 import { useUserProfile } from "@/hooks/useUserProfile";
