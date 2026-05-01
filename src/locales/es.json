@@ -451,6 +451,38 @@
     "diaperTracker": {
       "title": "Registro Inteligente de Pañales",
       "description": "Registro diario inteligente de pañales con estadísticas y alertas."
+    },
+    "empty": {
+      "kickCounter": {
+        "title": "Sin sesión de pataditas aún",
+        "desc": "Toca el botón grande arriba cuando sientas el primer movimiento para iniciar la sesión.",
+        "cta": "Iniciar sesión"
+      },
+      "contractions": {
+        "title": "Sin contracciones registradas",
+        "desc": "Toca Iniciar cuando sientas una contracción. El cronómetro medirá duración e intervalos.",
+        "cta": "Empezar a cronometrar"
+      },
+      "babySleep": {
+        "title": "Aún no hay sueño registrado",
+        "desc": "Registra una sesión de sueño para ver gráficos semanales y recomendaciones inteligentes.",
+        "cta": "Registrar siesta"
+      },
+      "diaper": {
+        "title": "Sin cambios de pañal aún",
+        "desc": "Toca un tipo de pañal arriba para empezar a seguir el patrón diario de tu bebé.",
+        "cta": "Registrar primer cambio"
+      },
+      "weight": {
+        "title": "Sin registros de peso aún",
+        "desc": "Añade tu peso actual para iniciar la curva semanal y la comparación saludable.",
+        "cta": "Añadir primer registro"
+      },
+      "vitamins": {
+        "title": "Sin vitaminas registradas aún",
+        "desc": "Marca las vitaminas de hoy para construir tu racha y activar recordatorios.",
+        "cta": "Registrar dosis de hoy"
+      }
     }
   },
   "dashboard": {

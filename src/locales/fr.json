@@ -451,6 +451,38 @@
     "diaperTracker": {
       "title": "Journal de Couches Intelligent",
       "description": "Journal quotidien intelligent de couches avec statistiques et alertes."
+    },
+    "empty": {
+      "kickCounter": {
+        "title": "Aucune session de coups",
+        "desc": "Appuyez sur le grand bouton ci-dessus dès le premier mouvement pour démarrer la session.",
+        "cta": "Démarrer une session"
+      },
+      "contractions": {
+        "title": "Aucune contraction enregistrée",
+        "desc": "Appuyez sur Démarrer dès que vous sentez une contraction. La durée et les intervalles sont mesurés.",
+        "cta": "Démarrer le minuteur"
+      },
+      "babySleep": {
+        "title": "Aucun sommeil enregistré",
+        "desc": "Enregistrez une session pour activer les graphiques hebdomadaires et les recommandations.",
+        "cta": "Enregistrer une sieste"
+      },
+      "diaper": {
+        "title": "Aucun change enregistré",
+        "desc": "Appuyez sur un type de couche ci-dessus pour commencer à suivre le rythme de votre bébé.",
+        "cta": "Enregistrer le premier change"
+      },
+      "weight": {
+        "title": "Aucune mesure de poids",
+        "desc": "Ajoutez votre poids actuel pour démarrer la courbe hebdomadaire et la comparaison saine.",
+        "cta": "Ajouter une mesure"
+      },
+      "vitamins": {
+        "title": "Aucune vitamine enregistrée",
+        "desc": "Cochez les vitamines du jour pour construire votre série et activer les rappels.",
+        "cta": "Enregistrer aujourd'hui"
+      }
     }
   },
   "dashboard": {
