@@ -130,9 +130,12 @@ export function JourneyMemoriesPanel({ className }: { className?: string }) {
         })}
       </div>
 
-      {/* Recent saved results — succinct preview list */}
+      {/* Recent saved results — succinct preview list (non-interactive) */}
       {recentSaved.length > 0 && (
-        <Card className="rounded-2xl border-border/60 overflow-hidden">
+        <Card
+          className="rounded-2xl border-border/60 overflow-hidden"
+          aria-label={t("journey.map.memories.recentSaved", "Recent saved results")}
+        >
           <ul className="divide-y divide-border/50" role="list">
             {recentSaved.map((r) => (
               <li key={r.id}>
@@ -141,10 +144,12 @@ export function JourneyMemoriesPanel({ className }: { className?: string }) {
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold text-foreground truncate">{r.title}</p>
                     <p className="text-[10px] text-muted-foreground">
+                      <span className="sr-only">
+                        {t("journey.map.memories.savedOn", "Saved on")}{" "}
+                      </span>
                       {formatLocalized(r.savedAt, "PP", i18n.language)}
                     </p>
                   </div>
-                  <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60 shrink-0 rtl:rotate-180" aria-hidden />
                 </div>
               </li>
             ))}
