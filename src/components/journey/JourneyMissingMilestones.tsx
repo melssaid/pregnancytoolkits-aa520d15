@@ -259,6 +259,24 @@ export const JourneyMissingMilestones = () => {
                   {t("journey.map.missing.add", "Add")}
                 </Button>
               </div>
+
+              {m.tool && !isSaved && (
+                <button
+                  type="button"
+                  onClick={() => handleOpenTool(m)}
+                  className={cn(
+                    "mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded",
+                    isRTL && "flex-row-reverse",
+                  )}
+                  aria-label={t("journey.map.missing.openTool", {
+                    field: t(m.labelKey),
+                    defaultValue: "Open tool to set {{field}}",
+                  })}
+                >
+                  <ExternalLink className="h-3 w-3" aria-hidden />
+                  {t("journey.map.missing.openInTool", "Open in dedicated tool")}
+                </button>
+              )}
             </li>
           );
         })}
