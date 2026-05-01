@@ -9499,6 +9499,17 @@
         "fields": {
           "lastPeriodDate": "Son adetin ilk günü"
         }
+      },
+      "nav": {
+        "stages": "Yolculuk aşamaları gezintisi"
+      },
+      "regions": {
+        "timeline": "Kronolojik zaman çizelgesi",
+        "milestones": "Eksik kilometre taşları",
+        "changelog": "Tarih değişiklik günlüğü",
+        "autodetect": "Otomatik algılama ayarları",
+        "stages": "Yolculuk aşamalarına genel bakış",
+        "memories": "Kayıtlı anılar"
       }
     },
     "recovery": {
