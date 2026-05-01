@@ -38,6 +38,7 @@ interface UsageResponse {
   daily: { date: string; dau: number; pageViews: number; pwaInstalls: number; appOpens: number }[];
   dailyTotals: { dau: number; pageViews: number; pwaInstalls: number; appOpens: number };
   pushSubscriptions: { total: number; byLanguage: { lang: string; count: number }[] };
+  countriesLast24h: { country: string; sessions: number; langs: string[] }[];
   sessionDebug: {
     sessionId: string;
     bucket: Exclude<SegmentKey, "combined">;
