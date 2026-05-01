@@ -201,50 +201,7 @@ const SmartKickCounter: React.FC = () => {
       ]}
     >
       <div className="space-y-4">
-        {/* Movement Score + Quick Stats — unified strip */}
-        {history.length > 0 && (
-          <Card className="border-primary/15 overflow-hidden">
-            <CardContent className="p-0">
-              {/* Score row */}
-              <div className="flex items-center gap-3 px-3 py-2.5 border-b border-border/10">
-                <div className="relative w-11 h-11 flex-shrink-0">
-                  <svg className="w-full h-full transform -rotate-90">
-                    <circle cx="22" cy="22" r="18" fill="none" stroke="currentColor" strokeWidth="3.5" className="text-muted/20" />
-                    <circle cx="22" cy="22" r="18" fill="none" stroke="currentColor" strokeWidth="3.5"
-                      strokeDasharray={`${(movementScore / 100) * 113} 113`} strokeLinecap="round"
-                      className={getScoreColor(movementScore)} />
-                  </svg>
-                  <span className={`absolute inset-0 flex items-center justify-center text-[11px] font-bold ${getScoreColor(movementScore)}`}>{movementScore}</span>
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-semibold text-foreground">{t('toolsInternal.kickCounter.movementScore')}</p>
-                  <p className="text-[10px] text-muted-foreground">{t('toolsInternal.kickCounter.basedOnSessions', { count: history.length })}</p>
-                </div>
-              </div>
-              {/* Mini stats row */}
-              <div className="grid grid-cols-3 divide-x divide-border/10">
-                <div className="p-2.5 text-center">
-                  <div className="text-sm font-bold text-foreground">{getAverageKicks()}</div>
-                  <p className="text-[9px] text-muted-foreground">{t('toolsInternal.kickCounter.avgKicks')}</p>
-                </div>
-                <div className="p-2.5 text-center">
-                  <div className="text-sm font-bold text-foreground">{history.length}</div>
-                  <p className="text-[9px] text-muted-foreground">{t('toolsInternal.kickCounter.sessions')}</p>
-                </div>
-                <div className="p-2.5 text-center">
-                  <div className="text-sm font-bold text-foreground">
-                    {history.length > 0 
-                      ? Math.round(history.reduce((sum: number, s: any) => sum + (s.duration_minutes || 0), 0) / history.length)
-                      : 0}
-                  </div>
-                  <p className="text-[9px] text-muted-foreground">{t('toolsInternal.kickCounter.avgMin')}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Main Counter */}
+        {/* ═══ 1. Main Counter — primary action stays at the top ═══ */}
         <Card className="shadow-xl overflow-hidden">
           <CardContent className="p-0">
             {/* Timer Bar */}
@@ -471,7 +428,51 @@ const SmartKickCounter: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* ═══ Analysis Flow — Pattern → AI → History (connected) ═══ */}
+        {/* ═══ 2. Movement Score + Quick Stats — summary of past sessions,
+                  shown AFTER the counter so the primary action is unobstructed ═══ */}
+        {history.length > 0 && (
+          <Card className="border-primary/15 overflow-hidden">
+            <CardContent className="p-0">
+              {/* Score row */}
+              <div className="flex items-center gap-3 px-3 py-2.5 border-b border-border/10">
+                <div className="relative w-11 h-11 flex-shrink-0">
+                  <svg className="w-full h-full transform -rotate-90">
+                    <circle cx="22" cy="22" r="18" fill="none" stroke="currentColor" strokeWidth="3.5" className="text-muted/20" />
+                    <circle cx="22" cy="22" r="18" fill="none" stroke="currentColor" strokeWidth="3.5"
+                      strokeDasharray={`${(movementScore / 100) * 113} 113`} strokeLinecap="round"
+                      className={getScoreColor(movementScore)} />
+                  </svg>
+                  <span className={`absolute inset-0 flex items-center justify-center text-[11px] font-bold ${getScoreColor(movementScore)}`}>{movementScore}</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs font-semibold text-foreground">{t('toolsInternal.kickCounter.movementScore')}</p>
+                  <p className="text-[10px] text-muted-foreground">{t('toolsInternal.kickCounter.basedOnSessions', { count: history.length })}</p>
+                </div>
+              </div>
+              {/* Mini stats row */}
+              <div className="grid grid-cols-3 divide-x divide-border/10">
+                <div className="p-2.5 text-center">
+                  <div className="text-sm font-bold text-foreground">{getAverageKicks()}</div>
+                  <p className="text-[9px] text-muted-foreground">{t('toolsInternal.kickCounter.avgKicks')}</p>
+                </div>
+                <div className="p-2.5 text-center">
+                  <div className="text-sm font-bold text-foreground">{history.length}</div>
+                  <p className="text-[9px] text-muted-foreground">{t('toolsInternal.kickCounter.sessions')}</p>
+                </div>
+                <div className="p-2.5 text-center">
+                  <div className="text-sm font-bold text-foreground">
+                    {history.length > 0 
+                      ? Math.round(history.reduce((sum: number, s: any) => sum + (s.duration_minutes || 0), 0) / history.length)
+                      : 0}
+                  </div>
+                  <p className="text-[9px] text-muted-foreground">{t('toolsInternal.kickCounter.avgMin')}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ═══ 3. Analysis Flow — Pattern → AI → History (connected) ═══ */}
         {history.length >= 2 && (
           <div className="rounded-2xl border border-border/20 overflow-hidden">
             {/* Pattern Visualizer */}

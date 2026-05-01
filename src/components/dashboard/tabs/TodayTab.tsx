@@ -12,9 +12,7 @@ import { BirthCountdownCard } from "@/components/dashboard/BirthCountdownCard";
 import { UnifiedToolsGrid } from "@/components/dashboard/UnifiedToolsGrid";
 import { EmptyStateCard } from "@/components/dashboard/EmptyStateCard";
 import { FertilityCycleCard } from "@/components/dashboard/FertilityCycleCard";
-import { PostpartumCareCard } from "@/components/dashboard/PostpartumCareCard";
 import { PostpartumRecoveryTimeline } from "@/components/journey/PostpartumRecoveryTimeline";
-import { QuickProblemSolver } from "@/components/dashboard/QuickProblemSolver";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
@@ -73,14 +71,14 @@ export const TodayTab = memo(function TodayTab() {
         upcomingAppointments={stats.planning.upcomingAppointments}
       />
 
-      {/* Stage-specific hero cards */}
+      {/* Stage-specific hero — one card per stage to avoid clutter.
+          Postpartum uses the recovery timeline as its primary identity card;
+          PostpartumCareCard is reached via UnifiedToolsGrid links. */}
       {isFertility && <FertilityCycleCard />}
-      {isPostpartum && <PostpartumCareCard />}
       {isPostpartum && <PostpartumRecoveryTimeline />}
 
-      {/* Quick problem solver — stage-aware shortcuts to the most-asked questions */}
-      <QuickProblemSolver />
-
+      {/* Unified tools grid — single navigation surface (replaces the
+          duplicated QuickProblemSolver shortcuts that overlapped with it). */}
       <UnifiedToolsGrid />
 
       {/* Brand-new user nudge */}
