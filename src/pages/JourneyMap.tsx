@@ -190,6 +190,7 @@ const JourneyMap = () => {
         dir={isRTL ? "rtl" : "ltr"}
         className={`relative pb-24 bg-gradient-to-b ${stageTheme.gradient} min-h-screen`}
       >
+        <JourneySkipLinks />
         <header className="container px-3 sm:px-4 pt-4 pb-2" role="banner">
           <BackButton />
           <motion.h1
