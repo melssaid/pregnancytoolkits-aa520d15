@@ -9520,6 +9520,18 @@
         "autodetect": "Ir para detecção automática",
         "stages": "Ir para as etapas",
         "memories": "Ir para as memórias"
+      },
+      "srStatus": {
+        "timelineEmpty": "Ainda não há pontos na linha do tempo.",
+        "timelineCount_one": "{{count}} marcador na linha do tempo",
+        "timelineCount_other": "{{count}} marcadores na linha do tempo",
+        "milestonesCount_one": "{{count}} data em falta a completar",
+        "milestonesCount_other": "{{count}} datas em falta a completar",
+        "changelogEmpty": "Ainda não há alterações registadas.",
+        "changelogCount_one": "{{count}} alteração registada",
+        "changelogCount_other": "{{count}} alterações registadas",
+        "autoDetectOn": "A deteção inteligente de fase está ativada.",
+        "autoDetectOff": "A deteção automática está desativada; controlo manual."
       }
     },
     "recovery": {

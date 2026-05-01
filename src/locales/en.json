@@ -304,6 +304,18 @@
         "autodetect": "Skip to auto-detect",
         "stages": "Skip to stages",
         "memories": "Skip to memories"
+      },
+      "srStatus": {
+        "timelineEmpty": "No points on the timeline yet.",
+        "timelineCount_one": "{{count}} timeline marker",
+        "timelineCount_other": "{{count}} timeline markers",
+        "milestonesCount_one": "{{count}} missing date needs completion",
+        "milestonesCount_other": "{{count}} missing dates need completion",
+        "changelogEmpty": "No date edits recorded yet.",
+        "changelogCount_one": "{{count}} edit recorded",
+        "changelogCount_other": "{{count}} edits recorded",
+        "autoDetectOn": "Smart stage detection is currently on.",
+        "autoDetectOff": "Smart stage detection is off; you control the stage manually."
       }
     },
     "recovery": {

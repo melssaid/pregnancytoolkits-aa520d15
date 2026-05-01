@@ -9520,6 +9520,18 @@
         "autodetect": "Aller à la détection auto",
         "stages": "Aller aux étapes du parcours",
         "memories": "Aller aux souvenirs"
+      },
+      "srStatus": {
+        "timelineEmpty": "Aucun point sur la chronologie pour le moment.",
+        "timelineCount_one": "{{count}} repère sur la chronologie",
+        "timelineCount_other": "{{count}} repères sur la chronologie",
+        "milestonesCount_one": "{{count}} date manquante à compléter",
+        "milestonesCount_other": "{{count}} dates manquantes à compléter",
+        "changelogEmpty": "Aucune modification enregistrée pour le moment.",
+        "changelogCount_one": "{{count}} modification enregistrée",
+        "changelogCount_other": "{{count}} modifications enregistrées",
+        "autoDetectOn": "La détection intelligente de l'étape est activée.",
+        "autoDetectOff": "La détection automatique est désactivée ; contrôle manuel."
       }
     },
     "recovery": {

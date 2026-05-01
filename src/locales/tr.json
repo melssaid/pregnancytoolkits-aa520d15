@@ -9520,6 +9520,18 @@
         "autodetect": "Otomatik algılamaya atla",
         "stages": "Aşamalara atla",
         "memories": "Anılara atla"
+      },
+      "srStatus": {
+        "timelineEmpty": "Zaman çizelgesinde henüz nokta yok.",
+        "timelineCount_one": "Zaman çizelgesinde {{count}} işaret",
+        "timelineCount_other": "Zaman çizelgesinde {{count}} işaret",
+        "milestonesCount_one": "Tamamlanması gereken {{count}} eksik tarih",
+        "milestonesCount_other": "Tamamlanması gereken {{count}} eksik tarih",
+        "changelogEmpty": "Henüz kayıtlı değişiklik yok.",
+        "changelogCount_one": "{{count}} değişiklik kaydedildi",
+        "changelogCount_other": "{{count}} değişiklik kaydedildi",
+        "autoDetectOn": "Akıllı aşama algılama şu anda açık.",
+        "autoDetectOff": "Otomatik algılama kapalı; manuel kontrol etkin."
       }
     },
     "recovery": {
