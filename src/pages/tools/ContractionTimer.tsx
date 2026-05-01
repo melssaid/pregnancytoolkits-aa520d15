@@ -19,6 +19,7 @@ import { ContractionChart } from "@/components/contraction/ContractionChart";
 import { ContractionHistory } from "@/components/contraction/ContractionHistory";
 import { AIInsightCard } from "@/components/ai/AIInsightCard";
 import { useInAppReview } from "@/hooks/useInAppReview";
+import { ToolEmptyState } from "@/components/tools/ToolEmptyState";
 
 interface Contraction {
   id: string;
@@ -503,6 +504,18 @@ export default function ContractionTimer() {
             </button>
           )}
         </div>
+
+        {/* ═══════ EMPTY STATE — no contractions logged yet ═══════ */}
+        {contractions.length === 0 && !isActive && (
+          <ToolEmptyState
+            icon={Activity}
+            title={t("tools.empty.contractions.title")}
+            description={t("tools.empty.contractions.desc")}
+            ctaLabel={t("tools.empty.contractions.cta")}
+            ctaDirection="up"
+            onCta={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
+        )}
 
         {/* ═══════ CHART & HISTORY TABS ═══════ */}
         {contractions.length >= 2 && (
