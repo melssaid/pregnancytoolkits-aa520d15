@@ -9448,6 +9448,18 @@
           "pregnancyStart": "Hamileliğini takibe ne zaman başladın?",
           "fertilityStart": "Hamilelik öncesi hazırlığın ne zaman başladı?"
         }
+      },
+      "changeLog": {
+        "title": "Tarih değişiklik geçmişi",
+        "subtitle": "Önemli tarihlerinizin son güncellemeleri",
+        "added": "Eklendi",
+        "cleared": "Temizlendi",
+        "empty": "Ayarlanmadı",
+        "clear": "Geçmişi temizle",
+        "more": "ve {{count}} kayıt daha",
+        "fields": {
+          "lastPeriodDate": "Son adetin ilk günü"
+        }
       }
     },
     "recovery": {

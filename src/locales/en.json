@@ -268,6 +268,18 @@
           "pregnancyStart": "When did you start tracking your pregnancy?",
           "fertilityStart": "When did your pre-pregnancy preparation begin?"
         }
+      },
+      "changeLog": {
+        "title": "Date change history",
+        "subtitle": "Recent updates to your key dates",
+        "added": "Added",
+        "cleared": "Cleared",
+        "empty": "Not set",
+        "clear": "Clear history",
+        "more": "and {{count}} more entries",
+        "fields": {
+          "lastPeriodDate": "First day of last period"
+        }
       }
     },
     "recovery": {
