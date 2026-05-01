@@ -255,7 +255,7 @@ export const JourneyTimeline = () => {
                     aria-hidden
                   >
                     {(isBirth || isDue) && (
-                      <Star
+                      <CalendarCheck
                         className="h-2.5 w-2.5"
                         style={{ color: `hsl(${hue})` }}
                       />
