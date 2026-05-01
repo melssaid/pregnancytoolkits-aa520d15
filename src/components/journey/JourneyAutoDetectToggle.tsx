@@ -33,6 +33,7 @@ export const JourneyAutoDetectToggle = () => {
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-3">
             <label
+              id="journey-autodetect-title"
               htmlFor="auto-stage-toggle"
               className="text-sm font-bold text-foreground cursor-pointer"
             >
@@ -43,9 +44,13 @@ export const JourneyAutoDetectToggle = () => {
               checked={enabled}
               onCheckedChange={handleToggle}
               aria-label={t("journey.map.autoDetect.title", "Smart stage detection")}
+              aria-describedby="journey-autodetect-subtitle"
             />
           </div>
-          <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+          <p
+            id="journey-autodetect-subtitle"
+            className="mt-1 text-xs text-muted-foreground leading-relaxed"
+          >
             {enabled
               ? t(
                   "journey.map.autoDetect.descriptionOn",
