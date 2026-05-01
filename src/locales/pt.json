@@ -9442,6 +9442,8 @@
         "subtitle": "Adicione algumas datas-chave para que sua linha do tempo reflita sua jornada real.",
         "add": "Adicionar",
         "saved": "Salvo",
+        "openInTool": "Abrir na ferramenta dedicada",
+        "openTool": "Abrir ferramenta para definir {{field}}",
         "hints": {
           "dueDate": "Sua data prevista — ativa a contagem semanal e os lembretes.",
           "birthDate": "Data de nascimento do bebê — marca o início do pós-parto.",

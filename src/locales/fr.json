@@ -9442,6 +9442,8 @@
         "subtitle": "Ajoutez des dates clés pour que votre chronologie reflète votre vrai parcours.",
         "add": "Ajouter",
         "saved": "Enregistré",
+        "openInTool": "Ouvrir dans l'outil dédié",
+        "openTool": "Ouvrir l'outil pour définir {{field}}",
         "hints": {
           "dueDate": "Votre terme prévu — active le décompte hebdomadaire et les rappels.",
           "birthDate": "Date de naissance de votre bébé — marque le début du post-partum.",

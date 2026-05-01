@@ -15,10 +15,11 @@
  */
 import { useMemo, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CalendarPlus, Check, AlertCircle } from "lucide-react";
+import { CalendarPlus, Check, AlertCircle, ExternalLink } from "lucide-react";
 import {
   useUserProfile,
   type JourneyHistory,
@@ -42,13 +43,27 @@ interface Milestone {
   hintKey: string;
   /** When true, this is a high-priority hint shown more prominently. */
   important?: boolean;
+  /**
+   * Optional deep-link to a richer tool that captures this same date.
+   * The tool reads the `focus` query param and auto-opens / scrolls to
+   * the matching field, so the user lands exactly where they need to be.
+   */
+  tool?: { path: string; focus: string };
 }
+
+const TOOL_DEEP_LINKS: Partial<Record<MilestoneId, { path: string; focus: string }>> = {
+  "pregnancy.dueDate": { path: "/tools/due-date-calculator", focus: "lmp" },
+  "pregnancy.startedAt": { path: "/tools/due-date-calculator", focus: "lmp" },
+  "postpartum.birthDate": { path: "/tools/baby-growth", focus: "birthDate" },
+  "fertility.startedAt": { path: "/tools/cycle-tracker", focus: "lastPeriod" },
+};
 
 const todayISO = () => new Date().toISOString().split("T")[0];
 
 export const JourneyMissingMilestones = () => {
   const { t } = useTranslation();
   const { isRTL } = useLanguage();
+  const navigate = useNavigate();
   const { profile, updateProfile } = useUserProfile();
   const [drafts, setDrafts] = useState<Partial<Record<MilestoneId, string>>>({});
   const [saved, setSaved] = useState<Partial<Record<MilestoneId, boolean>>>({});
@@ -101,8 +116,17 @@ export const JourneyMissingMilestones = () => {
       });
     }
 
-    return list;
+    return list.map((m) => ({ ...m, tool: TOOL_DEEP_LINKS[m.id] }));
   }, [profile]);
+
+  const handleOpenTool = useCallback(
+    (m: Milestone) => {
+      if (!m.tool) return;
+      haptic("tap");
+      navigate(`${m.tool.path}?focus=${encodeURIComponent(m.tool.focus)}`);
+    },
+    [navigate],
+  );
 
   const handleSave = useCallback(
     (m: Milestone) => {
@@ -235,6 +259,24 @@ export const JourneyMissingMilestones = () => {
                   {t("journey.map.missing.add", "Add")}
                 </Button>
               </div>
+
+              {m.tool && !isSaved && (
+                <button
+                  type="button"
+                  onClick={() => handleOpenTool(m)}
+                  className={cn(
+                    "mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded",
+                    isRTL && "flex-row-reverse",
+                  )}
+                  aria-label={t("journey.map.missing.openTool", {
+                    field: t(m.labelKey),
+                    defaultValue: "Open tool to set {{field}}",
+                  })}
+                >
+                  <ExternalLink className="h-3 w-3" aria-hidden />
+                  {t("journey.map.missing.openInTool", "Open in dedicated tool")}
+                </button>
+              )}
             </li>
           );
         })}

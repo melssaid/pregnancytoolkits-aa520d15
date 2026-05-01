@@ -9442,6 +9442,8 @@
         "subtitle": "Füge wichtige Daten hinzu, damit dein Zeitstrahl deine echte Reise widerspiegelt.",
         "add": "Hinzufügen",
         "saved": "Gespeichert",
+        "openInTool": "Im passenden Tool öffnen",
+        "openTool": "Tool öffnen, um {{field}} festzulegen",
         "hints": {
           "dueDate": "Dein Geburtstermin — steuert Wochenzählung und Erinnerungen.",
           "birthDate": "Geburtsdatum deines Babys — markiert den Beginn der Wochenbettphase.",

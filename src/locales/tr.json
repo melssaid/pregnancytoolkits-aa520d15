@@ -9442,6 +9442,8 @@
         "subtitle": "Yolculuğunu doğru yansıtması için birkaç önemli tarih ekle.",
         "add": "Ekle",
         "saved": "Kaydedildi",
+        "openInTool": "Özel araçta aç",
+        "openTool": "{{field}} ayarlamak için aracı aç",
         "hints": {
           "dueDate": "Tahmini doğum tarihin — haftalık sayım ve hatırlatmaları açar.",
           "birthDate": "Bebeğinin doğum tarihi — doğum sonrası dönemi başlatır.",

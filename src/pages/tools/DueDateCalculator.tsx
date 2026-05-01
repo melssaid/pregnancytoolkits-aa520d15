@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Info, Calendar, Save, Bell, Trash2, CalendarIcon } from "lucide-react";
 import { useUserProfile } from "@/hooks/useUserProfile";
@@ -49,6 +50,22 @@ export default function DueDateCalculator() {
     userProfile.lastPeriodDate ? new Date(userProfile.lastPeriodDate + "T00:00:00") : undefined
   );
   const [lmpPopoverOpen, setLmpPopoverOpen] = useState(false);
+  const lmpFieldRef = useRef<HTMLDivElement | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Deep-link from JourneyMissingMilestones: focus & open the LMP picker.
+  useEffect(() => {
+    if (searchParams.get("focus") !== "lmp") return;
+    const id = window.setTimeout(() => {
+      lmpFieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setLmpPopoverOpen(true);
+      // Clean the URL so a refresh doesn't re-trigger.
+      const next = new URLSearchParams(searchParams);
+      next.delete("focus");
+      setSearchParams(next, { replace: true });
+    }, 350);
+    return () => window.clearTimeout(id);
+  }, [searchParams, setSearchParams]);
   const [savedDates, setSavedDates] = useState<SavedDueDate[]>([]);
   const [result, setResult] = useState<{
     dueDate: Date;
@@ -164,7 +181,11 @@ export default function DueDateCalculator() {
       >
             <Card>
               <CardContent className="pt-5 space-y-4">
-                    <div className="space-y-2">
+                    <div
+                      ref={lmpFieldRef}
+                      data-focused={lmpPopoverOpen && !lmpDate ? "true" : "false"}
+                      className="space-y-2 scroll-mt-24 rounded-2xl p-1 transition-shadow data-[focused=true]:ring-2 data-[focused=true]:ring-primary/40"
+                    >
                       <Label className="text-xs">{t('toolsInternal.dueDate.lmpLabel')}</Label>
                       <div className="flex gap-2">
                         <Popover open={lmpPopoverOpen} onOpenChange={setLmpPopoverOpen}>
