@@ -1,40 +1,39 @@
 /**
  * Journey aria-live announcement tests
  * ------------------------------------
- * Verifies that the shared `JourneyLiveRegion` + `useJourneyLiveAnnouncer`
- * primitive, and its consumers (JourneyTimeline, JourneyAutoDetectToggle),
- * announce *specific* changes correctly:
+ * Verifies that:
  *
- *   • Adding a new milestone date  → "<label> (<stage>) added on <date>."
- *   • Removing a milestone date    → "<label> (<stage>) recorded on <date> was removed."
- *   • Editing a milestone date     → "<label> (<stage>) changed from <old> to <new>."
- *   • Changing the current stage   → "Current stage changed from <a> to <b>."
- *   • Bulk changes (>3)            → falls back to a count summary.
- *   • Auto-detect toggle           → "Smart stage detection turned on/off."
+ *   1. The shared `JourneyLiveRegion` + `useJourneyLiveAnnouncer` primitive
+ *      renders a polite, atomic, sr-only region; supports assertive mode;
+ *      strips its cache-busting suffix from visible text; and forces a
+ *      re-announce when the same message is posted twice.
  *
- * The cache-busting suffix (zero-width space + timestamp) used to force
- * screen-reader replays must be stripped from the visible textContent so
- * users only hear the meaningful sentence.
+ *   2. The pure `buildJourneyTimelineAnnouncement` helper used by
+ *      `JourneyTimeline` produces *specific* messages naming exactly what
+ *      changed for adds, removes, edits, stage changes, and bulk updates.
+ *
+ *   3. `JourneyAutoDetectToggle` announces "turned on / turned off"
+ *      via the same shared primitive when the switch is toggled.
  */
 import { describe, it, expect, beforeEach } from "vitest";
-import { render, screen, act } from "@testing-library/react";
+import { render, renderHook, screen, act } from "@testing-library/react";
 import "@/i18n"; // initialise i18next once for the whole test file
 
 import {
   JourneyLiveRegion,
   useJourneyLiveAnnouncer,
 } from "@/components/journey/JourneyLiveRegion";
-import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { JourneyAutoDetectToggle } from "@/components/journey/JourneyAutoDetectToggle";
-import { useUserProfile } from "@/hooks/useUserProfile";
-import { renderHook } from "@testing-library/react";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import {
+  buildJourneyTimelineAnnouncement,
+  type AnnouncementPoint,
+  DETAIL_CAP,
+} from "@/components/journey/buildTimelineAnnouncement";
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <LanguageProvider>{children}</LanguageProvider>
 );
-
-const PROFILE_KEY = "user_central_profile_v1";
 
 function getLiveRegion(container: HTMLElement): HTMLElement {
   const region = container.querySelector('[role="status"][aria-live]');
@@ -42,7 +41,6 @@ function getLiveRegion(container: HTMLElement): HTMLElement {
   return region as HTMLElement;
 }
 
-/** Wait for React effects + microtasks so the live region picks up updates. */
 async function flush() {
   await act(async () => {
     await Promise.resolve();
@@ -51,20 +49,9 @@ async function flush() {
 }
 
 // ---------------------------------------------------------------------------
-// 1. Shared primitive — politeness, atomicity, and suffix stripping.
+// 1. Shared primitive — politeness, atomicity, suffix stripping, replay.
 // ---------------------------------------------------------------------------
 describe("JourneyLiveRegion primitive", () => {
-  function Harness({ initial }: { initial: string }) {
-    const { announce, message } = useJourneyLiveAnnouncer();
-    return (
-      <>
-        <button onClick={() => announce(initial)}>announce</button>
-        <button onClick={() => announce("")}>clear</button>
-        <JourneyLiveRegion message={message} />
-      </>
-    );
-  }
-
   it("renders a polite, atomic, sr-only status region", () => {
     const { container } = render(<JourneyLiveRegion message="" />);
     const region = getLiveRegion(container);
@@ -75,15 +62,11 @@ describe("JourneyLiveRegion primitive", () => {
   });
 
   it("upgrades to assertive when requested", () => {
-    const { container } = render(
-      <JourneyLiveRegion message="urgent" assertive />,
-    );
-    expect(getLiveRegion(container).getAttribute("aria-live")).toBe(
-      "assertive",
-    );
+    const { container } = render(<JourneyLiveRegion message="urgent" assertive />);
+    expect(getLiveRegion(container).getAttribute("aria-live")).toBe("assertive");
   });
 
-  it("strips the cache-busting suffix from the visible textContent", () => {
+  it("strips the cache-busting suffix from visible textContent", () => {
     const raw = `Hello world \u200B${Date.now()}`;
     const { container } = render(<JourneyLiveRegion message={raw} />);
     expect(getLiveRegion(container).textContent).toBe("Hello world");
@@ -96,7 +79,6 @@ describe("JourneyLiveRegion primitive", () => {
     act(() => result.current.announce("Same message"));
     const second = result.current.message;
     expect(first).not.toBe(second);
-    // Visible text must remain identical for the user.
     const strip = (s: string) => s.replace(/\s\u200B\d+$/, "");
     expect(strip(first)).toBe(strip(second));
   });
@@ -111,190 +93,191 @@ describe("JourneyLiveRegion primitive", () => {
 });
 
 // ---------------------------------------------------------------------------
-// 2. JourneyTimeline diff announcements.
+// 2. Pure timeline-announcement builder — covers every diff type.
 // ---------------------------------------------------------------------------
-describe("JourneyTimeline aria-live diffs", () => {
-  beforeEach(() => {
-    localStorage.clear();
+describe("buildJourneyTimelineAnnouncement", () => {
+  // Tiny i18n stub matching the keys we ship in en.json so tests don't
+  // depend on the full translation bundle resolution.
+  const t = (key: string, vars: Record<string, string | number>): string => {
+    switch (key) {
+      case "journey.map.srAnnounce.pointAdded":
+        return `${vars.label} (${vars.stage}) added on ${vars.date}.`;
+      case "journey.map.srAnnounce.pointRemoved":
+        return `${vars.label} (${vars.stage}) recorded on ${vars.date} was removed.`;
+      case "journey.map.srAnnounce.pointChanged":
+        return `${vars.label} (${vars.stage}) changed from ${vars.from} to ${vars.to}.`;
+      case "journey.map.srAnnounce.stageChangedFromTo":
+        return `Current stage changed from ${vars.from} to ${vars.to}.`;
+      case "journey.map.srAnnounce.stageChangedInitial":
+        return `Current stage set to ${vars.to}.`;
+      case "journey.map.srAnnounce.multipleChanges":
+        return `${vars.count} timeline items updated.`;
+      default:
+        return key;
+    }
+  };
+  const fmt = (iso: string) => iso.split("T")[0]; // deterministic, TZ-safe
+
+  const point = (
+    id: string,
+    iso: string,
+    label = "Due date",
+    stage = "Pregnancy",
+  ): AnnouncementPoint => ({ id, iso, label, stage });
+
+  it("returns an empty string on the first render baseline (prev=null)", () => {
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: null,
+      currentPoints: new Map([["pregnancy-due", point("pregnancy-due", "2025-10-08T12:00:00.000Z")]]),
+      formatDate: fmt,
+      translate: t,
+    });
+    expect(out).toBe("");
   });
 
-  /**
-   * Helper: seed the central profile *before* mounting the timeline so the
-   * very first render establishes a baseline silently. Subsequent updates
-   * via `updateProfile` should then trigger announcements.
-   */
-  function seedProfile(history: Record<string, unknown>) {
-    const profile = {
-      isPregnant: true,
-      journeyStage: "pregnant",
-      pregnancyWeek: 12,
-      weight: null,
-      prePregnancyWeight: null,
-      height: null,
-      lastPeriodDate: null,
-      dueDate: null,
-      mood: "Good",
-      bloodType: null,
-      healthConditions: [],
-      goals: [],
-      journeyHistory: history,
-      autoStageDetection: false, // keep manual to avoid stage drift in tests
-      updatedAt: new Date().toISOString(),
-    };
-    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-  }
-
-  it("announces a newly added milestone naming label, stage and date", async () => {
-    seedProfile({
-      pregnancy: { startedAt: "2025-01-01T12:00:00.000Z" },
+  it("announces a newly added milestone naming label, stage and date", () => {
+    const prev = new Map<string, AnnouncementPoint>();
+    const cur = new Map([
+      ["pregnancy-due", point("pregnancy-due", "2025-10-08T12:00:00.000Z")],
+    ]);
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: prev,
+      currentPoints: cur,
+      formatDate: fmt,
+      translate: t,
     });
-    const { container } = render(<JourneyTimeline />, { wrapper });
-    await flush();
-
-    // Add a due date through the central profile.
-    const { result } = renderHook(() => useUserProfile());
-    act(() => {
-      result.current.updateProfile({
-        journeyHistory: {
-          pregnancy: {
-            startedAt: "2025-01-01T12:00:00.000Z",
-            dueDate: "2025-10-08T12:00:00.000Z",
-          },
-        },
-      });
-    });
-    await flush();
-
-    const text = getLiveRegion(container).textContent ?? "";
-    // English bundle words for "Due date" + "Pregnancy" + the formatted date.
-    expect(text.toLowerCase()).toContain("added on");
-    expect(text.toLowerCase()).toMatch(/due/);
-    // The 2025 year confirms the actual date was interpolated, not a placeholder.
-    expect(text).toContain("2025");
+    expect(out).toBe("Due date (Pregnancy) added on 2025-10-08.");
   });
 
-  it("announces a removed milestone with the date it had", async () => {
-    seedProfile({
-      pregnancy: {
-        startedAt: "2025-01-01T12:00:00.000Z",
-        dueDate: "2025-10-08T12:00:00.000Z",
+  it("announces a removed milestone with the date it had", () => {
+    const prev = new Map([
+      ["pregnancy-due", point("pregnancy-due", "2025-10-08T12:00:00.000Z")],
+    ]);
+    const cur = new Map<string, AnnouncementPoint>();
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: prev,
+      currentPoints: cur,
+      formatDate: fmt,
+      translate: t,
+    });
+    expect(out).toBe(
+      "Due date (Pregnancy) recorded on 2025-10-08 was removed.",
+    );
+  });
+
+  it("announces an edited milestone with both old and new dates", () => {
+    const prev = new Map([
+      ["pregnancy-due", point("pregnancy-due", "2025-10-08T12:00:00.000Z")],
+    ]);
+    const cur = new Map([
+      ["pregnancy-due", point("pregnancy-due", "2025-11-15T12:00:00.000Z")],
+    ]);
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: prev,
+      currentPoints: cur,
+      formatDate: fmt,
+      translate: t,
+    });
+    expect(out).toBe(
+      "Due date (Pregnancy) changed from 2025-10-08 to 2025-11-15.",
+    );
+  });
+
+  it("announces a stage change naming both source and target stage", () => {
+    const same = new Map([
+      ["pregnancy-start", point("pregnancy-start", "2025-01-01T12:00:00.000Z", "Started", "Pregnancy")],
+    ]);
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: same,
+      currentPoints: same,
+      stageChange: {
+        from: "pregnant",
+        to: "postpartum",
+        fromLocalized: "Pregnancy",
+        toLocalized: "Postpartum",
       },
+      formatDate: fmt,
+      translate: t,
     });
-    const { container } = render(<JourneyTimeline />, { wrapper });
-    await flush();
-
-    const { result } = renderHook(() => useUserProfile());
-    act(() => {
-      result.current.updateProfile({
-        journeyHistory: {
-          pregnancy: { startedAt: "2025-01-01T12:00:00.000Z" }, // dueDate removed
-        },
-      });
-    });
-    await flush();
-
-    const text = getLiveRegion(container).textContent ?? "";
-    expect(text.toLowerCase()).toContain("removed");
-    // Should still mention the original date so the user knows *what* was removed.
-    expect(text).toContain("2025");
+    expect(out).toBe("Current stage changed from Pregnancy to Postpartum.");
   });
 
-  it("announces an edited milestone with both old and new dates", async () => {
-    seedProfile({
-      pregnancy: {
-        startedAt: "2025-01-01T12:00:00.000Z",
-        dueDate: "2025-10-08T12:00:00.000Z",
+  it("uses the initial-stage variant when there is no previous stage", () => {
+    const empty = new Map<string, AnnouncementPoint>();
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: empty,
+      currentPoints: empty,
+      stageChange: {
+        from: null,
+        to: "pregnant",
+        toLocalized: "Pregnancy",
       },
+      formatDate: fmt,
+      translate: t,
     });
-    const { container } = render(<JourneyTimeline />, { wrapper });
-    await flush();
-
-    const { result } = renderHook(() => useUserProfile());
-    act(() => {
-      result.current.updateProfile({
-        journeyHistory: {
-          pregnancy: {
-            startedAt: "2025-01-01T12:00:00.000Z",
-            dueDate: "2025-11-15T12:00:00.000Z",
-          },
-        },
-      });
-    });
-    await flush();
-
-    const text = getLiveRegion(container).textContent ?? "";
-    expect(text.toLowerCase()).toContain("changed from");
-    expect(text.toLowerCase()).toContain("to");
-    // Both years/months should be mentioned.
-    expect(text).toContain("2025");
-    expect(text.toLowerCase()).toMatch(/oct|nov/);
+    expect(out).toBe("Current stage set to Pregnancy.");
   });
 
-  it("announces a stage change naming both source and target stage", async () => {
-    seedProfile({
-      pregnancy: { startedAt: "2025-01-01T12:00:00.000Z" },
+  it(`falls back to a count summary when more than ${DETAIL_CAP} items change`, () => {
+    const prev = new Map<string, AnnouncementPoint>();
+    const cur = new Map<string, AnnouncementPoint>([
+      ["fertility-start", point("fertility-start", "2024-01-01T12:00:00.000Z", "Start", "Fertility")],
+      ["fertility-end", point("fertility-end", "2024-06-01T12:00:00.000Z", "Completed", "Fertility")],
+      ["pregnancy-start", point("pregnancy-start", "2024-06-15T12:00:00.000Z", "Start", "Pregnancy")],
+      ["pregnancy-due", point("pregnancy-due", "2025-03-22T12:00:00.000Z", "Due", "Pregnancy")],
+      ["postpartum-birth", point("postpartum-birth", "2025-03-22T12:00:00.000Z", "Birth", "Postpartum")],
+    ]);
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: prev,
+      currentPoints: cur,
+      formatDate: fmt,
+      translate: t,
     });
-    const { container } = render(<JourneyTimeline />, { wrapper });
-    await flush();
-
-    const { result } = renderHook(() => useUserProfile());
-    act(() => {
-      result.current.updateProfile({ journeyStage: "postpartum" });
-    });
-    await flush();
-
-    const text = getLiveRegion(container).textContent ?? "";
-    expect(text.toLowerCase()).toMatch(/stage|current/);
-    // Mentions both stage names (not just the count of changes).
-    expect(text.toLowerCase()).toMatch(/pregnan/);
-    expect(text.toLowerCase()).toMatch(/postpartum/);
+    expect(out).toBe("5 timeline items updated.");
+    expect(out).not.toContain("added on");
   });
 
-  it("falls back to a count summary when more than 3 items change at once", async () => {
-    seedProfile({});
-    const { container } = render(<JourneyTimeline />, { wrapper });
-    await flush();
-
-    const { result } = renderHook(() => useUserProfile());
-    act(() => {
-      result.current.updateProfile({
-        journeyHistory: {
-          fertility: {
-            startedAt: "2024-01-01T12:00:00.000Z",
-            completedAt: "2024-06-01T12:00:00.000Z",
-          },
-          pregnancy: {
-            startedAt: "2024-06-15T12:00:00.000Z",
-            dueDate: "2025-03-22T12:00:00.000Z",
-          },
-          postpartum: {
-            startedAt: "2025-03-23T12:00:00.000Z",
-            birthDate: "2025-03-22T12:00:00.000Z",
-          },
-        },
-      });
+  it("composes stage change + per-point change into one polite sentence", () => {
+    const prev = new Map([
+      ["pregnancy-due", point("pregnancy-due", "2025-10-08T12:00:00.000Z")],
+    ]);
+    const cur = new Map([
+      ["pregnancy-due", point("pregnancy-due", "2025-11-15T12:00:00.000Z")],
+    ]);
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: prev,
+      currentPoints: cur,
+      stageChange: {
+        from: "pregnant",
+        to: "postpartum",
+        fromLocalized: "Pregnancy",
+        toLocalized: "Postpartum",
+      },
+      formatDate: fmt,
+      translate: t,
     });
-    await flush();
-
-    const text = getLiveRegion(container).textContent ?? "";
-    // Should mention an aggregate count rather than enumerate each change.
-    expect(text.toLowerCase()).toMatch(/\d+\s+timeline items? updated|updated/);
-    // No date strings expected in the summary form.
-    expect(text.toLowerCase()).not.toContain("added on");
+    // Stage change comes first, then the per-point change, separated by " ".
+    expect(out).toBe(
+      "Current stage changed from Pregnancy to Postpartum. Due date (Pregnancy) changed from 2025-10-08 to 2025-11-15.",
+    );
   });
 
-  it("does not announce anything on the very first render (baseline)", async () => {
-    seedProfile({
-      pregnancy: { startedAt: "2025-01-01T12:00:00.000Z" },
+  it("emits nothing when current and previous snapshots are identical", () => {
+    const same = new Map([
+      ["pregnancy-due", point("pregnancy-due", "2025-10-08T12:00:00.000Z")],
+    ]);
+    const out = buildJourneyTimelineAnnouncement({
+      prevPoints: same,
+      currentPoints: same,
+      formatDate: fmt,
+      translate: t,
     });
-    const { container } = render(<JourneyTimeline />, { wrapper });
-    await flush();
-    expect(getLiveRegion(container).textContent ?? "").toBe("");
+    expect(out).toBe("");
   });
 });
 
 // ---------------------------------------------------------------------------
-// 3. JourneyAutoDetectToggle aria-live announcements.
+// 3. JourneyAutoDetectToggle aria-live integration.
 // ---------------------------------------------------------------------------
 describe("JourneyAutoDetectToggle aria-live", () => {
   beforeEach(() => {
@@ -305,20 +288,22 @@ describe("JourneyAutoDetectToggle aria-live", () => {
     const { container } = render(<JourneyAutoDetectToggle />, { wrapper });
     const switchEl = screen.getByRole("switch");
 
-    // Switch starts ON by default → click turns it OFF.
+    // Default ON → click turns it OFF.
     act(() => {
       switchEl.click();
     });
     await flush();
-    let text = getLiveRegion(container).textContent ?? "";
-    expect(text.toLowerCase()).toContain("turned off");
+    expect(getLiveRegion(container).textContent?.toLowerCase() ?? "").toContain(
+      "turned off",
+    );
 
     // Toggle back ON.
     act(() => {
       switchEl.click();
     });
     await flush();
-    text = getLiveRegion(container).textContent ?? "";
-    expect(text.toLowerCase()).toContain("turned on");
+    expect(getLiveRegion(container).textContent?.toLowerCase() ?? "").toContain(
+      "turned on",
+    );
   });
 });
