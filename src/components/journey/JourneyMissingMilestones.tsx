@@ -392,8 +392,9 @@ export const JourneyMissingMilestones = () => {
               {warnings.length > 0 && (
                 <ul
                   id={warnDescId}
-                  role="alert"
-                  aria-live="polite"
+                  // The dedicated <JourneyLiveRegion> below handles SR
+                  // announcements with diff-aware messages, so this list
+                  // is purely visual to avoid duplicate announcements.
                   className="mt-2 space-y-1"
                 >
                   {warnings.map((w) => (
