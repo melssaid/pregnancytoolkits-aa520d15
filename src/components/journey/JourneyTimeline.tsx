@@ -20,9 +20,9 @@
  */
 import { useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { CircleDot, Stethoscope, Baby, CalendarDays, CalendarCheck } from "lucide-react";
+import { CircleDot, Stethoscope, Baby, CalendarDays, CalendarCheck, Sparkles, Link2, UserCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useUserProfile, type JourneyStage } from "@/hooks/useUserProfile";
+import { useUserProfile, type JourneyStage, computeDueDateFromLMP } from "@/hooks/useUserProfile";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
 import { cn } from "@/lib/utils";
