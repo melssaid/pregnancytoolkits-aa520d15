@@ -162,6 +162,10 @@ describe("Journey ribbon + week sync", () => {
     await act(async () => {
       screen.getByTestId("set-birth-past").click();
     });
+    // Print state to diagnose
+    await new Promise((r) => setTimeout(r, 50));
+    // eslint-disable-next-line no-console
+    console.log("DBG stage=", screen.getByTestId("stage").textContent, "due=", screen.getByTestId("due").textContent);
     await waitFor(() => expect(getActiveStationStage()).toBe("postpartum"));
     expect(screen.getByTestId("stage").textContent).toBe("postpartum");
   });
