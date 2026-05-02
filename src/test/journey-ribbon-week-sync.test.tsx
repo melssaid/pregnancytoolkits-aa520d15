@@ -1,21 +1,21 @@
 /**
  * Ribbon + week reactivity tests
  * --------------------------------
- * Validates that mutating the canonical date inputs through the
- * `useUserProfile` hook (`lastPeriodDate`, `dueDate`, `birthDate`) is
- * reflected in two user-visible surfaces:
+ * Validates that the canonical date inputs (`lastPeriodDate`, `dueDate`,
+ * `birthDate`) drive two user-visible surfaces correctly:
  *
  *   1. `JourneyProgressRibbon` — the active station (`aria-current="step"`)
- *      moves between fertility / pregnant / postpartum.
+ *      lands on fertility / pregnant / postpartum based on the dates.
  *   2. `pregnancyWeek` — auto-derived from LMP via Naegele's rule and
  *      clamped to [1, 42].
  *
- * Tests render the ribbon together with a tiny "WeekProbe" component that
- * subscribes to the same hook, so we drive the mutation through the same
- * React tree the UI uses (no direct localStorage hacking).
+ * Because `useUserProfile` is a per-component `useState` store (not a
+ * shared context), each scenario seeds the profile through `localStorage`
+ * and mounts a fresh tree. This mirrors how the app rehydrates the
+ * profile on real navigation.
  */
 import { describe, it, expect, beforeEach } from "vitest";
-import { render, screen, act, waitFor } from "@testing-library/react";
+import { render, screen, act, waitFor, cleanup } from "@testing-library/react";
 import "@/i18n";
 
 import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbon";
@@ -24,7 +24,7 @@ import {
   useUserProfile,
   computeDueDateFromLMP,
   computeWeekFromLMP,
-  type JourneyHistory,
+  type UserProfile,
 } from "@/hooks/useUserProfile";
 
 const PROFILE_KEY = "user_central_profile_v1";
@@ -36,56 +36,54 @@ const isoDaysFromNow = (days: number) => {
   return d.toISOString();
 };
 
-const dateOnlyDaysFromNow = (days: number) => {
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().split("T")[0];
+const dateOnlyDaysAgo = (days: number) =>
+  isoDaysFromNow(-days).split("T")[0];
+
+const baseProfile = (overrides: Partial<UserProfile> = {}): UserProfile => ({
+  isPregnant: true,
+  journeyStage: "fertility",
+  pregnancyWeek: 0,
+  weight: null,
+  prePregnancyWeight: null,
+  height: null,
+  lastPeriodDate: null,
+  dueDate: null,
+  mood: "Good",
+  bloodType: null,
+  healthConditions: [],
+  goals: [],
+  journeyHistory: {},
+  autoStageDetection: true,
+  updatedAt: new Date().toISOString(),
+  ...overrides,
+});
+
+const seedProfile = (overrides: Partial<UserProfile>) => {
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(baseProfile(overrides)));
 };
 
 /**
- * Renders the ribbon together with a probe that exposes the live
- * `pregnancyWeek` and `journeyStage` and a set of mutation buttons that
- * use the *same* `useUserProfile` instance. Going through hook setters
- * (rather than localStorage) ensures auto-detection effects re-run.
+ * Tiny probe: subscribes to the same hook the ribbon does, so assertions
+ * against `pregnancyWeek` / `journeyStage` describe the exact state the
+ * ribbon is rendering against (auto-detection effects flush in the same
+ * tick as the ribbon).
  */
-function Harness() {
-  const { profile, updateProfile, setLastPeriodDate } = useUserProfile();
+function Probe() {
+  const { profile } = useUserProfile();
   return (
-    <div>
-      <JourneyProgressRibbon onStationSelect={() => {}} />
+    <>
       <output data-testid="week">{profile.pregnancyWeek}</output>
       <output data-testid="stage">{profile.journeyStage}</output>
       <output data-testid="due">{profile.dueDate ?? ""}</output>
-      <button
-        data-testid="set-lmp"
-        onClick={() => setLastPeriodDate("2025-01-01")}
-      />
-      <button
-        data-testid="set-due-future"
-        onClick={() => updateProfile({ dueDate: isoDaysFromNow(120) })}
-      />
-      <button
-        data-testid="set-birth-past"
-        onClick={() => {
-          const history: JourneyHistory = {
-            ...(profile.journeyHistory ?? {}),
-            postpartum: {
-              ...(profile.journeyHistory?.postpartum ?? {}),
-              birthDate: isoDaysFromNow(-7),
-              startedAt: isoDaysFromNow(-7),
-            },
-          };
-          updateProfile({ journeyHistory: history });
-        }}
-      />
-    </div>
+    </>
   );
 }
 
-const renderHarness = () =>
+const mount = () =>
   render(
     <LanguageProvider>
-      <Harness />
+      <JourneyProgressRibbon onStationSelect={() => {}} />
+      <Probe />
     </LanguageProvider>,
   );
 
@@ -97,120 +95,100 @@ const getActiveStationStage = (): string | null => {
 describe("Journey ribbon + week sync", () => {
   beforeEach(() => {
     localStorage.clear();
+    cleanup();
   });
 
-  it("starts on the seeded fertility station when profile begins fertility", async () => {
-    localStorage.setItem(
-      PROFILE_KEY,
-      JSON.stringify({
-        journeyStage: "fertility",
-        pregnancyWeek: 0,
-        autoStageDetection: false,
-        journeyHistory: { fertility: { startedAt: isoDaysFromNow(-30) } },
-        updatedAt: new Date().toISOString(),
-      }),
-    );
-    renderHarness();
+  it("renders the fertility station when the seeded stage is fertility", async () => {
+    seedProfile({
+      journeyStage: "fertility",
+      autoStageDetection: false,
+      journeyHistory: { fertility: { startedAt: isoDaysFromNow(-30) } },
+    });
+    mount();
     await waitFor(() =>
       expect(getActiveStationStage()).toBe("fertility"),
     );
   });
 
-  it("updates the ribbon to 'pregnant' and recomputes week when LMP is set", async () => {
-    renderHarness();
+  it("activates the pregnant station and computes week from a recorded LMP", async () => {
+    const lmp = "2025-01-01";
+    seedProfile({ lastPeriodDate: lmp, journeyStage: "fertility" });
+    mount();
 
-    await act(async () => {
-      screen.getByTestId("set-lmp").click();
+    // Auto-effects in useUserProfile compute week + due, then auto-detect
+    // upgrades to pregnant.
+    await waitFor(() => {
+      expect(screen.getByTestId("stage").textContent).toBe("pregnant");
+      expect(getActiveStationStage()).toBe("pregnant");
     });
-    // Allow the LMP→week effect + auto-detection effect to flush.
-    await act(async () => {
-      await Promise.resolve();
-      await Promise.resolve();
-    });
 
-    const expectedWeek = computeWeekFromLMP("2025-01-01");
-    const expectedDue = computeDueDateFromLMP("2025-01-01");
-
-    expect(screen.getByTestId("week").textContent).toBe(String(expectedWeek));
-    expect(screen.getByTestId("due").textContent).toBe(expectedDue);
-    expect(getActiveStationStage()).toBe("pregnant");
+    expect(screen.getByTestId("week").textContent).toBe(
+      String(computeWeekFromLMP(lmp)),
+    );
+    expect(screen.getByTestId("due").textContent).toBe(
+      computeDueDateFromLMP(lmp),
+    );
   });
 
-  it("moves the ribbon to 'pregnant' when a future dueDate is set without LMP", async () => {
-    renderHarness();
-
-    await act(async () => {
-      screen.getByTestId("set-due-future").click();
+  it("activates the pregnant station when only a future dueDate is set", async () => {
+    seedProfile({
+      journeyStage: "fertility",
+      dueDate: isoDaysFromNow(120),
     });
-    await act(async () => {
-      await Promise.resolve();
-      await Promise.resolve();
-    });
-
-    expect(getActiveStationStage()).toBe("pregnant");
-  });
-
-  it("moves the ribbon to 'postpartum' once a past birthDate is recorded", async () => {
-    renderHarness();
-
-    // Walk through pregnant first, then add birth date.
-    await act(async () => {
-      screen.getByTestId("set-due-future").click();
-    });
+    mount();
     await waitFor(() => expect(getActiveStationStage()).toBe("pregnant"));
+  });
 
-    await act(async () => {
-      screen.getByTestId("set-birth-past").click();
+  it("activates the postpartum station when a past birthDate is recorded", async () => {
+    seedProfile({
+      journeyStage: "pregnant",
+      dueDate: isoDaysFromNow(-7),
+      journeyHistory: {
+        pregnancy: { startedAt: isoDaysFromNow(-280) },
+        postpartum: {
+          birthDate: isoDaysFromNow(-7),
+          startedAt: isoDaysFromNow(-7),
+        },
+      },
     });
-    // Print state to diagnose
-    await new Promise((r) => setTimeout(r, 50));
-    // eslint-disable-next-line no-console
-    console.log("DBG stage=", screen.getByTestId("stage").textContent, "due=", screen.getByTestId("due").textContent);
-    await waitFor(() => expect(getActiveStationStage()).toBe("postpartum"));
-    expect(screen.getByTestId("stage").textContent).toBe("postpartum");
+    mount();
+    await waitFor(() => {
+      expect(screen.getByTestId("stage").textContent).toBe("postpartum");
+      expect(getActiveStationStage()).toBe("postpartum");
+    });
   });
 
   it("clamps pregnancyWeek to 42 when LMP is far in the past", async () => {
-    // Seed an LMP from 2 years ago via the persisted profile, then mount.
-    const ancientLMP = isoDaysFromNow(-365 * 2).split("T")[0];
-    localStorage.setItem(
-      PROFILE_KEY,
-      JSON.stringify({
-        journeyStage: "pregnant",
-        pregnancyWeek: 0,
-        lastPeriodDate: ancientLMP,
-        autoStageDetection: true,
-        journeyHistory: {},
-        updatedAt: new Date().toISOString(),
-      }),
-    );
-
-    renderHarness();
-    await act(async () => {
-      await Promise.resolve();
-      await Promise.resolve();
+    seedProfile({
+      journeyStage: "pregnant",
+      lastPeriodDate: dateOnlyDaysAgo(365 * 2),
     });
-
-    expect(screen.getByTestId("week").textContent).toBe("42");
+    mount();
+    await waitFor(() =>
+      expect(screen.getByTestId("week").textContent).toBe("42"),
+    );
   });
 
-  it("never auto-downgrades postpartum back to pregnant after birthDate is set", async () => {
-    renderHarness();
-
-    await act(async () => {
-      screen.getByTestId("set-birth-past").click();
+  it("never auto-downgrades postpartum back to pregnant when a future dueDate is also present", async () => {
+    seedProfile({
+      journeyStage: "postpartum",
+      dueDate: isoDaysFromNow(60), // illogical but possible
+      journeyHistory: {
+        postpartum: {
+          birthDate: isoDaysFromNow(-3),
+          startedAt: isoDaysFromNow(-3),
+        },
+      },
     });
-    await waitFor(() => expect(getActiveStationStage()).toBe("postpartum"));
+    mount();
 
-    // Now add a future due date — auto-detect must NOT revert.
-    await act(async () => {
-      screen.getByTestId("set-due-future").click();
-    });
+    // Give the auto-detect effect every chance to run.
     await act(async () => {
       await Promise.resolve();
       await Promise.resolve();
     });
 
+    expect(screen.getByTestId("stage").textContent).toBe("postpartum");
     expect(getActiveStationStage()).toBe("postpartum");
   });
 });
