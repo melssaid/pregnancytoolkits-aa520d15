@@ -134,7 +134,11 @@ export const JourneyMissingMilestones = () => {
       if (!value) return;
       haptic("tap");
 
-      const iso = new Date(value).toISOString();
+      // Normalize date-only inputs (YYYY-MM-DD) to noon UTC so localized
+      // formatters never shift the visible day across timezones.
+      const iso = /^\d{4}-\d{2}-\d{2}$/.test(value)
+        ? new Date(`${value}T12:00:00.000Z`).toISOString()
+        : new Date(value).toISOString();
       const prev: JourneyHistory = profile.journeyHistory ?? {};
       const next: JourneyHistory = { ...prev };
 
@@ -145,7 +149,14 @@ export const JourneyMissingMilestones = () => {
         next.pregnancy = { ...(prev.pregnancy ?? {}), startedAt: iso };
         updateProfile({ journeyHistory: next });
       } else if (m.id === "postpartum.birthDate") {
-        next.postpartum = { ...(prev.postpartum ?? {}), birthDate: iso };
+        // Birth date is the natural anchor for postpartum: seed
+        // `postpartum.startedAt` from it when missing so the timeline
+        // and change-log stay coherent without a second prompt.
+        next.postpartum = {
+          ...(prev.postpartum ?? {}),
+          birthDate: iso,
+          startedAt: prev.postpartum?.startedAt ?? iso,
+        };
         updateProfile({ journeyHistory: next });
       } else if (m.id === "postpartum.startedAt") {
         next.postpartum = { ...(prev.postpartum ?? {}), startedAt: iso };
