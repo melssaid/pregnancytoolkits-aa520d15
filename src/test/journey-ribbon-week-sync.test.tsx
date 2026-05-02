@@ -15,7 +15,7 @@
  * React tree the UI uses (no direct localStorage hacking).
  */
 import { describe, it, expect, beforeEach } from "vitest";
-import { render, screen, act, within } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import "@/i18n";
 
 import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbon";
