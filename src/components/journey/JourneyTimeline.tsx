@@ -30,6 +30,10 @@ import {
   JourneyLiveRegion,
   useJourneyLiveAnnouncer,
 } from "@/components/journey/JourneyLiveRegion";
+import {
+  buildJourneyTimelineAnnouncement,
+  type AnnouncementPoint,
+} from "@/components/journey/buildTimelineAnnouncement";
 
 /**
  * Origin of a milestone — explains *why* this point exists on the timeline.
