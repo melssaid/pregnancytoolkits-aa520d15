@@ -76,8 +76,8 @@ const getRegions = () => {
 };
 
 const setDraft = (label: RegExp, value: string) => {
-  const input = screen.getByLabelText(label) as HTMLInputElement;
-  fireEvent.change(input, { target: { value } });
+  const inputs = screen.getAllByLabelText(label) as HTMLInputElement[];
+  fireEvent.change(inputs[0], { target: { value } });
 };
 
 describe("JourneyMissingMilestones — aria-live warning announcements", () => {
