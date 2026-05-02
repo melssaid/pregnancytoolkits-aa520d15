@@ -433,11 +433,39 @@ export const JourneyTimeline = () => {
               node?.scrollIntoView({ behavior: "smooth", block: "center" });
             };
             const stageName = t(`journey.ribbon.stages.${p.stage}`);
+            const OriginIcon = ORIGIN_ICON[p.origin];
+            // Resolved origin reason — short chip text + verbose tooltip/aria.
+            const originChip = t(`journey.map.timeline.originBadge.${p.origin}`, {
+              defaultValue:
+                p.origin === "manual"
+                  ? "Manual"
+                  : p.origin === "derived"
+                    ? "Derived"
+                    : p.origin === "computed"
+                      ? "Auto-calc"
+                      : "Auto",
+            });
+            const sourceLabel = p.sourceKey
+              ? t(`journey.map.timeline.sourceLabel.${p.sourceKey}`, {
+                  defaultValue: p.sourceKey,
+                })
+              : "";
+            const originReason = sourceLabel
+              ? t(`journey.map.timeline.originReason.${p.origin}WithSource`, {
+                  source: sourceLabel,
+                  defaultValue: `Auto-filled from ${sourceLabel}`,
+                })
+              : t(`journey.map.timeline.originReason.${p.origin}`, {
+                  defaultValue:
+                    p.origin === "manual"
+                      ? "Entered manually"
+                      : "Auto-filled by the app",
+                });
             const ariaLabel = `${stageName} – ${t(p.labelKey)} – ${formatLocalized(
               p.date.toISOString(),
               "PP",
               i18n.language,
-            )}`;
+            )} – ${originReason}`;
 
             return (
               <li
@@ -449,6 +477,7 @@ export const JourneyTimeline = () => {
                   type="button"
                   onClick={handleJump}
                   aria-label={ariaLabel}
+                  title={originReason}
                   className={cn(
                     "flex flex-col items-center w-full rounded-xl p-1 -m-1 transition-all",
                     "outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
@@ -501,6 +530,29 @@ export const JourneyTimeline = () => {
                     <p className="text-[9px] text-muted-foreground leading-tight">
                       {formatLocalized(p.date.toISOString(), "PP", i18n.language)}
                     </p>
+
+                    {/* Origin badge — explains *why* this milestone exists. */}
+                    <span
+                      className={cn(
+                        "mt-1 inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5",
+                        "text-[8.5px] font-bold leading-none border",
+                        p.origin === "manual"
+                          ? "border-border/60 bg-muted/40 text-muted-foreground"
+                          : "border-transparent text-foreground",
+                      )}
+                      style={
+                        p.origin === "manual"
+                          ? undefined
+                          : {
+                              background: `hsl(${hue} / 0.14)`,
+                              color: `hsl(${hue})`,
+                            }
+                      }
+                      aria-label={originReason}
+                    >
+                      <OriginIcon className="h-2.5 w-2.5" aria-hidden />
+                      {originChip}
+                    </span>
                   </div>
                 </button>
               </li>
