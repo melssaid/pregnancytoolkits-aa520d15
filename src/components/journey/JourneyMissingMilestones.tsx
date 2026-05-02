@@ -133,10 +133,28 @@ export const JourneyMissingMilestones = () => {
     [navigate],
   );
 
+  const warningsByMilestone = useMemo(() => {
+    const map: Partial<Record<MilestoneId, MilestoneWarning[]>> = {};
+    for (const m of missing) {
+      const value = drafts[m.id];
+      if (!value) continue;
+      map[m.id] = validateMilestoneDraft({
+        id: m.id,
+        value,
+        history: profile.journeyHistory ?? {},
+        stage: profile.journeyStage,
+      });
+    }
+    return map;
+  }, [drafts, missing, profile.journeyHistory, profile.journeyStage]);
+
   const handleSave = useCallback(
     (m: Milestone) => {
       const value = drafts[m.id];
       if (!value) return;
+      // Block saves when validator detected an impossible state.
+      const warnings = warningsByMilestone[m.id] ?? [];
+      if (hasBlockingError(warnings)) return;
       haptic("tap");
 
       // Normalize date-only inputs (YYYY-MM-DD) to noon UTC so localized
@@ -173,7 +191,7 @@ export const JourneyMissingMilestones = () => {
 
       setSaved((s) => ({ ...s, [m.id]: true }));
     },
-    [drafts, profile.journeyHistory, updateProfile],
+    [drafts, warningsByMilestone, profile.journeyHistory, updateProfile],
   );
 
   if (missing.length === 0) return null;
