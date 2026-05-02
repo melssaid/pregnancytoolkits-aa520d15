@@ -30,6 +30,10 @@ import {
   JourneyLiveRegion,
   useJourneyLiveAnnouncer,
 } from "@/components/journey/JourneyLiveRegion";
+import {
+  buildJourneyTimelineAnnouncement,
+  type AnnouncementPoint,
+} from "@/components/journey/buildTimelineAnnouncement";
 
 /**
  * Origin of a milestone — explains *why* this point exists on the timeline.
@@ -204,25 +208,17 @@ export const JourneyTimeline = () => {
   // Detect timeline diffs (additions/removals/date edits) and stage changes
   // since the last render, and surface a *specific* polite message naming
   // exactly what changed (which date, which stage, from → to value).
+  // The pure diff/wording logic lives in `buildJourneyTimelineAnnouncement`
+  // so it can be unit-tested without mounting the component tree.
   const { announce, message: liveMessage } = useJourneyLiveAnnouncer();
-  const prevPointsRef = useRef<Map<string, string> | null>(null); // id -> ISO date
+  const prevPointsRef = useRef<Map<string, AnnouncementPoint> | null>(null);
   const prevStageRef = useRef<JourneyStage | null>(null);
 
   useEffect(() => {
-    const currentMap = new Map(points.map((p) => [p.id, p.date.toISOString()]));
-    const prevMap = prevPointsRef.current;
-
-    if (prevMap === null) {
-      // First render — establish baseline silently.
-      prevPointsRef.current = currentMap;
-      prevStageRef.current = profile.journeyStage;
-      return;
-    }
-
-    const fmtDate = (iso: string) => formatLocalized(iso, "PP", i18n.language);
-    const labelOf = (id: string) => {
+    const stageNameOf = (s: JourneyStage) => t(`journey.ribbon.stages.${s}`);
+    const labelOfKind = (id: string): { label: string; stage: string } => {
       const p = points.find((x) => x.id === id);
-      if (p) return { label: t(p.labelKey), stage: t(`journey.ribbon.stages.${p.stage}`) };
+      if (p) return { label: t(p.labelKey), stage: stageNameOf(p.stage) };
       // Removed entry — derive label/stage from the id (e.g. "pregnancy-due").
       const [stageKey, kind] = id.split("-");
       const stageMap: Record<string, JourneyStage> = {
@@ -239,100 +235,48 @@ export const JourneyTimeline = () => {
       };
       return {
         label: t(kindLabelMap[kind] ?? "journey.map.fields.startedAt"),
-        stage: t(`journey.ribbon.stages.${stage}`),
+        stage: stageNameOf(stage),
       };
     };
 
-    const messages: string[] = [];
+    const currentMap = new Map<string, AnnouncementPoint>(
+      points.map((p) => {
+        const meta = labelOfKind(p.id);
+        return [p.id, { id: p.id, iso: p.date.toISOString(), ...meta }];
+      }),
+    );
+    // Re-hydrate prev labels from the *current* labelOf for removed ids so
+    // the message uses today's translation (handles language switches).
+    const prevMap = prevPointsRef.current
+      ? new Map(
+          Array.from(prevPointsRef.current).map(([id, p]) => {
+            if (currentMap.has(id)) return [id, p] as const;
+            const meta = labelOfKind(id);
+            return [id, { ...p, ...meta }] as const;
+          }),
+        )
+      : null;
 
-    // Stage change — name both old and new stage.
-    if (prevStageRef.current !== profile.journeyStage) {
-      const toName = t(`journey.ribbon.stages.${profile.journeyStage}`);
-      messages.push(
-        prevStageRef.current
-          ? t("journey.map.srAnnounce.stageChangedFromTo", {
-              from: t(`journey.ribbon.stages.${prevStageRef.current}`),
-              to: toName,
-              defaultValue: `Current stage changed from ${prevStageRef.current} to ${profile.journeyStage}.`,
-            })
-          : t("journey.map.srAnnounce.stageChangedInitial", {
-              to: toName,
-              defaultValue: `Current stage set to ${profile.journeyStage}.`,
-            }),
-      );
-    }
+    const stageChanged = prevStageRef.current !== profile.journeyStage;
 
-    // Per-point diff: added, removed, or date edited.
-    const added: string[] = [];
-    const removed: string[] = [];
-    const changed: Array<{ id: string; from: string; to: string }> = [];
-
-    currentMap.forEach((iso, id) => {
-      if (!prevMap.has(id)) {
-        added.push(id);
-      } else if (prevMap.get(id) !== iso) {
-        changed.push({ id, from: prevMap.get(id) as string, to: iso });
-      }
+    const message = buildJourneyTimelineAnnouncement({
+      prevPoints: prevMap,
+      currentPoints: currentMap,
+      stageChange: stageChanged
+        ? {
+            from: prevStageRef.current,
+            to: profile.journeyStage,
+            fromLocalized: prevStageRef.current
+              ? stageNameOf(prevStageRef.current)
+              : undefined,
+            toLocalized: stageNameOf(profile.journeyStage),
+          }
+        : undefined,
+      formatDate: (iso) => formatLocalized(iso, "PP", i18n.language),
+      translate: (key, vars) => t(key, vars as Record<string, unknown>),
     });
-    prevMap.forEach((_iso, id) => {
-      if (!currentMap.has(id)) removed.push(id);
-    });
 
-    const totalChanges = added.length + removed.length + changed.length;
-    // Cap detailed lines so the announcement stays digestible; if too many
-    // changed at once (rare) fall back to a count summary.
-    const DETAIL_CAP = 3;
-
-    if (totalChanges > DETAIL_CAP) {
-      messages.push(
-        t("journey.map.srAnnounce.multipleChanges", {
-          count: totalChanges,
-          defaultValue: `${totalChanges} timeline items updated.`,
-        }),
-      );
-    } else {
-      added.forEach((id) => {
-        const { label, stage } = labelOf(id);
-        const iso = currentMap.get(id)!;
-        messages.push(
-          t("journey.map.srAnnounce.pointAdded", {
-            label,
-            stage,
-            date: fmtDate(iso),
-            defaultValue: `${label} (${stage}) added on ${fmtDate(iso)}.`,
-          }),
-        );
-      });
-      changed.forEach(({ id, from, to }) => {
-        const { label, stage } = labelOf(id);
-        messages.push(
-          t("journey.map.srAnnounce.pointChanged", {
-            label,
-            stage,
-            from: fmtDate(from),
-            to: fmtDate(to),
-            defaultValue: `${label} (${stage}) changed from ${fmtDate(from)} to ${fmtDate(to)}.`,
-          }),
-        );
-      });
-      removed.forEach((id) => {
-        const { label, stage } = labelOf(id);
-        const iso = prevMap.get(id) as string;
-        messages.push(
-          t("journey.map.srAnnounce.pointRemoved", {
-            label,
-            stage,
-            date: fmtDate(iso),
-            defaultValue: `${label} (${stage}) recorded on ${fmtDate(iso)} was removed.`,
-          }),
-        );
-      });
-    }
-
-    if (messages.length > 0) {
-      // Shared announcer handles re-announce + sr-only rendering.
-      announce(messages.join(" "));
-    }
+    if (message) announce(message);
 
     prevPointsRef.current = currentMap;
     prevStageRef.current = profile.journeyStage;
