@@ -13,7 +13,7 @@
  *   • Renders nothing when everything is filled (no clutter).
  *   • Fully RTL + 7-locale + keyboard accessible.
  */
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -32,7 +32,12 @@ import {
   validateMilestoneDraft,
   hasBlockingError,
   type MilestoneWarning,
+  type WarningCode,
 } from "./validateMilestoneDraft";
+import {
+  JourneyLiveRegion,
+  useJourneyLiveAnnouncer,
+} from "./JourneyLiveRegion";
 
 type MilestoneId =
   | "fertility.startedAt"
