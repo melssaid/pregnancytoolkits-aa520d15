@@ -28,6 +28,11 @@ import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { JourneyAutoDetectToggle } from "@/components/journey/JourneyAutoDetectToggle";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { renderHook } from "@testing-library/react";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <LanguageProvider>{children}</LanguageProvider>
+);
 
 const PROFILE_KEY = "user_central_profile_v1";
 
