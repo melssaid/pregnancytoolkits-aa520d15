@@ -9507,6 +9507,15 @@
           "birthDate": "Geburtsdatum deines Babys — markiert den Beginn der Wochenbettphase.",
           "pregnancyStart": "Wann hast du begonnen, deine Schwangerschaft zu verfolgen?",
           "fertilityStart": "Wann begann deine Vorbereitung auf die Schwangerschaft?"
+        },
+        "warnings": {
+          "future": "Dieses Datum liegt in der Zukunft — bitte heute oder früher wählen.",
+          "beforeBirth": "Wochenbett kann nicht vor dem Geburtsdatum beginnen.",
+          "afterDueDate": "Schwangerschaft kann nicht nach dem Geburtstermin beginnen.",
+          "beforePregnancy": "Geburtsdatum kann nicht vor dem Schwangerschaftsbeginn liegen.",
+          "dueDateTooOld": "Dieser Geburtstermin liegt über zwei Wochen zurück — ins Wochenbett wechseln?",
+          "timezoneDrift": "Hinweis: Zeitzonenversatz kann dies um einen Tag verschieben.",
+          "generic": "Dieses Datum wirkt inkonsistent — bitte prüfen."
         }
       },
       "changeLog": {

@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CalendarPlus, Check, AlertCircle, ExternalLink } from "lucide-react";
+import { CalendarPlus, Check, AlertCircle, ExternalLink, AlertTriangle } from "lucide-react";
 import {
   useUserProfile,
   type JourneyHistory,
@@ -28,6 +28,11 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import { haptic } from "@/lib/haptics";
 import { cn } from "@/lib/utils";
+import {
+  validateMilestoneDraft,
+  hasBlockingError,
+  type MilestoneWarning,
+} from "./validateMilestoneDraft";
 
 type MilestoneId =
   | "fertility.startedAt"
@@ -128,10 +133,28 @@ export const JourneyMissingMilestones = () => {
     [navigate],
   );
 
+  const warningsByMilestone = useMemo(() => {
+    const map: Partial<Record<MilestoneId, MilestoneWarning[]>> = {};
+    for (const m of missing) {
+      const value = drafts[m.id];
+      if (!value) continue;
+      map[m.id] = validateMilestoneDraft({
+        id: m.id,
+        value,
+        history: profile.journeyHistory ?? {},
+        stage: profile.journeyStage,
+      });
+    }
+    return map;
+  }, [drafts, missing, profile.journeyHistory, profile.journeyStage]);
+
   const handleSave = useCallback(
     (m: Milestone) => {
       const value = drafts[m.id];
       if (!value) return;
+      // Block saves when validator detected an impossible state.
+      const warnings = warningsByMilestone[m.id] ?? [];
+      if (hasBlockingError(warnings)) return;
       haptic("tap");
 
       // Normalize date-only inputs (YYYY-MM-DD) to noon UTC so localized
@@ -168,7 +191,7 @@ export const JourneyMissingMilestones = () => {
 
       setSaved((s) => ({ ...s, [m.id]: true }));
     },
-    [drafts, profile.journeyHistory, updateProfile],
+    [drafts, warningsByMilestone, profile.journeyHistory, updateProfile],
   );
 
   if (missing.length === 0) return null;
@@ -215,13 +238,18 @@ export const JourneyMissingMilestones = () => {
         {missing.map((m) => {
           const isSaved = saved[m.id];
           const draft = drafts[m.id] ?? "";
+          const warnings = warningsByMilestone[m.id] ?? [];
+          const blocking = hasBlockingError(warnings);
+          const warnDescId = warnings.length ? `milestone-warn-${m.id}` : undefined;
 
           return (
             <li
               key={m.id}
               className={cn(
                 "rounded-xl border bg-card/60 p-2.5",
-                m.important
+                blocking
+                  ? "border-destructive/60"
+                  : m.important
                   ? "border-amber-400/50"
                   : "border-border/60",
               )}
@@ -261,17 +289,23 @@ export const JourneyMissingMilestones = () => {
                   max={
                     m.id === "pregnancy.dueDate" ? undefined : todayISO()
                   }
-                  onChange={(e) =>
-                    setDrafts((d) => ({ ...d, [m.id]: e.target.value }))
-                  }
+                  onChange={(e) => {
+                    setDrafts((d) => ({ ...d, [m.id]: e.target.value }));
+                    setSaved((s) => ({ ...s, [m.id]: false }));
+                  }}
                   aria-label={t(m.labelKey)}
-                  className="h-9 text-xs flex-1"
+                  aria-invalid={blocking || undefined}
+                  aria-describedby={warnDescId}
+                  className={cn(
+                    "h-9 text-xs flex-1",
+                    blocking && "border-destructive focus-visible:ring-destructive/40",
+                  )}
                 />
                 <Button
                   type="button"
                   size="sm"
                   variant={m.important ? "default" : "secondary"}
-                  disabled={!draft}
+                  disabled={!draft || blocking}
                   onClick={() => handleSave(m)}
                   className="h-9 px-3 text-xs font-bold"
                 >
@@ -279,6 +313,34 @@ export const JourneyMissingMilestones = () => {
                   {t("journey.map.missing.add", "Add")}
                 </Button>
               </div>
+
+              {warnings.length > 0 && (
+                <ul
+                  id={warnDescId}
+                  role="alert"
+                  aria-live="polite"
+                  className="mt-2 space-y-1"
+                >
+                  {warnings.map((w) => (
+                    <li
+                      key={w.code}
+                      className={cn(
+                        "flex items-start gap-1.5 text-[11px] font-semibold leading-snug",
+                        w.severity === "error"
+                          ? "text-destructive"
+                          : "text-amber-600 dark:text-amber-400",
+                      )}
+                    >
+                      <AlertTriangle className="h-3 w-3 mt-0.5 shrink-0" aria-hidden />
+                      <span>
+                        {t(`journey.map.missing.warnings.${w.code}`, {
+                          defaultValue: t("journey.map.missing.warnings.generic", "This date looks inconsistent."),
+                        })}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               {m.tool && !isSaved && (
                 <button

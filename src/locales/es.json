@@ -9507,6 +9507,15 @@
           "birthDate": "Fecha de nacimiento de tu bebé — marca el inicio del posparto.",
           "pregnancyStart": "¿Cuándo empezaste a registrar tu embarazo?",
           "fertilityStart": "¿Cuándo comenzó tu preparación para el embarazo?"
+        },
+        "warnings": {
+          "future": "Esta fecha es futura — elige hoy o antes.",
+          "beforeBirth": "El posparto no puede comenzar antes de la fecha de nacimiento.",
+          "afterDueDate": "El embarazo no puede comenzar después de la fecha probable de parto.",
+          "beforePregnancy": "La fecha de nacimiento no puede ser anterior al inicio del embarazo.",
+          "dueDateTooOld": "Esta fecha probable de parto pasó hace más de dos semanas — ¿pasar al posparto?",
+          "timezoneDrift": "Aviso: el desfase horario puede mover esto un día.",
+          "generic": "Esta fecha parece inconsistente — revísala."
         }
       },
       "changeLog": {

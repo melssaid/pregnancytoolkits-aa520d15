@@ -9507,6 +9507,15 @@
           "birthDate": "Date de naissance de votre bébé — marque le début du post-partum.",
           "pregnancyStart": "Quand avez-vous commencé à suivre votre grossesse ?",
           "fertilityStart": "Quand votre préparation à la grossesse a-t-elle commencé ?"
+        },
+        "warnings": {
+          "future": "Cette date est dans le futur — choisis aujourd'hui ou avant.",
+          "beforeBirth": "Le post-partum ne peut pas commencer avant la naissance.",
+          "afterDueDate": "La grossesse ne peut pas commencer après la date prévue.",
+          "beforePregnancy": "La naissance ne peut pas précéder le début de grossesse.",
+          "dueDateTooOld": "Cette date prévue est passée depuis plus de deux semaines — passer au post-partum ?",
+          "timezoneDrift": "Attention : le décalage horaire peut décaler d'un jour.",
+          "generic": "Cette date semble incohérente — vérifie-la."
         }
       },
       "changeLog": {

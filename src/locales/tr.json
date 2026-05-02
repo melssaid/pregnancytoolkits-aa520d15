@@ -9507,6 +9507,15 @@
           "birthDate": "Bebeğinin doğum tarihi — doğum sonrası dönemi başlatır.",
           "pregnancyStart": "Hamileliğini takibe ne zaman başladın?",
           "fertilityStart": "Hamilelik öncesi hazırlığın ne zaman başladı?"
+        },
+        "warnings": {
+          "future": "Bu tarih gelecekte — bugünü veya öncesini seçin.",
+          "beforeBirth": "Doğum sonrası, doğum tarihinden önce başlayamaz.",
+          "afterDueDate": "Hamilelik, tahmini doğum tarihinden sonra başlayamaz.",
+          "beforePregnancy": "Doğum tarihi, hamilelik başlangıcından önce olamaz.",
+          "dueDateTooOld": "Bu tahmini doğum tarihi iki haftadan eski — doğum sonrasına geçilsin mi?",
+          "timezoneDrift": "Uyarı: saat dilimi bunu bir gün kaydırabilir.",
+          "generic": "Bu tarih tutarsız görünüyor — lütfen gözden geçirin."
         }
       },
       "changeLog": {

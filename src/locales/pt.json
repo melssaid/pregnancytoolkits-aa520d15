@@ -9507,6 +9507,15 @@
           "birthDate": "Data de nascimento do bebê — marca o início do pós-parto.",
           "pregnancyStart": "Quando você começou a acompanhar sua gravidez?",
           "fertilityStart": "Quando começou sua preparação pré-gestacional?"
+        },
+        "warnings": {
+          "future": "Esta data está no futuro — escolha hoje ou antes.",
+          "beforeBirth": "O pós-parto não pode começar antes do nascimento.",
+          "afterDueDate": "A gravidez não pode começar depois da data prevista.",
+          "beforePregnancy": "A data de nascimento não pode ser antes do início da gravidez.",
+          "dueDateTooOld": "Esta data prevista passou há mais de duas semanas — mudar para pós-parto?",
+          "timezoneDrift": "Aviso: o fuso horário pode deslocar isto em um dia.",
+          "generic": "Esta data parece inconsistente — revise."
         }
       },
       "changeLog": {
