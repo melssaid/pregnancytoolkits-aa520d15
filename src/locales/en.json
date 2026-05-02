@@ -291,6 +291,15 @@
           "birthDate": "Your baby's birth date — anchors the postpartum stage.",
           "pregnancyStart": "When did you start tracking your pregnancy?",
           "fertilityStart": "When did your pre-pregnancy preparation begin?"
+        },
+        "warnings": {
+          "future": "This date is in the future — please pick today or earlier.",
+          "beforeBirth": "Postpartum start can't be before the birth date.",
+          "afterDueDate": "Pregnancy start can't be after the due date.",
+          "beforePregnancy": "Birth date can't be before the pregnancy start.",
+          "dueDateTooOld": "This due date is more than two weeks past — switch to postpartum?",
+          "timezoneDrift": "Heads up: timezone shift may move this by one day.",
+          "generic": "This date looks inconsistent — please review."
         }
       },
       "changeLog": {
