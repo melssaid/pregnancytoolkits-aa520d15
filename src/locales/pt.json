@@ -9516,6 +9516,12 @@
           "dueDateTooOld": "Esta data prevista passou há mais de duas semanas — mudar para pós-parto?",
           "timezoneDrift": "Aviso: o fuso horário pode deslocar isto em um dia.",
           "generic": "Esta data parece inconsistente — revise."
+        },
+        "srAnnounce": {
+          "errorSeverity": "Erro",
+          "warningSeverity": "Aviso",
+          "added": "{{label}} — {{severity}}: {{message}}",
+          "cleared": "{{label}} — problema resolvido: {{message}}"
         }
       },
       "changeLog": {

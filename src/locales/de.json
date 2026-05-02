@@ -9516,6 +9516,12 @@
           "dueDateTooOld": "Dieser Geburtstermin liegt über zwei Wochen zurück — ins Wochenbett wechseln?",
           "timezoneDrift": "Hinweis: Zeitzonenversatz kann dies um einen Tag verschieben.",
           "generic": "Dieses Datum wirkt inkonsistent — bitte prüfen."
+        },
+        "srAnnounce": {
+          "errorSeverity": "Fehler",
+          "warningSeverity": "Hinweis",
+          "added": "{{label}} — {{severity}}: {{message}}",
+          "cleared": "{{label}} — Problem behoben: {{message}}"
         }
       },
       "changeLog": {

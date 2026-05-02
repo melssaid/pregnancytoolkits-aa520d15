@@ -9516,6 +9516,12 @@
           "dueDateTooOld": "Cette date prévue est passée depuis plus de deux semaines — passer au post-partum ?",
           "timezoneDrift": "Attention : le décalage horaire peut décaler d'un jour.",
           "generic": "Cette date semble incohérente — vérifie-la."
+        },
+        "srAnnounce": {
+          "errorSeverity": "Erreur",
+          "warningSeverity": "Avertissement",
+          "added": "{{label}} — {{severity}} : {{message}}",
+          "cleared": "{{label}} — problème résolu : {{message}}"
         }
       },
       "changeLog": {

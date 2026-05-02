@@ -300,6 +300,12 @@
           "dueDateTooOld": "This due date is more than two weeks past — switch to postpartum?",
           "timezoneDrift": "Heads up: timezone shift may move this by one day.",
           "generic": "This date looks inconsistent — please review."
+        },
+        "srAnnounce": {
+          "errorSeverity": "Error",
+          "warningSeverity": "Warning",
+          "added": "{{label}} — {{severity}}: {{message}}",
+          "cleared": "{{label}} — issue resolved: {{message}}"
         }
       },
       "changeLog": {
