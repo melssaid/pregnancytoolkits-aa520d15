@@ -99,12 +99,21 @@ describe("Journey ribbon + week sync", () => {
     localStorage.clear();
   });
 
-  it("starts on the default (fertility) station with no dates", async () => {
+  it("starts on the seeded fertility station when profile begins fertility", async () => {
+    localStorage.setItem(
+      PROFILE_KEY,
+      JSON.stringify({
+        journeyStage: "fertility",
+        pregnancyWeek: 0,
+        autoStageDetection: false,
+        journeyHistory: { fertility: { startedAt: isoDaysFromNow(-30) } },
+        updatedAt: new Date().toISOString(),
+      }),
+    );
     renderHarness();
-    await act(async () => {
-      await Promise.resolve();
-    });
-    expect(getActiveStationStage()).toBe("fertility");
+    await waitFor(() =>
+      expect(getActiveStationStage()).toBe("fertility"),
+    );
   });
 
   it("updates the ribbon to 'pregnant' and recomputes week when LMP is set", async () => {
