@@ -9516,6 +9516,12 @@
           "dueDateTooOld": "Esta fecha probable de parto pasó hace más de dos semanas — ¿pasar al posparto?",
           "timezoneDrift": "Aviso: el desfase horario puede mover esto un día.",
           "generic": "Esta fecha parece inconsistente — revísala."
+        },
+        "srAnnounce": {
+          "errorSeverity": "Error",
+          "warningSeverity": "Aviso",
+          "added": "{{label}} — {{severity}}: {{message}}",
+          "cleared": "{{label}} — problema resuelto: {{message}}"
         }
       },
       "changeLog": {

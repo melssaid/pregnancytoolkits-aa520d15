@@ -13,7 +13,7 @@
  *   • Renders nothing when everything is filled (no clutter).
  *   • Fully RTL + 7-locale + keyboard accessible.
  */
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -32,7 +32,12 @@ import {
   validateMilestoneDraft,
   hasBlockingError,
   type MilestoneWarning,
+  type WarningCode,
 } from "./validateMilestoneDraft";
+import {
+  JourneyLiveRegion,
+  useJourneyLiveAnnouncer,
+} from "./JourneyLiveRegion";
 
 type MilestoneId =
   | "fertility.startedAt"
@@ -147,6 +152,76 @@ export const JourneyMissingMilestones = () => {
     }
     return map;
   }, [drafts, missing, profile.journeyHistory, profile.journeyStage]);
+
+  // ── A11y: announce when warnings appear / clear / change severity ──
+  // Screen-reader users don't see border colors; the diff effect below
+  // emits a polite (or assertive on errors) message naming the milestone
+  // label and which specific issue changed. We track previous codes per
+  // milestone so we only announce real transitions, not steady state.
+  const { announce, message } = useJourneyLiveAnnouncer();
+  const { announce: announceAssertive, message: assertiveMessage } =
+    useJourneyLiveAnnouncer();
+  const previousCodesRef = useRef<Partial<Record<MilestoneId, WarningCode[]>>>({});
+
+  useEffect(() => {
+    const prev = previousCodesRef.current;
+    const next: Partial<Record<MilestoneId, WarningCode[]>> = {};
+    const politeParts: string[] = [];
+    const assertiveParts: string[] = [];
+
+    for (const m of missing) {
+      const warnings = warningsByMilestone[m.id] ?? [];
+      const codes = warnings.map((w) => w.code).sort();
+      next[m.id] = codes;
+
+      const prevCodes = (prev[m.id] ?? []).slice().sort();
+      if (codes.join("|") === prevCodes.join("|")) continue;
+
+      const label = t(m.labelKey);
+      const added = codes.filter((c) => !prevCodes.includes(c));
+      const removed = prevCodes.filter((c) => !codes.includes(c));
+
+      for (const code of added) {
+        const w = warnings.find((x) => x.code === code)!;
+        const wording = t(`journey.map.missing.warnings.${code}`, {
+          defaultValue: t("journey.map.missing.warnings.generic", "This date looks inconsistent."),
+        });
+        const severityLabel =
+          w.severity === "error"
+            ? t("journey.map.missing.srAnnounce.errorSeverity", "Error")
+            : t("journey.map.missing.srAnnounce.warningSeverity", "Warning");
+        const sentence = t("journey.map.missing.srAnnounce.added", {
+          label,
+          severity: severityLabel,
+          message: wording,
+          defaultValue: "{{label}} — {{severity}}: {{message}}",
+        });
+        if (w.severity === "error") assertiveParts.push(sentence);
+        else politeParts.push(sentence);
+      }
+
+      for (const code of removed) {
+        // We no longer have the original severity — use a neutral
+        // "resolved" wording naming the milestone + code.
+        const wording = t(`journey.map.missing.warnings.${code}`, {
+          defaultValue: t("journey.map.missing.warnings.generic", "This date looks inconsistent."),
+        });
+        politeParts.push(
+          t("journey.map.missing.srAnnounce.cleared", {
+            label,
+            message: wording,
+            defaultValue: "{{label}} — issue resolved: {{message}}",
+          }),
+        );
+      }
+    }
+
+    previousCodesRef.current = next;
+
+    if (assertiveParts.length) announceAssertive(assertiveParts.join(". "));
+    if (politeParts.length) announce(politeParts.join(". "));
+  }, [warningsByMilestone, missing, t, announce, announceAssertive]);
+
 
   const handleSave = useCallback(
     (m: Milestone) => {
@@ -317,8 +392,9 @@ export const JourneyMissingMilestones = () => {
               {warnings.length > 0 && (
                 <ul
                   id={warnDescId}
-                  role="alert"
-                  aria-live="polite"
+                  // The dedicated <JourneyLiveRegion> below handles SR
+                  // announcements with diff-aware messages, so this list
+                  // is purely visual to avoid duplicate announcements.
                   className="mt-2 space-y-1"
                 >
                   {warnings.map((w) => (
@@ -363,6 +439,10 @@ export const JourneyMissingMilestones = () => {
           );
         })}
       </ul>
+
+      {/* Diff-aware warning announcers — polite for hints, assertive for errors */}
+      <JourneyLiveRegion message={message} />
+      <JourneyLiveRegion message={assertiveMessage} assertive />
     </Card>
   );
 };

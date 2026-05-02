@@ -9516,6 +9516,12 @@
           "dueDateTooOld": "Bu tahmini doğum tarihi iki haftadan eski — doğum sonrasına geçilsin mi?",
           "timezoneDrift": "Uyarı: saat dilimi bunu bir gün kaydırabilir.",
           "generic": "Bu tarih tutarsız görünüyor — lütfen gözden geçirin."
+        },
+        "srAnnounce": {
+          "errorSeverity": "Hata",
+          "warningSeverity": "Uyarı",
+          "added": "{{label}} — {{severity}}: {{message}}",
+          "cleared": "{{label}} — sorun giderildi: {{message}}"
         }
       },
       "changeLog": {

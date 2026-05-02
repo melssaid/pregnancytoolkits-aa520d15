@@ -300,6 +300,12 @@
           "dueDateTooOld": "تاريخ الولادة المتوقع مضى عليه أكثر من أسبوعين — هل تودين الانتقال لمرحلة ما بعد الولادة؟",
           "timezoneDrift": "تنبيه: قد ينزاح التاريخ بيوم بسبب فارق التوقيت.",
           "generic": "هذا التاريخ يبدو غير منطقي — يرجى المراجعة."
+        },
+        "srAnnounce": {
+          "errorSeverity": "خطأ",
+          "warningSeverity": "تنبيه",
+          "added": "{{label}} — {{severity}}: {{message}}",
+          "cleared": "{{label}} — تم حل المشكلة: {{message}}"
         }
       },
       "changeLog": {
