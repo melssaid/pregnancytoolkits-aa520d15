@@ -80,6 +80,38 @@ export const JourneyTimeline = () => {
 
   const points: TimelinePoint[] = useMemo(() => {
     const h = profile.journeyHistory ?? {};
+
+    // ---- Origin inference ------------------------------------------------
+    // We compare related fields to figure out *why* each milestone exists.
+    //   • dueDate matches LMP+280d  → computed (Naegele)
+    //   • postpartum.startedAt === postpartum.birthDate → derived from birthDate
+    //   • pregnancy.startedAt close to LMP (±2 days) → derived from LMP
+    //   • completedAt without an explicit user edit → auto (stage transition)
+    //   • everything else                        → manual
+    const sameDay = (a?: string | null, b?: string | null) => {
+      if (!a || !b) return false;
+      const da = new Date(a);
+      const db = new Date(b);
+      if (isNaN(da.getTime()) || isNaN(db.getTime())) return false;
+      return Math.abs(da.getTime() - db.getTime()) < 36 * 60 * 60 * 1000; // ≤36h
+    };
+
+    const lmp = profile.lastPeriodDate ?? null;
+    const lmpDue = lmp ? computeDueDateFromLMP(lmp) : null;
+
+    const pregStartOrigin: PointOrigin = sameDay(h.pregnancy?.startedAt, lmp)
+      ? "derived"
+      : "manual";
+    const dueOrigin: PointOrigin = sameDay(h.pregnancy?.dueDate, lmpDue)
+      ? "computed"
+      : "manual";
+    const postStartOrigin: PointOrigin = sameDay(
+      h.postpartum?.startedAt,
+      h.postpartum?.birthDate,
+    )
+      ? "derived"
+      : "manual";
+
     const raw: Array<TimelinePoint | null> = [
       h.fertility?.startedAt && {
         id: "fertility-start",
@@ -87,6 +119,7 @@ export const JourneyTimeline = () => {
         stage: "fertility",
         kind: "startedAt",
         labelKey: "journey.map.fields.startedAt",
+        origin: "manual" as PointOrigin,
       },
       h.fertility?.completedAt && {
         id: "fertility-end",
@@ -94,6 +127,8 @@ export const JourneyTimeline = () => {
         stage: "fertility",
         kind: "completedAt",
         labelKey: "journey.map.fields.completedAt",
+        origin: "auto" as PointOrigin,
+        sourceKey: "stageTransition",
       },
       h.pregnancy?.startedAt && {
         id: "pregnancy-start",
@@ -101,6 +136,8 @@ export const JourneyTimeline = () => {
         stage: "pregnant",
         kind: "startedAt",
         labelKey: "journey.map.fields.startedAt",
+        origin: pregStartOrigin,
+        sourceKey: pregStartOrigin === "derived" ? "lastPeriodDate" : undefined,
       },
       h.pregnancy?.dueDate && {
         id: "pregnancy-due",
@@ -108,6 +145,8 @@ export const JourneyTimeline = () => {
         stage: "pregnant",
         kind: "dueDate",
         labelKey: "journey.map.fields.dueDate",
+        origin: dueOrigin,
+        sourceKey: dueOrigin === "computed" ? "lastPeriodDate" : undefined,
       },
       h.pregnancy?.completedAt && {
         id: "pregnancy-end",
@@ -115,6 +154,8 @@ export const JourneyTimeline = () => {
         stage: "pregnant",
         kind: "completedAt",
         labelKey: "journey.map.fields.completedAt",
+        origin: "auto" as PointOrigin,
+        sourceKey: "stageTransition",
       },
       h.postpartum?.startedAt && {
         id: "postpartum-start",
@@ -122,6 +163,8 @@ export const JourneyTimeline = () => {
         stage: "postpartum",
         kind: "startedAt",
         labelKey: "journey.map.fields.startedAt",
+        origin: postStartOrigin,
+        sourceKey: postStartOrigin === "derived" ? "birthDate" : undefined,
       },
       h.postpartum?.birthDate && {
         id: "postpartum-birth",
@@ -129,13 +172,14 @@ export const JourneyTimeline = () => {
         stage: "postpartum",
         kind: "birthDate",
         labelKey: "journey.map.fields.birthDate",
+        origin: "manual" as PointOrigin,
       },
     ] as Array<TimelinePoint | null>;
 
     return raw
       .filter((p): p is TimelinePoint => !!p && !isNaN(p.date.getTime()))
       .sort((a, b) => a.date.getTime() - b.date.getTime());
-  }, [profile.journeyHistory]);
+  }, [profile.journeyHistory, profile.lastPeriodDate]);
 
   // Auto-scroll to "today" / nearest marker when the timeline mounts
   useEffect(() => {
