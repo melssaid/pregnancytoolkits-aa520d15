@@ -196,11 +196,7 @@ describe("Journey ribbon + week sync", () => {
     await act(async () => {
       screen.getByTestId("set-birth-past").click();
     });
-    await act(async () => {
-      await Promise.resolve();
-      await Promise.resolve();
-    });
-    expect(getActiveStationStage()).toBe("postpartum");
+    await waitFor(() => expect(getActiveStationStage()).toBe("postpartum"));
 
     // Now add a future due date — auto-detect must NOT revert.
     await act(async () => {
