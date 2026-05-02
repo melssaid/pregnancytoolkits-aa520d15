@@ -148,7 +148,7 @@ describe("JourneyTimeline aria-live diffs", () => {
     seedProfile({
       pregnancy: { startedAt: "2025-01-01T12:00:00.000Z" },
     });
-    const { container } = render(<JourneyTimeline />);
+    const { container } = render(<JourneyTimeline />, { wrapper });
     await flush();
 
     // Add a due date through the central profile.
@@ -180,7 +180,7 @@ describe("JourneyTimeline aria-live diffs", () => {
         dueDate: "2025-10-08T12:00:00.000Z",
       },
     });
-    const { container } = render(<JourneyTimeline />);
+    const { container } = render(<JourneyTimeline />, { wrapper });
     await flush();
 
     const { result } = renderHook(() => useUserProfile());
@@ -206,7 +206,7 @@ describe("JourneyTimeline aria-live diffs", () => {
         dueDate: "2025-10-08T12:00:00.000Z",
       },
     });
-    const { container } = render(<JourneyTimeline />);
+    const { container } = render(<JourneyTimeline />, { wrapper });
     await flush();
 
     const { result } = renderHook(() => useUserProfile());
@@ -234,7 +234,7 @@ describe("JourneyTimeline aria-live diffs", () => {
     seedProfile({
       pregnancy: { startedAt: "2025-01-01T12:00:00.000Z" },
     });
-    const { container } = render(<JourneyTimeline />);
+    const { container } = render(<JourneyTimeline />, { wrapper });
     await flush();
 
     const { result } = renderHook(() => useUserProfile());
@@ -252,7 +252,7 @@ describe("JourneyTimeline aria-live diffs", () => {
 
   it("falls back to a count summary when more than 3 items change at once", async () => {
     seedProfile({});
-    const { container } = render(<JourneyTimeline />);
+    const { container } = render(<JourneyTimeline />, { wrapper });
     await flush();
 
     const { result } = renderHook(() => useUserProfile());
@@ -287,7 +287,7 @@ describe("JourneyTimeline aria-live diffs", () => {
     seedProfile({
       pregnancy: { startedAt: "2025-01-01T12:00:00.000Z" },
     });
-    const { container } = render(<JourneyTimeline />);
+    const { container } = render(<JourneyTimeline />, { wrapper });
     await flush();
     expect(getLiveRegion(container).textContent ?? "").toBe("");
   });
@@ -302,7 +302,7 @@ describe("JourneyAutoDetectToggle aria-live", () => {
   });
 
   it("announces 'turned on' / 'turned off' when toggled", async () => {
-    const { container } = render(<JourneyAutoDetectToggle />);
+    const { container } = render(<JourneyAutoDetectToggle />, { wrapper });
     const switchEl = screen.getByRole("switch");
 
     // Switch starts ON by default → click turns it OFF.
