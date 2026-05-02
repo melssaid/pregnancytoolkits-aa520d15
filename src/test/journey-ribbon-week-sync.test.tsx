@@ -157,20 +157,12 @@ describe("Journey ribbon + week sync", () => {
     await act(async () => {
       screen.getByTestId("set-due-future").click();
     });
-    await act(async () => {
-      await Promise.resolve();
-    });
-    expect(getActiveStationStage()).toBe("pregnant");
+    await waitFor(() => expect(getActiveStationStage()).toBe("pregnant"));
 
     await act(async () => {
       screen.getByTestId("set-birth-past").click();
     });
-    await act(async () => {
-      await Promise.resolve();
-      await Promise.resolve();
-    });
-
-    expect(getActiveStationStage()).toBe("postpartum");
+    await waitFor(() => expect(getActiveStationStage()).toBe("postpartum"));
     expect(screen.getByTestId("stage").textContent).toBe("postpartum");
   });
 
