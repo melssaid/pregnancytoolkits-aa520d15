@@ -439,6 +439,10 @@ export const JourneyMissingMilestones = () => {
           );
         })}
       </ul>
+
+      {/* Diff-aware warning announcers — polite for hints, assertive for errors */}
+      <JourneyLiveRegion message={message} />
+      <JourneyLiveRegion message={assertiveMessage} assertive />
     </Card>
   );
 };
