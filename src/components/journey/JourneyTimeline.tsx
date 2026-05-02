@@ -31,18 +31,38 @@ import {
   useJourneyLiveAnnouncer,
 } from "@/components/journey/JourneyLiveRegion";
 
+/**
+ * Origin of a milestone — explains *why* this point exists on the timeline.
+ *   • manual     → user typed it directly
+ *   • derived    → auto-seeded from another field (e.g. startedAt = birthDate)
+ *   • computed   → calculated by formula (e.g. dueDate from LMP via Naegele)
+ *   • auto       → produced by stage auto-detection (e.g. completedAt on transition)
+ */
+type PointOrigin = "manual" | "derived" | "computed" | "auto";
+
 interface TimelinePoint {
   id: string;
   date: Date;
   stage: JourneyStage;
   kind: "startedAt" | "completedAt" | "dueDate" | "birthDate";
   labelKey: string;
+  /** Why this point exists. */
+  origin: PointOrigin;
+  /** Optional source field name (i18n key suffix) for derived/computed points. */
+  sourceKey?: string;
 }
 
 const STAGE_ICON: Record<JourneyStage, LucideIcon> = {
   fertility: CircleDot,
   pregnant: Stethoscope,
   postpartum: Baby,
+};
+
+const ORIGIN_ICON: Record<PointOrigin, LucideIcon> = {
+  manual: UserCheck,
+  derived: Link2,
+  computed: Sparkles,
+  auto: Sparkles,
 };
 
 // Tailwind-safe accent hues per stage
