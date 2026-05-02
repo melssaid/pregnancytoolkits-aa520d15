@@ -20,9 +20,9 @@
  */
 import { useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { CircleDot, Stethoscope, Baby, CalendarDays, CalendarCheck } from "lucide-react";
+import { CircleDot, Stethoscope, Baby, CalendarDays, CalendarCheck, Sparkles, Link2, UserCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useUserProfile, type JourneyStage } from "@/hooks/useUserProfile";
+import { useUserProfile, type JourneyStage, computeDueDateFromLMP } from "@/hooks/useUserProfile";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { formatLocalized } from "@/lib/dateLocale";
 import { cn } from "@/lib/utils";
@@ -31,18 +31,38 @@ import {
   useJourneyLiveAnnouncer,
 } from "@/components/journey/JourneyLiveRegion";
 
+/**
+ * Origin of a milestone — explains *why* this point exists on the timeline.
+ *   • manual     → user typed it directly
+ *   • derived    → auto-seeded from another field (e.g. startedAt = birthDate)
+ *   • computed   → calculated by formula (e.g. dueDate from LMP via Naegele)
+ *   • auto       → produced by stage auto-detection (e.g. completedAt on transition)
+ */
+type PointOrigin = "manual" | "derived" | "computed" | "auto";
+
 interface TimelinePoint {
   id: string;
   date: Date;
   stage: JourneyStage;
   kind: "startedAt" | "completedAt" | "dueDate" | "birthDate";
   labelKey: string;
+  /** Why this point exists. */
+  origin: PointOrigin;
+  /** Optional source field name (i18n key suffix) for derived/computed points. */
+  sourceKey?: string;
 }
 
 const STAGE_ICON: Record<JourneyStage, LucideIcon> = {
   fertility: CircleDot,
   pregnant: Stethoscope,
   postpartum: Baby,
+};
+
+const ORIGIN_ICON: Record<PointOrigin, LucideIcon> = {
+  manual: UserCheck,
+  derived: Link2,
+  computed: Sparkles,
+  auto: Sparkles,
 };
 
 // Tailwind-safe accent hues per stage
@@ -60,6 +80,38 @@ export const JourneyTimeline = () => {
 
   const points: TimelinePoint[] = useMemo(() => {
     const h = profile.journeyHistory ?? {};
+
+    // ---- Origin inference ------------------------------------------------
+    // We compare related fields to figure out *why* each milestone exists.
+    //   • dueDate matches LMP+280d  → computed (Naegele)
+    //   • postpartum.startedAt === postpartum.birthDate → derived from birthDate
+    //   • pregnancy.startedAt close to LMP (±2 days) → derived from LMP
+    //   • completedAt without an explicit user edit → auto (stage transition)
+    //   • everything else                        → manual
+    const sameDay = (a?: string | null, b?: string | null) => {
+      if (!a || !b) return false;
+      const da = new Date(a);
+      const db = new Date(b);
+      if (isNaN(da.getTime()) || isNaN(db.getTime())) return false;
+      return Math.abs(da.getTime() - db.getTime()) < 36 * 60 * 60 * 1000; // ≤36h
+    };
+
+    const lmp = profile.lastPeriodDate ?? null;
+    const lmpDue = lmp ? computeDueDateFromLMP(lmp) : null;
+
+    const pregStartOrigin: PointOrigin = sameDay(h.pregnancy?.startedAt, lmp)
+      ? "derived"
+      : "manual";
+    const dueOrigin: PointOrigin = sameDay(h.pregnancy?.dueDate, lmpDue)
+      ? "computed"
+      : "manual";
+    const postStartOrigin: PointOrigin = sameDay(
+      h.postpartum?.startedAt,
+      h.postpartum?.birthDate,
+    )
+      ? "derived"
+      : "manual";
+
     const raw: Array<TimelinePoint | null> = [
       h.fertility?.startedAt && {
         id: "fertility-start",
@@ -67,6 +119,7 @@ export const JourneyTimeline = () => {
         stage: "fertility",
         kind: "startedAt",
         labelKey: "journey.map.fields.startedAt",
+        origin: "manual" as PointOrigin,
       },
       h.fertility?.completedAt && {
         id: "fertility-end",
@@ -74,6 +127,8 @@ export const JourneyTimeline = () => {
         stage: "fertility",
         kind: "completedAt",
         labelKey: "journey.map.fields.completedAt",
+        origin: "auto" as PointOrigin,
+        sourceKey: "stageTransition",
       },
       h.pregnancy?.startedAt && {
         id: "pregnancy-start",
@@ -81,6 +136,8 @@ export const JourneyTimeline = () => {
         stage: "pregnant",
         kind: "startedAt",
         labelKey: "journey.map.fields.startedAt",
+        origin: pregStartOrigin,
+        sourceKey: pregStartOrigin === "derived" ? "lastPeriodDate" : undefined,
       },
       h.pregnancy?.dueDate && {
         id: "pregnancy-due",
@@ -88,6 +145,8 @@ export const JourneyTimeline = () => {
         stage: "pregnant",
         kind: "dueDate",
         labelKey: "journey.map.fields.dueDate",
+        origin: dueOrigin,
+        sourceKey: dueOrigin === "computed" ? "lastPeriodDate" : undefined,
       },
       h.pregnancy?.completedAt && {
         id: "pregnancy-end",
@@ -95,6 +154,8 @@ export const JourneyTimeline = () => {
         stage: "pregnant",
         kind: "completedAt",
         labelKey: "journey.map.fields.completedAt",
+        origin: "auto" as PointOrigin,
+        sourceKey: "stageTransition",
       },
       h.postpartum?.startedAt && {
         id: "postpartum-start",
@@ -102,6 +163,8 @@ export const JourneyTimeline = () => {
         stage: "postpartum",
         kind: "startedAt",
         labelKey: "journey.map.fields.startedAt",
+        origin: postStartOrigin,
+        sourceKey: postStartOrigin === "derived" ? "birthDate" : undefined,
       },
       h.postpartum?.birthDate && {
         id: "postpartum-birth",
@@ -109,13 +172,14 @@ export const JourneyTimeline = () => {
         stage: "postpartum",
         kind: "birthDate",
         labelKey: "journey.map.fields.birthDate",
+        origin: "manual" as PointOrigin,
       },
     ] as Array<TimelinePoint | null>;
 
     return raw
       .filter((p): p is TimelinePoint => !!p && !isNaN(p.date.getTime()))
       .sort((a, b) => a.date.getTime() - b.date.getTime());
-  }, [profile.journeyHistory]);
+  }, [profile.journeyHistory, profile.lastPeriodDate]);
 
   // Auto-scroll to "today" / nearest marker when the timeline mounts
   useEffect(() => {
@@ -369,11 +433,39 @@ export const JourneyTimeline = () => {
               node?.scrollIntoView({ behavior: "smooth", block: "center" });
             };
             const stageName = t(`journey.ribbon.stages.${p.stage}`);
+            const OriginIcon = ORIGIN_ICON[p.origin];
+            // Resolved origin reason — short chip text + verbose tooltip/aria.
+            const originChip = t(`journey.map.timeline.originBadge.${p.origin}`, {
+              defaultValue:
+                p.origin === "manual"
+                  ? "Manual"
+                  : p.origin === "derived"
+                    ? "Derived"
+                    : p.origin === "computed"
+                      ? "Auto-calc"
+                      : "Auto",
+            });
+            const sourceLabel = p.sourceKey
+              ? t(`journey.map.timeline.sourceLabel.${p.sourceKey}`, {
+                  defaultValue: p.sourceKey,
+                })
+              : "";
+            const originReason = sourceLabel
+              ? t(`journey.map.timeline.originReason.${p.origin}WithSource`, {
+                  source: sourceLabel,
+                  defaultValue: `Auto-filled from ${sourceLabel}`,
+                })
+              : t(`journey.map.timeline.originReason.${p.origin}`, {
+                  defaultValue:
+                    p.origin === "manual"
+                      ? "Entered manually"
+                      : "Auto-filled by the app",
+                });
             const ariaLabel = `${stageName} – ${t(p.labelKey)} – ${formatLocalized(
               p.date.toISOString(),
               "PP",
               i18n.language,
-            )}`;
+            )} – ${originReason}`;
 
             return (
               <li
@@ -385,6 +477,7 @@ export const JourneyTimeline = () => {
                   type="button"
                   onClick={handleJump}
                   aria-label={ariaLabel}
+                  title={originReason}
                   className={cn(
                     "flex flex-col items-center w-full rounded-xl p-1 -m-1 transition-all",
                     "outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
@@ -437,6 +530,29 @@ export const JourneyTimeline = () => {
                     <p className="text-[9px] text-muted-foreground leading-tight">
                       {formatLocalized(p.date.toISOString(), "PP", i18n.language)}
                     </p>
+
+                    {/* Origin badge — explains *why* this milestone exists. */}
+                    <span
+                      className={cn(
+                        "mt-1 inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5",
+                        "text-[8.5px] font-bold leading-none border",
+                        p.origin === "manual"
+                          ? "border-border/60 bg-muted/40 text-muted-foreground"
+                          : "border-transparent text-foreground",
+                      )}
+                      style={
+                        p.origin === "manual"
+                          ? undefined
+                          : {
+                              background: `hsl(${hue} / 0.14)`,
+                              color: `hsl(${hue})`,
+                            }
+                      }
+                      aria-label={originReason}
+                    >
+                      <OriginIcon className="h-2.5 w-2.5" aria-hidden />
+                      {originChip}
+                    </span>
                   </div>
                 </button>
               </li>

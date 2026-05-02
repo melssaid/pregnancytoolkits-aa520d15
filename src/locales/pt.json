@@ -9467,7 +9467,28 @@
         "count_other": "{{count}} marcos",
         "emptyTitle": "Sua linha do tempo está vazia",
         "emptyHint": "Adicione suas datas-chave abaixo para criar uma linha do tempo pessoal.",
-        "count": "{{count}} etapas"
+        "count": "{{count}} etapas",
+        "originBadge": {
+          "manual": "Manual",
+          "derived": "Derivado",
+          "computed": "Auto-calc.",
+          "auto": "Auto"
+        },
+        "sourceLabel": {
+          "lastPeriodDate": "data da última menstruação",
+          "birthDate": "data de nascimento",
+          "stageTransition": "transição de fase"
+        },
+        "originReason": {
+          "manual": "Inserido manualmente",
+          "derived": "Preenchido automaticamente",
+          "computed": "Calculado automaticamente",
+          "auto": "Definido automaticamente",
+          "manualWithSource": "Inserido manualmente ({{source}})",
+          "derivedWithSource": "Derivado de {{source}}",
+          "computedWithSource": "Calculado a partir de {{source}}",
+          "autoWithSource": "Definido automaticamente ({{source}})"
+        }
       },
       "autoDetect": {
         "title": "Detecção inteligente de etapa",
