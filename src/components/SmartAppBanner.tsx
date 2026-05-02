@@ -10,6 +10,9 @@ const BANNER_DISMISSED_KEY = "pt_app_banner_dismissed";
  * Encourages Google Play install. Hidden inside the app.
  */
 export function SmartAppBanner() {
+  // Treated as a standalone app — never show web install banner.
+  return null;
+  // eslint-disable-next-line no-unreachable
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
 
