@@ -9467,7 +9467,28 @@
         "count_other": "{{count}} kilometre taşı",
         "emptyTitle": "Zaman çizelgen boş",
         "emptyHint": "Aşağıya önemli tarihlerini ekleyerek kişisel zaman çizelgeni oluştur.",
-        "count": "{{count}} aşama"
+        "count": "{{count}} aşama",
+        "originBadge": {
+          "manual": "Elle",
+          "derived": "Türetildi",
+          "computed": "Hesap.",
+          "auto": "Oto"
+        },
+        "sourceLabel": {
+          "lastPeriodDate": "son adet tarihi",
+          "birthDate": "doğum tarihi",
+          "stageTransition": "aşama geçişi"
+        },
+        "originReason": {
+          "manual": "Elle girildi",
+          "derived": "Otomatik dolduruldu",
+          "computed": "Otomatik hesaplandı",
+          "auto": "Otomatik ayarlandı",
+          "manualWithSource": "Elle girildi ({{source}})",
+          "derivedWithSource": "{{source}} üzerinden türetildi",
+          "computedWithSource": "{{source}} üzerinden hesaplandı",
+          "autoWithSource": "Otomatik ayarlandı ({{source}})"
+        }
       },
       "autoDetect": {
         "title": "Akıllı aşama algılama",

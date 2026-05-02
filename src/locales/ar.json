@@ -251,7 +251,28 @@
         "count_other": "{{count}} محطات",
         "emptyTitle": "مخططك الزمني فارغ",
         "emptyHint": "أضيفي تواريخك الأساسية أدناه لبناء خط زمني شخصي لرحلتك.",
-        "count": "{{count}} محطة"
+        "count": "{{count}} محطة",
+        "originBadge": {
+          "manual": "يدوي",
+          "derived": "مشتق",
+          "computed": "محسوب",
+          "auto": "تلقائي"
+        },
+        "sourceLabel": {
+          "lastPeriodDate": "تاريخ آخر دورة",
+          "birthDate": "تاريخ الميلاد",
+          "stageTransition": "انتقال المرحلة"
+        },
+        "originReason": {
+          "manual": "تم إدخاله يدويًا",
+          "derived": "تم تعبئته تلقائيًا من التطبيق",
+          "computed": "تم حسابه تلقائيًا",
+          "auto": "تم ضبطه تلقائيًا",
+          "manualWithSource": "تم إدخاله يدويًا ({{source}})",
+          "derivedWithSource": "تم اشتقاقه من {{source}}",
+          "computedWithSource": "تم حسابه من {{source}}",
+          "autoWithSource": "تم ضبطه تلقائيًا ({{source}})"
+        }
       },
       "autoDetect": {
         "title": "الكشف الذكي للمرحلة",

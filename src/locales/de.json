@@ -9467,7 +9467,28 @@
         "count_other": "{{count}} Meilensteine",
         "emptyTitle": "Dein Zeitstrahl ist leer",
         "emptyHint": "Füge unten wichtige Daten hinzu, um einen persönlichen Zeitstrahl zu erstellen.",
-        "count": "{{count}} Stationen"
+        "count": "{{count}} Stationen",
+        "originBadge": {
+          "manual": "Manuell",
+          "derived": "Abgeleitet",
+          "computed": "Berechnet",
+          "auto": "Auto"
+        },
+        "sourceLabel": {
+          "lastPeriodDate": "letztem Periodendatum",
+          "birthDate": "Geburtsdatum",
+          "stageTransition": "Phasenwechsel"
+        },
+        "originReason": {
+          "manual": "Manuell eingegeben",
+          "derived": "Automatisch ausgefüllt",
+          "computed": "Automatisch berechnet",
+          "auto": "Automatisch gesetzt",
+          "manualWithSource": "Manuell eingegeben ({{source}})",
+          "derivedWithSource": "Abgeleitet aus {{source}}",
+          "computedWithSource": "Berechnet aus {{source}}",
+          "autoWithSource": "Automatisch gesetzt ({{source}})"
+        }
       },
       "autoDetect": {
         "title": "Intelligente Phasenerkennung",

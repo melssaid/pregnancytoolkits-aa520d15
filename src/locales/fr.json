@@ -9467,7 +9467,28 @@
         "count_other": "{{count}} étapes",
         "emptyTitle": "Votre chronologie est vide",
         "emptyHint": "Ajoutez vos dates clés ci-dessous pour construire une chronologie personnelle.",
-        "count": "{{count}} étapes"
+        "count": "{{count}} étapes",
+        "originBadge": {
+          "manual": "Manuel",
+          "derived": "Dérivé",
+          "computed": "Auto-calc",
+          "auto": "Auto"
+        },
+        "sourceLabel": {
+          "lastPeriodDate": "date des dernières règles",
+          "birthDate": "date de naissance",
+          "stageTransition": "changement d'étape"
+        },
+        "originReason": {
+          "manual": "Saisi manuellement",
+          "derived": "Rempli automatiquement",
+          "computed": "Calculé automatiquement",
+          "auto": "Défini automatiquement",
+          "manualWithSource": "Saisi manuellement ({{source}})",
+          "derivedWithSource": "Dérivé de {{source}}",
+          "computedWithSource": "Calculé à partir de {{source}}",
+          "autoWithSource": "Défini automatiquement ({{source}})"
+        }
       },
       "autoDetect": {
         "title": "Détection intelligente d'étape",

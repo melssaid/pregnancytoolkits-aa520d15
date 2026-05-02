@@ -251,7 +251,28 @@
         "count_other": "{{count}} milestones",
         "emptyTitle": "Your timeline is empty",
         "emptyHint": "Add your key dates below to build a personal timeline of your journey.",
-        "count": "{{count}} milestones"
+        "count": "{{count}} milestones",
+        "originBadge": {
+          "manual": "Manual",
+          "derived": "Derived",
+          "computed": "Auto-calc",
+          "auto": "Auto"
+        },
+        "sourceLabel": {
+          "lastPeriodDate": "last period date",
+          "birthDate": "birth date",
+          "stageTransition": "stage transition"
+        },
+        "originReason": {
+          "manual": "Entered manually",
+          "derived": "Auto-filled by the app",
+          "computed": "Auto-calculated by the app",
+          "auto": "Set automatically by the app",
+          "manualWithSource": "Entered manually ({{source}})",
+          "derivedWithSource": "Derived from {{source}}",
+          "computedWithSource": "Calculated from {{source}}",
+          "autoWithSource": "Set automatically ({{source}})"
+        }
       },
       "autoDetect": {
         "title": "Smart stage detection",
