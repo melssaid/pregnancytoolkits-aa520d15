@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CalendarPlus, Check, AlertCircle, ExternalLink } from "lucide-react";
+import { CalendarPlus, Check, AlertCircle, ExternalLink, AlertTriangle } from "lucide-react";
 import {
   useUserProfile,
   type JourneyHistory,
@@ -28,6 +28,11 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import { haptic } from "@/lib/haptics";
 import { cn } from "@/lib/utils";
+import {
+  validateMilestoneDraft,
+  hasBlockingError,
+  type MilestoneWarning,
+} from "./validateMilestoneDraft";
 
 type MilestoneId =
   | "fertility.startedAt"
