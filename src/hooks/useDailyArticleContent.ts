@@ -34,36 +34,25 @@ export const splitMarkdownIntoSections = (markdown: string) => {
   return sections;
 };
 
-export function useDailyArticleContent(slug: string, language: string) {
-  const normalizedLanguage = language?.split("-")[0] || "en";
-
+/**
+ * Daily AI-generated article overrides are DISABLED.
+ *
+ * The product now uses a fixed catalog of curated articles per language
+ * (see `src/data/articles.ts`) rotated on the UI every 2 days. We no longer
+ * fetch `article_daily_content` from the backend, so consumers receive
+ * `null` data and an empty `sections` list and naturally fall back to the
+ * static localized article body.
+ */
+export function useDailyArticleContent(_slug: string, _language: string) {
   const query = useQuery({
-    queryKey: ["daily-article-content", slug, normalizedLanguage],
-    enabled: !!slug,
-    staleTime: 1000 * 60 * 60,
-    gcTime: 1000 * 60 * 60 * 6,
-    queryFn: async () => {
-      const today = new Date().toISOString().slice(0, 10);
-      const { data, error } = await supabase
-        .from("article_daily_content")
-        .select("slug, language, title_override, excerpt_override, intro_override, markdown_body, seo_description, reading_minutes, effective_date")
-        .eq("slug", slug)
-        .eq("language", normalizedLanguage)
-        .lte("effective_date", today)
-        .eq("is_published", true)
-        .order("effective_date", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-      if (error) throw error;
-      return (data as DailyArticleContentRecord | null) ?? null;
-    },
+    queryKey: ["daily-article-content", "disabled"],
+    enabled: false,
+    queryFn: async () => null as DailyArticleContentRecord | null,
   });
-
-  const sections = useMemo(() => splitMarkdownIntoSections(query.data?.markdown_body ?? ""), [query.data?.markdown_body]);
 
   return {
     ...query,
-    sections,
+    data: null as DailyArticleContentRecord | null,
+    sections: [] as { heading: string; body: string }[],
   };
 }
