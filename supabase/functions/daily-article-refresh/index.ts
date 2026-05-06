@@ -110,7 +110,7 @@ const safeParseJSON = (raw: string): any | null => {
   return null;
 };
 
-interface ProcessResult { ok: boolean; error?: string; }
+interface ProcessResult { ok: boolean; error?: string; fatal?: boolean; status?: number; }
 
 const processSeedLang = async (
   admin: any,
