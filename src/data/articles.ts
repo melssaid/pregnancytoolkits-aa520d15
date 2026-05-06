@@ -2347,7 +2347,14 @@ export const getLocalizedArticleBySlug = (slug: string, lang?: string, date: Dat
   return seed ? mapSeedToArticle(seed, resolved) : null;
 };
 
-const getDaySeed = (date: Date = new Date()) => Math.floor(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / DAY_IN_MS);
+// Rotate the featured rail every 2 days (per product decision: stable static
+// catalog of articles, swapped on a 48-hour cadence instead of daily AI generation).
+const ROTATION_DAYS = 2;
+const getDaySeed = (date: Date = new Date()) =>
+  Math.floor(
+    Math.floor(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / DAY_IN_MS) /
+      ROTATION_DAYS,
+  );
 
 export const getFeaturedSectionBundle = (sectionKey: ArticleSectionKey, lang?: string, date: Date = new Date()) => {
   const resolved = resolveLang(lang);
