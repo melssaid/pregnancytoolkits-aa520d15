@@ -2347,8 +2347,10 @@ export const getLocalizedArticleBySlug = (slug: string, lang?: string, date: Dat
   return seed ? mapSeedToArticle(seed, resolved) : null;
 };
 
-// Rotate the featured rail daily from the static catalog (no daily AI generation).
-const ROTATION_DAYS = 1;
+// Rotate the featured rail every 2 days from the static multilingual catalog
+// (no daily AI generation). Same rotation seed applies to all languages so the
+// swap cadence is consistent across ar/en/de/fr/es/tr/pt.
+const ROTATION_DAYS = 2;
 const getDaySeed = (date: Date = new Date()) =>
   Math.floor(
     Math.floor(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / DAY_IN_MS) /
