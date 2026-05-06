@@ -82,7 +82,9 @@ const callAI = async (prompt: string, apiKey: string): Promise<any> => {
     });
     if (!res.ok) {
       const txt = await res.text();
-      throw new Error(`HTTP ${res.status}: ${txt.slice(0, 200)}`);
+      const err: any = new Error(`HTTP ${res.status}: ${txt.slice(0, 200)}`);
+      err.status = res.status;
+      throw err;
     }
     return await res.json();
   } finally {
@@ -108,7 +110,7 @@ const safeParseJSON = (raw: string): any | null => {
   return null;
 };
 
-interface ProcessResult { ok: boolean; error?: string; }
+interface ProcessResult { ok: boolean; error?: string; fatal?: boolean; status?: number; }
 
 const processSeedLang = async (
   admin: any,
@@ -149,8 +151,12 @@ const processSeedLang = async (
         continue;
       }
       return { ok: true };
-    } catch (e) {
+    } catch (e: any) {
       lastError = e instanceof Error ? e.message : String(e);
+      // Bubble up unrecoverable AI gateway errors so caller can abort whole run.
+      if (e?.status === 402 || e?.status === 429 || e?.status === 401) {
+        return { ok: false, error: lastError, fatal: true, status: e.status };
+      }
     }
   }
   return { ok: false, error: lastError };
@@ -192,11 +198,17 @@ serve(async (req) => {
 
   // Sequential per-seed AND per-language to respect AI gateway rate limits (free tier).
   // ~600ms gap between calls keeps us safely under common per-minute caps.
-  for (const seed of targets) {
+  let aborted: { status: number; error: string } | null = null;
+  outer: for (const seed of targets) {
     const results: ProcessResult[] = [];
     for (const lang of languages) {
-      results.push(await processSeedLang(admin, seed, lang, effectiveDate, lovableApiKey));
+      const r = await processSeedLang(admin, seed, lang, effectiveDate, lovableApiKey);
+      results.push(r);
+      if (r.fatal) {
+        aborted = { status: r.status ?? 0, error: r.error ?? "fatal" };
+      }
       await sleep(600);
+      if (aborted) break;
     }
     results.forEach((r, idx) => {
       if (r.ok) processed += 1;
@@ -206,13 +218,15 @@ serve(async (req) => {
       }
     });
 
-    // Lightweight progress checkpoint (silent failure on update is OK).
     if (runId) {
       await admin.from("article_refresh_runs").update({
         processed_count: processed,
-        notes: `processed ${processed}, failed ${failed}, last seed ${seed.slug}`,
+        notes: `processed ${processed}, failed ${failed}, last seed ${seed.slug}${aborted ? ` (aborted: ${aborted.status})` : ""}`,
       }).eq("id", runId);
     }
+
+    // Stop entire run on unrecoverable AI gateway error (402/401/429) to avoid hammering.
+    if (aborted) break outer;
   }
 
   if (runId) {
