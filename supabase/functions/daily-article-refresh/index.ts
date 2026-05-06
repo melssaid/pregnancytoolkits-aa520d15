@@ -82,7 +82,9 @@ const callAI = async (prompt: string, apiKey: string): Promise<any> => {
     });
     if (!res.ok) {
       const txt = await res.text();
-      throw new Error(`HTTP ${res.status}: ${txt.slice(0, 200)}`);
+      const err: any = new Error(`HTTP ${res.status}: ${txt.slice(0, 200)}`);
+      err.status = res.status;
+      throw err;
     }
     return await res.json();
   } finally {
