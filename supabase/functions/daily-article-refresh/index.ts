@@ -151,8 +151,12 @@ const processSeedLang = async (
         continue;
       }
       return { ok: true };
-    } catch (e) {
+    } catch (e: any) {
       lastError = e instanceof Error ? e.message : String(e);
+      // Bubble up unrecoverable AI gateway errors so caller can abort whole run.
+      if (e?.status === 402 || e?.status === 429 || e?.status === 401) {
+        return { ok: false, error: lastError, fatal: true, status: e.status };
+      }
     }
   }
   return { ok: false, error: lastError };
