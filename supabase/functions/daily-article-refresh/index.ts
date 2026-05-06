@@ -198,11 +198,17 @@ serve(async (req) => {
 
   // Sequential per-seed AND per-language to respect AI gateway rate limits (free tier).
   // ~600ms gap between calls keeps us safely under common per-minute caps.
-  for (const seed of targets) {
+  let aborted: { status: number; error: string } | null = null;
+  outer: for (const seed of targets) {
     const results: ProcessResult[] = [];
     for (const lang of languages) {
-      results.push(await processSeedLang(admin, seed, lang, effectiveDate, lovableApiKey));
+      const r = await processSeedLang(admin, seed, lang, effectiveDate, lovableApiKey);
+      results.push(r);
+      if (r.fatal) {
+        aborted = { status: r.status ?? 0, error: r.error ?? "fatal" };
+      }
       await sleep(600);
+      if (aborted) break;
     }
     results.forEach((r, idx) => {
       if (r.ok) processed += 1;
@@ -212,13 +218,15 @@ serve(async (req) => {
       }
     });
 
-    // Lightweight progress checkpoint (silent failure on update is OK).
     if (runId) {
       await admin.from("article_refresh_runs").update({
         processed_count: processed,
-        notes: `processed ${processed}, failed ${failed}, last seed ${seed.slug}`,
+        notes: `processed ${processed}, failed ${failed}, last seed ${seed.slug}${aborted ? ` (aborted: ${aborted.status})` : ""}`,
       }).eq("id", runId);
     }
+
+    // Stop entire run on unrecoverable AI gateway error (402/401/429) to avoid hammering.
+    if (aborted) break outer;
   }
 
   if (runId) {
