@@ -244,11 +244,19 @@ html[lang="ar"] .ar-heading {
     );
   }
 
-  /* iOS Safe Areas - bottom and sides only; top handled by trust bar */
-  body {
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-inline-start: env(safe-area-inset-left);
-    padding-inline-end: env(safe-area-inset-right);
+  /* Edge-to-edge: html/body fill the screen including under system bars.
+     Safe-area insets are applied inside the Layout, not on body, so the
+     splash video and the app background extend behind the status/nav bars. */
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: hsl(var(--background));
+  }
+  /* While the splash overlay is mounted, lock body scroll so nothing peeks
+     above or below the video. */
+  body:has(#splash-overlay) {
+    overflow: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
