@@ -50,7 +50,14 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
   const logoSize = useSpring(rawLogo, { stiffness: 180, damping: 26, mass: 0.4 });
 
   return (
-    <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">
+    <div
+      className="min-h-screen bg-background flex flex-col overflow-x-hidden"
+      style={{
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        paddingInlineStart: 'env(safe-area-inset-left)',
+        paddingInlineEnd: 'env(safe-area-inset-right)',
+      }}
+    >
       <BreadcrumbSchema />
       {/* Trial Expiry Banner */}
       <TrialExpiryBanner />
