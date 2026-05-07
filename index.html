@@ -339,8 +339,7 @@
 
         var done=false;
         var appReady=false;
-        var minShownAt=Date.now();
-        var MIN_DURATION=800; // shorter — only enforce brand moment, not extra wait
+        var videoStarted=false;
 
         window.addEventListener('app:first-render', function(){
           appReady=true;
@@ -348,35 +347,32 @@
         }, {once:true});
 
         function fadeOverlay(){
-          try { vid.pause(); } catch(e){}
           overlay.style.opacity='0';
           setTimeout(function(){
+            try { vid.pause(); } catch(e){}
             if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
-          }, 500);
+          }, 400);
         }
 
         function maybeFinish(){
           if(done) return;
           if(!appReady) return;
-          var elapsed=Date.now()-minShownAt;
-          var wait=Math.max(0, MIN_DURATION-elapsed);
+          if(!videoStarted){
+            // give the video a brief window to render its first frame, then proceed
+            setTimeout(function(){ videoStarted=true; maybeFinish(); }, 500);
+            return;
+          }
           done=true;
           localStorage.setItem(SPLASH_KEY,'true');
           try { sessionStorage.setItem(SPLASH_SESSION_KEY,'true'); } catch(e) {}
           window.__htmlSplashVideoActive=false;
           window.__htmlSplashVideoEnded=true;
           window.dispatchEvent(new CustomEvent('html-splash-ended'));
-          setTimeout(function(){
-            requestAnimationFrame(function(){
-              requestAnimationFrame(fadeOverlay);
-            });
-          }, wait);
+          requestAnimationFrame(fadeOverlay);
         }
 
-        vid.addEventListener('error', function(){ appReady=true; maybeFinish(); }, {once:true});
-        vid.addEventListener('stalled', function(){
-          setTimeout(function(){ appReady=true; maybeFinish(); }, 1500);
-        }, {once:true});
+        vid.addEventListener('playing', function(){ videoStarted=true; maybeFinish(); }, {once:true});
+        vid.addEventListener('error', function(){ videoStarted=true; appReady=true; maybeFinish(); }, {once:true});
 
         function tryPlay(){
           try{
@@ -387,13 +383,8 @@
         vid.addEventListener('loadedmetadata', tryPlay, {once:true});
         tryPlay();
 
-        // If video can't autoplay, don't block
-        setTimeout(function(){
-          if(vid.paused && vid.currentTime===0){ appReady=true; maybeFinish(); }
-        }, 1200);
-
-        // Hard safety cap — never block user behind splash for more than 4s
-        setTimeout(function(){ appReady=true; maybeFinish(); }, 4000);
+        // Hard safety cap — never block user behind splash for more than 3s total
+        setTimeout(function(){ videoStarted=true; appReady=true; maybeFinish(); }, 3000);
       })();
     </script>
 
