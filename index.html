@@ -329,9 +329,9 @@
           return;
         }
 
-        // Use the app's warm background from the start — prevents any white OR
-        // black flash if the overlay fades faster than the underlying paint.
-        var APP_BG='#faf6f2';
+        // Keep the page background black so nothing light flashes before the
+        // splash video paints.
+        var APP_BG='#000';
         document.body.style.background=APP_BG;
         document.documentElement.style.background=APP_BG;
 
