@@ -7,7 +7,6 @@ import {
   AlertTriangle, BarChart3, Vibrate, ChevronDown, RotateCcw,
 } from "lucide-react";
 import { ContextualWarningBanner, WhenToCallDoctorCard, EvidenceInfoBlock } from "@/components/safety";
-import { ContextualWarningBanner, WhenToCallDoctorCard, EvidenceInfoBlock } from "@/components/safety";
 import { haptic } from "@/lib/haptics";
 import { ToolFrame } from "@/components/ToolFrame";
 import { Card, CardContent } from "@/components/ui/card";
