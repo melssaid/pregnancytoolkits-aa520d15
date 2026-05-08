@@ -45,40 +45,38 @@ interface ToolFrameProps {
   howToSteps?: { name: string; text: string }[];
 }
 
-// Unified Warm Rose-to-Lavender brand palette across all moods.
-// Each mood keeps its own accent hue, but the page background blends with
-// the global ambient gradient (cream → blush → lavender) for visual continuity.
+// Unified Warm Rose-to-Lavender ambient palette across all tool pages.
+// The page background is fully transparent so the global body gradient
+// (cream → blush → lavender) flows through the ToolFrame, header, and
+// inner sections. Only the accent hue varies per mood to keep buttons,
+// icons, and highlights distinct.
 const moodStyles = {
   calm: {
-    gradient: "from-[hsl(30,40%,97%)] via-[hsl(280,35%,96%)] to-[hsl(250,40%,96%)]",
     accent: "from-indigo-500 to-violet-600",
     iconBg: "bg-gradient-to-br from-indigo-400 to-violet-500",
     border: "border-violet-200/40",
-    glow: "from-violet-300/30",
+    glow: "from-violet-300/25",
     badge: "from-indigo-500/10 to-violet-500/10",
   },
   nurturing: {
-    gradient: "from-[hsl(30,45%,97%)] via-[hsl(340,45%,96%)] to-[hsl(300,35%,96%)]",
     accent: "from-rose-500 to-pink-600",
     iconBg: "bg-gradient-to-br from-rose-400 to-pink-500",
     border: "border-rose-200/40",
-    glow: "from-rose-300/30",
+    glow: "from-rose-300/25",
     badge: "from-rose-500/10 to-pink-500/10",
   },
   empowering: {
-    gradient: "from-[hsl(35,50%,96%)] via-[hsl(20,45%,95%)] to-[hsl(340,40%,96%)]",
     accent: "from-amber-500 to-rose-500",
     iconBg: "bg-gradient-to-br from-amber-400 to-rose-400",
     border: "border-amber-200/40",
-    glow: "from-amber-300/30",
+    glow: "from-amber-300/25",
     badge: "from-amber-500/10 to-rose-500/10",
   },
   joyful: {
-    gradient: "from-[hsl(30,45%,97%)] via-[hsl(330,40%,96%)] to-[hsl(280,35%,96%)]",
     accent: "from-pink-500 to-purple-600",
     iconBg: "bg-gradient-to-br from-pink-400 to-purple-500",
     border: "border-pink-200/40",
-    glow: "from-pink-300/30",
+    glow: "from-pink-300/25",
     badge: "from-pink-500/10 to-purple-500/10",
   },
 };
@@ -109,7 +107,7 @@ export function ToolFrame({
   }, [toolId]);
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${styles.gradient} overflow-x-hidden overflow-y-auto`}>
+    <div className="min-h-screen bg-transparent overflow-x-hidden overflow-y-auto">
       <SEOHead title={title} description={subtitle} howToSteps={howToSteps} />
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className={`absolute -top-32 -right-32 w-72 md:w-96 h-72 md:h-96 bg-gradient-to-br ${styles.glow} to-transparent rounded-full blur-3xl opacity-60`} />
@@ -118,8 +116,8 @@ export function ToolFrame({
 
       {/* Content */}
       <div className="relative z-10">
-        {/* Sticky Header */}
-        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-primary/10 shadow-sm overflow-hidden">
+        {/* Sticky Header — translucent so the ambient gradient flows through */}
+        <header className="sticky top-0 z-50 bg-background/40 backdrop-blur-2xl border-b border-primary/10 shadow-sm overflow-hidden">
           {/* Subtle top accent line */}
           <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
           
