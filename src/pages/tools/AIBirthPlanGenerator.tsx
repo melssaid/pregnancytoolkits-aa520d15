@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Brain, ChevronDown, ChevronUp, Archive, Trash2, Clock, Loader2, AlertCircle, CheckCircle2, Heart, Shield, Baby, Sparkles } from 'lucide-react';
+import WhatsAppShareButton from "@/components/WhatsAppShareButton";
+import { formatAIPlanShare, openWhatsApp } from "@/lib/whatsappShare";
 import { useSmartInsight } from '@/hooks/useSmartInsight';
 import { AIActionButton } from '@/components/ai/AIActionButton';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
@@ -377,6 +379,18 @@ export default function AIBirthPlanGenerator() {
           </CardContent>
         </Card>
       </div>
+      {generatedPlan && (
+        <WhatsAppShareButton
+          onClick={() => {
+            const text = formatAIPlanShare(
+              { title: t('toolsInternal.birthPlan.title'), emoji: '📋' },
+              generatedPlan
+            );
+            openWhatsApp(text);
+          }}
+          className="!fixed bottom-20 end-4 z-40 shadow-xl"
+        />
+      )}
     </ToolFrame>
   );
 }
