@@ -17,6 +17,8 @@ import { useSmartInsight } from "@/hooks/useSmartInsight";
 import { useSettings } from "@/hooks/useSettings";
 import { VideoLibrary } from "@/components/VideoLibrary";
 import { partnerVideosByLang } from "@/data/videoData";
+import WhatsAppShareButton from "@/components/WhatsAppShareButton";
+import { formatChecklistShare, openWhatsApp } from "@/lib/whatsappShare";
 
 // ── Topic Configuration ──────────────────────────────────────────
 const TOPICS = [
@@ -371,6 +373,20 @@ Be warm, practical, and specific. Include real examples.`;
           accentColor="rose"
         />
       </div>
+      <WhatsAppShareButton
+        onClick={() => {
+          const items = DAILY_CHECKLIST_KEYS.map(k => ({
+            name: t(`toolsInternal.partnerGuide.${k}`),
+            done: checkedActions.includes(k),
+          }));
+          const text = formatChecklistShare(
+            { title: t("toolsInternal.partnerGuide.title"), emoji: "💝" },
+            items
+          );
+          openWhatsApp(text);
+        }}
+        className="!fixed bottom-20 end-4 z-40 shadow-xl"
+      />
     </ToolFrame>
   );
 };
