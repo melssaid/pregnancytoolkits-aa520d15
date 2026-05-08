@@ -328,6 +328,12 @@ export function ToolFrame({
           )}
         </section>
 
+        {/* Related Articles — placed just before the footer */}
+        {toolId && (
+          <section className="px-4 sm:px-6 pb-6">
+            <ToolRelatedArticles toolId={toolId} maxItems={3} />
+          </section>
+        )}
 
         {/* Elegant Footer Disclaimer */}
         <motion.footer
