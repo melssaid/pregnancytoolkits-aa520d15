@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import { Briefcase, Baby, User, Heart, Plus, RotateCcw, CheckCircle2, Circle, ChevronDown, ChevronUp, Star, ShieldCheck, Package } from "lucide-react";
-
+import WhatsAppShareButton from "@/components/WhatsAppShareButton";
+import { formatChecklistShare, openWhatsApp } from "@/lib/whatsappShare";
 import { AIResponseFrame } from "@/components/ai/AIResponseFrame";
 import { PrintableReport } from '@/components/PrintableReport';
 import { AIActionButton } from "@/components/ai/AIActionButton";
@@ -247,6 +248,25 @@ const AIHospitalBag = () => {
     if (key.startsWith("toolsInternal.")) return t(key);
     if (key.startsWith("hospitalBag.")) return t(`toolsInternal.${key}`);
     return key;
+  };
+
+  const handleShareWhatsApp = () => {
+    const shareItems = items.map(item => ({
+      name: getItemDisplayName(item),
+      done: item.packed,
+      category: item.category,
+    }));
+    const cats = [
+      { key: 'documents', emoji: '📄', label: t('toolsInternal.hospitalBag.documents') },
+      { key: 'mom', emoji: '👩', label: t('toolsInternal.hospitalBag.mom') },
+      { key: 'baby', emoji: '👶', label: t('toolsInternal.hospitalBag.baby') },
+      { key: 'partner', emoji: '👨', label: t('toolsInternal.hospitalBag.partner') },
+    ];
+    const text = formatChecklistShare(
+      { title: t('toolsInternal.hospitalBag.title'), emoji: '🧳' },
+      shareItems, undefined, cats
+    );
+    openWhatsApp(text);
   };
 
   const getPersonalizedList = async () => {
@@ -494,6 +514,10 @@ Include seasonal considerations and hospital-specific recommendations.`;
         {/* Educational Videos */}
         <VideoLibrary videosByLang={hospitalBagVideosByLang(t)} title={t('toolsInternal.hospitalBag.hospitalBagVideos')} subtitle={t('toolsInternal.hospitalBag.hospitalBagVideosSubtitle')} accentColor="blue" />
       </div>
+      <WhatsAppShareButton
+        onClick={handleShareWhatsApp}
+        className="!fixed bottom-20 end-4 z-40 shadow-xl"
+      />
     </ToolFrame>
   );
 };
