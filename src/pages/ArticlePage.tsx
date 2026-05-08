@@ -229,10 +229,7 @@ const ArticlePage = () => {
         )}
 
         <section className="space-y-4 rounded-[1.6rem] border border-border bg-card px-4 py-4" style={{ boxShadow: "var(--shadow-card)" }}>
-          <RelatedArticles slug={article.slug} embedded />
-          <div className="border-t border-border pt-4">
-            <FeaturedArticlesRail limit={4} embedded />
-          </div>
+          <FeaturedArticlesRail limit={4} embedded />
         </section>
       </article>
     </Layout>
