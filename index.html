@@ -377,6 +377,14 @@
               root.style.transform='none';
               root.style.willChange='auto';
             }
+            // Restore page background so the warm cream/rose gradient from
+            // index.css can paint (otherwise tool pages with bg-transparent
+            // would reveal the splash-time black background).
+            try {
+              document.body.style.background='';
+              document.documentElement.style.background='';
+              document.documentElement.style.colorScheme='';
+            } catch(e){}
           }, 720);
         }
 
