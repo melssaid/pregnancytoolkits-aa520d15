@@ -52,20 +52,20 @@ html[lang="ar"] .ar-heading {
     --secondary: 300 25% 95%;
     --secondary-foreground: 340 50% 32%;
     
-    /* Background - Clean white */
-    --background: 0 0% 100%;
-    --foreground: 25 20% 18%;
+    /* Background - Warm cream (matches body #faf6f2) for token/visual parity */
+    --background: 30 33% 97%;
+    --foreground: 25 25% 16%;
     
-    /* Cards - Pure white */
+    /* Cards - Pure white for clear elevation over the cream background */
     --card: 0 0% 100%;
-    --card-foreground: 25 20% 18%;
+    --card-foreground: 25 25% 16%;
     
-    /* Muted - Warm beige */
-    --muted: 30 20% 93%;
-    --muted-foreground: 25 15% 28%;
+    /* Muted - Warm beige, one step deeper than bg for chips/sections */
+    --muted: 30 22% 91%;
+    --muted-foreground: 25 18% 32%;
     
     /* Accent - Soft sage green for lifestyle */
-    --accent: 150 35% 55%;
+    --accent: 150 35% 50%;
     --accent-foreground: 0 0% 100%;
     
     /* Success - Gentle mint */
@@ -82,11 +82,11 @@ html[lang="ar"] .ar-heading {
     
     /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 25 20% 18%;
+    --popover-foreground: 25 25% 16%;
     
-    /* Border */
-    --border: 30 20% 83%;
-    --input: 30 20% 83%;
+    /* Border - slightly stronger so cards/inputs stay defined on cream bg */
+    --border: 28 18% 80%;
+    --input: 28 18% 80%;
     --ring: 340 65% 52%;
     
     --radius: 1rem;
