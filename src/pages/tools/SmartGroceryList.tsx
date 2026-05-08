@@ -19,8 +19,6 @@ import { toast } from 'sonner';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import { WeekSlider } from '@/components/WeekSlider';
 import { AIInsightCard } from '@/components/ai/AIInsightCard';
-import WhatsAppShareButton from '@/components/WhatsAppShareButton';
-import { formatChecklistShare, openWhatsApp } from '@/lib/whatsappShare';
 
 import { ToolHubNav, NUTRITION_HUB_TABS } from '@/components/ToolHubNav';
 

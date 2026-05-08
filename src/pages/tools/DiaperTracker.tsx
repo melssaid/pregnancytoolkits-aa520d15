@@ -9,8 +9,6 @@ import { DiaperAIAnalysis } from "@/components/diaper/DiaperAIAnalysis";
 import { Info, Droplet, Circle, Clock, Minus, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import WhatsAppShareButton from "@/components/WhatsAppShareButton";
-import { formatStatsShare, openWhatsApp } from "@/lib/whatsappShare";
 import { ToolEmptyState } from "@/components/tools/ToolEmptyState";
 
 type DiaperType = "wet" | "dirty" | "both";
