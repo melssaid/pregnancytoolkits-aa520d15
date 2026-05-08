@@ -6,8 +6,7 @@ import {
   Play, Square, Timer, TrendingUp, Activity, Clock, Zap, Heart,
   AlertTriangle, BarChart3, Vibrate, ChevronDown, RotateCcw,
 } from "lucide-react";
-import WhatsAppShareButton from "@/components/WhatsAppShareButton";
-import { formatStatsShare, openWhatsApp } from "@/lib/whatsappShare";
+import { ContextualWarningBanner, WhenToCallDoctorCard, EvidenceInfoBlock } from "@/components/safety";
 import { ContextualWarningBanner, WhenToCallDoctorCard, EvidenceInfoBlock } from "@/components/safety";
 import { haptic } from "@/lib/haptics";
 import { ToolFrame } from "@/components/ToolFrame";
@@ -179,30 +178,6 @@ export default function ContractionTimer() {
 
   // 5-1-1 rule check
   const fiveOneOne = stats && stats.avgInterval > 0 && stats.avgInterval <= 300 && stats.avgDuration >= 60;
-
-  const handleShareWhatsApp = useCallback(() => {
-    if (!stats || contractions.length === 0) return;
-    const statItems = [
-      { emoji: '📊', label: t("toolsInternal.contractionTimer.total", "انقباض"), value: String(stats.count) },
-      { emoji: '⏳', label: t("toolsInternal.contractionTimer.avgDuration", "متوسط المدة"), value: formatDuration(stats.avgDuration) },
-      { emoji: '🔄', label: t("toolsInternal.contractionTimer.avgInterval", "متوسط الفاصل"), value: stats.avgInterval > 0 ? formatDuration(stats.avgInterval) : "--" },
-      { emoji: '📈', label: t("toolsInternal.contractionTimer.regularity", "الانتظام"), value: `${stats.regularity}%` },
-      { emoji: '📱', label: t("toolsInternal.contractionTimer.sessionTime", "مدة الجلسة"), value: formatDuration(stats.sessionDuration) },
-    ];
-    const alerts: { emoji: string; text: string }[] = [];
-    if (phase !== "none") {
-      alerts.push({ emoji: '🏥', text: t(`toolsInternal.contractionTimer.phase${phase.charAt(0).toUpperCase() + phase.slice(1)}`, phase) });
-    }
-    if (fiveOneOne) {
-      alerts.push({ emoji: '⚠️', text: t("toolsInternal.contractionTimer.fiveOneOneAlert", "قاعدة 5-1-1 تحققت!") });
-    }
-    const text = formatStatsShare(
-      { title: t("toolsInternal.contractionTimer.title", "عداد الانقباضات"), emoji: '⏱️' },
-      statItems, alerts
-    );
-    openWhatsApp(text);
-  }, [stats, contractions, t, phase, fiveOneOne]);
-
 
   const [timeSinceLast, setTimeSinceLast] = useState(0);
   useEffect(() => {
@@ -494,16 +469,12 @@ export default function ContractionTimer() {
           </div>
         )}
 
-        {/* ═══════ SHARE & CLEAR ═══════ */}
-        <div className="flex items-center justify-center gap-3">
-          <WhatsAppShareButton onClick={handleShareWhatsApp} />
-          {stats && stats.count >= 2 && (
-            <button onClick={handleClear} className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-medium text-destructive bg-destructive/10 hover:bg-destructive/20 active:scale-95 transition-all">
-              <RotateCcw className="w-3 h-3" />
-              {t("toolsInternal.contractionTimer.clear", "مسح الكل")}
-            </button>
-          )}
-        </div>
+        {stats && stats.count >= 2 && (
+          <button onClick={handleClear} className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-medium text-destructive bg-destructive/10 hover:bg-destructive/20 active:scale-95 transition-all">
+            <RotateCcw className="w-3 h-3" />
+            {t("toolsInternal.contractionTimer.clear", "مسح الكل")}
+          </button>
+        )}
 
         {/* ═══════ EMPTY STATE — no contractions logged yet ═══════ */}
         {contractions.length === 0 && !isActive && (
