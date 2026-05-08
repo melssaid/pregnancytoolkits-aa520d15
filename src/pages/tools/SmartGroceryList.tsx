@@ -694,20 +694,6 @@ Provide a structured 7-day meal plan with breakfast, lunch, dinner, and snacks.`
           </TabsContent>
         </Tabs>
 
-        {/* WhatsApp Share */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={() => {
-            const shareItems = items.map(i => ({
-              name: i.name || (i.nameKey ? t(i.nameKey) : ''),
-              done: i.isChecked,
-            }));
-            const text = formatChecklistShare(
-              { title: t('groceryList.title'), emoji: '🛒' },
-              shareItems
-            );
-            openWhatsApp(text);
-          }} />
-        </div>
       </div>
     </ToolFrame>
   );

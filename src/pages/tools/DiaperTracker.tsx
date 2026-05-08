@@ -368,21 +368,6 @@ const DiaperTracker = () => {
         {/* History grouped by day */}
         <DiaperHistory entries={entries} onDelete={deleteEntry} />
 
-        {/* WhatsApp Share */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={() => {
-            const text = formatStatsShare(
-              { title: t('diaperPage.title'), emoji: '👶' },
-              [
-                { emoji: '🫧', label: t('diaperPage.wet'), value: String(stats.wet) },
-                { emoji: '🍂', label: t('diaperPage.dirty'), value: String(stats.dirty) },
-                { emoji: '👶', label: t('diaperPage.both'), value: String(stats.both) },
-                { emoji: '📊', label: t('diaperPage.total'), value: `${stats.total}/${DAILY_GOAL}` },
-              ]
-            );
-            openWhatsApp(text);
-          }} />
-        </div>
       </div>
     </ToolFrame>
   );
