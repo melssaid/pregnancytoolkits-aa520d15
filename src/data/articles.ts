@@ -2704,4 +2704,48 @@ export const getArticleCountBySection = (date: Date = new Date()) => {
 
 export const getRelatedToolRecords = (article: Pick<ArticleRecord, "relatedToolIds">) => article.relatedToolIds.map((id) => getToolById(id)).filter(Boolean);
 
+/**
+ * Returns articles that explicitly list a given tool in their relatedToolIds,
+ * with a fallback to same-section articles when the direct match pool is small.
+ * Rotates daily so users see fresh recommendations across visits.
+ */
+export const getArticlesForTool = (
+  toolId: string,
+  lang?: string,
+  maxItems: number = 3,
+  date: Date = new Date(),
+) => {
+  const resolved = resolveLang(lang);
+  const visible = getVisibleArticleSeeds(date);
+  const daySeed = getDaySeed(date);
+
+  const directMatches = visible
+    .filter((seed) => seed.relatedToolIds.includes(toolId))
+    .sort((a, b) => b.popularityWeight - a.popularityWeight || a.order - b.order);
+
+  // Try to infer the section from the tool's first matching article, otherwise
+  // fall back to a globally rotated pool so we never render an empty rail.
+  const inferredSection = directMatches[0]?.sectionKey;
+  const sectionPool = inferredSection
+    ? visible
+        .filter((seed) => seed.sectionKey === inferredSection && !directMatches.find((d) => d.slug === seed.slug))
+        .sort((a, b) => b.popularityWeight - a.popularityWeight || a.order - b.order)
+    : [];
+
+  const fallbackPool = visible
+    .filter((seed) => !directMatches.find((d) => d.slug === seed.slug) && !sectionPool.find((s) => s.slug === seed.slug))
+    .sort((a, b) => b.popularityWeight - a.popularityWeight || a.order - b.order);
+
+  const rotate = (pool: ArticleSeed[]) =>
+    pool.length ? pool.map((_, i) => pool[(i + (daySeed % pool.length)) % pool.length]) : [];
+
+  const combined = [...rotate(directMatches), ...rotate(sectionPool), ...rotate(fallbackPool)];
+  const unique: ArticleSeed[] = [];
+  combined.forEach((seed) => {
+    if (!unique.find((item) => item.slug === seed.slug)) unique.push(seed);
+  });
+
+  return unique.slice(0, maxItems).map((seed) => mapSeedToArticle(seed, resolved));
+};
+
 export const getArticleDateLabel = (isoDate: string, lang?: string) => formatDateLabel(isoDate, resolveLang(lang));
