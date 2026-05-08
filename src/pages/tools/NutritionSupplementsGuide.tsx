@@ -6,8 +6,6 @@ import { ToolFrame } from "@/components/ToolFrame";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { VideoLibrary } from "@/components/VideoLibrary";
 import { nutritionSupplementsVideosByLang } from "@/data/videoData";
-import WhatsAppShareButton from "@/components/WhatsAppShareButton";
-import { formatChecklistShare, openWhatsApp } from "@/lib/whatsappShare";
 
 const CATEGORY_KEYS = [
   "folateRich", "ironSources", "omega3", "antioxidants",
@@ -199,20 +197,6 @@ export default function NutritionSupplementsGuide() {
           </TabsContent>
         </Tabs>
 
-        {/* WhatsApp Share */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={() => {
-            const items = VITAMIN_KEYS.map(k => ({
-              name: t(`toolsInternal.prenatalVitamins.vitamins.${k}.title`),
-              done: checkedVitamins.includes(k),
-            }));
-            const text = formatChecklistShare(
-              { title: t('tools.nutritionSupplements.supplementsTab'), emoji: '💊' },
-              items
-            );
-            openWhatsApp(text);
-          }} />
-        </div>
       </div>
 
       {/* Promotional Video */}

@@ -19,8 +19,6 @@ import { toast } from 'sonner';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import { WeekSlider } from '@/components/WeekSlider';
 import { AIInsightCard } from '@/components/ai/AIInsightCard';
-import WhatsAppShareButton from '@/components/WhatsAppShareButton';
-import { formatChecklistShare, openWhatsApp } from '@/lib/whatsappShare';
 
 import { ToolHubNav, NUTRITION_HUB_TABS } from '@/components/ToolHubNav';
 
@@ -696,20 +694,6 @@ Provide a structured 7-day meal plan with breakfast, lunch, dinner, and snacks.`
           </TabsContent>
         </Tabs>
 
-        {/* WhatsApp Share */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={() => {
-            const shareItems = items.map(i => ({
-              name: i.name || (i.nameKey ? t(i.nameKey) : ''),
-              done: i.isChecked,
-            }));
-            const text = formatChecklistShare(
-              { title: t('groceryList.title'), emoji: '🛒' },
-              shareItems
-            );
-            openWhatsApp(text);
-          }} />
-        </div>
       </div>
     </ToolFrame>
   );

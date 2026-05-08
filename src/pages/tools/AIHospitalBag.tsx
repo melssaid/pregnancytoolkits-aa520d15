@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import { Briefcase, Baby, User, Heart, Plus, RotateCcw, CheckCircle2, Circle, ChevronDown, ChevronUp, Star, ShieldCheck, Package } from "lucide-react";
-import WhatsAppShareButton from "@/components/WhatsAppShareButton";
+
 import { AIResponseFrame } from "@/components/ai/AIResponseFrame";
 import { PrintableReport } from '@/components/PrintableReport';
 import { AIActionButton } from "@/components/ai/AIActionButton";
@@ -16,7 +16,6 @@ import { useSmartInsight } from "@/hooks/useSmartInsight";
 import { useSettings } from "@/hooks/useSettings";
 import { safeParseLocalStorage, safeSaveToLocalStorage } from "@/lib/safeStorage";
 import { VideoLibrary } from "@/components/VideoLibrary";
-import { formatChecklistShare, openWhatsApp } from "@/lib/whatsappShare";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { hospitalBagVideosByLang } from "@/data/videoData";
@@ -250,25 +249,6 @@ const AIHospitalBag = () => {
     return key;
   };
 
-  const handleShareWhatsApp = () => {
-    const shareItems = items.map(item => ({
-      name: getItemDisplayName(item),
-      done: item.packed,
-      category: item.category,
-    }));
-    const cats = [
-      { key: 'documents', emoji: '📄', label: t('toolsInternal.hospitalBag.documents') },
-      { key: 'mom', emoji: '👩', label: t('toolsInternal.hospitalBag.mom') },
-      { key: 'baby', emoji: '👶', label: t('toolsInternal.hospitalBag.baby') },
-      { key: 'partner', emoji: '👨', label: t('toolsInternal.hospitalBag.partner') },
-    ];
-    const text = formatChecklistShare(
-      { title: t('toolsInternal.hospitalBag.title'), emoji: '🧳' },
-      shareItems, undefined, cats
-    );
-    openWhatsApp(text);
-  };
-
   const getPersonalizedList = async () => {
     const currentLang = i18n.language;
     const langNames: Record<string, string> = {
@@ -495,11 +475,6 @@ Include seasonal considerations and hospital-specific recommendations.`;
             </div>
           );
         })}
-
-        {/* ═══════ WHATSAPP SHARE (floating) ═══════ */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={handleShareWhatsApp} />
-        </div>
 
         {/* ═══════ ADD CUSTOM ITEM ═══════ */}
         <div className="flex gap-2">

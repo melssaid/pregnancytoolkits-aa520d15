@@ -9,8 +9,6 @@ import {
 import { ToolFrame } from "@/components/ToolFrame";
 import { Card, CardContent } from "@/components/ui/card";
 import { AIInsightCard } from "@/components/ai/AIInsightCard";
-import WhatsAppShareButton from "@/components/WhatsAppShareButton";
-import { formatChecklistShare, openWhatsApp } from "@/lib/whatsappShare";
 
 const CATEGORIES = [
   {
@@ -272,27 +270,6 @@ Important: Frame all advice as general educational information, not medical dire
             </motion.div>
           );
         })}
-
-        {/* ── WhatsApp Share ─────────────────────────────────────── */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={() => {
-            const items = CATEGORIES.flatMap(c => c.checks.map(ch => ({
-              name: t(`toolsInternal.preconceptionCheckup.checks.${ch}.title`),
-              done: completed.includes(ch),
-              category: c.key,
-            })));
-            const cats = CATEGORIES.map(c => ({
-              key: c.key,
-              emoji: c.key === 'essential' ? '❤️' : c.key === 'wellness-checks' ? '🔬' : c.key === 'specialized' ? '🩺' : '💊',
-              label: t(`toolsInternal.preconceptionCheckup.categories.${c.key}`),
-            }));
-            const text = formatChecklistShare(
-              { title: t('toolsInternal.preconceptionCheckup.title'), emoji: '🩺' },
-              items, undefined, cats
-            );
-            openWhatsApp(text);
-          }} />
-        </div>
 
         {/* ── AI Analysis ─────────────────────────────────────────── */}
         {completedCount > 0 && (

@@ -9,8 +9,6 @@ import { DiaperAIAnalysis } from "@/components/diaper/DiaperAIAnalysis";
 import { Info, Droplet, Circle, Clock, Minus, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import WhatsAppShareButton from "@/components/WhatsAppShareButton";
-import { formatStatsShare, openWhatsApp } from "@/lib/whatsappShare";
 import { ToolEmptyState } from "@/components/tools/ToolEmptyState";
 
 type DiaperType = "wet" | "dirty" | "both";
@@ -370,21 +368,6 @@ const DiaperTracker = () => {
         {/* History grouped by day */}
         <DiaperHistory entries={entries} onDelete={deleteEntry} />
 
-        {/* WhatsApp Share */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={() => {
-            const text = formatStatsShare(
-              { title: t('diaperPage.title'), emoji: '👶' },
-              [
-                { emoji: '🫧', label: t('diaperPage.wet'), value: String(stats.wet) },
-                { emoji: '🍂', label: t('diaperPage.dirty'), value: String(stats.dirty) },
-                { emoji: '👶', label: t('diaperPage.both'), value: String(stats.both) },
-                { emoji: '📊', label: t('diaperPage.total'), value: `${stats.total}/${DAILY_GOAL}` },
-              ]
-            );
-            openWhatsApp(text);
-          }} />
-        </div>
       </div>
     </ToolFrame>
   );

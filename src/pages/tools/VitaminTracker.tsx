@@ -4,8 +4,6 @@ import { Pill, Check, Lightbulb, TrendingUp, Calendar, Sparkles, Clock, Award, F
 import { Card, CardContent } from '@/components/ui/card';
 import { ToolFrame } from '@/components/ToolFrame';
 import { AIInsightCard } from '@/components/ai/AIInsightCard';
-import WhatsAppShareButton from '@/components/WhatsAppShareButton';
-import { formatChecklistShare, openWhatsApp } from '@/lib/whatsappShare';
 import { useToast } from '@/hooks/use-toast';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { loadFromLocalStorage, saveToLocalStorage } from '@/services/localStorageServices';
@@ -429,22 +427,6 @@ const VitaminTracker: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* WhatsApp Share */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={() => {
-            const items = VITAMINS.map(v => ({ name: t(`toolsInternal.vitaminTracker.vitamins.${v}`), done: !!todayLog[v] }));
-            const text = formatChecklistShare(
-              { title: t('toolsInternal.vitaminTracker.title'), emoji: '💊' },
-              items,
-              [
-                { emoji: '🔥', label: t('toolsInternal.vitaminTracker.streak'), value: String(streak) },
-                { emoji: '📅', label: t('toolsInternal.vitaminTracker.weeklyAdherence'), value: String(weeklyCount) },
-              ]
-            );
-            openWhatsApp(text);
-          }} />
-        </div>
 
         {/* AI Analysis */}
         <AIInsightCard
