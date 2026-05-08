@@ -197,20 +197,6 @@ export default function NutritionSupplementsGuide() {
           </TabsContent>
         </Tabs>
 
-        {/* WhatsApp Share */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={() => {
-            const items = VITAMIN_KEYS.map(k => ({
-              name: t(`toolsInternal.prenatalVitamins.vitamins.${k}.title`),
-              done: checkedVitamins.includes(k),
-            }));
-            const text = formatChecklistShare(
-              { title: t('tools.nutritionSupplements.supplementsTab'), emoji: '💊' },
-              items
-            );
-            openWhatsApp(text);
-          }} />
-        </div>
       </div>
 
       {/* Promotional Video */}
