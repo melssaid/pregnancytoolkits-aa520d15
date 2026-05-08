@@ -339,6 +339,11 @@
           try { vid.pause(); vid.removeAttribute('src'); vid.load(); } catch(e){}
           if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
           if(root){ root.style.opacity='1'; root.style.transform='none'; root.style.transition='none'; }
+          try {
+            document.body.style.background='';
+            document.documentElement.style.background='';
+            document.documentElement.style.colorScheme='';
+          } catch(e){}
           window.__htmlSplashVideoActive=false;
           window.__htmlSplashVideoEnded=true;
           window.dispatchEvent(new CustomEvent('html-splash-ended'));
@@ -377,6 +382,14 @@
               root.style.transform='none';
               root.style.willChange='auto';
             }
+            // Restore page background so the warm cream/rose gradient from
+            // index.css can paint (otherwise tool pages with bg-transparent
+            // would reveal the splash-time black background).
+            try {
+              document.body.style.background='';
+              document.documentElement.style.background='';
+              document.documentElement.style.colorScheme='';
+            } catch(e){}
           }, 720);
         }
 
