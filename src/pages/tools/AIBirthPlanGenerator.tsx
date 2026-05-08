@@ -379,6 +379,18 @@ export default function AIBirthPlanGenerator() {
           </CardContent>
         </Card>
       </div>
+      {generatedPlan && (
+        <WhatsAppShareButton
+          onClick={() => {
+            const text = formatAIPlanShare(
+              { title: t('toolsInternal.birthPlan.title'), emoji: '📋' },
+              generatedPlan
+            );
+            openWhatsApp(text);
+          }}
+          className="!fixed bottom-20 end-4 z-40 shadow-xl"
+        />
+      )}
     </ToolFrame>
   );
 }
