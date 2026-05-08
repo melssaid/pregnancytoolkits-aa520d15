@@ -8,8 +8,6 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Package, Check, Star, Baby, ShoppingBag, Home, Car, Heart, Utensils, Moon, Shirt, Thermometer, RotateCcw, ChevronDown, ChevronUp, DollarSign, CheckCircle2, Circle, AlertCircle } from 'lucide-react';
-import WhatsAppShareButton from "@/components/WhatsAppShareButton";
-import { formatChecklistShare, openWhatsApp } from "@/lib/whatsappShare";
 import { getUserId } from '@/hooks/useSupabase';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -112,19 +110,6 @@ export default function BabyGearRecommender() {
   const resetAll = () => {
     setCheckedItems([]);
     saveCheckedItems([]);
-  };
-
-  const handleShareWhatsApp = () => {
-    const shareItems = gearList.map(i => ({
-      name: t(i.nameKey),
-      done: checkedItems.includes(i.id),
-    }));
-    const text = formatChecklistShare(
-      { title: t('babyGear.title'), emoji: '🛍️' },
-      shareItems,
-      [{ emoji: '💰', label: t('babyGear.remaining'), value: `~$${budgetEstimate.remaining}` }]
-    );
-    openWhatsApp(text);
   };
 
   // Group by category
@@ -373,11 +358,6 @@ export default function BabyGearRecommender() {
             </div>
           );
         })}
-
-        {/* ═══════ WHATSAPP SHARE ═══════ */}
-        <div className="flex justify-end">
-          <WhatsAppShareButton onClick={handleShareWhatsApp} />
-        </div>
 
         {filteredByType.length === 0 && (
           <div className="text-center py-8 text-muted-foreground">
