@@ -45,38 +45,41 @@ interface ToolFrameProps {
   howToSteps?: { name: string; text: string }[];
 }
 
+// Unified Warm Rose-to-Lavender brand palette across all moods.
+// Each mood keeps its own accent hue, but the page background blends with
+// the global ambient gradient (cream → blush → lavender) for visual continuity.
 const moodStyles = {
   calm: {
-    gradient: "from-sky-50 via-indigo-50/60 to-violet-50",
-    accent: "from-sky-500 to-indigo-600",
-    iconBg: "bg-gradient-to-br from-sky-400 to-indigo-500",
-    border: "border-sky-200/50",
-    glow: "from-sky-400/30",
-    badge: "from-sky-500/10 to-indigo-500/10",
+    gradient: "from-[hsl(30,40%,97%)] via-[hsl(280,35%,96%)] to-[hsl(250,40%,96%)]",
+    accent: "from-indigo-500 to-violet-600",
+    iconBg: "bg-gradient-to-br from-indigo-400 to-violet-500",
+    border: "border-violet-200/40",
+    glow: "from-violet-300/30",
+    badge: "from-indigo-500/10 to-violet-500/10",
   },
   nurturing: {
-    gradient: "from-rose-50 via-pink-50/60 to-amber-50",
+    gradient: "from-[hsl(30,45%,97%)] via-[hsl(340,45%,96%)] to-[hsl(300,35%,96%)]",
     accent: "from-rose-500 to-pink-600",
     iconBg: "bg-gradient-to-br from-rose-400 to-pink-500",
-    border: "border-rose-200/50",
-    glow: "from-rose-400/30",
+    border: "border-rose-200/40",
+    glow: "from-rose-300/30",
     badge: "from-rose-500/10 to-pink-500/10",
   },
   empowering: {
-    gradient: "from-amber-50 via-orange-50/60 to-rose-50",
-    accent: "from-amber-500 to-orange-600",
-    iconBg: "bg-gradient-to-br from-amber-400 to-orange-500",
-    border: "border-amber-200/50",
-    glow: "from-amber-400/30",
-    badge: "from-amber-500/10 to-orange-500/10",
+    gradient: "from-[hsl(35,50%,96%)] via-[hsl(20,45%,95%)] to-[hsl(340,40%,96%)]",
+    accent: "from-amber-500 to-rose-500",
+    iconBg: "bg-gradient-to-br from-amber-400 to-rose-400",
+    border: "border-amber-200/40",
+    glow: "from-amber-300/30",
+    badge: "from-amber-500/10 to-rose-500/10",
   },
   joyful: {
-    gradient: "from-emerald-50 via-teal-50/60 to-cyan-50",
-    accent: "from-emerald-500 to-teal-600",
-    iconBg: "bg-gradient-to-br from-emerald-400 to-teal-500",
-    border: "border-emerald-200/50",
-    glow: "from-emerald-400/30",
-    badge: "from-emerald-500/10 to-teal-500/10",
+    gradient: "from-[hsl(30,45%,97%)] via-[hsl(330,40%,96%)] to-[hsl(280,35%,96%)]",
+    accent: "from-pink-500 to-purple-600",
+    iconBg: "bg-gradient-to-br from-pink-400 to-purple-500",
+    border: "border-pink-200/40",
+    glow: "from-pink-300/30",
+    badge: "from-pink-500/10 to-purple-500/10",
   },
 };
 
