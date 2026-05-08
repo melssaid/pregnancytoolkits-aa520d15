@@ -7,8 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Brain, ChevronDown, ChevronUp, Archive, Trash2, Clock, Loader2, AlertCircle, CheckCircle2, Heart, Shield, Baby, Sparkles } from 'lucide-react';
-import WhatsAppShareButton from "@/components/WhatsAppShareButton";
-import { formatAIPlanShare, openWhatsApp } from "@/lib/whatsappShare";
 import { useSmartInsight } from '@/hooks/useSmartInsight';
 import { AIActionButton } from '@/components/ai/AIActionButton';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
@@ -172,15 +170,6 @@ export default function AIBirthPlanGenerator() {
     toast.success(t('toolsInternal.birthPlan.planLoaded'));
   }, [t]);
 
-  const handleShareWhatsApp = () => {
-    if (!generatedPlan) return;
-    const text = formatAIPlanShare(
-      { title: t('toolsInternal.birthPlan.title'), emoji: '📋' },
-      generatedPlan
-    );
-    openWhatsApp(text);
-  };
-
   return (
     <ToolFrame title={t('toolsInternal.birthPlan.title')} subtitle={t('toolsInternal.birthPlan.subtitle')} icon={FileText} mood="nurturing" toolId="ai-birth-plan">
       <ToolHubNav tabs={BIRTH_HUB_TABS} />
@@ -309,12 +298,9 @@ export default function AIBirthPlanGenerator() {
         {/* ═══════ GENERATED PLAN ═══════ */}
         {generatedPlan && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Button size="sm" variant="outline" onClick={savePlan} disabled={savedPlans.length >= MAX_SAVED_PLANS} className="text-xs">
-                {t('common.save')}
-              </Button>
-              <WhatsAppShareButton onClick={handleShareWhatsApp} />
-            </div>
+            <Button size="sm" variant="outline" onClick={savePlan} disabled={savedPlans.length >= MAX_SAVED_PLANS} className="text-xs">
+              {t('common.save')}
+            </Button>
             <PrintableReport title={t('toolsInternal.birthPlan.title')} isLoading={isLoading}>
               <AIResponseFrame
                 content={generatedPlan}
