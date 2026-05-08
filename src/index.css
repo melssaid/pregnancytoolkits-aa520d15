@@ -195,11 +195,20 @@ html[lang="ar"] .ar-heading {
     font-family: 'Tajawal', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
 
+  /* Warm Rose-to-Lavender ambient gradient — soft, brand-aligned, fixed so
+     it doesn't scroll with content. Anchors are very desaturated tints
+     (cream → blush → lavender) so text contrast stays AAA. */
   body {
     @apply text-foreground antialiased;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
-    background: #faf6f2;
+    background:
+      radial-gradient(at 12% 0%, hsl(340 55% 95% / 0.55) 0%, transparent 45%),
+      radial-gradient(at 88% 8%, hsl(300 45% 95% / 0.45) 0%, transparent 50%),
+      radial-gradient(at 50% 100%, hsl(25 60% 94% / 0.50) 0%, transparent 55%),
+      linear-gradient(180deg, hsl(30 40% 97%) 0%, hsl(340 30% 97%) 55%, hsl(300 25% 97%) 100%);
+    background-attachment: fixed;
+    background-color: #faf6f2;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -207,7 +216,14 @@ html[lang="ar"] .ar-heading {
   html[dir="rtl"] body {
     font-family: 'Tajawal', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     font-weight: 500;
-    background: #faf6f2;
+    /* Mirror gradient highlights for RTL reading direction */
+    background:
+      radial-gradient(at 88% 0%, hsl(340 55% 95% / 0.55) 0%, transparent 45%),
+      radial-gradient(at 12% 8%, hsl(300 45% 95% / 0.45) 0%, transparent 50%),
+      radial-gradient(at 50% 100%, hsl(25 60% 94% / 0.50) 0%, transparent 55%),
+      linear-gradient(180deg, hsl(30 40% 97%) 0%, hsl(340 30% 97%) 55%, hsl(300 25% 97%) 100%);
+    background-attachment: fixed;
+    background-color: #faf6f2;
   }
 
   /* RTL readability — boost content text weights without affecting branding */
@@ -230,6 +246,7 @@ html[lang="ar"] .ar-heading {
       hsl(var(--background)) 55%,
       hsl(var(--background)) 100%
     );
+    background-attachment: fixed;
   }
 
   .dark html[dir="rtl"] body,
@@ -242,14 +259,12 @@ html[lang="ar"] .ar-heading {
       hsl(var(--background)) 55%,
       hsl(var(--background)) 100%
     );
+    background-attachment: fixed;
   }
 
   /* Edge-to-edge: html/body fill the screen including under system bars.
-     Safe-area insets are applied inside the Layout, not on body, so the
-     splash video and the app background extend behind the status/nav bars.
-     IMPORTANT: do NOT set `background` here — the warm cream background
-     (#faf6f2 in light, dark gradient in dark) is defined on `body` above
-     and must not be overridden. */
+     `html` keeps a solid cream so the area behind safe-area never reveals
+     a contrasting color while the body gradient paints. */
   html, body {
     margin: 0;
     padding: 0;
