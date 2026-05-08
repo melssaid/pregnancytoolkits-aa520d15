@@ -246,11 +246,19 @@ html[lang="ar"] .ar-heading {
 
   /* Edge-to-edge: html/body fill the screen including under system bars.
      Safe-area insets are applied inside the Layout, not on body, so the
-     splash video and the app background extend behind the status/nav bars. */
+     splash video and the app background extend behind the status/nav bars.
+     IMPORTANT: do NOT set `background` here — the warm cream background
+     (#faf6f2 in light, dark gradient in dark) is defined on `body` above
+     and must not be overridden. */
   html, body {
     margin: 0;
     padding: 0;
     min-height: 100%;
+  }
+  html {
+    background: #faf6f2;
+  }
+  .dark html {
     background: hsl(var(--background));
   }
   /* While the splash overlay is mounted, lock body scroll so nothing peeks
