@@ -292,9 +292,9 @@
   <body style="background:#000;">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <!-- Splash overlay (outside #root so React doesn't displace it) -->
-    <div id="splash-overlay" style="position:fixed;inset:0;z-index:9999;transition:opacity 0.6s cubic-bezier(0.4,0,0.2,1);will-change:opacity;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+    <div id="splash-overlay" style="position:fixed;inset:0;z-index:9999;opacity:1;transform:scale(1);transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);will-change:opacity,transform;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;">
       <video id="splash-video" autoplay muted loop playsinline webkit-playsinline preload="auto"
-        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;background:#000;transition:opacity 0.4s ease;will-change:opacity;"
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;background:#000;will-change:opacity;"
         src="/splash-video.mp4"
       ></video>
       <style>
@@ -304,6 +304,21 @@
         #splash-video::-webkit-media-controls-start-playback-button,
         #splash-video::-webkit-media-controls-overlay-play-button{display:none!important}
         video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none}
+        /* Synchronized app entrance — root fades + slides up while splash fades + zooms */
+        #root{
+          opacity:0;
+          transform:translateY(8px) scale(0.995);
+          transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+          will-change:opacity,transform;
+        }
+        #root.splash-revealed{
+          opacity:1;
+          transform:translateY(0) scale(1);
+        }
+        #splash-overlay.splash-leaving{
+          opacity:0;
+          transform:scale(1.035);
+        }
       </style>
     </div>
     <script>
@@ -312,6 +327,7 @@
         var SPLASH_SESSION_KEY='pt_video_splash_seen_session';
         var overlay=document.getElementById('splash-overlay');
         var vid=document.getElementById('splash-video');
+        var root=document.getElementById('root');
         if(!overlay||!vid){return;}
 
         var hasSeenSessionSplash=false;
@@ -322,6 +338,7 @@
         if(hasSeenSessionSplash){
           try { vid.pause(); vid.removeAttribute('src'); vid.load(); } catch(e){}
           if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
+          if(root){ root.style.opacity='1'; root.style.transform='none'; root.style.transition='none'; }
           window.__htmlSplashVideoActive=false;
           window.__htmlSplashVideoEnded=true;
           window.dispatchEvent(new CustomEvent('html-splash-ended'));
@@ -347,11 +364,20 @@
         }, {once:true});
 
         function fadeOverlay(){
-          overlay.style.opacity='0';
+          // Trigger synchronized cross-fade: splash zooms+fades out while
+          // app content fades+slides in over the same 700ms window.
+          if(root){ root.classList.add('splash-revealed'); }
+          overlay.classList.add('splash-leaving');
           setTimeout(function(){
             try { vid.pause(); } catch(e){}
             if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
-          }, 400);
+            // Cleanup transform/transition on root once revealed
+            if(root){
+              root.style.transition='none';
+              root.style.transform='none';
+              root.style.willChange='auto';
+            }
+          }, 720);
         }
 
         function maybeFinish(){
