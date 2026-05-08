@@ -2347,10 +2347,10 @@ export const getLocalizedArticleBySlug = (slug: string, lang?: string, date: Dat
   return seed ? mapSeedToArticle(seed, resolved) : null;
 };
 
-// Rotate the featured rail every 2 days from the static multilingual catalog
+// Rotate the featured rail DAILY from the static multilingual catalog
 // (no daily AI generation). Same rotation seed applies to all languages so the
 // swap cadence is consistent across ar/en/de/fr/es/tr/pt.
-const ROTATION_DAYS = 2;
+const ROTATION_DAYS = 1;
 const getDaySeed = (date: Date = new Date()) =>
   Math.floor(
     Math.floor(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / DAY_IN_MS) /
@@ -2369,17 +2369,26 @@ export const getFeaturedSectionBundle = (sectionKey: ArticleSectionKey, lang?: s
   }
 
   const featuredPool = pool.filter((seed) => seed.featuredInSection);
-  const mainSeed = (featuredPool.length ? featuredPool : pool)[daySeed % (featuredPool.length || pool.length)];
-  const related = [
-    ...mainSeed.relatedArticleIds
-      .map((slug) => pool.find((candidate) => candidate.slug === slug))
-      .filter(Boolean) as ArticleSeed[],
-    ...pool.filter((seed) => seed.slug !== mainSeed.slug && !mainSeed.relatedArticleIds.includes(seed.slug)),
-  ];
+  const primarySource = featuredPool.length ? featuredPool : pool;
+  const mainSeed = primarySource[daySeed % primarySource.length];
 
+  // Rotate the secondary list daily as well, so the whole section refreshes
+  // every day (not just the headline).
+  const others = pool.filter((seed) => seed.slug !== mainSeed.slug);
+  const rotatedSecondary = others.length
+    ? others.map((_, index) => others[(index + (daySeed % others.length)) % others.length])
+    : [];
+
+  // Prefer related articles for continuity, but fill remaining slots from the
+  // rotated pool so each day shows a different combination.
+  const relatedSeeds = mainSeed.relatedArticleIds
+    .map((slug) => others.find((candidate) => candidate.slug === slug))
+    .filter(Boolean) as ArticleSeed[];
+
+  const combined = [...relatedSeeds, ...rotatedSecondary];
   const uniqueSecondary: ArticleSeed[] = [];
-  related.forEach((seed) => {
-    if (!uniqueSecondary.find((item) => item.slug === seed.slug) && seed.slug !== mainSeed.slug) {
+  combined.forEach((seed) => {
+    if (!uniqueSecondary.find((item) => item.slug === seed.slug)) {
       uniqueSecondary.push(seed);
     }
   });
