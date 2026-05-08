@@ -107,7 +107,7 @@ export function ToolFrame({
   }, [toolId]);
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${styles.gradient} overflow-x-hidden overflow-y-auto`}>
+    <div className="min-h-screen bg-transparent overflow-x-hidden overflow-y-auto">
       <SEOHead title={title} description={subtitle} howToSteps={howToSteps} />
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className={`absolute -top-32 -right-32 w-72 md:w-96 h-72 md:h-96 bg-gradient-to-br ${styles.glow} to-transparent rounded-full blur-3xl opacity-60`} />
@@ -116,8 +116,8 @@ export function ToolFrame({
 
       {/* Content */}
       <div className="relative z-10">
-        {/* Sticky Header */}
-        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-primary/10 shadow-sm overflow-hidden">
+        {/* Sticky Header — translucent so the ambient gradient flows through */}
+        <header className="sticky top-0 z-50 bg-background/40 backdrop-blur-2xl border-b border-primary/10 shadow-sm overflow-hidden">
           {/* Subtle top accent line */}
           <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
           
