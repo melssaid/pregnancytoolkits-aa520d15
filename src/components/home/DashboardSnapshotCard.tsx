@@ -248,10 +248,10 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                     )}
                   </div>
                   <span
-                    className={`text-[9.5px] font-bold leading-tight truncate ${
+                    className={`text-[10px] font-bold leading-tight truncate ${
                       p.done
-                        ? "text-[hsl(160,55%,22%)] dark:text-[hsl(160,40%,75%)]"
-                        : "text-foreground/95"
+                        ? "text-[hsl(160,70%,18%)] dark:text-[hsl(160,45%,82%)]"
+                        : "text-[hsl(340,20%,18%)] dark:text-[hsl(340,15%,90%)]"
                     }`}
                   >
                     {p.label}
