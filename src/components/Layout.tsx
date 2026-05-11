@@ -311,14 +311,26 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
           {showBack && (
             <div className="flex items-center gap-1.5">
               <LanguageDropdown variant="compact" />
-              <Link
-                to="/settings#notifications"
-                className="relative flex items-center justify-center w-9 h-9 rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                title={t('settings.notifications', 'التنبيهات')}
-                aria-label={t('settings.notifications', 'التنبيهات')}
-              >
-                <Bell className="w-[16px] h-[16px]" strokeWidth={2.2} aria-hidden="true" focusable="false" />
-              </Link>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <button
+                    type="button"
+                    className="relative flex items-center justify-center w-9 h-9 rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    title={t('settings.notifications', 'التنبيهات')}
+                    aria-label={t('settings.notifications', 'التنبيهات')}
+                  >
+                    <Bell className="w-[16px] h-[16px]" strokeWidth={2.2} aria-hidden="true" focusable="false" />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center border border-card">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </span>
+                    )}
+                  </button>
+                </SheetTrigger>
+                <SheetContent side={isRtl ? 'left' : 'right'} className="w-full sm:max-w-md p-0 overflow-y-auto">
+                  <div className="p-4"><NotificationsPanel /></div>
+                </SheetContent>
+              </Sheet>
               {!isPremium && (
                 <Link
                   to="/pricing-demo"
