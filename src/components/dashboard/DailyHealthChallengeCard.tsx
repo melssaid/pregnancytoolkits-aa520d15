@@ -76,14 +76,14 @@ export function DailyHealthChallengeCard() {
               transition={{ delay: i * 0.1 }}
               onClick={() => toggleChallenge(c.key)}
               className={`w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-start transition-colors ${
-                done ? "bg-green-500/10" : "bg-muted/30"
+                done ? "bg-[hsl(var(--success-soft))]/100" : "bg-muted/30"
               }`}
             >
               <span className="text-base">{c.emoji}</span>
               <span className={`text-xs flex-1 ${done ? "line-through text-muted-foreground" : "text-foreground font-medium"}`}>
                 {t(`dailyChallenge.challenges.${c.key}`)}
               </span>
-              {done && <Check className="w-4 h-4 text-green-500" />}
+              {done && <Check className="w-4 h-4 text-done" />}
             </motion.button>
           );
         })}
