@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { Shield, Heart, Settings, Crown } from "lucide-react";
+import { Shield, Heart, Settings, Crown, Bell } from "lucide-react";
 import { toast } from "sonner";
 const logoImage = "/logo.webp";
 import { useTranslation } from "react-i18next";
@@ -252,7 +252,15 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
                   />
                 </motion.div>
               </Link>
-              <div className="absolute right-3 flex items-center gap-2 sm:right-4">
+              <div className="absolute right-3 flex items-center gap-1.5 sm:right-4">
+                <Link
+                  to="/settings#notifications"
+                  className="relative flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground hover:bg-card active:scale-95"
+                  title={t('settings.notifications', 'التنبيهات')}
+                  aria-label={t('settings.notifications', 'التنبيهات')}
+                >
+                  <Bell className="h-[16px] w-[16px]" strokeWidth={2.2} />
+                </Link>
                 {!isPremium && (
                   <Link
                     to="/pricing-demo"
@@ -281,6 +289,14 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
           {showBack && (
             <div className="flex items-center gap-1.5">
               <LanguageDropdown variant="compact" />
+              <Link
+                to="/settings#notifications"
+                className="relative flex items-center justify-center w-9 h-9 rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground active:scale-95"
+                title={t('settings.notifications', 'التنبيهات')}
+                aria-label={t('settings.notifications', 'التنبيهات')}
+              >
+                <Bell className="w-[16px] h-[16px]" strokeWidth={2.2} />
+              </Link>
               {!isPremium && (
                 <Link
                   to="/pricing-demo"

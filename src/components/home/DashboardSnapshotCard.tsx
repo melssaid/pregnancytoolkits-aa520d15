@@ -95,30 +95,12 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="relative"
+      className="relative overflow-hidden rounded-[28px] border border-white/70 dark:border-white/5
+                 bg-gradient-to-br from-[hsl(345,60%,98%)] via-[hsl(330,45%,97%)] to-[hsl(295,40%,97%)]
+                 dark:from-[hsl(340,28%,11%)] dark:via-[hsl(320,22%,10%)] dark:to-[hsl(290,22%,10%)]
+                 shadow-[-14px_22px_48px_-18px_hsl(340_70%_45%_/_0.45),-6px_12px_24px_-10px_hsl(290_55%_45%_/_0.30),0_2px_6px_-2px_hsl(340_40%_40%_/_0.16),inset_0_1px_0_0_hsl(0_0%_100%/0.85)]
+                 dark:shadow-[-14px_22px_44px_-14px_hsl(0_0%_0%/0.7),-6px_10px_20px_-8px_hsl(0_0%_0%/0.45),inset_0_1px_0_0_hsl(0_0%_100%/0.06)]"
     >
-      {/* ── Directional ambient shadow: gradient bleed from start→end ───
-          In RTL: light from the right, soft rose/lavender shadow drifts left.
-          In LTR: mirrored automatically via logical positioning. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-x-2 -bottom-3 top-2 -z-10 rounded-[32px]
-                   bg-gradient-to-l from-[hsl(340,75%,62%)]/35 via-[hsl(310,55%,55%)]/22 to-[hsl(280,55%,55%)]/0
-                   blur-2xl opacity-90"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-x-1 -bottom-1 top-3 -z-10 rounded-[30px]
-                   bg-gradient-to-l from-[hsl(340,80%,55%)]/25 to-transparent blur-xl"
-      />
-
-      <div
-        className="relative overflow-hidden rounded-[28px] border border-white/70 dark:border-white/5
-                   bg-gradient-to-br from-[hsl(345,60%,98%)] via-[hsl(330,45%,97%)] to-[hsl(295,40%,97%)]
-                   dark:from-[hsl(340,28%,11%)] dark:via-[hsl(320,22%,10%)] dark:to-[hsl(290,22%,10%)]
-                   shadow-[0_18px_48px_-18px_hsl(340_60%_42%_/_0.42),0_8px_20px_-10px_hsl(290_50%_38%_/_0.22),0_2px_6px_-2px_hsl(340_40%_40%_/_0.14),inset_0_1px_0_0_hsl(0_0%_100%/0.8)]
-                   dark:shadow-[0_18px_44px_-14px_hsl(0_0%_0%/0.65),0_4px_12px_-4px_hsl(0_0%_0%/0.4),inset_0_1px_0_0_hsl(0_0%_100%/0.06)]"
-      >
       {/* Layered ambient lights — Apple Health style depth */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
         <div className="absolute -top-16 -end-12 w-48 h-48 rounded-full bg-[radial-gradient(circle,hsl(340,75%,72%)_0%,transparent_65%)] opacity-30 blur-2xl" />
@@ -279,7 +261,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             );
           })}
         </div>
-      </div>
       </div>
     </motion.div>
   );
