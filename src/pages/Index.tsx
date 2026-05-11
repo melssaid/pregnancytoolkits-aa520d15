@@ -20,6 +20,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { CouponRedeemer } from "@/components/settings/CouponRedeemer";
 import { SectionFeaturedArticles } from "@/components/articles/SectionFeaturedArticles";
 import DashboardSnapshotCard from "@/components/home/DashboardSnapshotCard";
+import StageAwareSuggestionsCard from "@/components/home/StageAwareSuggestionsCard";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 // Lazy-load below-the-fold banner — shaves initial JS for faster LCP/TTI
@@ -672,6 +673,9 @@ const Index = () => {
 
           {/* Dashboard snapshot — native app pattern */}
           <DashboardSnapshotCard />
+
+          {/* Stage + week-aware tip & tool suggestions */}
+          <StageAwareSuggestionsCard />
 
           {orderedJourneyConfigs.map((config, index) => (
             <JourneyCard
