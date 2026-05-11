@@ -200,11 +200,11 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 className="text-[18px] sm:text-[19px] leading-[1.2] font-black text-foreground tracking-tight"
                 style={{ fontFamily: "'Tajawal', system-ui, sans-serif" }}
               >
-                {t("dashboard.snapshotTitle", "لوحتي")}
+                {t("dashboard.snapshotTitle", "لوحتي اليومية")}
               </h3>
             )}
-            <p className="mt-1 text-[11px] font-semibold text-foreground/70 dark:text-foreground/75 leading-[1.3] truncate">
-              {t("dashboard.snapshotSubtitle", "ملخص يومك")}
+            <p className="mt-1 text-[11.5px] font-semibold text-foreground/80 dark:text-foreground/85 leading-[1.35] truncate">
+              {subtitle}
             </p>
           </div>
 
