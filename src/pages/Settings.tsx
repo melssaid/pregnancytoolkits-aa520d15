@@ -351,6 +351,15 @@ const Settings: React.FC = () => {
         </AnimatePresence>
 
       </div>
+
+      {showOnboarding && (
+        <Suspense fallback={null}>
+          <OnboardingDisclaimer
+            forceOpen
+            onClose={() => setShowOnboarding(false)}
+          />
+        </Suspense>
+      )}
     </Layout>
   );
 };
