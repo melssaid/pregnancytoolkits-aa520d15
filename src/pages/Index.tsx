@@ -21,7 +21,6 @@ import { CouponRedeemer } from "@/components/settings/CouponRedeemer";
 import { SectionFeaturedArticles } from "@/components/articles/SectionFeaturedArticles";
 import DashboardSnapshotCard from "@/components/home/DashboardSnapshotCard";
 import StageAwareSuggestionsCard from "@/components/home/StageAwareSuggestionsCard";
-import StageToolsFollowUp from "@/components/home/StageToolsFollowUp";
 import JourneyPromptCard from "@/components/home/JourneyPromptCard";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
