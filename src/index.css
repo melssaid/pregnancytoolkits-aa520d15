@@ -317,6 +317,28 @@ html[lang="ar"] .ar-heading {
 }
 
 @layer utilities {
+  /* Rose→Lavender achievement / "done" surfaces — unified across the app */
+  .badge-done {
+    background: var(--gradient-success);
+    color: hsl(var(--success-foreground));
+    border: 1px solid hsl(var(--success-ring) / 0.5);
+    box-shadow: var(--shadow-success);
+  }
+  .badge-done-soft {
+    background: var(--gradient-success-soft);
+    color: hsl(var(--success-soft-foreground));
+    border: 1px solid hsl(var(--success-ring) / 0.4);
+  }
+  .text-done { color: hsl(var(--success)); }
+  .ring-done { box-shadow: 0 0 0 1px hsl(var(--success-ring) / 0.5) inset; }
+  .card-achievement {
+    background: var(--gradient-success-soft);
+    border: 1px solid hsl(var(--success-ring) / 0.45);
+    box-shadow: var(--shadow-success);
+  }
+  .gradient-success { background: var(--gradient-success); }
+  .gradient-success-soft { background: var(--gradient-success-soft); }
+
   /* Dashboard card top accent border */
   .card-pink-top {
     position: relative;
