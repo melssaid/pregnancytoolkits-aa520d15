@@ -116,13 +116,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
         <div className="flex items-start justify-between gap-3">
           {/* Left: greeting + hero metric */}
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5 mb-1">
-              <Sparkles className="w-3 h-3 text-[hsl(340,70%,32%)] dark:text-[hsl(340,55%,72%)]" strokeWidth={2.6} />
-              <span className="text-[10.5px] font-bold text-[hsl(340,65%,22%)] dark:text-[hsl(340,45%,82%)] tracking-wide uppercase">
-                {greeting}
-              </span>
-            </div>
-
             {isPregnant && week > 0 ? (
               <div className="flex items-baseline gap-1.5">
                 <span
