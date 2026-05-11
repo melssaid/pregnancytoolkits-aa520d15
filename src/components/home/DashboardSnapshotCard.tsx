@@ -178,7 +178,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 >
                   {week}
                 </span>
-                <span className="text-[12px] font-bold text-muted-foreground leading-[1.2]">
+                <span className="text-[12px] font-bold text-foreground/75 dark:text-foreground/80 leading-[1.2]">
                   {t("dashboard.weekLabel", "الأسبوع")}
                 </span>
               </div>
@@ -190,7 +190,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 {t("dashboard.snapshotTitle", "لوحتي")}
               </h3>
             )}
-            <p className="mt-1 text-[11px] font-medium text-muted-foreground/90 leading-[1.3] truncate">
+            <p className="mt-1 text-[11px] font-semibold text-foreground/70 dark:text-foreground/75 leading-[1.3] truncate">
               {t("dashboard.snapshotSubtitle", "ملخص يومك")}
             </p>
           </div>
@@ -274,12 +274,14 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           <StatChip
             value={todayKicks}
             label={t("dashboard.kicks", "ركلات")}
-            color={`hsl(${accent} 55% 48%)`}
+            colorLight={`hsl(${accent} 70% 32%)`}
+            colorDark={`hsl(${accent} 75% 78%)`}
           />
           <StatChip
             value={vitamins}
             label={t("dashboard.vitamins", "فيتامين")}
-            color={`hsl(${accentAlt} 50% 48%)`}
+            colorLight={`hsl(${accentAlt} 65% 32%)`}
+            colorDark={`hsl(${accentAlt} 70% 78%)`}
           />
           <div className="ms-auto flex items-baseline gap-0.5 px-1">
             <AnimatePresence mode="popLayout" initial={false}>
@@ -294,7 +296,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 {completed}
               </motion.span>
             </AnimatePresence>
-            <span className="text-[10px] font-bold text-muted-foreground leading-[1]">
+            <span className="text-[11px] font-bold text-foreground/65 dark:text-foreground/70 leading-[1]">
               /{priorities.length}
             </span>
           </div>
@@ -335,15 +337,15 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                   ) : (
                     <Icon
                       className="w-3.5 h-3.5 shrink-0"
-                      style={{ color: `hsl(${accent} 50% 50%)` }}
-                      strokeWidth={2.2}
+                      style={{ color: `hsl(${accent} 65% 38%)` }}
+                      strokeWidth={2.4}
                     />
                   )}
                   <span
-                    className={`text-[10px] font-bold leading-[1.25] truncate ${
+                    className={`text-[10.5px] font-bold leading-[1.25] truncate ${
                       p.done
-                        ? "text-[hsl(160,55%,22%)] dark:text-[hsl(160,40%,82%)]"
-                        : "text-foreground/85"
+                        ? "text-[hsl(160,55%,18%)] dark:text-[hsl(160,45%,86%)]"
+                        : "text-foreground/90 dark:text-foreground/95"
                     }`}
                   >
                     {p.label}
@@ -362,14 +364,24 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
 const StatChip = memo(function StatChip({
   value,
   label,
-  color,
+  colorLight,
+  colorDark,
 }: {
   value: number | string;
   label: string;
-  color: string;
+  colorLight: string;
+  colorDark: string;
 }) {
   return (
-    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-card/85 dark:bg-white/[0.04] border border-border/50 backdrop-blur-sm shadow-[0_1px_2px_0_hsl(0_0%_0%/0.04),inset_0_1px_0_0_hsl(0_0%_100%/0.6)]">
+    <div
+      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-card/90 dark:bg-white/[0.06] border border-border/60 backdrop-blur-sm shadow-[0_1px_2px_0_hsl(0_0%_0%/0.05),inset_0_1px_0_0_hsl(0_0%_100%/0.65)]"
+      style={
+        {
+          "--chip-color-light": colorLight,
+          "--chip-color-dark": colorDark,
+        } as React.CSSProperties
+      }
+    >
       <div className="flex items-baseline gap-1 min-w-0">
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
@@ -378,13 +390,12 @@ const StatChip = memo(function StatChip({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 5, scale: 0.85 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[12px] font-extrabold leading-[1] tabular-nums inline-block"
-            style={{ color }}
+            className="text-[12.5px] font-extrabold leading-[1] tabular-nums inline-block text-[var(--chip-color-light)] dark:text-[var(--chip-color-dark)]"
           >
             {value}
           </motion.span>
         </AnimatePresence>
-        <span className="text-[10px] font-semibold text-muted-foreground leading-[1] truncate">
+        <span className="text-[10.5px] font-semibold text-foreground/70 dark:text-foreground/75 leading-[1] truncate">
           {label}
         </span>
       </div>
