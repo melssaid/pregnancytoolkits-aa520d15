@@ -273,7 +273,22 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
                       )}
                     </button>
                   </SheetTrigger>
-                  <SheetContent side={isRtl ? 'left' : 'right'} className="w-full sm:max-w-md p-0 overflow-y-auto">
+                  <SheetContent side={isRtl ? 'left' : 'right'} className="w-full sm:max-w-md p-0 overflow-y-auto" dir={isRtl ? 'rtl' : 'ltr'}>
+                    <div className="sticky top-0 z-10 flex items-center gap-2 px-3 py-2.5 bg-background/95 backdrop-blur-md border-b border-border/50">
+                      <SheetClose asChild>
+                        <button
+                          type="button"
+                          aria-label={t('common.back', 'رجوع')}
+                          className="flex items-center gap-1.5 h-9 px-2.5 rounded-full text-foreground/80 hover:bg-secondary/70 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        >
+                          {isRtl ? <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2.2} /> : <ArrowLeft className="h-[18px] w-[18px]" strokeWidth={2.2} />}
+                          <span className="text-[12px] font-bold">{t('common.back', 'رجوع')}</span>
+                        </button>
+                      </SheetClose>
+                      <span className="ms-auto text-[13px] font-extrabold text-foreground/90">
+                        {t('settings.notifications', 'التنبيهات')}
+                      </span>
+                    </div>
                     <div className="p-4"><NotificationsPanel /></div>
                   </SheetContent>
                 </Sheet>
