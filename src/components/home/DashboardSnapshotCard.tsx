@@ -315,7 +315,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
               >
                 <Link
                   to={p.href}
-                  className={`group/pill relative flex items-center justify-center gap-1.5 px-2 py-2 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
+                  className={`group/pill relative flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
                     p.done
                       ? "bg-[hsl(160,45%,95%)] dark:bg-[hsl(160,28%,14%)] border-[hsl(160,40%,75%)]/50 dark:border-[hsl(160,30%,28%)]/60"
                       : "bg-card/80 dark:bg-white/[0.04] border-border/60 backdrop-blur-sm"
