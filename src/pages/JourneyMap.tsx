@@ -214,6 +214,24 @@ const JourneyMap = () => {
           >
             <JourneyProgressRibbon onStationSelect={handleRibbonStation} />
           </nav>
+
+          {/* Sync banner — mirrors the same week/dueDate the Today dashboard
+              shows, so users see a single, consistent number across screens. */}
+          {profile.journeyStage === "pregnant" && profile.pregnancyWeek > 0 && (
+            <div
+              className="mt-2.5 rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm px-3 py-2 text-[11px] text-muted-foreground flex items-center justify-between gap-2"
+              aria-live="polite"
+            >
+              <span className="font-semibold text-foreground/80">
+                {t("journey.map.sync.week", { count: profile.pregnancyWeek, defaultValue: `الأسبوع ${profile.pregnancyWeek}` })}
+              </span>
+              {profile.dueDate && (
+                <span className="tabular-nums">
+                  {t("journey.map.sync.dueDate", "الموعد المتوقع")}: {fmt(profile.dueDate)}
+                </span>
+              )}
+            </div>
+          )}
         </header>
 
         {/* Unified container — single padding/gap rhythm matching SmartDashboard tabs.
