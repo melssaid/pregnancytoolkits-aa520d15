@@ -242,19 +242,19 @@ Be warm, practical, and specific. Include real examples.`;
 
         {/* ═══════ DAILY SUPPORT CHECKLIST ═══════ */}
         <Card className="overflow-hidden border-primary/10">
-          <div className="h-1 bg-gradient-to-r from-emerald-400 to-teal-400" />
+          <div className="h-1 gradient-success" />
           <CardContent className="pt-3 pb-3">
             <div className="flex items-center justify-between mb-2.5">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <div className="w-7 h-7 rounded-lg badge-done flex items-center justify-center">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
                 </div>
                 <div>
                   <h3 className="text-xs font-bold text-foreground">{t("toolsInternal.partnerGuide.dailyChecklist")}</h3>
                   <p className="text-[9px] text-muted-foreground">{t("toolsInternal.partnerGuide.dailyChecklistDesc")}</p>
                 </div>
               </div>
-              <Badge variant="secondary" className="text-[10px] px-2 py-0.5 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+              <Badge variant="secondary" className="badge-done-soft text-[10px] px-2 py-0.5">
                 {checkedActions.length}/{DAILY_CHECKLIST_KEYS.length}
               </Badge>
             </div>
@@ -262,7 +262,7 @@ Be warm, practical, and specific. Include real examples.`;
             {/* Progress bar */}
             <div className="w-full h-1.5 rounded-full bg-muted/50 mb-3 overflow-hidden">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400"
+                className="h-full rounded-full gradient-success"
                 initial={{ width: 0 }}
                 animate={{ width: `${checklistProgress}%` }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -280,15 +280,15 @@ Be warm, practical, and specific. Include real examples.`;
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.04 }}
                     className={`w-full flex items-center gap-2.5 p-2 rounded-xl transition-all text-start ${
-                      isChecked ? "bg-emerald-500/5" : "hover:bg-muted/40"
+                      isChecked ? "bg-[hsl(var(--success-soft))]" : "hover:bg-muted/40"
                     }`}
                   >
                     {isChecked ? (
-                      <CheckCircle2 className="w-4.5 h-4.5 text-emerald-500 shrink-0" />
+                      <CheckCircle2 className="w-4.5 h-4.5 text-done shrink-0" />
                     ) : (
                       <Circle className="w-4.5 h-4.5 text-muted-foreground/30 shrink-0" />
                     )}
-                    <span className={`text-[11px] leading-snug ${isChecked ? "text-emerald-700 dark:text-emerald-400 line-through opacity-70" : "text-foreground font-medium"}`}>
+                    <span className={`text-[11px] leading-snug ${isChecked ? "text-done line-through opacity-70" : "text-foreground font-medium"}`}>
                       {t(`toolsInternal.partnerGuide.${key}`)}
                     </span>
                   </motion.button>
@@ -300,9 +300,9 @@ Be warm, practical, and specific. Include real examples.`;
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="mt-3 p-2.5 rounded-xl bg-gradient-to-r from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 text-center"
+                className="mt-3 p-2.5 rounded-xl card-achievement text-center"
               >
-                <p className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+                <p className="text-[11px] font-bold text-done">
                   🎉 {t("toolsInternal.partnerGuide.allDone")}
                 </p>
               </motion.div>

@@ -351,7 +351,7 @@ const JourneyMap = () => {
                           className={cn(
                             "text-[10px] font-semibold px-2 py-0.5 rounded-full",
                             isActive && "bg-primary/15 text-primary",
-                            isPast && "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+                            isPast && "badge-done-soft",
                             isFuture && "bg-muted/60 text-muted-foreground",
                           )}
                         >

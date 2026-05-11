@@ -50,16 +50,16 @@ export const WeeklyChecklistCard = memo(function WeeklyChecklistCard({ week }: P
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
-      <Card className="border-emerald-200/30 dark:border-emerald-800/30 bg-gradient-to-br from-emerald-50/50 to-card dark:from-emerald-950/20">
+      <Card className="card-achievement border-0">
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                <ListChecks className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <div className="w-8 h-8 rounded-xl badge-done flex items-center justify-center">
+                <ListChecks className="w-4 h-4" />
               </div>
               <h3 className="text-sm font-bold text-foreground">{t("weeklyJourney.sections.checklist")}</h3>
             </div>
-            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+            <span className="text-[10px] font-bold text-done tabular-nums">
               {completedCount}/{items.length}
             </span>
           </div>
@@ -72,7 +72,7 @@ export const WeeklyChecklistCard = memo(function WeeklyChecklistCard({ week }: P
                 <Checkbox
                   checked={checked[i]}
                   onCheckedChange={() => toggle(i)}
-                  className="border-emerald-300 dark:border-emerald-700 data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600"
+                  className="border-[hsl(var(--success-ring))] data-[state=checked]:bg-[hsl(var(--success))] data-[state=checked]:border-[hsl(var(--success))]"
                 />
                 <span className={`text-xs leading-relaxed transition-all ${checked[i] ? 'line-through text-muted-foreground/50' : 'text-muted-foreground'}`}>
                   {item}
