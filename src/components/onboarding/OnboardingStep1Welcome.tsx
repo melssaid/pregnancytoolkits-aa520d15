@@ -109,6 +109,9 @@ export const OnboardingStep1Welcome: React.FC<Props> = ({ selectedLang, onSelect
           <h2 className="text-xl font-black text-foreground leading-tight" style={{ fontFamily: "'Tajawal', sans-serif", fontWeight: 800 }}>
             {t('onboarding.title', 'Welcome to Your Journey')}
           </h2>
+          <p className="mt-1 text-[10px] font-semibold text-muted-foreground/90 leading-tight">
+            {t('onboarding.timeBadge', '~60 ثانية · يمكن تعديل كل شيء لاحقًا')}
+          </p>
         </div>
       </div>
 
