@@ -28,7 +28,7 @@ export function NutritionTipCard() {
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-green-500/10 rounded-xl p-3"
+        className="bg-[hsl(var(--success-soft))]/100 rounded-xl p-3"
       >
         <p className="text-xs font-bold text-foreground mb-1">
           {t(`nutritionTip.nutrients.${todayNutrient}.name`)}
@@ -36,7 +36,7 @@ export function NutritionTipCard() {
         <p className="text-[11px] text-muted-foreground leading-relaxed">
           {t(`nutritionTip.nutrients.${todayNutrient}.benefit`)}
         </p>
-        <p className="text-[10px] text-green-600 dark:text-green-400 mt-1.5 font-semibold">
+        <p className="text-[10px] text-done dark:text-done mt-1.5 font-semibold">
           💡 {t(`nutritionTip.nutrients.${todayNutrient}.source`)}
         </p>
       </motion.div>

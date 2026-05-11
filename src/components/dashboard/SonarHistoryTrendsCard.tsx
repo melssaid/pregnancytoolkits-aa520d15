@@ -287,7 +287,7 @@ export const SonarHistoryTrendsCard = memo(function SonarHistoryTrendsCard() {
                   </span>
                 )}
                 <div className="flex-1" />
-                <span className="flex items-center gap-1 text-emerald-600 font-medium tabular-nums">
+                <span className="flex items-center gap-1 text-done font-medium tabular-nums">
                   ●{r.positiveSignals}
                 </span>
                 <span className="flex items-center gap-1 text-amber-600 font-medium tabular-nums">

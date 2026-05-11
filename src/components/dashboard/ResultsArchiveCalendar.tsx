@@ -80,7 +80,7 @@ const SOURCE_META: Record<Source, { icon: any; color: string; tone: string }> = 
   saved: { icon: Sparkles, color: "text-primary", tone: "bg-primary/10" },
   weekly: { icon: FileText, color: "text-violet-500", tone: "bg-violet-500/10" },
   birthPlan: { icon: Heart, color: "text-rose-500", tone: "bg-rose-500/10" },
-  wellness: { icon: Stethoscope, color: "text-emerald-500", tone: "bg-emerald-500/10" },
+  wellness: { icon: Stethoscope, color: "text-done", tone: "bg-[hsl(var(--success-soft))]/100" },
   babyGrowth: { icon: Baby, color: "text-amber-500", tone: "bg-amber-500/10" },
   kicks: { icon: Activity, color: "text-pink-500", tone: "bg-pink-500/10" },
   contractions: { icon: Activity, color: "text-red-500", tone: "bg-red-500/10" },

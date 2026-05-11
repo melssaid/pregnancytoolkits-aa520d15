@@ -28,13 +28,13 @@ export function HealthScoreRing() {
   const circumference = 2 * Math.PI * 42;
   const strokeDashoffset = circumference - progress * circumference;
 
-  const scoreColor = totalScore >= 70 ? "text-green-500" : totalScore >= 40 ? "text-yellow-500" : "text-red-400";
+  const scoreColor = totalScore >= 70 ? "text-done" : totalScore >= 40 ? "text-yellow-500" : "text-red-400";
   const scoreLabel = totalScore >= 70 ? t("healthScore.great") : totalScore >= 40 ? t("healthScore.good") : t("healthScore.needsWork");
 
   const pillars = [
     { label: t("healthScore.water"), value: Math.round(waterScore), max: 25, color: "bg-blue-400" },
     { label: t("healthScore.kicks"), value: Math.round(kickScore), max: 25, color: "bg-pink-400" },
-    { label: t("healthScore.vitamins"), value: Math.round(vitaminScore), max: 25, color: "bg-green-400" },
+    { label: t("healthScore.vitamins"), value: Math.round(vitaminScore), max: 25, color: "bg-[hsl(var(--success))]" },
     { label: t("healthScore.activity"), value: Math.round(activityScore), max: 25, color: "bg-purple-400" },
   ];
 

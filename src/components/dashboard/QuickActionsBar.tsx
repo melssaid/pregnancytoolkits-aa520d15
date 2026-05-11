@@ -7,7 +7,7 @@ import { Bot, Hand, Gauge, Heart, Camera, Utensils, Dumbbell, Moon } from "lucid
 const actions = [
   { id: "pregnancy-assistant", icon: Bot,          href: "/tools/pregnancy-assistant",  labelKey: "assistant", accent: "from-violet-500/15 to-violet-500/5" },
   { id: "kick-counter",        icon: Hand,         href: "/tools/kick-counter",         labelKey: "kicks",     accent: "from-pink-500/15 to-pink-500/5" },
-  { id: "weight-gain",         icon: Gauge,        href: "/tools/weight-gain",          labelKey: "weight",    accent: "from-emerald-500/15 to-emerald-500/5" },
+  { id: "weight-gain",         icon: Gauge,        href: "/tools/weight-gain",          labelKey: "weight",    accent: "from-[hsl(var(--success))]/15 to-[hsl(var(--success))]/5" },
   { id: "ai-meal-suggestion",  icon: Utensils,     href: "/tools/ai-meal-suggestion",   labelKey: "meals",     accent: "from-orange-500/15 to-orange-500/5" },
   { id: "wellness-diary",      icon: Heart,        href: "/tools/wellness-diary",       labelKey: "symptoms",  accent: "from-rose-500/15 to-rose-500/5" },
   { id: "ai-fitness-coach",    icon: Dumbbell,     href: "/tools/ai-fitness-coach",     labelKey: "fitness",   accent: "from-blue-500/15 to-blue-500/5" },

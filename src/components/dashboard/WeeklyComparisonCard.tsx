@@ -66,11 +66,11 @@ export function WeeklyComparisonCard() {
               <span className="text-xs text-muted-foreground">{m.label}</span>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-foreground">{m.thisWeek} {m.unit}</span>
-                {trend === "up" && <TrendingUp className="w-3.5 h-3.5 text-green-500" />}
+                {trend === "up" && <TrendingUp className="w-3.5 h-3.5 text-done" />}
                 {trend === "down" && <TrendingDown className="w-3.5 h-3.5 text-red-400" />}
                 {trend === "same" && <Minus className="w-3.5 h-3.5 text-muted-foreground" />}
                 {diff !== 0 && (
-                  <span className={`text-[10px] font-semibold ${trend === "up" ? "text-green-500" : "text-red-400"}`}>
+                  <span className={`text-[10px] font-semibold ${trend === "up" ? "text-done" : "text-red-400"}`}>
                     {diff > 0 ? "+" : ""}{diff}
                   </span>
                 )}
