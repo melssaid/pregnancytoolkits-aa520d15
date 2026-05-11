@@ -152,27 +152,27 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           `0 1px 0 0 hsl(0 0% 100% / 0.6) inset, 0 12px 28px -12px hsl(${accent} 60% 35% / 0.30), 0 2px 6px -2px hsl(${accent} 40% 25% / 0.12)`,
       }}
     >
-      {/* Deep RTL gradient — saturated rose sweeping right→left into soft lavender */}
+      {/* Soft cream-to-rose gradient — gentle, premium, low-saturation */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 78% 62%) 0%, hsl(${accent} 62% 78%) 38%, hsl(${accentAlt} 55% 90%) 75%, hsl(${accentAlt} 45% 96%) 100%)`,
+          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 55% 92%) 0%, hsl(35 60% 96%) 55%, hsl(40 70% 97%) 100%)`,
         }}
       />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 dark:opacity-100 opacity-0"
         style={{
-          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 55% 32%) 0%, hsl(${accent} 38% 20%) 45%, hsl(${accentAlt} 30% 14%) 100%)`,
+          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 35% 22%) 0%, hsl(${accent} 25% 16%) 55%, hsl(35 20% 12%) 100%)`,
         }}
       />
-      {/* Subtle sheen on the soft side to lift depth */}
+      {/* Subtle sheen on the cream side to lift depth */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-y-0 end-0 w-1/3"
         style={{
-          background: `linear-gradient(${isRtl ? 90 : 270}deg, hsl(0 0% 100% / 0.30), transparent)`,
+          background: `linear-gradient(${isRtl ? 90 : 270}deg, hsl(0 0% 100% / 0.45), transparent)`,
         }}
       />
 
