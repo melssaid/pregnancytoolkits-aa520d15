@@ -247,7 +247,7 @@ const StatChip = memo(function StatChip({
   color: string;
 }) {
   return (
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/80 dark:bg-white/[0.04] border border-white/90 dark:border-white/[0.06] shadow-[0_1px_3px_-1px_hsl(340_40%_40%_/_0.18)] dark:shadow-none backdrop-blur-sm">
+    <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/85 dark:bg-white/[0.04] border border-white/90 dark:border-white/[0.06] shadow-[-5px_6px_12px_-5px_hsl(340_65%_45%_/_0.32),-2px_3px_6px_-2px_hsl(290_50%_45%_/_0.22),inset_0_1px_0_0_hsl(0_0%_100%/0.85)] dark:shadow-[-5px_6px_12px_-5px_hsl(0_0%_0%/0.55),inset_0_1px_0_0_hsl(0_0%_100%/0.05)] backdrop-blur-sm">
       <div className="flex items-baseline gap-1 min-w-0">
         <span className="text-[12px] font-extrabold leading-none tabular-nums" style={{ color }}>
           {value}
