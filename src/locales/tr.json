@@ -770,7 +770,10 @@
     "weekLabel": "Hafta",
     "kicks": "Tekme",
     "vitamins": "Vitamin",
-    "priorities": "Görevler"
+    "priorities": "Görevler",
+    "greetingMorning": "Günaydın",
+    "greetingAfternoon": "İyi öğleden sonra",
+    "greetingEvening": "İyi akşamlar"
   },
   "layout": {
     "trustBar": {

@@ -770,7 +770,10 @@
     "weekLabel": "Semana",
     "kicks": "Chutes",
     "vitamins": "Vitamina",
-    "priorities": "Tarefas"
+    "priorities": "Tarefas",
+    "greetingMorning": "Bom dia",
+    "greetingAfternoon": "Boa tarde",
+    "greetingEvening": "Boa noite"
   },
   "layout": {
     "trustBar": {
