@@ -118,8 +118,9 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       className="relative"
       style={{
+        // Soft, subtle outer shadow only — depth comes from the inner gradient.
         filter:
-          "drop-shadow(-12px 18px 36px hsl(340 70% 45% / 0.32)) drop-shadow(-4px 8px 16px hsl(290 55% 45% / 0.22)) drop-shadow(0 2px 6px hsl(340 40% 40% / 0.14))",
+          "drop-shadow(0 6px 14px hsl(340 50% 40% / 0.10)) drop-shadow(0 2px 4px hsl(340 30% 30% / 0.06))",
       }}
     >
       {/* Top concave curve — mirrors the header's bottom curve pixel-for-pixel.
@@ -133,18 +134,19 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       >
         <path
           d="M0,0 C210,120 515,120 720,120 C925,120 1230,120 1440,0 L1440,120 L0,120 Z"
-          className="fill-[hsl(345,60%,98%)] dark:fill-[hsl(340,28%,11%)]"
+          className="fill-[hsl(345,70%,96%)] dark:fill-[hsl(340,28%,12%)]"
         />
       </svg>
       <div
         className="relative overflow-hidden rounded-b-[28px]
-                   bg-gradient-to-br from-[hsl(345,60%,98%)] via-[hsl(330,45%,97%)] to-[hsl(295,40%,97%)]
-                   dark:from-[hsl(340,28%,11%)] dark:via-[hsl(320,22%,10%)] dark:to-[hsl(290,22%,10%)]"
+                   bg-gradient-to-br from-[hsl(345,70%,96%)] via-[hsl(330,55%,93%)] to-[hsl(290,50%,90%)]
+                   dark:from-[hsl(340,30%,12%)] dark:via-[hsl(320,26%,11%)] dark:to-[hsl(285,26%,13%)]"
       >
-      {/* Layered ambient lights — Apple Health style depth */}
+      {/* Inner color shading — richer rose→lavender depth inside the card */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-16 -end-12 w-48 h-48 rounded-full bg-[radial-gradient(circle,hsl(340,75%,72%)_0%,transparent_65%)] opacity-30 blur-2xl" />
-        <div className="absolute -bottom-20 -start-10 w-44 h-44 rounded-full bg-[radial-gradient(circle,hsl(280,65%,72%)_0%,transparent_65%)] opacity-25 blur-2xl" />
+        <div className="absolute -top-20 -end-16 w-56 h-56 rounded-full bg-[radial-gradient(circle,hsl(340,80%,70%)_0%,transparent_70%)] opacity-45 blur-2xl" />
+        <div className="absolute -bottom-24 -start-14 w-52 h-52 rounded-full bg-[radial-gradient(circle,hsl(280,70%,68%)_0%,transparent_70%)] opacity-40 blur-2xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-32 rounded-full bg-[radial-gradient(ellipse,hsl(320,65%,75%)_0%,transparent_75%)] opacity-25 blur-3xl" />
       </div>
 
       {/* ── Hero row: greeting + week + CTA ─────────────────────────── */}
