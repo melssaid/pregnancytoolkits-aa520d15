@@ -65,33 +65,40 @@ export function QuickStats({
   ];
 
   return (
-    <div className="space-y-2">
+    <section
+      aria-label={t("dashboard.quickStats.title", "Quick stats")}
+      className="space-y-2"
+    >
       {/* Row layout — value + label on one line, no breakage on 320px */}
-      <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-1.5">
+      <ul role="list" className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-1.5">
         {stats.map((stat, i) => {
+          const label = t(stat.labelKey);
+          const valueText = stat.value === "—" ? t("common.noData", "no data") : `${stat.value}${stat.unit ? ` ${stat.unit}` : ""}`;
           return (
-            <motion.div
-              key={stat.id}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05 * i }}
-            >
-              <Link
-                to={stat.href}
-                className="tool-card-pro group flex items-center justify-between gap-3 px-3.5 py-3 rounded-2xl bg-gradient-to-br from-card to-card/60 border border-border/40 hover:border-primary/40 min-w-0"
+            <li key={stat.id}>
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.05 * i }}
               >
-                <p className="text-[14px] text-foreground font-bold leading-snug flex-1 min-w-0 break-words" style={{ overflowWrap: "anywhere" }}>
-                  {t(stat.labelKey)}
-                </p>
-                <p className={`text-lg font-extrabold leading-none tabular-nums flex-shrink-0 group-hover:scale-105 transition-transform ${stat.color}`}>
-                  {stat.value}
-                  {stat.unit && <span className="text-[11px] font-medium text-muted-foreground ms-0.5">{stat.unit}</span>}
-                </p>
-              </Link>
-            </motion.div>
+                <Link
+                  to={stat.href}
+                  aria-label={`${label}: ${valueText}`}
+                  className="tool-card-pro group flex items-center justify-between gap-3 px-3.5 py-3 rounded-2xl bg-gradient-to-br from-card to-card/60 border border-border/40 hover:border-primary/40 min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                >
+                  <p className="text-[14px] text-foreground font-bold leading-snug flex-1 min-w-0 break-words" style={{ overflowWrap: "anywhere" }}>
+                    {label}
+                  </p>
+                  <p aria-hidden="true" className={`text-lg font-extrabold leading-none tabular-nums flex-shrink-0 group-hover:scale-105 transition-transform ${stat.color}`}>
+                    {stat.value}
+                    {stat.unit && <span className="text-[11px] font-medium text-muted-foreground ms-0.5">{stat.unit}</span>}
+                  </p>
+                </Link>
+              </motion.div>
+            </li>
           );
         })}
-      </div>
+      </ul>
 
       {/* BMI + Appointment row */}
       {(bmi !== null || nextAppointment) && (
