@@ -88,12 +88,12 @@ const THEMES: Record<StageThemeKey, StageTheme> = {
   'pregnant-t3': {
     key: 'pregnant-t3',
     stage: 'pregnant',
-    gradient: 'from-[hsl(280,35%,97%)] via-card to-[hsl(35,40%,97%)]',
+    gradient: 'from-[hsl(280,35%,97%)] via-card to-[hsl(310,30%,97%)]',
     accentHue: 280,
-    accentHueAlt: 35,
+    accentHueAlt: 310,
     ribbonGradient:
-      'linear-gradient(90deg, hsl(280 50% 55%) 0%, hsl(310 45% 58%) 50%, hsl(35 65% 60%) 100%)',
-    glow: 'hsl(290 45% 50% / 0.45)',
+      'linear-gradient(90deg, hsl(280 48% 56%) 0%, hsl(310 42% 60%) 100%)',
+    glow: 'hsl(295 42% 52% / 0.42)',
     emoji: '👶',
     labelKey: 'journey.ribbon.stages.pregnant',
   },
