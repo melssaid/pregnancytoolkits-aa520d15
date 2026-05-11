@@ -126,6 +126,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
 
   const accent = theme.accentHue;
   const accentAlt = theme.accentHueAlt;
+  const gradAngle = isRtl ? 225 : 135;
 
   return (
     <motion.div
@@ -143,14 +144,14 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-90"
         style={{
-          background: `linear-gradient(135deg, hsl(${accent} 55% 97%) 0%, hsl(${accentAlt} 45% 96%) 55%, hsl(${accent} 35% 95%) 100%)`,
+          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 55% 97%) 0%, hsl(${accentAlt} 45% 96%) 55%, hsl(${accent} 35% 95%) 100%)`,
         }}
       />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 dark:opacity-100 opacity-0"
         style={{
-          background: `linear-gradient(135deg, hsl(${accent} 28% 11%) 0%, hsl(${accentAlt} 24% 12%) 100%)`,
+          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 28% 11%) 0%, hsl(${accentAlt} 24% 12%) 100%)`,
         }}
       />
       {/* Soft accent glow — single, restrained */}
@@ -232,7 +233,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             <div
               className="relative flex items-center justify-center w-7 h-7 rounded-full group-active:scale-95 transition-transform"
               style={{
-                background: `linear-gradient(135deg, hsl(${accent} 60% 52%), hsl(${accentAlt} 55% 48%))`,
+                background: `linear-gradient(${gradAngle}deg, hsl(${accent} 60% 52%), hsl(${accentAlt} 55% 48%))`,
                 boxShadow: `0 3px 10px -2px hsl(${accent} 55% 45% / 0.45), inset 0 1px 0 0 hsl(0 0% 100% / 0.35)`,
               }}
             >
@@ -259,7 +260,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                   <span
                     className="relative inline-flex h-2 w-2 rounded-full ring-2 ring-card"
                     style={{
-                      background: `linear-gradient(135deg, hsl(${accent} 70% 58%), hsl(${accentAlt} 60% 52%))`,
+                      background: `linear-gradient(${gradAngle}deg, hsl(${accent} 70% 58%), hsl(${accentAlt} 60% 52%))`,
                     }}
                   />
                 </motion.span>
