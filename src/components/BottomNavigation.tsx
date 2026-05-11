@@ -266,11 +266,11 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
           )}
         </AnimatePresence>
 
-        {/* Spacer */}
-        <div className="h-[4.5rem] md:h-0" />
-        
-        {/* Bottom Navigation */}
-        <nav ref={ref} className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-area-bottom">
+        {/* Spacer — always reserves space so content never hides under the pinned nav */}
+        <div className="h-[4.5rem]" />
+
+        {/* Bottom Navigation — always pinned (app-style), visible across viewports */}
+        <nav ref={ref} className="fixed bottom-0 left-0 right-0 z-50 safe-area-bottom">
           <div className="relative">
             {/* Top accent line — gold for premium, soft rose for free */}
             <div className={`absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent ${
