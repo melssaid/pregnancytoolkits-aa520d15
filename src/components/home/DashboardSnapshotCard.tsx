@@ -92,26 +92,27 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       {
         id: "kicks",
         icon: Hand,
-        label: t("dailyDashboard.priorities.kicks", "ركلات الجنين"),
+        // Shorter, single-word labels — fit comfortably in 3-col grid on 360px
+        label: t("dailyDashboard.priorities.kicksShort", isRtl ? "ركلات" : "Kicks"),
         done: todayKicks >= 10,
         href: "/tools/kick-counter",
       },
       {
         id: "meals",
         icon: Utensils,
-        label: t("dailyDashboard.priorities.meals", "وجبة اليوم"),
+        label: t("dailyDashboard.priorities.mealsShort", isRtl ? "وجبة" : "Meal"),
         done: mealDoneToday,
         href: "/tools/ai-meal-suggestion",
       },
       {
         id: "fitness",
         icon: Dumbbell,
-        label: t("dailyDashboard.priorities.fitness", "نشاط بدني"),
+        label: t("dailyDashboard.priorities.fitnessShort", isRtl ? "نشاط" : "Move"),
         done: fitnessDoneToday,
         href: "/tools/ai-fitness-coach",
       },
     ],
-    [todayKicks, mealDoneToday, fitnessDoneToday, t]
+    [todayKicks, mealDoneToday, fitnessDoneToday, t, isRtl]
   );
 
   const completed = priorities.filter((p) => p.done).length;
