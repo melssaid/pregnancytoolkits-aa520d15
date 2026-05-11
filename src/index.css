@@ -139,6 +139,14 @@ html[lang="ar"] .ar-heading {
     --accent-foreground: 0 0% 100%;
     --destructive: 12 55% 48%;
     --destructive-foreground: 0 0% 100%;
+    --success: 332 60% 64%;
+    --success-foreground: 0 0% 100%;
+    --success-soft: 332 35% 22%;
+    --success-soft-foreground: 320 60% 88%;
+    --success-ring: 320 40% 45%;
+    --gradient-success: linear-gradient(135deg, hsl(332 55% 52%) 0%, hsl(310 45% 50%) 55%, hsl(285 45% 55%) 100%);
+    --gradient-success-soft: linear-gradient(135deg, hsl(332 40% 22%) 0%, hsl(300 35% 22%) 60%, hsl(280 35% 22%) 100%);
+    --shadow-success: 0 8px 22px -10px hsl(332 60% 30% / 0.55), 0 2px 6px -2px hsl(300 40% 20% / 0.30);
     --border: 25 12% 22%;
     --input: 25 12% 22%;
     --ring: 340 60% 62%;
