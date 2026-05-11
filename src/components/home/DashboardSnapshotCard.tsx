@@ -302,8 +302,8 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       </Link>
 
       {/* ── Priorities strip ────────────────────────────────────────── */}
-      <div className="relative px-4 pb-4 pt-1">
-        <div className="grid grid-cols-3 gap-1.5">
+      <div className="relative px-4 sm:px-5 pb-4 pt-1.5">
+        <div className="grid grid-cols-3 gap-2">
           {priorities.map((p, i) => {
             const Icon = p.icon;
             return (
