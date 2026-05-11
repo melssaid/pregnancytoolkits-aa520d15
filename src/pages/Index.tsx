@@ -20,6 +20,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { CouponRedeemer } from "@/components/settings/CouponRedeemer";
 import Preg10PromoBanner from "@/components/home/Preg10PromoBanner";
 import { SectionFeaturedArticles } from "@/components/articles/SectionFeaturedArticles";
+import DashboardSnapshotCard from "@/components/home/DashboardSnapshotCard";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 // Map journeyStage → journey card key
@@ -667,6 +668,8 @@ const Index = () => {
       <section className="pt-3 pb-0 relative z-10">
         <div className="px-2.5 sm:px-4 md:px-6 lg:px-8 max-w-4xl mx-auto space-y-3 pb-6">
 
+          {/* Dashboard snapshot — native app pattern */}
+          <DashboardSnapshotCard />
 
           {orderedJourneyConfigs.map((config, index) => (
             <JourneyCard
