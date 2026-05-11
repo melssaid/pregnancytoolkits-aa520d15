@@ -369,7 +369,7 @@ const StatChip = memo(function StatChip({
   color: string;
 }) {
   return (
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-card/85 dark:bg-white/[0.04] border border-border/50 backdrop-blur-sm shadow-[0_1px_2px_0_hsl(0_0%_0%/0.04),inset_0_1px_0_0_hsl(0_0%_100%/0.6)]">
+    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-card/85 dark:bg-white/[0.04] border border-border/50 backdrop-blur-sm shadow-[0_1px_2px_0_hsl(0_0%_0%/0.04),inset_0_1px_0_0_hsl(0_0%_100%/0.6)]">
       <div className="flex items-baseline gap-1 min-w-0">
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
@@ -378,13 +378,13 @@ const StatChip = memo(function StatChip({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 5, scale: 0.85 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[12px] font-extrabold leading-none tabular-nums inline-block"
+            className="text-[12px] font-extrabold leading-[1] tabular-nums inline-block"
             style={{ color }}
           >
             {value}
           </motion.span>
         </AnimatePresence>
-        <span className="text-[10px] font-semibold text-muted-foreground leading-none truncate">
+        <span className="text-[10px] font-semibold text-muted-foreground leading-[1] truncate">
           {label}
         </span>
       </div>
