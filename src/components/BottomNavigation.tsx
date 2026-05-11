@@ -320,7 +320,13 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
                 ) : null;
 
                 const iconContent = (
-                  <div className={`relative p-2 rounded-xl transition-all duration-200 active:scale-[0.92] ${active ? 'bg-gradient-to-t from-[hsl(340,25%,90%)] to-[hsl(340,15%,95%)]' : ''}`}>
+                  <div className={`relative p-2 rounded-xl transition-all duration-200 active:scale-[0.92] ${
+                    active 
+                      ? item.id === 'dashboard' 
+                        ? 'bg-gradient-to-br from-[hsl(340,55%,88%)] to-[hsl(340,40%,94%)] shadow-[0_2px_12px_-2px_hsl(340_50%_55%_/_0.35)] ring-1 ring-[hsl(340,45%,75%)]/60' 
+                        : 'bg-gradient-to-t from-[hsl(340,25%,90%)] to-[hsl(340,15%,95%)]'
+                      : ''
+                  }`}>
                     {item.id === "more" && moreOpen ? (
                       <X className="w-5 h-5 relative z-10 text-primary transition-colors duration-200" strokeWidth={2.2} />
                     ) : item.id === "ai-tools" && aiToolsOpen ? (
@@ -328,9 +334,13 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
                     ) : (
                       <Icon 
                         className={`w-[18px] h-[18px] relative z-10 transition-colors duration-200 ${
-                          active ? "text-[hsl(340,50%,45%)]" : "text-foreground/50"
+                          active 
+                            ? item.id === 'dashboard'
+                              ? "text-[hsl(340,60%,40%)]"
+                              : "text-[hsl(340,50%,45%)]"
+                            : "text-foreground/50"
                         }`}
-                        strokeWidth={active ? 2.2 : 1.8} 
+                        strokeWidth={active ? 2.4 : 1.8} 
                       />
                     )}
                     
@@ -341,15 +351,25 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
                       </span>
                     )}
 
-                    {/* Active underline indicator */}
-                    {active && (
+                    {/* Active indicator — dot for dashboard, underline for others */}
+                    {active && item.id === 'dashboard' && (
+                      <motion.div 
+                        layoutId="dashboard-indicator"
+                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[hsl(340,55%,45%)] rounded-full shadow-[0_0_6px_hsl(340_50%_55%_/_0.6)]"
+                      />
+                    )}
+                    {active && item.id !== 'dashboard' && (
                       <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-gradient-to-r from-transparent via-[hsl(340,50%,55%)] to-transparent rounded-full" />
                     )}
                   </div>
                 );
 
-                const labelClass = `text-[9px] font-medium tracking-wide transition-colors duration-200 mt-0.5 ${
-                  active ? "text-[hsl(340,30%,35%)]" : "text-foreground/50"
+                const labelClass = `text-[9px] font-semibold tracking-wide transition-colors duration-200 mt-0.5 ${
+                  active 
+                    ? item.id === 'dashboard'
+                      ? "text-[hsl(340,55%,35%)]"
+                      : "text-[hsl(340,30%,35%)]"
+                    : "text-foreground/50"
                 }`;
 
                 let navElement: React.ReactNode;
