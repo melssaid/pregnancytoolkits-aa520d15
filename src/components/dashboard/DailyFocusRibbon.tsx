@@ -48,6 +48,7 @@ export const DailyFocusRibbon = memo(function DailyFocusRibbon() {
   const completed = useMemo(() => countCompleted(inputs), [inputs]);
   const pct = Math.round((completed / DAILY_TASK_TOTAL) * 100);
   const Chevron = isRTL ? ChevronLeft : ChevronRight;
+  const [justDone, setJustDone] = useState(false);
 
   if (!focus) return null;
 
@@ -61,8 +62,6 @@ export const DailyFocusRibbon = memo(function DailyFocusRibbon() {
     focus.id === "vitamin" ? { type: "vitamin" }
     : focus.id === "water" ? { type: "water" }
     : null;
-
-  const [justDone, setJustDone] = useState(false);
 
   const handleQuickDone = (e: React.MouseEvent) => {
     e.preventDefault();
