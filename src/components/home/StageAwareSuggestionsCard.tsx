@@ -35,16 +35,30 @@ const StageAwareSuggestionsCard = memo(function StageAwareSuggestionsCard() {
   const stage = profile.journeyStage;
   if (!stage) return null;
 
+  // Tools already surfaced as fixed daily priorities in the hero snapshot
+  // card above — exclude here to remove icon/CTA duplication.
+  const PRIORITY_HREFS = new Set<string>([
+    "/tools/kick-counter",
+    "/tools/ai-meal-suggestion",
+    "/tools/ai-fitness-coach",
+  ]);
+
   const week = profile.pregnancyWeek || 0;
   const content = getStageContent(stage, week, contentLang);
   const nextIdx = getNextActionIndex(stage, week);
   const eyebrow = TIP_LABEL[lng] || TIP_LABEL.en;
 
-  // Order: next action first, then rest in original order
-  const ordered = [
-    content.tools[nextIdx],
-    ...content.tools.filter((_, i) => i !== nextIdx),
-  ].filter(Boolean);
+  // Order: next action first (only if not a duplicated priority),
+  // then the rest filtered to remove anything already in the priorities row.
+  const nextTool = content.tools[nextIdx];
+  const nextIsPriority = nextTool && PRIORITY_HREFS.has(nextTool.href);
+  const remaining = content.tools.filter(
+    (t, i) => i !== nextIdx && !PRIORITY_HREFS.has(t.href),
+  );
+  const ordered = (nextIsPriority || !nextTool ? remaining : [nextTool, ...remaining]);
+
+  // Nothing complementary to show — stage tools fully overlap with priorities.
+  if (ordered.length === 0) return null;
 
   return (
     <motion.section
