@@ -36,7 +36,7 @@ export const TodayTab = memo(function TodayTab() {
   const isPostpartum = stage === "postpartum";
 
   // Only show pregnancy-tied content when the user has set a real week
-  const hasRealWeek = isPregnant && profile.pregnancyWeek >= 4 && stage === "pregnant";
+  const hasRealWeek = stage === "pregnant" && profile.pregnancyWeek >= 4;
 
   // ── Dynamic ordering of the SAME set of daily cards ───────────────
   // Each card key appears exactly once in the array — the time slot
