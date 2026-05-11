@@ -1,4 +1,5 @@
-import { forwardRef, useState, memo, useMemo } from "react";
+import { forwardRef, useState, memo, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Home, LayoutDashboard, Grid3X3, Menu, Search, Bell, Settings, X, Crown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -55,7 +56,14 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
       { id: "settings", icon: Settings, labelKey: "nav.settings", action: "settings" as const, href: "/settings" },
     ];
 
-    return (
+    // Portal target — render at <body> level so any ancestor `transform`
+    // (e.g. PageTransition's animation) can't break `position: fixed`.
+    const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+    useEffect(() => {
+      setPortalTarget(typeof document !== "undefined" ? document.body : null);
+    }, []);
+
+    const navMarkup = (
       <>
         {/* Notifications Panel */}
         <AnimatePresence>
@@ -266,11 +274,20 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
           )}
         </AnimatePresence>
 
-        {/* Spacer — always reserves space so content never hides under the pinned nav */}
-        <div className="h-[4.5rem]" />
+        {/* Spacer — reserves layout space (incl. iOS safe-area inset) so content
+            never hides under the pinned nav. Note: nav itself is portaled to <body>. */}
+        <div
+          aria-hidden
+          className="h-[4.5rem]"
+          style={{ height: "calc(4.5rem + env(safe-area-inset-bottom))" }}
+        />
 
-        {/* Bottom Navigation — always pinned (app-style), visible across viewports */}
-        <nav ref={ref} className="fixed bottom-0 left-0 right-0 z-50 safe-area-bottom">
+        {/* Bottom Navigation — pinned to viewport via portal (immune to ancestor transforms) */}
+        <nav
+          ref={ref}
+          className="fixed bottom-0 left-0 right-0 z-[60]"
+          style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+        >
           <div className="relative">
             {/* Top accent line — gold for premium, soft rose for free */}
             <div className={`absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent ${
@@ -475,6 +492,9 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
         <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
       </>
     );
+
+    if (!portalTarget) return null;
+    return createPortal(navMarkup, portalTarget);
   }
 ));
 
