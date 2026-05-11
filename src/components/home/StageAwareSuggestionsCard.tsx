@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { getStageContent } from "@/lib/stageAwareContent";
+import { getStageContent, getNextActionIndex } from "@/lib/stageAwareContent";
 
 /**
  * Daily Insight strip — a refined, world-class companion to the hero
@@ -41,8 +41,9 @@ const StageAwareSuggestionsCard = memo(function StageAwareSuggestionsCard() {
   const ChevronIcon = isRTL ? ChevronLeft : ChevronRight;
   const eyebrow = TIP_LABEL[lng] || TIP_LABEL.en;
 
-  // Show only the single most relevant tool — supporting CTA, not a grid.
-  const primary = content.tools[0];
+  // "Next action" — most relevant single tool for the exact week.
+  const nextIdx = getNextActionIndex(stage, week);
+  const primary = content.tools[nextIdx] || content.tools[0];
 
   return (
     <motion.section
