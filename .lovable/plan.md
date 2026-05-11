@@ -1,65 +1,69 @@
-# توحيد "لوحة اليوم" و"صفحة رحلتي"
+## المشكلة
+حالياً عند عدم توفر `serviceWorker` أو `Notification` API يظهر للمستخدمة سطر واحد جامد:
+> "Push notifications are not supported on this device"
 
-## المشكلة المختصرة
+هذا غير احترافي لأن:
+- **iOS Safari** لا يدعم Web Push إلا بعد تثبيت التطبيق على الشاشة الرئيسية (PWA installed) — وهي خطوة لا يعرفها 90% من المستخدمين.
+- **متصفحات داخل التطبيقات** (Instagram, Facebook, TikTok in-app browser) تحجب SW — والحل بسيط: فتح الرابط في Safari/Chrome.
+- **الوضع الخاص (Incognito)** يُعطّل SW مؤقتاً.
+- لا يوجد **بديل داخل التطبيق** لمن يتعذّر تفعيل الـ Push.
 
-يوجد ثلاث مصادر للحقيقة تتصارع فيما بينها فتظهر بيانات غير متطابقة:
+## الحل (3 طبقات)
 
-1. `profile.journeyStage` (المرحلة النشطة)
-2. `profile.dueDate` و `profile.pregnancyWeek` (المحسوبان من LMP في `useUserProfile`)
-3. `profile.journeyHistory.pregnancy.dueDate` / `.startedAt` / `.completedAt` (تُحرَّر من صفحة رحلتي)
+### الطبقة 1 — تشخيص ذكي بدلاً من رسالة جامدة
+استبدال `NotificationSettings` "not supported" ببطاقة تشخيصية تحدّد السبب الفعلي وتعرض المسار المناسب:
 
-نتيجةً لذلك:
+| الحالة المُكتشفة | الرسالة + الإجراء |
+|---|---|
+| iOS Safari + غير مُثبّت | بطاقة "ثبّتي التطبيق أولاً" مع شرح مرئي 3 خطوات: زر Share → "Add to Home Screen" → افتحي من الأيقونة |
+| In-app browser (IG/FB/TikTok) | بطاقة "افتحي في Safari/Chrome" مع زر نسخ الرابط |
+| Incognito/Private mode | تنبيه "الوضع الخاص يمنع التذكيرات — افتحي في نافذة عادية" |
+| Android بدون SW (نادر) | زر "تثبيت التطبيق" يستدعي `useSmartInstallPrompt` الموجود |
+| غير مدعوم فعلاً (متصفح قديم جداً) | عرض البديل: التذكيرات داخل التطبيق |
 
-- الضغط على محطة في صفحة رحلتي يضع `journeyStage` يدويًا، ثم يقوم `useUserProfile.autoStageDetection` فورًا بإرجاعها لأن `dueDate` ما زال موجودًا → المرحلة النشطة تختلف بين الصفحتين.
-- `completedAt`/`startedAt` تُختم بـ`now()` حتى لو لم تكن المرحلة قد بدأت/انتهت فعلًا → الخط الزمني يصبح غير منطقي (تواريخ متراكمة في نفس اللحظة).
-- `journeyHistory.pregnancy.dueDate` لا يُزامَن مع `profile.dueDate`، فالأسبوع المعروض على لوحة اليوم (محسوب من LMP) يختلف عن الموعد المعروض في صفحة رحلتي.
-- المسميات والنبرة مختلفة: لوحة اليوم تستخدم نبرة يومية ("لوحتي اليومية / اليوم")، بينما صفحة رحلتي تستخدم نبرة رسمية بمصطلحات مختلفة (`journey.map.regions.stages` "Journey stages overview"…).
+### الطبقة 2 — تذكيرات داخل التطبيق (Fallback لأي جهاز)
+نظام `In-App Reminders` يعمل بدون Push:
+- يُجدوِل المهام في `localStorage` (فيتامينات، ماء، مواعيد، أسبوعي).
+- عند فتح التطبيق إذا تجاوز الوقت المحدّد → يضاف إشعار في `NotificationsPanel` (شارة على الجرس) + Toast لطيف.
+- يستخدم نفس واجهة التحكّم (نفس الـ Switches) — المستخدمة لا تشعر بالفرق.
+- يُسجَّل آخر ظهور لتجنّب التكرار.
 
-## القرار
+### الطبقة 3 — تكامل مع `OnboardingStep6Notifications`
+نفس منطق التشخيص يُستخدم في خطوة الـ Onboarding، فلا تظهر رسالة "غير مدعوم" خلال التهيئة بل: "اختاري طريقتك المفضّلة للتذكيرات".
 
-**`useUserProfile` (لوحة اليوم) هو المرجع الوحيد.** صفحة رحلتي تصبح *عرضًا وقراءةً* للحالة، وأي تعديل فيها يكتب في نفس الحقول التي تقرأها لوحة اليوم — بدون كتابة موازية في `journeyHistory` تخلق نسخًا متضاربة.
+## التغييرات التقنية (للمرجع)
 
-## الخطة (واجهة فقط — لا تغيير في منطق التتبع/الـAI)
+1. **`src/lib/pushNotifications.ts`**
+   - إضافة `detectPushBlocker()` يُرجع: `'ios-not-installed' | 'in-app-browser' | 'incognito' | 'unsupported' | null`.
+   - كاشف iOS: `/iPhone|iPad|iPod/.test(navigator.userAgent)`
+   - كاشف standalone: `window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone`
+   - كاشف in-app browser: regex على UA لـ `Instagram|FBAN|FBAV|Line|MicroMessenger|TikTok`
 
-### 1) مصدر واحد للمرحلة النشطة
-- في `TodayTab.tsx` احذف الـfallback `(isPregnant ? "pregnant" : "pregnant")` واعتمد `userProfile.journeyStage` مباشرةً.
-- في صفحة رحلتي (`JourneyMap.tsx`) عند تأكيد تبديل المرحلة:
-  - اضبط `autoStageDetection: false` تلقائيًا حتى لا تُرجع لوحة اليوم المرحلة فورًا.
-  - أظهر في حوار التأكيد سطرًا توضيحيًا: "سيتم إيقاف الاكتشاف التلقائي للمرحلة بناءً على تواريخك."
-  - لا تختم `completedAt`/`startedAt` بـ`now()` لمرحلة لم تبدأ فعلًا — اكتبها فقط للمرحلة الخارجة *إن* كان لها `startedAt` سابق، ولا تلمس المرحلة القادمة إن لم يوجد تاريخ حقيقي.
+2. **`src/components/settings/NotificationSettings.tsx`**
+   - استبدال كتلة `if (!supported)` بمكوّن جديد `<NotificationFallbackCard reason={...} />`.
+   - عند `permission === 'denied'`: تحسين الرسالة بزر "افتحي إعدادات المتصفح" + شرح خطوات لكل OS.
 
-### 2) مصدر واحد للموعد المتوقع والأسبوع
-- وحِّد `profile.dueDate` و `journeyHistory.pregnancy.dueDate`:
-  - في `useUserProfile`: عند تغيير `profile.dueDate` أو `lastPeriodDate`، انسخ القيمة المحسوبة إلى `journeyHistory.pregnancy.dueDate` تلقائيًا.
-  - في `JourneyMap` و `JourneyTimeline`: اقرأ `dueDate` من `profile.dueDate` أولًا والـhistory بديلًا.
-- `JourneyTimeline` يعرض `profile.pregnancyWeek` المحسوب من LMP (نفس ما يظهر على لوحة اليوم) بدل الاعتماد على `journeyHistory.pregnancy.startedAt` الذي قد يكون مختومًا بـ`now()`.
+3. **مكوّن جديد `src/components/notifications/NotificationFallbackCard.tsx`**
+   - 3 قوالب: iOS install guide / in-app browser / incognito.
+   - رسوم توضيحية بأيقونات Lucide (`Share`, `Plus`, `ExternalLink`).
+   - زر CTA رئيسي حسب الحالة (نسخ رابط، فتح خارجي، إلخ).
 
-### 3) خط زمني منطقي
-- استبعد من `JourneyTimeline` أي نقطة `startedAt`/`completedAt` تساوي `updatedAt` للملف الشخصي بفارق < 60 ثانية (إشارة إلى أنها مولّدة تلقائيًا للحظتها وليست حدثًا حقيقيًا). أي: لا نعرض "بداية مرحلة" مزيفة.
-- إذا كان `pregnancy.startedAt` غير موجود لكن `lastPeriodDate` موجود → اشتق نقطة "بداية الحمل" من LMP بدلًا من تركها فارغة أو ختمها بـ`now()`.
-- رتّب النقاط زمنيًا واسقط أي نقطة `completedAt` تأتي قبل `startedAt` لنفس المرحلة.
+4. **مكوّن جديد `src/components/notifications/IOSInstallGuide.tsx`**
+   - 3 خطوات مرئية مع pills رقمية وأيقونة Share الرسمية لـ iOS.
 
-### 4) توحيد المسميات والنبرة
-- المسميات الرسمية الموحّدة من `journey.ribbon.stages.*` (الخصوبة / الحمل / الأمومة) تستخدم في:
-  - شريط `JourneyProgressRibbon` (موجود).
-  - بطاقات صفحة رحلتي (موجود).
-  - أي عنوان فرعي في `TodayStoryHero` يشير إلى المرحلة (تحقّق وعدّل إن وُجد نص محلي).
-- وحِّد العنوان: "رحلتي" (بدون "اليوم") لصفحة `/my-journey`، و "لوحتي اليومية" للوحة اليوم — واضح أن الأولى نظرة شاملة والثانية يومية.
-- أزل من صفحة رحلتي عبارة "review or switch the active one" واستبدلها بنص يقرّ بأن المرحلة تُحدَّث تلقائيًا من تواريخك، وأن التبديل اليدوي يوقف هذا التلقائية.
+5. **خدمة جديدة `src/lib/inAppReminders.ts`**
+   - `scheduleInApp(reminder)` / `checkPendingReminders()` تُستدعى من `App.tsx` عند فتح التطبيق.
+   - تكتب في `notifications` (نفس `useNotifications`) → تظهر في الجرس.
+   - تستهلك إعدادات `notificationSettings` الموجودة (vitamin/water/cycle...).
 
-### 5) إشارة بصرية للتزامن
-- في رأس صفحة رحلتي أضف شريطًا صغيرًا أسفل الـribbon يعرض نفس الأسبوع/الموعد الظاهرَين في لوحة اليوم (مثلًا: "الأسبوع 24 — الموعد المتوقع 12 سبتمبر")، ليكون التطابق مرئيًا للمستخدم.
+6. **`src/App.tsx`** (أو `Index.tsx`)
+   - استدعاء `checkPendingReminders()` عند الـ mount.
 
-## الملفات المتأثرة
+7. **`src/components/onboarding/OnboardingStep6Notifications.tsx`**
+   - استخدام نفس `detectPushBlocker()` لعرض التشخيص بدلاً من تخطّي الخطوة.
 
-- `src/hooks/useUserProfile.ts` — مزامنة `dueDate` مع `journeyHistory.pregnancy.dueDate`.
-- `src/pages/JourneyMap.tsx` — منطق `confirmStageChange`، نص الإرشاد، شريط الأسبوع/الموعد.
-- `src/components/journey/JourneyTimeline.tsx` — تصفية النقاط الوهمية، اشتقاق نقطة الحمل من LMP، فرز.
-- `src/components/dashboard/tabs/TodayTab.tsx` — حذف الـfallback وتثبيت `journeyStage`.
-- `src/components/dashboard/TodayStoryHero.tsx` — مراجعة المسميات (إن لزم) لتطابق `journey.ribbon.stages.*`.
-
-## ما هو خارج نطاق هذه الخطة
-
-- لا تغيير في الـAI أو الـquota أو التخزين.
-- لا تغيير في تصميم الـribbon أو ألوان `useStageTheme`.
-- لا حذف لأي محطة من المراحل الثلاث.
+## النتيجة
+- لا توجد جهاز "محروم" — كل مستخدمة لديها مسار واضح للتذكيرات.
+- iOS Safari بدون تثبيت → دليل مرئي للتثبيت ثم تفعيل.
+- متصفحات داخل التطبيقات → خطوة فتح خارجية.
+- أي حالة استثنائية → تذكيرات داخل التطبيق تعمل بلا Push.
