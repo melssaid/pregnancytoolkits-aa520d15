@@ -144,14 +144,14 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-90"
         style={{
-          background: `linear-gradient(135deg, hsl(${accent} 55% 97%) 0%, hsl(${accentAlt} 45% 96%) 55%, hsl(${accent} 35% 95%) 100%)`,
+          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 55% 97%) 0%, hsl(${accentAlt} 45% 96%) 55%, hsl(${accent} 35% 95%) 100%)`,
         }}
       />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 dark:opacity-100 opacity-0"
         style={{
-          background: `linear-gradient(135deg, hsl(${accent} 28% 11%) 0%, hsl(${accentAlt} 24% 12%) 100%)`,
+          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 28% 11%) 0%, hsl(${accentAlt} 24% 12%) 100%)`,
         }}
       />
       {/* Soft accent glow — single, restrained */}
