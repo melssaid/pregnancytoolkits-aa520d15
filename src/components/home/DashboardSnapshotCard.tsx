@@ -334,19 +334,29 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                   to={p.href}
                   className={`group/pill relative flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
                     p.done
-                      ? "bg-[hsl(160,45%,95%)] dark:bg-[hsl(160,28%,14%)] border-[hsl(160,40%,75%)]/50 dark:border-[hsl(160,30%,28%)]/60"
+                      ? ""
                       : "bg-card/80 dark:bg-white/[0.04] border-border/60 backdrop-blur-sm"
                   }`}
                   style={
-                    !p.done
+                    p.done
                       ? {
+                          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 70% 94%), hsl(${accentAlt} 60% 96%))`,
+                          borderColor: `hsl(${accent} 55% 80% / 0.55)`,
+                          boxShadow: `0 1px 2px 0 hsl(${accent} 50% 40% / 0.08), inset 0 1px 0 0 hsl(0 0% 100% / 0.7)`,
+                        }
+                      : {
                           boxShadow: `0 1px 2px 0 hsl(${accent} 40% 30% / 0.06), inset 0 1px 0 0 hsl(0 0% 100% / 0.6)`,
                         }
-                      : undefined
                   }
                 >
                   {p.done ? (
-                    <div className="relative w-4 h-4 rounded-full flex items-center justify-center shrink-0 bg-[hsl(160,55%,42%)] shadow-[0_2px_4px_-1px_hsl(160_55%_42%_/_0.4)]">
+                    <div
+                      className="relative w-4 h-4 rounded-full flex items-center justify-center shrink-0"
+                      style={{
+                        background: `linear-gradient(${gradAngle}deg, hsl(${accent} 65% 52%), hsl(${accentAlt} 58% 50%))`,
+                        boxShadow: `0 2px 4px -1px hsl(${accent} 60% 45% / 0.45)`,
+                      }}
+                    >
                       <Check className="w-2.5 h-2.5 text-white" strokeWidth={3.2} />
                     </div>
                   ) : (
@@ -358,10 +368,11 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                   )}
                   <span
                     className={`text-[10.5px] font-bold leading-[1.25] truncate ${
-                      p.done
-                        ? "text-[hsl(160,55%,18%)] dark:text-[hsl(160,45%,86%)]"
-                        : "text-foreground/90 dark:text-foreground/95"
+                      p.done ? "" : "text-foreground/90 dark:text-foreground/95"
                     }`}
+                    style={
+                      p.done ? { color: `hsl(${accent} 55% 22%)` } : undefined
+                    }
                   >
                     {p.label}
                   </span>
