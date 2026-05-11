@@ -337,15 +337,15 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                   ) : (
                     <Icon
                       className="w-3.5 h-3.5 shrink-0"
-                      style={{ color: `hsl(${accent} 50% 50%)` }}
-                      strokeWidth={2.2}
+                      style={{ color: `hsl(${accent} 65% 38%)` }}
+                      strokeWidth={2.4}
                     />
                   )}
                   <span
-                    className={`text-[10px] font-bold leading-[1.25] truncate ${
+                    className={`text-[10.5px] font-bold leading-[1.25] truncate ${
                       p.done
-                        ? "text-[hsl(160,55%,22%)] dark:text-[hsl(160,40%,82%)]"
-                        : "text-foreground/85"
+                        ? "text-[hsl(160,55%,18%)] dark:text-[hsl(160,45%,86%)]"
+                        : "text-foreground/90 dark:text-foreground/95"
                     }`}
                   >
                     {p.label}
