@@ -57,13 +57,15 @@ export function DailyHealthChallengeCard() {
   const completedCount = todayChallenges.filter(c => completedToday.includes(c.key)).length;
 
   return (
-    <Card className="p-4 bg-card border-border/50">
+    <Card className="p-4 bg-gradient-to-br from-primary/[0.05] via-transparent to-accent/[0.05] border-primary/15">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Target className="w-4 h-4 text-orange-500" />
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center">
+            <Target className="w-4 h-4 text-primary" />
+          </div>
           <h3 className="text-base font-bold text-foreground">{t("dailyChallenge.title")}</h3>
         </div>
-        <span className="text-[10px] font-bold text-primary">{completedCount}/3</span>
+        <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">{completedCount}/3</span>
       </div>
       <div className="space-y-2">
         {todayChallenges.map((c, i) => {
