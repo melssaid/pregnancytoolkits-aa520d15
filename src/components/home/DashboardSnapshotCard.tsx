@@ -218,28 +218,17 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
               >
                 <Link
                   to={p.href}
-                  className={`group/pill relative flex items-center gap-1.5 px-2 py-1.5 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
+                  className={`group/pill relative flex items-center justify-center gap-1.5 px-2 py-2 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
                     p.done
                       ? "bg-gradient-to-br from-[hsl(160,55%,94%)] to-[hsl(160,45%,90%)] dark:from-[hsl(160,30%,16%)] dark:to-[hsl(160,25%,13%)] border-[hsl(160,50%,75%)]/50 dark:border-[hsl(160,40%,30%)]/50"
                       : "bg-white/70 dark:bg-white/[0.04] border-white/80 dark:border-white/[0.06] hover:border-[hsl(340,50%,75%)]/60 backdrop-blur-sm"
                   }`}
                 >
-                  <div
-                    className={`relative w-5 h-5 rounded-lg flex items-center justify-center shrink-0 ${
-                      p.done
-                        ? "bg-gradient-to-br from-[hsl(160,55%,45%)] to-[hsl(160,55%,38%)] shadow-[0_2px_5px_-1px_hsl(160_55%_42%_/_0.45)]"
-                        : "bg-gradient-to-br from-[hsl(340,40%,96%)] to-[hsl(320,35%,93%)] dark:from-[hsl(340,25%,18%)] dark:to-[hsl(320,20%,15%)]"
-                    }`}
-                  >
-                    {p.done ? (
-                      <Check className="w-3 h-3 text-white" strokeWidth={3.2} />
-                    ) : (
-                      <Icon
-                        className="w-[11px] h-[11px] text-[hsl(340,50%,50%)]"
-                        strokeWidth={2.4}
-                      />
-                    )}
-                  </div>
+                  {p.done && (
+                    <div className="relative w-4 h-4 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-br from-[hsl(160,55%,45%)] to-[hsl(160,55%,38%)] shadow-[0_2px_5px_-1px_hsl(160_55%_42%_/_0.45)]">
+                      <Check className="w-2.5 h-2.5 text-white" strokeWidth={3.2} />
+                    </div>
+                  )}
                   <span
                     className={`text-[10px] font-bold leading-tight truncate ${
                       p.done
