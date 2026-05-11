@@ -156,7 +156,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       {/* ── Hero row: greeting + week + CTA ─────────────────────────── */}
       <Link
         to="/dashboard"
-        className="relative block px-4 pt-4 pb-3 group active:scale-[0.995] transition-transform"
+        className="relative block px-4 pt-7 pb-3 group active:scale-[0.995] transition-transform"
       >
         <div className="flex items-start justify-between gap-3">
           {/* Left: greeting + hero metric */}
