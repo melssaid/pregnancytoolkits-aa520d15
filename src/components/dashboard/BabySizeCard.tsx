@@ -91,7 +91,7 @@ export function BabySizeCard() {
             </div>
           </div>
           {prevData && data.weightG > prevData.weightG && (
-            <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-2 break-words">
+            <p className="text-[11px] text-done dark:text-done font-semibold mt-2 break-words">
               +{data.weightG - prevData.weightG}g {t("babySize.sinceLastWeek")}
             </p>
           )}

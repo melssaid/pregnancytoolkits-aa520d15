@@ -118,7 +118,7 @@ export function QuickStats({
                 <p className="text-xl font-extrabold text-foreground group-hover:text-primary transition-colors leading-none mt-1.5">
                   {bmi}
                   <span className={`text-[12px] font-semibold ms-1.5 ${
-                    bmi < 18.5 ? 'text-primary' : bmi < 25 ? 'text-emerald-600' : bmi < 30 ? 'text-amber-600' : 'text-destructive'
+                    bmi < 18.5 ? 'text-primary' : bmi < 25 ? 'text-done' : bmi < 30 ? 'text-amber-600' : 'text-destructive'
                   }`}>
                     {bmi < 18.5
                       ? t("settings.profile.bmi.underweight", "↓")

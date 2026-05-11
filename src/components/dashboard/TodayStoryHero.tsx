@@ -260,7 +260,7 @@ export const TodayStoryHero = memo(function TodayStoryHero() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                className="inline-flex items-center gap-1 text-[12px] font-bold text-emerald-600 dark:text-emerald-400"
+                className="inline-flex items-center gap-1 text-[12px] font-bold text-done dark:text-done"
               >
                 <Check className="h-3.5 w-3.5" strokeWidth={3} />
                 {t("dashboardV2.mood.saved")}

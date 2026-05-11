@@ -17,10 +17,10 @@ const MILESTONES: Milestone[] = [
   { week: 12, key: "firstTrimesterEnd", icon: <Star className="w-4 h-4" />, color: "text-yellow-500 bg-yellow-500/10" },
   { week: 16, key: "feelMovement", icon: <Footprints className="w-4 h-4" />, color: "text-purple-400 bg-purple-500/10" },
   { week: 20, key: "halfwayThere", icon: <Target className="w-4 h-4" />, color: "text-blue-500 bg-blue-500/10" },
-  { week: 24, key: "viability", icon: <Star className="w-4 h-4" />, color: "text-green-500 bg-green-500/10" },
+  { week: 24, key: "viability", icon: <Star className="w-4 h-4" />, color: "text-done bg-[hsl(var(--success-soft))]/100" },
   { week: 28, key: "thirdTrimester", icon: <Stethoscope className="w-4 h-4" />, color: "text-orange-400 bg-orange-500/10" },
   { week: 32, key: "babyPosition", icon: <Baby className="w-4 h-4" />, color: "text-pink-400 bg-pink-500/10" },
-  { week: 36, key: "fullTerm", icon: <Gift className="w-4 h-4" />, color: "text-emerald-500 bg-emerald-500/10" },
+  { week: 36, key: "fullTerm", icon: <Gift className="w-4 h-4" />, color: "text-done bg-[hsl(var(--success-soft))]/100" },
   { week: 40, key: "dueDate", icon: <Baby className="w-4 h-4" />, color: "text-primary bg-primary/10" },
 ];
 

@@ -90,7 +90,7 @@ export const FertilityCycleCard = memo(function FertilityCycleCard() {
     { defaultValue: computed.phaseKey });
   const phaseTone =
     computed.phaseKey === "fertile"
-      ? "from-emerald-500/15 via-teal-500/8 to-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+      ? "from-emerald-500/15 via-teal-500/8 to-emerald-500/15 text-done dark:text-done"
       : computed.phaseKey === "menstrual"
       ? "from-rose-500/15 via-pink-500/8 to-rose-500/15 text-rose-700 dark:text-rose-300"
       : computed.phaseKey === "follicular"

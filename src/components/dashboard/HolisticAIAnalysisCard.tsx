@@ -217,7 +217,7 @@ export const HolisticAIAnalysisCard = memo(function HolisticAIAnalysisCard() {
           <div className="flex items-center justify-center gap-2 text-[11px] text-foreground/70 bg-white/40 rounded-lg px-2.5 py-1.5">
             {derivedInsights.positiveSignals.length > 0 && (
               <span className="flex items-center gap-1 font-medium">
-                <span className="text-emerald-600">●</span>
+                <span className="text-done">●</span>
                 {t("dashboardV2.holistic.preview.positive", { count: derivedInsights.positiveSignals.length })}
               </span>
             )}
