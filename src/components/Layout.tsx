@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { Shield, Heart, Settings, Crown } from "lucide-react";
+import { Shield, Heart, Settings, Crown, Bell } from "lucide-react";
 import { toast } from "sonner";
 const logoImage = "/logo.webp";
 import { useTranslation } from "react-i18next";
