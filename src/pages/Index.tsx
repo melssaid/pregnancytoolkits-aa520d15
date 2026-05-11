@@ -21,6 +21,7 @@ import { CouponRedeemer } from "@/components/settings/CouponRedeemer";
 import { SectionFeaturedArticles } from "@/components/articles/SectionFeaturedArticles";
 import DashboardSnapshotCard from "@/components/home/DashboardSnapshotCard";
 import StageAwareSuggestionsCard from "@/components/home/StageAwareSuggestionsCard";
+import JourneyPromptCard from "@/components/home/JourneyPromptCard";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 // Lazy-load below-the-fold banner — shaves initial JS for faster LCP/TTI
@@ -670,6 +671,9 @@ const Index = () => {
 
       <section className="pt-3 pb-0 relative z-10">
         <div className="px-2.5 sm:px-4 md:px-6 lg:px-8 max-w-4xl mx-auto space-y-3 pb-6">
+
+          {/* Multi-choice journey prompt — auto-hides after answer */}
+          <JourneyPromptCard />
 
           {/* Dashboard snapshot — native app pattern */}
           <DashboardSnapshotCard />
