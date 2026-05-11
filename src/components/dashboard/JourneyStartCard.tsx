@@ -16,7 +16,7 @@ import { haptic } from "@/lib/haptics";
 export function JourneyStartCard() {
   const { t, i18n } = useTranslation();
   const isAr = i18n.language === "ar";
-  const { profile, updateProfile, setPregnancyWeek } = useUserProfile();
+  const { profile, updateProfile, setPregnancyWeek, setLastPeriodDate } = useUserProfile();
   const stage = profile.journeyStage;
   const needsWeek = stage === "pregnant" && (!profile.pregnancyWeek || profile.pregnancyWeek < 4);
 
@@ -63,8 +63,17 @@ export function JourneyStartCard() {
 
   const handleSaveWeek = () => {
     const n = parseInt(weekInput, 10);
-    if (!Number.isFinite(n)) return;
+    if (!Number.isFinite(n) || n < 1 || n > 42) return;
     haptic("success");
+    // Anchor the week to "today" by setting the LMP to (today − n*7 days).
+    // useUserProfile re-derives pregnancyWeek from LMP daily, so the week
+    // advances automatically without further manual entry.
+    const lmp = new Date();
+    lmp.setDate(lmp.getDate() - n * 7);
+    const lmpIso = lmp.toISOString().split("T")[0];
+    setLastPeriodDate(lmpIso);
+    // Set the week immediately for instant UI feedback (auto-derivation will
+    // keep it in sync on subsequent days).
     setPregnancyWeek(n);
   };
 
@@ -90,8 +99,8 @@ export function JourneyStartCard() {
         <p className="text-[12px] text-muted-foreground leading-snug mb-3">
           {needsWeek
             ? (isAr
-                ? "أدخلي أسبوع الحمل الحالي لعرض المتابعة الأسبوعية المخصصة لكِ."
-                : "Enter your current pregnancy week to unlock weekly tracking.")
+                ? "أدخلي أسبوع الحمل الحالي مرّة واحدة، وسيتحدّث تلقائيًا كل يوم على Today بدون إدخال يدوي."
+                : "Enter your current pregnancy week once — it auto-advances daily on Today without re-entry.")
             : (isAr
                 ? "اختاري مرحلتكِ لنعرض لكِ الأدوات والنصائح المناسبة."
                 : "Pick your stage so we can tailor the right tools for you.")}
