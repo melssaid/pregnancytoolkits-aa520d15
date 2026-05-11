@@ -9,6 +9,7 @@ import { useDashboardData } from "@/hooks/useDashboardData";
 import { useOptimizedMotion } from "@/hooks/useOptimizedMotion";
 import roseDecor from "@/assets/rose-right.png";
 import { DailyTipCard } from "@/components/dashboard/DailyTipCard";
+import { JourneyStartCard } from "@/components/dashboard/JourneyStartCard";
 
 interface DailyLog {
   date: string;
@@ -113,7 +114,7 @@ export const TodayStoryHero = memo(function TodayStoryHero() {
       animate={{ opacity: 1, y: 0 }}
       transition={m.transition}
       style={{ willChange: m.disabled ? "auto" : "transform, opacity" }}
-      className="relative overflow-hidden rounded-3xl border border-border/40 bg-gradient-to-br from-card via-card to-primary/[0.04] shadow-lg shadow-primary/5"
+      className="relative overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-br from-primary/[0.04] via-card to-accent/[0.05] shadow-md shadow-primary/[0.06]"
     >
       {/* Decorative rose — replaces generic glow for a refined botanical accent */}
       <img
@@ -202,11 +203,9 @@ export const TodayStoryHero = memo(function TodayStoryHero() {
             </div>
           </div>
         ) : (
-          /* Non-pregnant: simple welcome panel */
-          <div className="flex items-center gap-3 mb-5 rounded-2xl border border-border/40 bg-background/60 p-4">
-            <p className="text-sm font-semibold text-foreground leading-snug">
-              {t("dashboardV2.progress.welcomeWellness")}
-            </p>
+          /* No real week yet — invite user to set stage / pregnancy week */
+          <div className="mb-5">
+            <JourneyStartCard />
           </div>
         )}
 
