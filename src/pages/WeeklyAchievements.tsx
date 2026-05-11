@@ -80,8 +80,8 @@ ${week > 0 ? `\n🤰 ${t('achievements.weekProgress', { week, defaultValue: 'Wee
       <SEOHead title={t("achievements.seoTitle", "My Achievements")} noindex />
       <div className="container max-w-lg pb-24">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-6">
-          <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-amber-400/20 to-amber-500/10 flex items-center justify-center">
-            <Trophy className="h-7 w-7 text-amber-500" />
+          <div className="w-14 h-14 mx-auto mb-3 rounded-2xl badge-done flex items-center justify-center">
+            <Trophy className="h-7 w-7" />
           </div>
           <h1 className="text-xl font-bold text-foreground mb-1">
             {t('achievements.title', 'Your Achievements')}
