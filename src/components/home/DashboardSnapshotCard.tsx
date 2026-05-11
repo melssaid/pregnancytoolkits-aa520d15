@@ -111,18 +111,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference - (progressPct / 100) * circumference;
 
-  // Curved top edge that mirrors the header's bottom curve, so the gap
-  // between header and dashboard card stays visually parallel.
-  // SVG mask is stretched to card size; depth ≈ 10% of card height.
-  const topCurveMask =
-    'url("data:image/svg+xml;utf8,' +
-    encodeURIComponent(
-      `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 1000' preserveAspectRatio='none'>` +
-        `<path fill='white' d='M0,80 C210,186 515,186 720,186 C925,186 1230,186 1440,80 L1440,960 Q1440,1000 1400,1000 L40,1000 Q0,1000 0,960 Z'/>` +
-      `</svg>`
-    ) +
-    '")';
-
   return (
     <motion.div
       initial={{ opacity: 0, y: -8 }}
@@ -134,18 +122,24 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           "drop-shadow(-12px 18px 36px hsl(340 70% 45% / 0.32)) drop-shadow(-4px 8px 16px hsl(290 55% 45% / 0.22)) drop-shadow(0 2px 6px hsl(340 40% 40% / 0.14))",
       }}
     >
+      {/* Top concave curve — mirrors the header's bottom curve pixel-for-pixel.
+          Uses identical viewBox (0 0 1440 120) and responsive heights so the
+          gap between header and card stays parallel at every breakpoint. */}
+      <svg
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        className="block w-full h-[14px] sm:h-[20px] md:h-[26px] -mb-px"
+      >
+        <path
+          d="M0,0 C210,120 515,120 720,120 C925,120 1230,120 1440,0 L1440,120 L0,120 Z"
+          className="fill-[hsl(345,60%,98%)] dark:fill-[hsl(340,28%,11%)]"
+        />
+      </svg>
       <div
-        className="relative overflow-hidden
+        className="relative overflow-hidden rounded-b-[28px]
                    bg-gradient-to-br from-[hsl(345,60%,98%)] via-[hsl(330,45%,97%)] to-[hsl(295,40%,97%)]
                    dark:from-[hsl(340,28%,11%)] dark:via-[hsl(320,22%,10%)] dark:to-[hsl(290,22%,10%)]"
-        style={{
-          WebkitMaskImage: topCurveMask,
-          maskImage: topCurveMask,
-          WebkitMaskSize: "100% 100%",
-          maskSize: "100% 100%",
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-        }}
       >
       {/* Layered ambient lights — Apple Health style depth */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -156,7 +150,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       {/* ── Hero row: greeting + week + CTA ─────────────────────────── */}
       <Link
         to="/dashboard"
-        className="relative block px-4 pt-7 pb-3 group active:scale-[0.995] transition-transform"
+        className="relative block px-4 pt-3.5 sm:pt-4 md:pt-5 pb-3 group active:scale-[0.995] transition-transform"
       >
         <div className="flex items-start justify-between gap-3">
           {/* Left: greeting + hero metric */}
