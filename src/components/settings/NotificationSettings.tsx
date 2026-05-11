@@ -44,15 +44,10 @@ export function NotificationSettings() {
     }
   };
 
+  const blocker = useMemo(() => (supported ? null : detectPushBlocker()), [supported]);
+
   if (!supported) {
-    return (
-      <div className="flex items-center gap-3 py-2">
-        <BellOff className="w-5 h-5 text-muted-foreground" />
-        <p className="text-sm text-muted-foreground">
-          {t('settings.notifications.notSupported', 'Push notifications are not supported on this device')}
-        </p>
-      </div>
-    );
+    return <NotificationFallbackCard reason={blocker ?? 'unsupported'} />;
   }
 
   return (
