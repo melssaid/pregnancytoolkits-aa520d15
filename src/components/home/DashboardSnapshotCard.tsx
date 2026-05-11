@@ -42,6 +42,8 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   // Live-sync tick: bumps when tools save results or storage changes,
   // so meal/fitness checkmarks update without reloading the page.
   const [syncTick, setSyncTick] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const refreshTimerRef = useRef<number | null>(null);
   useEffect(() => {
     const bump = () => setSyncTick((n) => n + 1);
     const onStorage = (e: StorageEvent) => {
@@ -69,6 +71,23 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
+
+  // Trigger a brief refresh indicator whenever syncTick increments (skip mount).
+  const firstSyncRef = useRef(true);
+  useEffect(() => {
+    if (firstSyncRef.current) {
+      firstSyncRef.current = false;
+      return;
+    }
+    setIsRefreshing(true);
+    if (refreshTimerRef.current) window.clearTimeout(refreshTimerRef.current);
+    refreshTimerRef.current = window.setTimeout(() => {
+      setIsRefreshing(false);
+    }, 900);
+    return () => {
+      if (refreshTimerRef.current) window.clearTimeout(refreshTimerRef.current);
+    };
+  }, [syncTick]);
 
   const mealDoneToday = useMemo(() => hasSavedToday("ai-meal-suggestion"), [syncTick]);
   const fitnessDoneToday = useMemo(() => hasSavedToday("ai-fitness-coach"), [syncTick]);
