@@ -123,7 +123,7 @@ const StageAwareSuggestionsCard = memo(function StageAwareSuggestionsCard() {
         style={{ scrollbarWidth: "none" }}
       >
         {ordered.map((t, i) => {
-          const isNext = i === 0;
+          const isNext = i === 0 && !nextIsPriority && !!nextTool;
           return (
             <Link
               key={t.href}
