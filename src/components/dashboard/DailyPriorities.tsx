@@ -89,12 +89,15 @@ export const DailyPriorities = memo(function DailyPriorities({
     >
       <div className="flex items-center justify-between mb-4 gap-3">
         <h3 className="text-lg font-extrabold text-foreground tracking-tight leading-tight">{t("dailyDashboard.priorities.title")}</h3>
-        <span className="text-xs font-bold tabular-nums text-primary bg-primary/10 px-3 py-1 rounded-full flex-shrink-0">
+        <span
+          className="text-sm font-bold tabular-nums text-primary-foreground bg-primary px-3 py-1 rounded-full flex-shrink-0"
+          aria-label={`${completedCount}/${items.length}`}
+        >
           {completedCount}/{items.length}
         </span>
       </div>
 
-      <div className="space-y-2">
+      <ul className="space-y-2.5" role="list">
         {items.map((item, i) => {
           const isAnchor = item.href.startsWith("#");
           const handleClick = (e: React.MouseEvent) => {
@@ -104,40 +107,68 @@ export const DailyPriorities = memo(function DailyPriorities({
               el?.scrollIntoView({ behavior: "smooth", block: "center" });
             }
           };
+          const stateLabel = item.done
+            ? t("common.done", "Done")
+            : t("common.notDone", "Not done");
           return (
-            <Link key={item.id} to={isAnchor ? "#" : item.href} onClick={handleClick} className="block">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.05 * i }}
-                className={`flex items-center gap-3 p-3 rounded-2xl transition-colors min-w-0 ${
-                  item.done ? "bg-primary/8" : "bg-muted/30 hover:bg-muted/50"
-                }`}
+            <li key={item.id}>
+              <Link
+                to={isAnchor ? "#" : item.href}
+                onClick={handleClick}
+                aria-label={`${t(item.labelKey)} — ${stateLabel}${item.detail ? ` (${item.detail})` : ""}`}
+                className="block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card"
               >
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  item.done ? "bg-primary/15" : "bg-background/80 border border-border/40"
-                }`}>
-                  {item.done ? (
-                    <Check className="w-[18px] h-[18px] text-primary" strokeWidth={2.5} />
-                  ) : (
-                    <item.icon className="w-[18px] h-[18px] text-foreground/70" strokeWidth={1.85} />
-                  )}
-                </div>
-                <span className={`text-[14px] font-bold flex-1 min-w-0 leading-snug whitespace-normal break-words ${item.done ? "text-primary" : "text-foreground"}`} style={{ overflowWrap: "anywhere" }}>
-                  {t(item.labelKey)}
-                </span>
-                {item.detail && (
-                  <span className={`text-[11px] font-bold tabular-nums px-2.5 py-1 rounded-full flex-shrink-0 ${
-                    item.done ? "text-primary bg-primary/12" : "text-foreground/75 bg-muted"
-                  }`}>
-                    {item.detail}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.05 * i }}
+                  className={`flex items-center gap-3.5 p-3.5 rounded-2xl transition-colors min-w-0 border ${
+                    item.done
+                      ? "bg-primary/12 border-primary/30"
+                      : "bg-muted/40 border-border/60 hover:bg-muted/60"
+                  }`}
+                >
+                  <div
+                    aria-hidden="true"
+                    className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      item.done
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background border-2 border-border"
+                    }`}
+                  >
+                    {item.done ? (
+                      <Check className="w-[22px] h-[22px]" strokeWidth={3} />
+                    ) : (
+                      <item.icon className="w-[22px] h-[22px] text-foreground" strokeWidth={2} />
+                    )}
+                  </div>
+                  <span
+                    className={`text-[15px] font-bold flex-1 min-w-0 leading-snug whitespace-normal break-words ${
+                      item.done ? "text-primary" : "text-foreground"
+                    }`}
+                    style={{ overflowWrap: "anywhere" }}
+                  >
+                    {t(item.labelKey)}
                   </span>
-                )}
-              </motion.div>
-            </Link>
+                  <span className="sr-only">{stateLabel}</span>
+                  {item.detail && (
+                    <span
+                      aria-hidden="true"
+                      className={`text-[13px] font-bold tabular-nums px-2.5 py-1 rounded-full flex-shrink-0 border ${
+                        item.done
+                          ? "text-primary-foreground bg-primary border-primary"
+                          : "text-foreground bg-background border-border"
+                      }`}
+                    >
+                      {item.detail}
+                    </span>
+                  )}
+                </motion.div>
+              </Link>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </motion.div>
   );
 });
