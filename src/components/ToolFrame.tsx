@@ -271,7 +271,7 @@ export function ToolFrame({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.25, ease: "easeOut" }}
-              className="overflow-hidden [&_*]:min-w-0"
+              className="tool-content overflow-hidden [&_*]:min-w-0"
               dir={dir}
               style={{ textAlign: isRTL ? "right" : "left" }}
             >
