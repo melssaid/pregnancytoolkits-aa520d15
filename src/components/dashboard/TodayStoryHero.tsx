@@ -10,6 +10,7 @@ import { useOptimizedMotion } from "@/hooks/useOptimizedMotion";
 import roseDecor from "@/assets/rose-right.png";
 import { DailyTipCard } from "@/components/dashboard/DailyTipCard";
 import { JourneyStartCard } from "@/components/dashboard/JourneyStartCard";
+import { getStageContent } from "@/lib/stageAwareContent";
 
 interface DailyLog {
   date: string;
