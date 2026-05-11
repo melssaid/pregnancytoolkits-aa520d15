@@ -13,8 +13,8 @@ import { toast } from "sonner";
 import { LucideIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SEOHead } from "@/components/SEOHead";
-import WelcomeCard from "@/components/home/WelcomeCard";
-import QuickActions from "@/components/home/QuickActions";
+// WelcomeCard & QuickActions removed — superseded by DashboardSnapshotCard
+// and StageAwareSuggestionsCard which together cover greeting + tip + actions.
 import { getToolTitle } from "@/lib/toolCopy";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { CouponRedeemer } from "@/components/settings/CouponRedeemer";
