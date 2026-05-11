@@ -182,7 +182,11 @@ const Settings: React.FC = () => {
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: (gi * 3 + i) * 0.03 }}
-                          onClick={() => item.id === 'language' ? navigate('/language') : setActiveView(item.id)}
+                          onClick={() => {
+                            if (item.id === 'language') navigate('/language');
+                            else if (item.id === 'reonboard') setShowOnboarding(true);
+                            else setActiveView(item.id);
+                          }}
                           className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted/40 transition-colors active:scale-[0.99]"
                         >
                           <div className={cn("w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0", item.iconBg)}>
