@@ -29,7 +29,9 @@ export const TodayTab = memo(function TodayTab() {
   const { t } = useTranslation();
   const { profile, stats, bloodPressure, timeSlot, isPregnant, dataCheck } = useDashboardData();
   const { profile: userProfile } = useUserProfile();
-  const stage = userProfile.journeyStage || (isPregnant ? "pregnant" : "pregnant");
+  // SSoT: useUserProfile.journeyStage is the single source of truth for the
+  // active stage across the dashboard AND /my-journey. No fallback heuristic.
+  const stage = userProfile.journeyStage;
   const isFertility = stage === "fertility";
   const isPostpartum = stage === "postpartum";
 
