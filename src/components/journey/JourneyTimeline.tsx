@@ -86,12 +86,6 @@ export const JourneyTimeline = () => {
     const h = profile.journeyHistory ?? {};
 
     // ---- Origin inference ------------------------------------------------
-    // We compare related fields to figure out *why* each milestone exists.
-    //   • dueDate matches LMP+280d  → computed (Naegele)
-    //   • postpartum.startedAt === postpartum.birthDate → derived from birthDate
-    //   • pregnancy.startedAt close to LMP (±2 days) → derived from LMP
-    //   • completedAt without an explicit user edit → auto (stage transition)
-    //   • everything else                        → manual
     const sameDay = (a?: string | null, b?: string | null) => {
       if (!a || !b) return false;
       const da = new Date(a);
@@ -102,6 +96,17 @@ export const JourneyTimeline = () => {
 
     const lmp = profile.lastPeriodDate ?? null;
     const lmpDue = lmp ? computeDueDateFromLMP(lmp) : null;
+
+    // Detect synthetic timestamps stamped by stage transitions in the same
+    // moment as profile.updatedAt — these aren't real events, just side-
+    // effects of tapping a station, so they pollute the timeline.
+    const updatedMs = profile.updatedAt ? new Date(profile.updatedAt).getTime() : 0;
+    const isSyntheticNow = (iso?: string | null) => {
+      if (!iso || !updatedMs) return false;
+      const t = new Date(iso).getTime();
+      if (isNaN(t)) return false;
+      return Math.abs(t - updatedMs) < 60 * 1000; // ≤60s of last profile write
+    };
 
     const pregStartOrigin: PointOrigin = sameDay(h.pregnancy?.startedAt, lmp)
       ? "derived"
@@ -116,8 +121,14 @@ export const JourneyTimeline = () => {
       ? "derived"
       : "manual";
 
+    // Prefer a real LMP-derived pregnancy.startedAt over a synthetic one.
+    const pregnancyStartIso =
+      h.pregnancy?.startedAt && !isSyntheticNow(h.pregnancy.startedAt)
+        ? h.pregnancy.startedAt
+        : lmp ?? null;
+
     const raw: Array<TimelinePoint | null> = [
-      h.fertility?.startedAt && {
+      h.fertility?.startedAt && !isSyntheticNow(h.fertility.startedAt) && {
         id: "fertility-start",
         date: new Date(h.fertility.startedAt),
         stage: "fertility",
@@ -125,7 +136,7 @@ export const JourneyTimeline = () => {
         labelKey: "journey.map.fields.startedAt",
         origin: "manual" as PointOrigin,
       },
-      h.fertility?.completedAt && {
+      h.fertility?.completedAt && !isSyntheticNow(h.fertility.completedAt) && {
         id: "fertility-end",
         date: new Date(h.fertility.completedAt),
         stage: "fertility",
@@ -134,14 +145,14 @@ export const JourneyTimeline = () => {
         origin: "auto" as PointOrigin,
         sourceKey: "stageTransition",
       },
-      h.pregnancy?.startedAt && {
+      pregnancyStartIso && {
         id: "pregnancy-start",
-        date: new Date(h.pregnancy.startedAt),
+        date: new Date(pregnancyStartIso),
         stage: "pregnant",
         kind: "startedAt",
         labelKey: "journey.map.fields.startedAt",
-        origin: pregStartOrigin,
-        sourceKey: pregStartOrigin === "derived" ? "lastPeriodDate" : undefined,
+        origin: lmp && pregnancyStartIso === lmp ? ("derived" as PointOrigin) : pregStartOrigin,
+        sourceKey: lmp && pregnancyStartIso === lmp ? "lastPeriodDate" : (pregStartOrigin === "derived" ? "lastPeriodDate" : undefined),
       },
       h.pregnancy?.dueDate && {
         id: "pregnancy-due",
@@ -152,7 +163,7 @@ export const JourneyTimeline = () => {
         origin: dueOrigin,
         sourceKey: dueOrigin === "computed" ? "lastPeriodDate" : undefined,
       },
-      h.pregnancy?.completedAt && {
+      h.pregnancy?.completedAt && !isSyntheticNow(h.pregnancy.completedAt) && {
         id: "pregnancy-end",
         date: new Date(h.pregnancy.completedAt),
         stage: "pregnant",
@@ -161,7 +172,7 @@ export const JourneyTimeline = () => {
         origin: "auto" as PointOrigin,
         sourceKey: "stageTransition",
       },
-      h.postpartum?.startedAt && {
+      h.postpartum?.startedAt && !isSyntheticNow(h.postpartum.startedAt) && {
         id: "postpartum-start",
         date: new Date(h.postpartum.startedAt),
         stage: "postpartum",
@@ -180,10 +191,27 @@ export const JourneyTimeline = () => {
       },
     ] as Array<TimelinePoint | null>;
 
-    return raw
-      .filter((p): p is TimelinePoint => !!p && !isNaN(p.date.getTime()))
-      .sort((a, b) => a.date.getTime() - b.date.getTime());
-  }, [profile.journeyHistory, profile.lastPeriodDate]);
+    const filtered = raw.filter(
+      (p): p is TimelinePoint => !!p && !isNaN(p.date.getTime()),
+    );
+
+    // Drop completedAt that comes before startedAt for the same stage.
+    const startByStage = new Map<JourneyStage, number>();
+    filtered.forEach(p => {
+      if (p.kind === "startedAt") {
+        const t = p.date.getTime();
+        const existing = startByStage.get(p.stage);
+        if (existing === undefined || t < existing) startByStage.set(p.stage, t);
+      }
+    });
+    const consistent = filtered.filter(p => {
+      if (p.kind !== "completedAt") return true;
+      const start = startByStage.get(p.stage);
+      return start === undefined || p.date.getTime() >= start;
+    });
+
+    return consistent.sort((a, b) => a.date.getTime() - b.date.getTime());
+  }, [profile.journeyHistory, profile.lastPeriodDate, profile.updatedAt]);
 
   // Auto-scroll to "today" / nearest marker when the timeline mounts
   useEffect(() => {

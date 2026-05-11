@@ -152,27 +152,26 @@ const JourneyMap = () => {
     const prev = profile.journeyHistory ?? {};
 
     const nextHistory = { ...prev };
-    // Mark the outgoing stage as completed (if it has a record).
+    // Mark the outgoing stage as completed ONLY if it has a real startedAt
+    // (otherwise we'd be stamping a "completion" for a stage that never began).
     const outgoing = profile.journeyStage;
-    if (outgoing === "fertility" && nextHistory.fertility) {
+    if (outgoing === "fertility" && nextHistory.fertility?.startedAt && !nextHistory.fertility.completedAt) {
       nextHistory.fertility = { ...nextHistory.fertility, completedAt: now };
-    } else if (outgoing === "pregnant" && nextHistory.pregnancy) {
+    } else if (outgoing === "pregnant" && nextHistory.pregnancy?.startedAt && !nextHistory.pregnancy.completedAt) {
       nextHistory.pregnancy = { ...nextHistory.pregnancy, completedAt: now };
     }
 
-    // Seed the incoming stage with a startedAt timestamp if missing.
-    if (pendingStage === "fertility") {
-      nextHistory.fertility = { startedAt: now, ...(nextHistory.fertility ?? {}) };
-    } else if (pendingStage === "pregnant") {
-      nextHistory.pregnancy = { startedAt: now, ...(nextHistory.pregnancy ?? {}) };
-    } else if (pendingStage === "postpartum") {
-      nextHistory.postpartum = { startedAt: now, ...(nextHistory.postpartum ?? {}) };
-    }
+    // Do NOT seed a synthetic startedAt for the incoming stage. Real dates
+    // (LMP / dueDate / birthDate) come from the user — the timeline should
+    // reflect actual events, not the moment they tapped a station.
 
     updateProfile({
       journeyStage: pendingStage,
       isPregnant: pendingStage === "pregnant",
       journeyHistory: nextHistory,
+      // A manual switch overrides auto-detection — otherwise useUserProfile
+      // would immediately revert the stage based on existing dueDate/LMP.
+      autoStageDetection: false,
     });
     setPendingStage(null);
   }, [pendingStage, profile.journeyStage, profile.journeyHistory, updateProfile]);
@@ -215,6 +214,24 @@ const JourneyMap = () => {
           >
             <JourneyProgressRibbon onStationSelect={handleRibbonStation} />
           </nav>
+
+          {/* Sync banner — mirrors the same week/dueDate the Today dashboard
+              shows, so users see a single, consistent number across screens. */}
+          {profile.journeyStage === "pregnant" && profile.pregnancyWeek > 0 && (
+            <div
+              className="mt-2.5 rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm px-3 py-2 text-[11px] text-muted-foreground flex items-center justify-between gap-2"
+              aria-live="polite"
+            >
+              <span className="font-semibold text-foreground/80">
+                {t("journey.map.sync.week", { count: profile.pregnancyWeek, defaultValue: `الأسبوع ${profile.pregnancyWeek}` })}
+              </span>
+              {profile.dueDate && (
+                <span className="tabular-nums">
+                  {t("journey.map.sync.dueDate", "الموعد المتوقع")}: {fmt(profile.dueDate)}
+                </span>
+              )}
+            </div>
+          )}
         </header>
 
         {/* Unified container — single padding/gap rhythm matching SmartDashboard tabs.
@@ -268,7 +285,7 @@ const JourneyMap = () => {
             >
               {t(
                 "journey.map.regions.stagesHint",
-                "Your three stages — review or switch the active one.",
+                "تتحدّث مرحلتكِ تلقائيًا من تواريخكِ. التبديل اليدوي يوقف هذا التحديث التلقائي.",
               )}
             </p>
           </header>
@@ -410,8 +427,13 @@ const JourneyMap = () => {
               {pendingStage &&
                 t("journey.map.confirm.description", {
                   stage: t(`journey.ribbon.stages.${pendingStage}`),
-                  defaultValue: "This will set your active stage to {{stage}}.",
+                  defaultValue: "سيتم ضبط مرحلتكِ النشطة على {{stage}}.",
                 })}
+              {" "}
+              {t(
+                "journey.map.confirm.autoOff",
+                "سيتم إيقاف الاكتشاف التلقائي للمرحلة بناءً على تواريخكِ.",
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
