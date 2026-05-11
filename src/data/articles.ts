@@ -2573,6 +2573,9 @@ const getDaySeed = (date: Date = new Date()) =>
       ROTATION_DAYS,
   );
 
+/** Public seed for memo dependencies — changes every ROTATION_DAYS days. */
+export const getCurrentRotationSeed = (date: Date = new Date()) => getDaySeed(date);
+
 export const getFeaturedSectionBundle = (sectionKey: ArticleSectionKey, lang?: string, date: Date = new Date()) => {
   const resolved = resolveLang(lang);
   const daySeed = getDaySeed(date);
