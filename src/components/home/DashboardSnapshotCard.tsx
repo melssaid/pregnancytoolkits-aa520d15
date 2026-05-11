@@ -270,7 +270,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
         </div>
 
         {/* ── Stats row ─────────────────────────────────────────────── */}
-        <div className="mt-3 flex items-center gap-1.5">
+        <div className="mt-3.5 flex items-center gap-2">
           <StatChip
             value={todayKicks}
             label={t("dashboard.kicks", "ركلات")}
