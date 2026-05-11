@@ -111,22 +111,46 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference - (progressPct / 100) * circumference;
 
+  // Curved top edge that mirrors the header's bottom curve, so the gap
+  // between header and dashboard card stays visually parallel.
+  // SVG mask is stretched to card size; depth ≈ 10% of card height.
+  const topCurveMask =
+    'url("data:image/svg+xml;utf8,' +
+    encodeURIComponent(
+      `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 1000' preserveAspectRatio='none'>` +
+        `<path fill='white' d='M0,80 C210,186 515,186 720,186 C925,186 1230,186 1440,80 L1440,960 Q1440,1000 1400,1000 L40,1000 Q0,1000 0,960 Z'/>` +
+      `</svg>`
+    ) +
+    '")';
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="relative overflow-hidden rounded-[28px] border border-white/70 dark:border-white/5
-                 bg-gradient-to-br from-[hsl(345,60%,98%)] via-[hsl(330,45%,97%)] to-[hsl(295,40%,97%)]
-                 dark:from-[hsl(340,28%,11%)] dark:via-[hsl(320,22%,10%)] dark:to-[hsl(290,22%,10%)]
-                 shadow-[-14px_22px_48px_-18px_hsl(340_70%_45%_/_0.45),-6px_12px_24px_-10px_hsl(290_55%_45%_/_0.30),0_2px_6px_-2px_hsl(340_40%_40%_/_0.16),inset_0_1px_0_0_hsl(0_0%_100%/0.85)]
-                 dark:shadow-[-14px_22px_44px_-14px_hsl(0_0%_0%/0.7),-6px_10px_20px_-8px_hsl(0_0%_0%/0.45),inset_0_1px_0_0_hsl(0_0%_100%/0.06)]"
+      className="relative"
+      style={{
+        filter:
+          "drop-shadow(-12px 18px 36px hsl(340 70% 45% / 0.32)) drop-shadow(-4px 8px 16px hsl(290 55% 45% / 0.22)) drop-shadow(0 2px 6px hsl(340 40% 40% / 0.14))",
+      }}
     >
+      <div
+        className="relative overflow-hidden
+                   bg-gradient-to-br from-[hsl(345,60%,98%)] via-[hsl(330,45%,97%)] to-[hsl(295,40%,97%)]
+                   dark:from-[hsl(340,28%,11%)] dark:via-[hsl(320,22%,10%)] dark:to-[hsl(290,22%,10%)]"
+        style={{
+          WebkitMaskImage: topCurveMask,
+          maskImage: topCurveMask,
+          WebkitMaskSize: "100% 100%",
+          maskSize: "100% 100%",
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+        }}
+      >
       {/* Layered ambient lights — Apple Health style depth */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-16 -end-12 w-48 h-48 rounded-full bg-[radial-gradient(circle,hsl(340,75%,72%)_0%,transparent_65%)] opacity-30 blur-2xl" />
         <div className="absolute -bottom-20 -start-10 w-44 h-44 rounded-full bg-[radial-gradient(circle,hsl(280,65%,72%)_0%,transparent_65%)] opacity-25 blur-2xl" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent dark:via-white/10" />
       </div>
 
       {/* ── Hero row: greeting + week + CTA ─────────────────────────── */}
