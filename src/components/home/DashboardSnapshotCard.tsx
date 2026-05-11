@@ -126,7 +126,20 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
 
   const accent = theme.accentHue;
   const accentAlt = theme.accentHueAlt;
-  const gradAngle = isRtl ? 225 : 135;
+  // Horizontal sweep — in RTL we run from right (saturated) to left (soft),
+  // matching the natural Arabic reading flow.
+  const gradAngle = isRtl ? 270 : 90;
+
+  // ── Smart subtitle: contextual sentence reflects today's progress.
+  const subtitle = useMemo(() => {
+    if (completed === priorities.length) {
+      return t("dashboard.snapshotComplete", "أحسنتِ، أكملتِ مهام اليوم");
+    }
+    if (completed === 0) {
+      return t("dashboard.snapshotStart", "ابدئي يومكِ بخطوة بسيطة");
+    }
+    return t("dashboard.snapshotProgress", "تابعي — تبقّى القليل");
+  }, [completed, priorities.length, t]);
 
   return (
     <motion.div
@@ -136,30 +149,30 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       className="relative rounded-3xl overflow-hidden border border-border/40 bg-card"
       style={{
         boxShadow:
-          `0 1px 0 0 hsl(0 0% 100% / 0.6) inset, 0 8px 24px -12px hsl(${accent} 40% 35% / 0.18), 0 2px 6px -2px hsl(${accent} 30% 30% / 0.08)`,
+          `0 1px 0 0 hsl(0 0% 100% / 0.6) inset, 0 12px 28px -12px hsl(${accent} 60% 35% / 0.30), 0 2px 6px -2px hsl(${accent} 40% 25% / 0.12)`,
       }}
     >
-      {/* Tokenised stage-aware tint — subtle, harmonised with app theme */}
+      {/* Deep RTL gradient — saturated rose sweeping right→left into soft lavender */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-90"
+        className="pointer-events-none absolute inset-0"
         style={{
-          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 55% 97%) 0%, hsl(${accentAlt} 45% 96%) 55%, hsl(${accent} 35% 95%) 100%)`,
+          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 78% 62%) 0%, hsl(${accent} 62% 78%) 38%, hsl(${accentAlt} 55% 90%) 75%, hsl(${accentAlt} 45% 96%) 100%)`,
         }}
       />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 dark:opacity-100 opacity-0"
         style={{
-          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 28% 11%) 0%, hsl(${accentAlt} 24% 12%) 100%)`,
+          background: `linear-gradient(${gradAngle}deg, hsl(${accent} 55% 32%) 0%, hsl(${accent} 38% 20%) 45%, hsl(${accentAlt} 30% 14%) 100%)`,
         }}
       />
-      {/* Soft accent glow — single, restrained */}
+      {/* Subtle sheen on the soft side to lift depth */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-16 -end-16 w-48 h-48 rounded-full blur-3xl opacity-40"
+        className="pointer-events-none absolute inset-y-0 end-0 w-1/3"
         style={{
-          background: `radial-gradient(circle, hsl(${accent} 70% 70%) 0%, transparent 70%)`,
+          background: `linear-gradient(${isRtl ? 90 : 270}deg, hsl(0 0% 100% / 0.30), transparent)`,
         }}
       />
 
