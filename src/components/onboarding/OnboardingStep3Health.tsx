@@ -5,6 +5,7 @@ import { Stethoscope, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { JourneyStage } from '@/hooks/useUserProfile';
+import { WhyWeAsk } from '@/components/onboarding/WhyWeAsk';
 
 const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
