@@ -50,8 +50,8 @@ export const WeeklyHealthChallenge = memo(function WeeklyHealthChallenge() {
       className="rounded-xl bg-gradient-to-r from-primary/[0.04] to-transparent border border-border/20 p-3"
     >
       <div className="flex items-center gap-2.5">
-        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${done ? 'bg-green-500/10' : 'bg-primary/10'}`}>
-          {done ? <Check className="w-4 h-4 text-green-500" /> : <Icon className="w-4 h-4 text-primary" />}
+        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${done ? 'bg-[hsl(var(--success-soft))]/100' : 'bg-primary/10'}`}>
+          {done ? <Check className="w-4 h-4 text-done" /> : <Icon className="w-4 h-4 text-primary" />}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
