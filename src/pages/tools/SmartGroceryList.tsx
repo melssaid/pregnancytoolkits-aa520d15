@@ -297,7 +297,7 @@ export default function SmartGroceryList() {
         <div className="grid grid-cols-4 gap-2">
           {[
             { icon: ShoppingCart, value: items.length, label: t('groceryList.items'), bg: 'bg-primary/8', border: 'border-primary/15', iconColor: 'text-primary', valueColor: 'text-primary' },
-            { icon: CheckCircle2, value: checkedCount, label: t('groceryList.done'), bg: 'bg-green-500/8', border: 'border-green-500/15', iconColor: 'text-green-600', valueColor: 'text-green-600' },
+            { icon: CheckCircle2, value: checkedCount, label: t('groceryList.done'), bg: 'bg-[hsl(var(--success-soft))]', border: 'border-[hsl(var(--success-ring))]/40', iconColor: 'text-done', valueColor: 'text-done' },
             { icon: Target, value: `${Math.round((nutrition.folate + nutrition.iron + nutrition.calcium) / 3)}%`, label: t('groceryList.score'), bg: 'bg-amber-500/8', border: 'border-amber-500/15', iconColor: 'text-amber-600', valueColor: 'text-amber-600' },
             { icon: Leaf, value: items.filter(i => i.pregnancyBenefitKey).length, label: t('groceryList.super'), bg: 'bg-violet-500/8', border: 'border-violet-500/15', iconColor: 'text-violet-600', valueColor: 'text-violet-600' },
           ].map((stat, i) => (
