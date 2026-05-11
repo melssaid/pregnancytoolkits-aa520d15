@@ -264,7 +264,7 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
                 {!isPremium && (
                   <Link
                     to="/pricing-demo"
-                    className="relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-secondary text-secondary-foreground shadow-sm transition-all duration-300 hover:border-primary/25 hover:bg-secondary/90 hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-border bg-secondary text-secondary-foreground shadow-sm transition-all duration-300 hover:border-primary/25 hover:bg-secondary/90 hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     title={t('pricing.upgradeTitle', 'Upgrade to PRO')}
                     aria-label={t('pricing.upgradeTitle', 'Upgrade to PRO')}
                   >
@@ -272,7 +272,7 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
                       animate={{ scale: [1, 1.05, 1] }}
                       transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Crown className="h-[17px] w-[17px]" strokeWidth={2} aria-hidden="true" focusable="false" />
+                      <Crown className="h-[16px] w-[16px]" strokeWidth={2} aria-hidden="true" focusable="false" />
                     </motion.div>
                     <span aria-hidden="true" className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full border border-card bg-primary" />
                   </Link>
@@ -280,8 +280,13 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
                 <div className="hidden md:flex">
                   <EncryptionIndicator />
                 </div>
-                <Link to="/settings" className="hidden md:flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" title="Settings">
-                  <Settings className="h-4.5 w-4.5" />
+                <Link
+                  to="/settings"
+                  className="hidden md:flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  title={t('settings.title', 'Settings')}
+                  aria-label={t('settings.title', 'Settings')}
+                >
+                  <Settings className="h-[16px] w-[16px]" strokeWidth={2.2} aria-hidden="true" focusable="false" />
                 </Link>
               </div>
             </>
@@ -309,7 +314,7 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
                     animate={{ scale: [1, 1.12, 1], rotate: [0, -6, 6, 0] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <Crown className="w-[18px] h-[18px] text-amber-500 drop-shadow-[0_1px_2px_rgba(245,158,11,0.4)] group-hover:text-amber-400 transition-colors" strokeWidth={2.2} aria-hidden="true" focusable="false" />
+                    <Crown className="w-[16px] h-[16px] text-amber-500 drop-shadow-[0_1px_2px_rgba(245,158,11,0.4)] group-hover:text-amber-400 transition-colors" strokeWidth={2.2} aria-hidden="true" focusable="false" />
                   </motion.div>
                   <span aria-hidden="true" className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 border-2 border-background animate-pulse" />
                 </Link>
@@ -317,8 +322,13 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
               <div className="hidden md:flex">
                 <EncryptionIndicator />
               </div>
-              <Link to="/settings" className="hidden md:flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" title="Settings">
-                <Settings className="h-4.5 w-4.5" />
+              <Link
+                to="/settings"
+                className="hidden md:flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                title={t('settings.title', 'Settings')}
+                aria-label={t('settings.title', 'Settings')}
+              >
+                <Settings className="h-[16px] w-[16px]" strokeWidth={2.2} aria-hidden="true" focusable="false" />
               </Link>
             </div>
           )}
