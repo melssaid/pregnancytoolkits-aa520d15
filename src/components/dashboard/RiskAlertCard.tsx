@@ -1,7 +1,12 @@
 import { memo, useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { BookmarkPlus, Stethoscope } from "lucide-react";
+import { toast } from "sonner";
 import { ContextualWarningBanner } from "@/components/safety";
 import { getUserId } from "@/hooks/useSupabase";
+import { haptic } from "@/lib/haptics";
+import { safeSaveToLocalStorage, safeParseLocalStorage } from "@/lib/safeStorage";
 
 interface RiskAlertCardProps {
   bloodPressure?: string;
@@ -146,11 +151,62 @@ export const RiskAlertCard = memo(function RiskAlertCard({ bloodPressure, todayK
 
   if (alerts.length === 0) return null;
 
+  const saveToJournal = (alert: Alert) => {
+    haptic("tap");
+    try {
+      const key = "appointment_notes_v1";
+      const existing = safeParseLocalStorage<Array<{ id: string; date: string; note: string; level: string }>>(
+        key, [], (d): d is any => Array.isArray(d),
+      );
+      existing.unshift({
+        id: `risk-${Date.now()}`,
+        date: new Date().toISOString(),
+        note: alert.message,
+        level: alert.level,
+      });
+      safeSaveToLocalStorage(key, existing.slice(0, 50));
+      toast.success(t("riskAlert.savedToJournal", "تم الحفظ في سجل الزيارة"));
+    } catch {
+      toast.error(t("common.saveError", "تعذّر الحفظ"));
+    }
+  };
+
   return (
     <div className="space-y-2">
-      {alerts.map((alert, i) => (
-        <ContextualWarningBanner key={`${alert.level}-${i}`} level={alert.level} message={alert.message} />
-      ))}
+      {alerts.map((alert, i) => {
+        const showCTAs = alert.level !== "info";
+        return (
+          <div key={`${alert.level}-${i}`} className="space-y-1.5">
+            <ContextualWarningBanner level={alert.level} message={alert.message} />
+            {showCTAs && (
+              <div className="flex items-center gap-2 ps-1">
+                <button
+                  type="button"
+                  onClick={() => saveToJournal(alert)}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl
+                             text-[11px] font-bold text-foreground bg-background/70
+                             border border-border/50 hover:bg-background active:scale-[0.97]
+                             transition-all"
+                >
+                  <BookmarkPlus className="w-3 h-3" strokeWidth={2.4} />
+                  {t("riskAlert.saveToJournal", "احفظي في السجل")}
+                </button>
+                <Link
+                  to="/tools/doctor-visit-prep"
+                  onClick={() => haptic("tap")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl
+                             text-[11px] font-bold text-primary-foreground
+                             bg-gradient-to-r from-primary to-accent active:scale-[0.97]
+                             transition-all shadow-[0_2px_8px_-3px_hsl(var(--primary)/0.4)]"
+                >
+                  <Stethoscope className="w-3 h-3" strokeWidth={2.4} />
+                  {t("riskAlert.contactDoctor", "تواصلي مع الطبيبة")}
+                </Link>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 });
