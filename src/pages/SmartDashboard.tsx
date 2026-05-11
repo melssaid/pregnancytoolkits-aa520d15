@@ -134,7 +134,7 @@ const SmartDashboard = () => {
     { key: "insights", icon: BarChart3,  tKey: "dashboardV2.tabs.insights",
       grad: "from-sky-400/90 to-cyan-500/90",       activeIcon: "text-sky-500",    iconShadow: "drop-shadow-[0_1px_3px_hsl(200_95%_55%/0.55)]" },
     { key: "archive",  icon: Calendar,   tKey: "dashboardV2.tabs.archive",
-      grad: "from-emerald-400/90 to-teal-500/90",   activeIcon: "text-emerald-500",iconShadow: "drop-shadow-[0_1px_3px_hsl(160_85%_45%/0.55)]" },
+      grad: "from-[hsl(345_85%_72%)]/90 to-[hsl(15_88%_68%)]/90",   activeIcon: "text-[hsl(345_75%_55%)]",iconShadow: "drop-shadow-[0_1px_3px_hsl(345_80%_55%/0.55)]" },
     { key: "more",     icon: LayoutGrid, tKey: "dashboardV2.tabs.more",
       grad: "from-fuchsia-400/90 to-purple-500/90", activeIcon: "text-fuchsia-500",iconShadow: "drop-shadow-[0_1px_3px_hsl(290_85%_60%/0.55)]" },
   ];
