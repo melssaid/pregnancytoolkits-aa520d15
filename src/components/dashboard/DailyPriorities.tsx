@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Check, Circle, Droplets, Hand, Dumbbell, Utensils } from "lucide-react";
+import { Check, Circle, Droplets, Hand, Dumbbell, Utensils, Pill } from "lucide-react";
 import { Link } from "react-router-dom";
 import { safeParseLocalStorage } from "@/lib/safeStorage";
 import type { SavedAIResult } from "@/hooks/useSavedResults";
