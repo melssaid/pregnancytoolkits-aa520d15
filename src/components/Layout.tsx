@@ -8,7 +8,7 @@ import { BackButton } from "./BackButton";
 import { BottomNavigation } from "./BottomNavigation";
 import { EncryptionIndicator } from "./EncryptionIndicator";
 import { LanguageDropdown } from "./LanguageDropdown";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { NotificationsPanel } from "./dashboard/NotificationsPanel";
 import { useNotifications } from "@/hooks/useNotifications";
 import { TrialExpiryBanner } from "./TrialExpiryBanner";
