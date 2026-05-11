@@ -95,11 +95,11 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="relative overflow-hidden rounded-[28px] border border-white/60 dark:border-white/5
+      className="relative overflow-hidden rounded-[28px] border border-white/70 dark:border-white/5
                  bg-gradient-to-br from-[hsl(345,60%,98%)] via-[hsl(330,45%,97%)] to-[hsl(295,40%,97%)]
                  dark:from-[hsl(340,28%,11%)] dark:via-[hsl(320,22%,10%)] dark:to-[hsl(290,22%,10%)]
-                 shadow-[0_8px_28px_-12px_hsl(340_55%_55%_/_0.28),0_2px_6px_-2px_hsl(340_40%_50%_/_0.08),inset_0_1px_0_0_hsl(0_0%_100%/0.7)]
-                 dark:shadow-[0_8px_24px_-10px_hsl(0_0%_0%/0.45),inset_0_1px_0_0_hsl(0_0%_100%/0.05)]"
+                 shadow-[0_18px_48px_-18px_hsl(340_60%_42%_/_0.42),0_8px_20px_-10px_hsl(290_50%_38%_/_0.22),0_2px_6px_-2px_hsl(340_40%_40%_/_0.14),inset_0_1px_0_0_hsl(0_0%_100%/0.8)]
+                 dark:shadow-[0_18px_44px_-14px_hsl(0_0%_0%/0.65),0_4px_12px_-4px_hsl(0_0%_0%/0.4),inset_0_1px_0_0_hsl(0_0%_100%/0.06)]"
     >
       {/* Layered ambient lights — Apple Health style depth */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
@@ -117,8 +117,8 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           {/* Left: greeting + hero metric */}
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 mb-1">
-              <Sparkles className="w-3 h-3 text-[hsl(340,55%,55%)]" strokeWidth={2.4} />
-              <span className="text-[10.5px] font-semibold text-[hsl(340,40%,45%)] dark:text-[hsl(340,40%,72%)] tracking-wide uppercase">
+              <Sparkles className="w-3 h-3 text-[hsl(340,65%,42%)] dark:text-[hsl(340,55%,62%)]" strokeWidth={2.6} />
+              <span className="text-[10.5px] font-bold text-[hsl(340,55%,28%)] dark:text-[hsl(340,40%,75%)] tracking-wide uppercase">
                 {greeting}
               </span>
             </div>
@@ -131,7 +131,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 >
                   {week}
                 </span>
-                <span className="text-[12px] font-bold text-foreground/70 leading-tight">
+                <span className="text-[12px] font-bold text-foreground/85 leading-tight">
                   {t("dashboard.weekLabel", "الأسبوع")}
                 </span>
               </div>
@@ -204,7 +204,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             <span className="text-[14px] font-black tabular-nums text-foreground leading-none">
               {completed}
             </span>
-            <span className="text-[10px] font-bold text-muted-foreground leading-none">
+            <span className="text-[10px] font-bold text-foreground/65 dark:text-muted-foreground leading-none">
               /{priorities.length}
             </span>
           </div>
@@ -250,8 +250,8 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                   <span
                     className={`text-[9.5px] font-bold leading-tight truncate ${
                       p.done
-                        ? "text-[hsl(160,50%,28%)] dark:text-[hsl(160,40%,75%)]"
-                        : "text-foreground/85"
+                        ? "text-[hsl(160,55%,22%)] dark:text-[hsl(160,40%,75%)]"
+                        : "text-foreground/95"
                     }`}
                   >
                     {p.label}
@@ -279,13 +279,13 @@ const StatChip = memo(function StatChip({
   color: string;
 }) {
   return (
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/70 dark:bg-white/[0.04] border border-white/80 dark:border-white/[0.06] backdrop-blur-sm">
-      <Icon className="w-3 h-3 shrink-0" style={{ color }} strokeWidth={2.5} />
+    <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/80 dark:bg-white/[0.04] border border-white/90 dark:border-white/[0.06] shadow-[0_1px_3px_-1px_hsl(340_40%_40%_/_0.18)] dark:shadow-none backdrop-blur-sm">
+      <Icon className="w-3 h-3 shrink-0" style={{ color }} strokeWidth={2.6} />
       <div className="flex items-baseline gap-1 min-w-0">
         <span className="text-[12px] font-extrabold text-foreground leading-none tabular-nums">
           {value}
         </span>
-        <span className="text-[9.5px] text-muted-foreground leading-none truncate">
+        <span className="text-[9.5px] font-semibold text-foreground/70 dark:text-muted-foreground leading-none truncate">
           {label}
         </span>
       </div>
