@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -39,8 +39,39 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const todayKicks = stats?.dailyTracking?.todayKicks || 0;
   const vitamins = stats?.dailyTracking?.vitaminsTaken || 0;
 
-  const mealDoneToday = useMemo(() => hasSavedToday("ai-meal-suggestion"), []);
-  const fitnessDoneToday = useMemo(() => hasSavedToday("ai-fitness-coach"), []);
+  // Live-sync tick: bumps when tools save results or storage changes,
+  // so meal/fitness checkmarks update without reloading the page.
+  const [syncTick, setSyncTick] = useState(0);
+  useEffect(() => {
+    const bump = () => setSyncTick((n) => n + 1);
+    const onStorage = (e: StorageEvent) => {
+      if (
+        !e.key ||
+        e.key === "ai-saved-results" ||
+        e.key.startsWith("daily-tracking") ||
+        e.key.startsWith("kick-counter") ||
+        e.key.startsWith("vitamin")
+      ) {
+        bump();
+      }
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") bump();
+    };
+    window.addEventListener("ai-results-saved", bump);
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("focus", bump);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("ai-results-saved", bump);
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("focus", bump);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
+  const mealDoneToday = useMemo(() => hasSavedToday("ai-meal-suggestion"), [syncTick]);
+  const fitnessDoneToday = useMemo(() => hasSavedToday("ai-fitness-coach"), [syncTick]);
 
   const priorities = useMemo(
     () => [
