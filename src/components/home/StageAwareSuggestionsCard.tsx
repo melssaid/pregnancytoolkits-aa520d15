@@ -7,13 +7,14 @@ import { useUserProfile } from "@/hooks/useUserProfile";
 import { getStageContent } from "@/lib/stageAwareContent";
 
 /**
- * Home suggestion card — adapts daily tip + 4 tools to the user's
- * journey stage (fertility / pregnant / postpartum) and current week.
- *
- * Renders nothing if no journey stage is set yet (onboarding not completed).
+ * Daily Insight strip — visually subordinate companion to the hero
+ * DashboardSnapshotCard above. Pattern matches world-class apps
+ * (Flo "Today's tip", Ovia "Insight of the day"): a single rotating
+ * tip + one most-relevant CTA. Avoids duplicating the snapshot's
+ * priorities grid and lets the hero stay the page's focal point.
  */
 const StageAwareSuggestionsCard = memo(function StageAwareSuggestionsCard() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
   const lang = isRTL ? "ar" : "en";
   const { profile } = useUserProfile();
@@ -25,84 +26,65 @@ const StageAwareSuggestionsCard = memo(function StageAwareSuggestionsCard() {
   const content = getStageContent(stage, week, lang);
   const ChevronIcon = isRTL ? ChevronLeft : ChevronRight;
 
+  // Show only the single most relevant tool — supporting CTA, not a grid.
+  const primary = content.tools[0];
+
   return (
     <motion.section
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-3xl overflow-hidden border border-border/40 bg-card p-4 sm:p-5"
-      style={{
-        boxShadow:
-          "0 1px 0 0 hsl(0 0% 100% / 0.6) inset, 0 8px 24px -12px hsl(340 50% 35% / 0.20)",
-      }}
-      aria-label={isRTL ? "مقترحات مخصصة لكِ" : "Personalized suggestions"}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+      className="relative rounded-2xl border border-border/40 bg-card/70 backdrop-blur-sm px-3.5 py-3 sm:px-4"
+      aria-label={isRTL ? "نصيحة اليوم" : "Today's insight"}
     >
-      {/* Soft cream-rose backdrop — harmonizes with snapshot card */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(135deg, hsl(340 55% 96%) 0%, hsl(35 60% 97%) 60%, hsl(40 70% 98%) 100%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 dark:opacity-100 opacity-0"
-        style={{
-          background:
-            "linear-gradient(135deg, hsl(340 30% 18%) 0%, hsl(340 22% 14%) 60%, hsl(35 18% 12%) 100%)",
-        }}
-      />
-
-      <div className="relative">
-        {/* Header */}
-        <div className="flex items-center justify-between gap-2 mb-2.5">
-          <div className="flex items-center gap-1.5">
-            <Sparkles
-              className="w-3.5 h-3.5 text-[hsl(340,60%,52%)] dark:text-[hsl(340,55%,68%)]"
-              strokeWidth={2.4}
-            />
-            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-[hsl(340,55%,38%)] dark:text-[hsl(340,45%,72%)]">
-              {isRTL ? "مقترح لكِ" : "For you"}
-            </span>
-          </div>
-          <span className="text-[11px] font-bold text-foreground/65">
-            {content.contextLabel}
-          </span>
+      <div className="flex items-start gap-3">
+        {/* Icon badge */}
+        <div
+          className="shrink-0 mt-0.5 flex h-7 w-7 items-center justify-center rounded-full"
+          style={{
+            background:
+              "linear-gradient(135deg, hsl(340 55% 92%), hsl(35 60% 95%))",
+            boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.6)",
+          }}
+        >
+          <Sparkles
+            className="h-3.5 w-3.5 text-[hsl(340,60%,48%)]"
+            strokeWidth={2.4}
+          />
         </div>
 
-        {/* Tip */}
-        <p
-          className="text-[13.5px] font-semibold leading-relaxed text-foreground/90 mb-3"
-          style={{ fontFamily: "'IBM Plex Sans Arabic', system-ui, sans-serif" }}
-        >
-          {content.tip}
-        </p>
+        {/* Tip + meta */}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-2 mb-0.5">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-[hsl(340,55%,42%)] dark:text-[hsl(340,45%,72%)]">
+              {isRTL ? "نصيحة اليوم" : "Today's tip"}
+            </span>
+            <span className="text-[10px] font-bold text-foreground/55">
+              {content.contextLabel}
+            </span>
+          </div>
+          <p
+            className="text-[12.5px] font-semibold leading-snug text-foreground/85"
+            style={{
+              fontFamily: "'IBM Plex Sans Arabic', system-ui, sans-serif",
+            }}
+          >
+            {content.tip}
+          </p>
 
-        {/* Tools strip */}
-        <div className="grid grid-cols-2 gap-1.5">
-          {content.tools.slice(0, 4).map((tool) => (
+          {/* Single contextual CTA — most relevant tool only */}
+          {primary && (
             <Link
-              key={tool.href}
-              to={tool.href}
-              className="group flex items-center gap-2 px-2.5 py-2 rounded-xl bg-card/80 dark:bg-white/[0.05] border border-border/50 hover:border-primary/40 active:scale-[0.97] transition-all min-w-0"
+              to={primary.href}
+              className="mt-2 inline-flex items-center gap-1.5 text-[11.5px] font-bold text-[hsl(340,60%,45%)] dark:text-[hsl(340,55%,72%)] hover:underline underline-offset-4"
             >
-              <span className="text-base shrink-0" aria-hidden="true">
-                {tool.emoji}
+              <span aria-hidden="true">{primary.emoji}</span>
+              <span>
+                {lang === "ar" ? primary.titleAr : primary.titleEn}
               </span>
-              <span
-                className="flex-1 text-[11.5px] font-bold text-foreground/85 leading-tight truncate"
-                style={{ overflowWrap: "anywhere" }}
-              >
-                {lang === "ar" ? tool.titleAr : tool.titleEn}
-              </span>
-              <ChevronIcon
-                className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-primary transition-colors shrink-0"
-                strokeWidth={2.2}
-              />
+              <ChevronIcon className="h-3 w-3" strokeWidth={2.6} />
             </Link>
-          ))}
+          )}
         </div>
       </div>
     </motion.section>
