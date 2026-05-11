@@ -3,27 +3,23 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import {
-  LayoutDashboard,
-  ChevronLeft,
-  ChevronRight,
+  ArrowUpRight,
   Activity,
   Pill,
-  ListChecks,
-  Check,
-  Circle,
   Hand,
   Utensils,
   Dumbbell,
+  Check,
+  Sparkles,
 } from "lucide-react";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { safeParseLocalStorage } from "@/lib/safeStorage";
 import type { SavedAIResult } from "@/hooks/useSavedResults";
 
 /**
- * Compact dashboard snapshot displayed at the top of the homepage.
- * Native-app pattern (Apple Health / Google Fit): summary card + CTA to full dashboard.
- * Includes today's priorities (no water) inline so the user sees actionable items
- * without leaving home.
+ * Premium dashboard snapshot — hero card on the homepage.
+ * Inspiration: Apple Health, Oura, Whoop, Google Fit.
+ * Hierarchy: hero metric (week) → today's pulse (stats) → actionable priorities → CTA.
  */
 
 function hasSavedToday(toolId: string): boolean {
@@ -40,9 +36,8 @@ function hasSavedToday(toolId: string): boolean {
 
 const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const { t, i18n } = useTranslation();
-  const { stats, week, isPregnant } = useDashboardData();
+  const { stats, week, isPregnant, timeSlot } = useDashboardData();
   const isRtl = i18n.language === "ar";
-  const Chevron = isRtl ? ChevronLeft : ChevronRight;
 
   const todayKicks = stats?.dailyTracking?.todayKicks || 0;
   const vitamins = stats?.dailyTracking?.vitaminsTaken || 0;
@@ -78,157 +73,223 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   );
 
   const completed = priorities.filter((p) => p.done).length;
+  const progressPct = (completed / priorities.length) * 100;
 
-  const quickStats = [
-    {
-      icon: Activity,
-      value: todayKicks,
-      label: t("dashboard.kicks", "ركلات"),
-      color: "hsl(340,55%,55%)",
-    },
-    {
-      icon: Pill,
-      value: vitamins,
-      label: t("dashboard.vitamins", "فيتامين"),
-      color: "hsl(280,45%,55%)",
-    },
-    {
-      icon: ListChecks,
-      value: `${completed}/${priorities.length}`,
-      label: t("dashboard.priorities", "أولويات"),
-      color: "hsl(160,50%,42%)",
-    },
-  ];
+  // Time-of-day greeting tone
+  const greeting =
+    timeSlot === "morning"
+      ? t("dashboard.greetingMorning", "صباحك جميل")
+      : timeSlot === "afternoon"
+        ? t("dashboard.greetingAfternoon", "نهارك مشرق")
+        : t("dashboard.greetingEvening", "مساؤكِ هادئ");
+
+  // Progress ring geometry
+  const ringSize = 44;
+  const stroke = 3.5;
+  const radius = (ringSize - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const dashOffset = circumference - (progressPct / 100) * circumference;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="relative overflow-hidden rounded-2xl border border-[hsl(340,40%,88%)]/60 bg-gradient-to-br from-[hsl(340,55%,97%)] via-[hsl(320,40%,97%)] to-[hsl(290,40%,97%)] dark:from-[hsl(340,30%,12%)] dark:via-[hsl(320,25%,11%)] dark:to-[hsl(290,25%,11%)] dark:border-[hsl(340,25%,25%)]/60 shadow-[0_2px_14px_-4px_hsl(340_50%_55%_/_0.18)]"
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      className="relative overflow-hidden rounded-[28px] border border-white/60 dark:border-white/5
+                 bg-gradient-to-br from-[hsl(345,60%,98%)] via-[hsl(330,45%,97%)] to-[hsl(295,40%,97%)]
+                 dark:from-[hsl(340,28%,11%)] dark:via-[hsl(320,22%,10%)] dark:to-[hsl(290,22%,10%)]
+                 shadow-[0_8px_28px_-12px_hsl(340_55%_55%_/_0.28),0_2px_6px_-2px_hsl(340_40%_50%_/_0.08),inset_0_1px_0_0_hsl(0_0%_100%/0.7)]
+                 dark:shadow-[0_8px_24px_-10px_hsl(0_0%_0%/0.45),inset_0_1px_0_0_hsl(0_0%_100%/0.05)]"
     >
-      {/* Decorative gradient blob */}
-      <div className="pointer-events-none absolute -top-8 -end-8 w-32 h-32 rounded-full bg-gradient-to-br from-[hsl(340,60%,75%)]/30 to-transparent blur-2xl" />
+      {/* Layered ambient lights — Apple Health style depth */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
+        <div className="absolute -top-16 -end-12 w-48 h-48 rounded-full bg-[radial-gradient(circle,hsl(340,75%,72%)_0%,transparent_65%)] opacity-30 blur-2xl" />
+        <div className="absolute -bottom-20 -start-10 w-44 h-44 rounded-full bg-[radial-gradient(circle,hsl(280,65%,72%)_0%,transparent_65%)] opacity-25 blur-2xl" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent dark:via-white/10" />
+      </div>
 
-      {/* Header — links to full dashboard */}
+      {/* ── Hero row: greeting + week + CTA ─────────────────────────── */}
       <Link
         to="/dashboard"
-        className="relative block px-3.5 pt-3.5 pb-2.5 active:scale-[0.99] transition-transform"
+        className="relative block px-4 pt-4 pb-3 group active:scale-[0.995] transition-transform"
       >
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[hsl(340,55%,55%)] to-[hsl(320,50%,50%)] flex items-center justify-center shadow-[0_2px_8px_-1px_hsl(340_50%_55%_/_0.4)] shrink-0">
-              <LayoutDashboard
-                className="w-[18px] h-[18px] text-white"
-                strokeWidth={2.2}
-              />
+        <div className="flex items-start justify-between gap-3">
+          {/* Left: greeting + hero metric */}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5 mb-1">
+              <Sparkles className="w-3 h-3 text-[hsl(340,55%,55%)]" strokeWidth={2.4} />
+              <span className="text-[10.5px] font-semibold text-[hsl(340,40%,45%)] dark:text-[hsl(340,40%,72%)] tracking-wide uppercase">
+                {greeting}
+              </span>
             </div>
-            <div className="min-w-0">
+
+            {isPregnant && week > 0 ? (
+              <div className="flex items-baseline gap-1.5">
+                <span
+                  className="text-[34px] leading-none font-black text-foreground tracking-tight tabular-nums"
+                  style={{ fontFamily: "'Tajawal', system-ui, sans-serif" }}
+                >
+                  {week}
+                </span>
+                <span className="text-[12px] font-bold text-foreground/70 leading-tight">
+                  {t("dashboard.weekLabel", "الأسبوع")}
+                </span>
+              </div>
+            ) : (
               <h3
-                className="text-[13px] font-bold text-foreground leading-tight truncate"
+                className="text-[20px] leading-tight font-black text-foreground tracking-tight"
                 style={{ fontFamily: "'Tajawal', system-ui, sans-serif" }}
               >
                 {t("dashboard.snapshotTitle", "لوحتي")}
               </h3>
-              {isPregnant && week > 0 && (
-                <p className="text-[10.5px] text-muted-foreground leading-tight mt-0.5">
-                  {t("dashboard.weekLabel", "الأسبوع")} {week}
-                </p>
-              )}
-            </div>
+            )}
           </div>
-          <div className="flex items-center gap-1 text-[11px] font-semibold text-[hsl(340,55%,45%)] dark:text-[hsl(340,50%,70%)] shrink-0">
-            <span>{t("dashboard.openCta", "فتح")}</span>
-            <Chevron className="w-3.5 h-3.5" strokeWidth={2.4} />
+
+          {/* Right: progress ring with CTA — hero focal element */}
+          <div className="relative shrink-0 flex items-center justify-center" style={{ width: ringSize, height: ringSize }}>
+            <svg width={ringSize} height={ringSize} className="absolute inset-0 -rotate-90">
+              <circle
+                cx={ringSize / 2}
+                cy={ringSize / 2}
+                r={radius}
+                fill="none"
+                stroke="hsl(340,30%,88%)"
+                strokeOpacity="0.5"
+                strokeWidth={stroke}
+              />
+              <motion.circle
+                cx={ringSize / 2}
+                cy={ringSize / 2}
+                r={radius}
+                fill="none"
+                stroke="url(#snapshot-ring-grad)"
+                strokeWidth={stroke}
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                initial={{ strokeDashoffset: circumference }}
+                animate={{ strokeDashoffset: dashOffset }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+              />
+              <defs>
+                <linearGradient id="snapshot-ring-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="hsl(340,70%,58%)" />
+                  <stop offset="100%" stopColor="hsl(290,55%,55%)" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="relative flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-[hsl(340,60%,55%)] to-[hsl(310,55%,50%)] shadow-[0_3px_10px_-2px_hsl(340_55%_55%_/_0.55),inset_0_1px_0_0_hsl(0_0%_100%/0.4)] group-active:scale-95 transition-transform">
+              <ArrowUpRight
+                className={`w-3.5 h-3.5 text-white ${isRtl ? "scale-x-[-1]" : ""}`}
+                strokeWidth={2.6}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Quick stats row */}
-        <div className="grid grid-cols-3 gap-2">
-          {quickStats.map((stat, idx) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={idx}
-                className="flex items-center gap-1.5 px-2 py-1.5 rounded-xl bg-card/70 dark:bg-card/40 backdrop-blur-sm border border-border/30"
-              >
-                <Icon
-                  className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: stat.color }}
-                  strokeWidth={2.2}
-                />
-                <div className="min-w-0 flex items-baseline gap-1">
-                  <span className="text-[12px] font-extrabold text-foreground leading-none tabular-nums">
-                    {stat.value}
-                  </span>
-                  <span className="text-[9.5px] text-muted-foreground leading-none truncate">
-                    {stat.label}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+        {/* ── Today's pulse: 2 quick stats inline ─────────────────── */}
+        <div className="mt-3 flex items-center gap-2">
+          <StatChip
+            icon={Activity}
+            value={todayKicks}
+            label={t("dashboard.kicks", "ركلات")}
+            color="hsl(340,60%,52%)"
+          />
+          <StatChip
+            icon={Pill}
+            value={vitamins}
+            label={t("dashboard.vitamins", "فيتامين")}
+            color="hsl(280,50%,55%)"
+          />
+          <div className="ms-auto flex items-baseline gap-0.5 px-1">
+            <span className="text-[14px] font-black tabular-nums text-foreground leading-none">
+              {completed}
+            </span>
+            <span className="text-[10px] font-bold text-muted-foreground leading-none">
+              /{priorities.length}
+            </span>
+          </div>
         </div>
       </Link>
 
-      {/* Priorities checklist — inline actionable shortcuts (no water) */}
-      <div className="relative px-3.5 pb-3.5 pt-1">
-        <div className="flex items-center justify-between mb-1.5 px-0.5">
-          <span className="text-[10.5px] font-bold text-foreground/80 tracking-tight">
-            {t("dailyDashboard.priorities.title", "أولويات اليوم")}
-          </span>
-          <span className="text-[9.5px] font-bold tabular-nums text-[hsl(340,55%,45%)] dark:text-[hsl(340,50%,70%)] bg-[hsl(340,55%,55%)]/10 px-1.5 py-0.5 rounded-full">
-            {completed}/{priorities.length}
-          </span>
-        </div>
-
+      {/* ── Priorities strip — actionable, premium pills ────────────── */}
+      <div className="relative px-4 pb-4 pt-1">
         <div className="grid grid-cols-3 gap-1.5">
-          {priorities.map((p) => {
+          {priorities.map((p, i) => {
             const Icon = p.icon;
             return (
-              <Link
+              <motion.div
                 key={p.id}
-                to={p.href}
-                className={`group flex items-center gap-1.5 px-2 py-1.5 rounded-xl border transition-all active:scale-[0.96] min-w-0 ${
-                  p.done
-                    ? "bg-[hsl(160,50%,42%)]/8 border-[hsl(160,50%,42%)]/25"
-                    : "bg-card/70 dark:bg-card/40 border-border/30 hover:border-[hsl(340,45%,70%)]/50"
-                }`}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.05, duration: 0.3 }}
               >
-                <div
-                  className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${
+                <Link
+                  to={p.href}
+                  className={`group/pill relative flex items-center gap-1.5 px-2 py-1.5 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
                     p.done
-                      ? "bg-[hsl(160,50%,42%)]/15"
-                      : "bg-muted/60 dark:bg-muted/30"
+                      ? "bg-gradient-to-br from-[hsl(160,55%,94%)] to-[hsl(160,45%,90%)] dark:from-[hsl(160,30%,16%)] dark:to-[hsl(160,25%,13%)] border-[hsl(160,50%,75%)]/50 dark:border-[hsl(160,40%,30%)]/50"
+                      : "bg-white/70 dark:bg-white/[0.04] border-white/80 dark:border-white/[0.06] hover:border-[hsl(340,50%,75%)]/60 backdrop-blur-sm"
                   }`}
                 >
-                  {p.done ? (
-                    <Check
-                      className="w-3 h-3 text-[hsl(160,50%,38%)]"
-                      strokeWidth={3}
-                    />
-                  ) : (
-                    <Icon
-                      className="w-3 h-3 text-foreground/55"
-                      strokeWidth={2.2}
-                    />
-                  )}
-                </div>
-                <span
-                  className={`text-[9.5px] font-semibold leading-tight truncate ${
-                    p.done
-                      ? "text-[hsl(160,50%,32%)] dark:text-[hsl(160,40%,75%)]"
-                      : "text-foreground/80"
-                  }`}
-                >
-                  {p.label}
-                </span>
-              </Link>
+                  <div
+                    className={`relative w-5 h-5 rounded-lg flex items-center justify-center shrink-0 ${
+                      p.done
+                        ? "bg-gradient-to-br from-[hsl(160,55%,45%)] to-[hsl(160,55%,38%)] shadow-[0_2px_5px_-1px_hsl(160_55%_42%_/_0.45)]"
+                        : "bg-gradient-to-br from-[hsl(340,40%,96%)] to-[hsl(320,35%,93%)] dark:from-[hsl(340,25%,18%)] dark:to-[hsl(320,20%,15%)]"
+                    }`}
+                  >
+                    {p.done ? (
+                      <Check className="w-3 h-3 text-white" strokeWidth={3.2} />
+                    ) : (
+                      <Icon
+                        className="w-[11px] h-[11px] text-[hsl(340,50%,50%)]"
+                        strokeWidth={2.4}
+                      />
+                    )}
+                  </div>
+                  <span
+                    className={`text-[9.5px] font-bold leading-tight truncate ${
+                      p.done
+                        ? "text-[hsl(160,50%,28%)] dark:text-[hsl(160,40%,75%)]"
+                        : "text-foreground/85"
+                    }`}
+                  >
+                    {p.label}
+                  </span>
+                </Link>
+              </motion.div>
             );
           })}
         </div>
       </div>
     </motion.div>
+  );
+});
+
+/* ── Stat chip — compact, glassy ─────────────────────────────────── */
+const StatChip = memo(function StatChip({
+  icon: Icon,
+  value,
+  label,
+  color,
+}: {
+  icon: typeof Activity;
+  value: number | string;
+  label: string;
+  color: string;
+}) {
+  return (
+    <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/70 dark:bg-white/[0.04] border border-white/80 dark:border-white/[0.06] backdrop-blur-sm">
+      <Icon className="w-3 h-3 shrink-0" style={{ color }} strokeWidth={2.5} />
+      <div className="flex items-baseline gap-1 min-w-0">
+        <span className="text-[12px] font-extrabold text-foreground leading-none tabular-nums">
+          {value}
+        </span>
+        <span className="text-[9.5px] text-muted-foreground leading-none truncate">
+          {label}
+        </span>
+      </div>
+    </div>
   );
 });
 

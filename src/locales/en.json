@@ -1034,7 +1034,10 @@
     "weekLabel": "Week",
     "kicks": "Kicks",
     "vitamins": "Vitamin",
-    "priorities": "Tasks"
+    "priorities": "Tasks",
+    "greetingMorning": "Good morning",
+    "greetingAfternoon": "Good afternoon",
+    "greetingEvening": "Good evening"
   },
   "layout": {
     "trustBar": {

@@ -1034,7 +1034,10 @@
     "weekLabel": "الأسبوع",
     "kicks": "ركلات",
     "vitamins": "فيتامين",
-    "priorities": "أولويات"
+    "priorities": "أولويات",
+    "greetingMorning": "صباحكِ جميل",
+    "greetingAfternoon": "نهاركِ مشرق",
+    "greetingEvening": "مساؤكِ هادئ"
   },
   "layout": {
     "trustBar": {
