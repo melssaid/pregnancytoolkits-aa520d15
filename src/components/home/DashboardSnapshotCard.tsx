@@ -190,7 +190,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 {t("dashboard.snapshotTitle", "لوحتي")}
               </h3>
             )}
-            <p className="mt-1 text-[11px] font-medium text-muted-foreground/90 leading-[1.3] truncate">
+            <p className="mt-1 text-[11px] font-semibold text-foreground/70 dark:text-foreground/75 leading-[1.3] truncate">
               {t("dashboard.snapshotSubtitle", "ملخص يومك")}
             </p>
           </div>
