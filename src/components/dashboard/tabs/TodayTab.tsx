@@ -13,8 +13,24 @@ import { UnifiedToolsGrid } from "@/components/dashboard/UnifiedToolsGrid";
 import { EmptyStateCard } from "@/components/dashboard/EmptyStateCard";
 import { FertilityCycleCard } from "@/components/dashboard/FertilityCycleCard";
 import { PostpartumRecoveryTimeline } from "@/components/journey/PostpartumRecoveryTimeline";
+import { WelcomeMomentCard } from "@/components/dashboard/WelcomeMomentCard";
+import { DailyFocusRibbon } from "@/components/dashboard/DailyFocusRibbon";
+import { NextMilestoneCard } from "@/components/dashboard/NextMilestoneCard";
+import { DayCompletionState } from "@/components/dashboard/DayCompletionState";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { countCompleted, DAILY_TASK_TOTAL } from "@/lib/dailyFocus";
+import { safeParseLocalStorage } from "@/lib/safeStorage";
+import type { SavedAIResult } from "@/hooks/useSavedResults";
+
+function _hasSavedToday(toolId: string): boolean {
+  const all = safeParseLocalStorage<SavedAIResult[]>(
+    "ai-saved-results", [],
+    (d): d is SavedAIResult[] => Array.isArray(d),
+  );
+  const today = new Date().toDateString();
+  return all.some(r => r.toolId === toolId && new Date(r.savedAt).toDateString() === today);
+}
 
 /**
  * "Today" tab — primary daily focus.
@@ -56,8 +72,25 @@ export const TodayTab = memo(function TodayTab() {
   // Smart empty state: brand-new user with no profile and no data
   const isBrandNew = !isPregnant && !dataCheck.hasAnyData;
 
+  // Day-completion check — if every essential task is done, show the
+  // calm "you're done for today" panel instead of the focus ribbon.
+  const completed = countCompleted({
+    hour: new Date().getHours(),
+    vitaminsTaken: stats.dailyTracking.vitaminsTaken,
+    waterGlasses: stats.dailyTracking.waterGlasses,
+    todayKicks: stats.dailyTracking.todayKicks,
+    week: profile.pregnancyWeek || 0,
+    isPregnant,
+    mealLoggedToday: _hasSavedToday("ai-meal-suggestion"),
+    fitnessLoggedToday: _hasSavedToday("ai-fitness-coach"),
+  });
+  const dayDone = completed >= DAILY_TASK_TOTAL;
+
   return (
     <div className="space-y-4 sm:space-y-5 pb-6">
+      {/* One-time gentle welcome after onboarding */}
+      <WelcomeMomentCard />
+
       <TodayStoryHero />
 
       <RiskAlertCard
@@ -65,6 +98,12 @@ export const TodayTab = memo(function TodayTab() {
         todayKicks={stats.dailyTracking.todayKicks}
         week={profile.pregnancyWeek}
       />
+
+      {/* Single-action focus OR calm completion state */}
+      {dayDone ? <DayCompletionState /> : <DailyFocusRibbon />}
+
+      {/* Next pregnancy milestone — gives "next-step certainty" */}
+      <NextMilestoneCard />
 
       <DailyPriorities
         vitaminsTaken={stats.dailyTracking.vitaminsTaken}

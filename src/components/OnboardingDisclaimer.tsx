@@ -19,7 +19,15 @@ const ONBOARDING_KEY = 'onboarding_disclaimer_accepted';
 const FIRST_VISIT_KEY = 'language_selected_first_visit';
 const TOTAL_STEPS = 5;
 
-export function OnboardingDisclaimer() {
+interface OnboardingDisclaimerProps {
+  /** When true, opens immediately regardless of localStorage flag.
+   *  Used by Settings → "Update journey profile" to re-edit fields. */
+  forceOpen?: boolean;
+  /** Called whenever the modal closes (after finish OR external dismiss). */
+  onClose?: () => void;
+}
+
+export function OnboardingDisclaimer({ forceOpen, onClose }: OnboardingDisclaimerProps = {}) {
   const [show, setShow] = useState(false);
   const [step, setStep] = useState(1);
   const { i18n } = useTranslation();
@@ -48,9 +56,13 @@ export function OnboardingDisclaimer() {
   }, [show]);
 
   useEffect(() => {
+    if (forceOpen) {
+      setShow(true);
+      return;
+    }
     const accepted = localStorage.getItem(ONBOARDING_KEY);
     if (!accepted) setShow(true);
-  }, []);
+  }, [forceOpen]);
 
   const handleFinish = () => {
     const isPregnant = journeyStage === 'pregnant';
@@ -87,6 +99,7 @@ export function OnboardingDisclaimer() {
     localStorage.setItem(ONBOARDING_KEY, 'true');
     localStorage.setItem(FIRST_VISIT_KEY, 'true');
     setShow(false);
+    onClose?.();
 
     // Open the app cleanly from the top after onboarding finishes
     requestAnimationFrame(() => {

@@ -9,6 +9,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import type { JourneyStage } from '@/hooks/useUserProfile';
+import { WhyWeAsk } from '@/components/onboarding/WhyWeAsk';
 
 interface Props {
   journeyStage: JourneyStage;
@@ -83,8 +84,9 @@ export const OnboardingStep2Journey: React.FC<Props> = ({
         {journeyStage === 'pregnant' && (
           <div className="space-y-2 pt-1">
             <div>
-              <label className="text-sm font-semibold text-foreground/70 block mb-1">
+              <label className="text-sm font-semibold text-foreground/70 mb-1 flex items-center gap-1.5">
                 {t('onboarding.pregnancyWeek', 'Week')} (1–42)
+                <WhyWeAsk reason={t('onboarding.why.week', 'يحدد أسبوع الحمل توقيت الفحوص والملخصات الأسبوعية المخصّصة لكِ.')} />
               </label>
               <input
                 type="number"
@@ -96,9 +98,10 @@ export const OnboardingStep2Journey: React.FC<Props> = ({
               />
             </div>
             <div>
-              <label className="text-sm font-semibold text-foreground/70 block mb-1">
-                <CalendarIcon className="w-3.5 h-3.5 inline me-1" />
+              <label className="text-sm font-semibold text-foreground/70 mb-1 flex items-center gap-1.5">
+                <CalendarIcon className="w-3.5 h-3.5" />
                 {t('onboarding.lastPeriod', 'Last Period')} ({t('onboarding.optional', 'optional')})
+                <WhyWeAsk reason={t('onboarding.why.lmp', 'تاريخ آخر دورة يحسب الأسبوع وموعد الولادة المتوقع تلقائيًا — أدقّ من إدخال الأسبوع يدويًا.')} />
               </label>
               <div className="flex gap-1.5">
                 <Popover open={lmpOpen} onOpenChange={setLmpOpen}>
