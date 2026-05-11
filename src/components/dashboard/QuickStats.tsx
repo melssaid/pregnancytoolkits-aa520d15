@@ -153,6 +153,6 @@ export function QuickStats({
           )}
         </div>
       )}
-    </div>
+    </section>
   );
 }
