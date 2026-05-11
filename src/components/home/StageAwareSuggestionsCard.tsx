@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { getStageContent } from "@/lib/stageAwareContent";
+import { getStageContent, getNextActionIndex } from "@/lib/stageAwareContent";
 
 /**
  * Daily Insight strip — a refined, world-class companion to the hero
