@@ -179,13 +179,11 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
         {/* ── Today's pulse: 2 quick stats inline ─────────────────── */}
         <div className="mt-3 flex items-center gap-2">
           <StatChip
-            icon={Activity}
             value={todayKicks}
             label={t("dashboard.kicks", "ركلات")}
             color="hsl(340,60%,52%)"
           />
           <StatChip
-            icon={Pill}
             value={vitamins}
             label={t("dashboard.vitamins", "فيتامين")}
             color="hsl(280,50%,55%)"
