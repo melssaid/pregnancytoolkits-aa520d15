@@ -204,7 +204,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             <span className="text-[14px] font-black tabular-nums text-foreground leading-none">
               {completed}
             </span>
-            <span className="text-[10px] font-bold text-foreground/65 dark:text-muted-foreground leading-none">
+            <span className="text-[10px] font-bold text-[hsl(340,15%,28%)] dark:text-[hsl(340,15%,82%)] leading-none">
               /{priorities.length}
             </span>
           </div>
