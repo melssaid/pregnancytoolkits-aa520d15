@@ -7,6 +7,12 @@ import i18n from "./i18n";
 import { SettingsProvider } from "@/providers/SettingsProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { migrateKickSessions } from "@/lib/kickSessionsStore";
+import { startIconA11y } from "@/lib/a11yIcons";
+
+// Mark all decorative Lucide icons as aria-hidden so screen readers don't
+// announce them next to their visible text labels. Icons that need a label
+// must opt-in via aria-label / role="img" / data-a11y="visible".
+startIconA11y();
 
 // One-shot data migration: collapse legacy kick-session buckets into the canonical key.
 // Idempotent (guarded by a flag in localStorage) and safe to run before render.
