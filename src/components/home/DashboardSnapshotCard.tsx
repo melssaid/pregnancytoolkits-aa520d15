@@ -236,6 +236,23 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 strokeWidth={2.6}
               />
             </div>
+            {/* Refresh pulse — tiny dot that blinks when values sync */}
+            <AnimatePresence>
+              {isRefreshing && (
+                <motion.span
+                  key="refresh-dot"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.25 }}
+                  className="absolute -top-0.5 -end-0.5 flex h-2.5 w-2.5"
+                  aria-hidden="true"
+                >
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-[hsl(340,75%,60%)] opacity-70 animate-ping" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-gradient-to-br from-[hsl(340,75%,60%)] to-[hsl(290,60%,55%)] ring-2 ring-white/80 dark:ring-[hsl(340,28%,11%)]/80" />
+                </motion.span>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -252,9 +269,18 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             color="hsl(280,50%,55%)"
           />
           <div className="ms-auto flex items-baseline gap-0.5 px-1">
-            <span className="text-[14px] font-black tabular-nums text-foreground leading-none">
-              {completed}
-            </span>
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={completed}
+                initial={{ opacity: 0, y: -6, scale: 0.85 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 6, scale: 0.85 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                className="text-[14px] font-black tabular-nums text-foreground leading-none inline-block"
+              >
+                {completed}
+              </motion.span>
+            </AnimatePresence>
             <span className="text-[10px] font-bold text-[hsl(340,15%,28%)] dark:text-[hsl(340,15%,82%)] leading-none">
               /{priorities.length}
             </span>
