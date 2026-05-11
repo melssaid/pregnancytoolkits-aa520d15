@@ -136,6 +136,39 @@ export interface StageContent {
   contextLabel: string;
 }
 
+/**
+ * "Next action" logic — picks the single most relevant tool index inside
+ * the current band based on fine-grained week. Used by the tip strip so
+ * the CTA is genuinely the next thing to do, not just tools[0].
+ */
+export function getNextActionIndex(
+  stage: JourneyStage,
+  week: number,
+): number {
+  if (stage === "fertility" || stage === "postpartum") return 0;
+  const w = week > 0 ? Math.min(42, week) : 1;
+  // Bands: [1-13], [14-27], [28-36], [37-42]
+  // Tool order matches PREGNANCY_BANDS arrays above.
+  if (w <= 13) {
+    if (w <= 8) return 1;          // vitamin-tracker (folic acid window)
+    if (w <= 11) return 3;         // ai-symptom-analyzer (nausea peak)
+    return 0;                       // due-date-calculator (confirm dates)
+  }
+  if (w <= 27) {
+    if (w <= 17) return 1;         // ai-fitness-coach (best activity window)
+    if (w <= 23) return 0;         // kick-counter (start tracking movements)
+    return 2;                       // weight-gain (mid-pregnancy weight)
+  }
+  if (w <= 36) {
+    if (w <= 31) return 2;         // kick-counter (daily counting)
+    if (w <= 34) return 3;         // ai-back-pain-relief
+    return 0;                       // ai-hospital-bag (start packing)
+  }
+  // 37-42
+  if (w <= 38) return 2;           // ai-birth-plan (finalize)
+  return 0;                         // contraction-timer (labor watch)
+}
+
 export function getStageContent(
   stage: JourneyStage,
   week: number,
