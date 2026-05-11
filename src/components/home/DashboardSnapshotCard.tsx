@@ -166,31 +166,31 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       {/* ── Hero row ────────────────────────────────────────────────── */}
       <Link
         to="/dashboard"
-        className="relative block px-4 pt-4 pb-3 group active:scale-[0.995] transition-transform"
+        className="relative block px-4 sm:px-5 pt-3.5 sm:pt-4 pb-3 group active:scale-[0.995] transition-transform"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             {isPregnant && week > 0 ? (
               <div className="flex items-baseline gap-1.5">
                 <span
-                  className="text-[32px] leading-none font-black text-foreground tracking-tight tabular-nums"
+                  className="text-[30px] sm:text-[32px] leading-[1] font-black text-foreground tracking-tight tabular-nums"
                   style={{ fontFamily: "'Tajawal', system-ui, sans-serif" }}
                 >
                   {week}
                 </span>
-                <span className="text-[12px] font-bold text-muted-foreground leading-tight">
+                <span className="text-[12px] font-bold text-muted-foreground leading-[1.2]">
                   {t("dashboard.weekLabel", "الأسبوع")}
                 </span>
               </div>
             ) : (
               <h3
-                className="text-[19px] leading-tight font-black text-foreground tracking-tight"
+                className="text-[18px] sm:text-[19px] leading-[1.2] font-black text-foreground tracking-tight"
                 style={{ fontFamily: "'Tajawal', system-ui, sans-serif" }}
               >
                 {t("dashboard.snapshotTitle", "لوحتي")}
               </h3>
             )}
-            <p className="mt-0.5 text-[11px] font-medium text-muted-foreground/90 leading-tight truncate">
+            <p className="mt-1 text-[11px] font-medium text-muted-foreground/90 leading-[1.3] truncate">
               {t("dashboard.snapshotSubtitle", "ملخص يومك")}
             </p>
           </div>
