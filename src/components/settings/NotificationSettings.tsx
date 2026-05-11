@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Bell, BellOff, BellRing, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePushNotifications } from '@/hooks/usePushNotifications';
 import { sendDailyScheduleToSW } from '@/lib/scheduleNotifications';
+import { detectPushBlocker } from '@/lib/pushNotifications';
+import { NotificationFallbackCard } from '@/components/notifications/NotificationFallbackCard';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
