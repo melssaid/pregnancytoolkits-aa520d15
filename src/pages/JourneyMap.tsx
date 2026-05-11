@@ -152,27 +152,26 @@ const JourneyMap = () => {
     const prev = profile.journeyHistory ?? {};
 
     const nextHistory = { ...prev };
-    // Mark the outgoing stage as completed (if it has a record).
+    // Mark the outgoing stage as completed ONLY if it has a real startedAt
+    // (otherwise we'd be stamping a "completion" for a stage that never began).
     const outgoing = profile.journeyStage;
-    if (outgoing === "fertility" && nextHistory.fertility) {
+    if (outgoing === "fertility" && nextHistory.fertility?.startedAt && !nextHistory.fertility.completedAt) {
       nextHistory.fertility = { ...nextHistory.fertility, completedAt: now };
-    } else if (outgoing === "pregnant" && nextHistory.pregnancy) {
+    } else if (outgoing === "pregnant" && nextHistory.pregnancy?.startedAt && !nextHistory.pregnancy.completedAt) {
       nextHistory.pregnancy = { ...nextHistory.pregnancy, completedAt: now };
     }
 
-    // Seed the incoming stage with a startedAt timestamp if missing.
-    if (pendingStage === "fertility") {
-      nextHistory.fertility = { startedAt: now, ...(nextHistory.fertility ?? {}) };
-    } else if (pendingStage === "pregnant") {
-      nextHistory.pregnancy = { startedAt: now, ...(nextHistory.pregnancy ?? {}) };
-    } else if (pendingStage === "postpartum") {
-      nextHistory.postpartum = { startedAt: now, ...(nextHistory.postpartum ?? {}) };
-    }
+    // Do NOT seed a synthetic startedAt for the incoming stage. Real dates
+    // (LMP / dueDate / birthDate) come from the user — the timeline should
+    // reflect actual events, not the moment they tapped a station.
 
     updateProfile({
       journeyStage: pendingStage,
       isPregnant: pendingStage === "pregnant",
       journeyHistory: nextHistory,
+      // A manual switch overrides auto-detection — otherwise useUserProfile
+      // would immediately revert the stage based on existing dueDate/LMP.
+      autoStageDetection: false,
     });
     setPendingStage(null);
   }, [pendingStage, profile.journeyStage, profile.journeyHistory, updateProfile]);
