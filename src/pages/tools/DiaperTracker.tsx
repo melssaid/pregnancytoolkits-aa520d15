@@ -282,7 +282,7 @@ const DiaperTracker = () => {
                         ✅
                       </motion.span>
                     )}
-                    <span className={`text-[11px] font-bold ${isComplete ? 'text-green-600' : 'text-foreground'}`}>
+                    <span className={`text-[11px] font-bold ${isComplete ? 'text-done' : 'text-foreground'}`}>
                       {stats.total}/{DAILY_GOAL}
                     </span>
                   </div>
@@ -291,7 +291,7 @@ const DiaperTracker = () => {
                   <motion.div
                     className={`h-full rounded-full ${
                       isComplete 
-                        ? 'bg-gradient-to-r from-green-400 to-emerald-500' 
+                        ? 'gradient-success' 
                         : 'bg-gradient-to-r from-primary/60 to-primary'
                     }`}
                     initial={{ width: 0 }}
@@ -303,7 +303,7 @@ const DiaperTracker = () => {
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-[10px] text-green-600 font-medium text-center mt-1.5"
+                    className="text-[10px] text-done font-medium text-center mt-1.5"
                   >
                     {t('diaperPage.goalReached')}
                   </motion.p>
