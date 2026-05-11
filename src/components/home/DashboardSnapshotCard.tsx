@@ -1,7 +1,7 @@
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowUpRight,
   Hand,
@@ -42,6 +42,8 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   // Live-sync tick: bumps when tools save results or storage changes,
   // so meal/fitness checkmarks update without reloading the page.
   const [syncTick, setSyncTick] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const refreshTimerRef = useRef<number | null>(null);
   useEffect(() => {
     const bump = () => setSyncTick((n) => n + 1);
     const onStorage = (e: StorageEvent) => {
@@ -69,6 +71,23 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
+
+  // Trigger a brief refresh indicator whenever syncTick increments (skip mount).
+  const firstSyncRef = useRef(true);
+  useEffect(() => {
+    if (firstSyncRef.current) {
+      firstSyncRef.current = false;
+      return;
+    }
+    setIsRefreshing(true);
+    if (refreshTimerRef.current) window.clearTimeout(refreshTimerRef.current);
+    refreshTimerRef.current = window.setTimeout(() => {
+      setIsRefreshing(false);
+    }, 900);
+    return () => {
+      if (refreshTimerRef.current) window.clearTimeout(refreshTimerRef.current);
+    };
+  }, [syncTick]);
 
   const mealDoneToday = useMemo(() => hasSavedToday("ai-meal-suggestion"), [syncTick]);
   const fitnessDoneToday = useMemo(() => hasSavedToday("ai-fitness-coach"), [syncTick]);
@@ -217,6 +236,23 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 strokeWidth={2.6}
               />
             </div>
+            {/* Refresh pulse — tiny dot that blinks when values sync */}
+            <AnimatePresence>
+              {isRefreshing && (
+                <motion.span
+                  key="refresh-dot"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.25 }}
+                  className="absolute -top-0.5 -end-0.5 flex h-2.5 w-2.5"
+                  aria-hidden="true"
+                >
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-[hsl(340,75%,60%)] opacity-70 animate-ping" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-gradient-to-br from-[hsl(340,75%,60%)] to-[hsl(290,60%,55%)] ring-2 ring-white/80 dark:ring-[hsl(340,28%,11%)]/80" />
+                </motion.span>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -233,9 +269,18 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             color="hsl(280,50%,55%)"
           />
           <div className="ms-auto flex items-baseline gap-0.5 px-1">
-            <span className="text-[14px] font-black tabular-nums text-foreground leading-none">
-              {completed}
-            </span>
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={completed}
+                initial={{ opacity: 0, y: -6, scale: 0.85 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 6, scale: 0.85 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                className="text-[14px] font-black tabular-nums text-foreground leading-none inline-block"
+              >
+                {completed}
+              </motion.span>
+            </AnimatePresence>
             <span className="text-[10px] font-bold text-[hsl(340,15%,28%)] dark:text-[hsl(340,15%,82%)] leading-none">
               /{priorities.length}
             </span>
@@ -301,9 +346,19 @@ const StatChip = memo(function StatChip({
   return (
     <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/85 dark:bg-white/[0.04] border border-white/90 dark:border-white/[0.06] shadow-[-5px_6px_12px_-5px_hsl(340_65%_45%_/_0.32),-2px_3px_6px_-2px_hsl(290_50%_45%_/_0.22),inset_0_1px_0_0_hsl(0_0%_100%/0.85)] dark:shadow-[-5px_6px_12px_-5px_hsl(0_0%_0%/0.55),inset_0_1px_0_0_hsl(0_0%_100%/0.05)] backdrop-blur-sm">
       <div className="flex items-baseline gap-1 min-w-0">
-        <span className="text-[12px] font-extrabold leading-none tabular-nums" style={{ color }}>
-          {value}
-        </span>
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={String(value)}
+            initial={{ opacity: 0, y: -5, scale: 0.85 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 5, scale: 0.85 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="text-[12px] font-extrabold leading-none tabular-nums inline-block"
+            style={{ color }}
+          >
+            {value}
+          </motion.span>
+        </AnimatePresence>
         <span className="text-[10px] font-semibold text-[hsl(340,18%,28%)] dark:text-[hsl(340,15%,82%)] leading-none truncate">
           {label}
         </span>
