@@ -260,7 +260,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                   <span
                     className="relative inline-flex h-2 w-2 rounded-full ring-2 ring-card"
                     style={{
-                      background: `linear-gradient(135deg, hsl(${accent} 70% 58%), hsl(${accentAlt} 60% 52%))`,
+                      background: `linear-gradient(${gradAngle}deg, hsl(${accent} 70% 58%), hsl(${accentAlt} 60% 52%))`,
                     }}
                   />
                 </motion.span>
