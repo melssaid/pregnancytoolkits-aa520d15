@@ -95,11 +95,11 @@ export const UnifiedToolsGrid = memo(function UnifiedToolsGrid() {
         stages: ["fertility"] },
       { id: "fertilityAcademy", href: "/tools/fertility-academy", icon: GraduationCap,
         labelKey: "dashboard.myTools.fertilityAcademy", labelAr: "أكاديمية الخصوبة", labelEn: "Fertility Academy",
-        count: 0, accent: "from-emerald-500/12 to-emerald-500/[0.04]", iconColor: "text-done dark:text-done",
+        count: 0, accent: "from-[hsl(var(--success))]/12 to-[hsl(var(--success))]/[0.04]", iconColor: "text-done dark:text-done",
         stages: ["fertility"] },
       { id: "preconception", href: "/tools/preconception-checkup", icon: ClipboardCheck,
         labelKey: "dashboard.myTools.preconception", labelAr: "فحص ما قبل الحمل", labelEn: "Preconception Check",
-        count: 0, accent: "from-teal-500/12 to-teal-500/[0.04]", iconColor: "text-teal-600 dark:text-teal-400",
+        count: 0, accent: "from-[hsl(var(--success))]/12 to-[hsl(var(--success))]/[0.04]", iconColor: "text-teal-600 dark:text-teal-400",
         stages: ["fertility"] },
 
       // ── Pregnancy ────────────────────────────────────────────────────────
@@ -109,7 +109,7 @@ export const UnifiedToolsGrid = memo(function UnifiedToolsGrid() {
         stages: ["pregnant"] },
       { id: "weight", href: "/tools/weight-gain", icon: Gauge,
         labelKey: "dailyDashboard.quickActions.weight", labelAr: "الوزن", labelEn: "Weight",
-        count: weights.length, accent: "from-emerald-500/12 to-emerald-500/[0.04]", iconColor: "text-done dark:text-done",
+        count: weights.length, accent: "from-[hsl(var(--success))]/12 to-[hsl(var(--success))]/[0.04]", iconColor: "text-done dark:text-done",
         stages: ["pregnant"] },
       { id: "comfort", href: "/tools/pregnancy-comfort", icon: Moon,
         labelKey: "dailyDashboard.quickActions.comfort", labelAr: "الراحة", labelEn: "Comfort",
