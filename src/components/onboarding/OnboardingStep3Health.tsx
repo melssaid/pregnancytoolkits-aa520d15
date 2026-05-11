@@ -83,8 +83,9 @@ export const OnboardingStep3Health: React.FC<Props> = ({
         {/* Weight, Height & Blood Type */}
         <div className="grid grid-cols-3 gap-2">
           <div>
-            <label className="text-xs font-bold text-foreground block mb-1">
+            <label className="text-xs font-bold text-foreground mb-1 flex items-center gap-1">
               {t('onboarding.weight', 'Weight')} (kg)
+              <WhyWeAsk reason={t('onboarding.why.weight', 'يساعدنا على متابعة منحنى الوزن الصحي خلال الحمل وتنبيهكِ عند الزيادات السريعة.')} />
             </label>
             <input
               type="number" min={30} max={200} step={0.1}
@@ -95,8 +96,9 @@ export const OnboardingStep3Health: React.FC<Props> = ({
             />
           </div>
           <div>
-            <label className="text-xs font-bold text-foreground block mb-1">
+            <label className="text-xs font-bold text-foreground mb-1 flex items-center gap-1">
               {t('onboarding.height', 'Height')} (cm)
+              <WhyWeAsk reason={t('onboarding.why.height', 'الطول مع الوزن يحسب مؤشر كتلة الجسم لتوصيات تغذية أدق.')} />
             </label>
             <input
               type="number" min={100} max={220}
@@ -107,8 +109,9 @@ export const OnboardingStep3Health: React.FC<Props> = ({
             />
           </div>
           <div>
-            <label className="text-xs font-bold text-foreground block mb-1">
+            <label className="text-xs font-bold text-foreground mb-1 flex items-center gap-1">
               {t('onboarding.step3.bloodType', 'Blood Type')}
+              <WhyWeAsk reason={t('onboarding.why.bloodType', 'فصيلة الدم مهمة في حالات الطوارئ ولمتابعة عامل Rh — اختياري بالكامل.')} />
             </label>
             <Select value={bloodType} onValueChange={onBloodTypeChange}>
               <SelectTrigger className="h-11 text-sm rounded-xl">
