@@ -346,9 +346,19 @@ const StatChip = memo(function StatChip({
   return (
     <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/85 dark:bg-white/[0.04] border border-white/90 dark:border-white/[0.06] shadow-[-5px_6px_12px_-5px_hsl(340_65%_45%_/_0.32),-2px_3px_6px_-2px_hsl(290_50%_45%_/_0.22),inset_0_1px_0_0_hsl(0_0%_100%/0.85)] dark:shadow-[-5px_6px_12px_-5px_hsl(0_0%_0%/0.55),inset_0_1px_0_0_hsl(0_0%_100%/0.05)] backdrop-blur-sm">
       <div className="flex items-baseline gap-1 min-w-0">
-        <span className="text-[12px] font-extrabold leading-none tabular-nums" style={{ color }}>
-          {value}
-        </span>
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={String(value)}
+            initial={{ opacity: 0, y: -5, scale: 0.85 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 5, scale: 0.85 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="text-[12px] font-extrabold leading-none tabular-nums inline-block"
+            style={{ color }}
+          >
+            {value}
+          </motion.span>
+        </AnimatePresence>
         <span className="text-[10px] font-semibold text-[hsl(340,18%,28%)] dark:text-[hsl(340,15%,82%)] leading-none truncate">
           {label}
         </span>
