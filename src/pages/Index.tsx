@@ -685,13 +685,18 @@ const Index = () => {
             />
           ))}
 
-          {/* Exclusive gift banner — below journeys, above footer */}
-          <Preg10PromoBanner lang={lang} />
+          {/* Below-the-fold — content-visibility defers offscreen layout/paint */}
+          <div style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 600px' }} className="space-y-3">
+            {/* Exclusive gift banner — below journeys, above footer */}
+            <Suspense fallback={null}>
+              <Preg10PromoBanner lang={lang} />
+            </Suspense>
 
-          <FooterCard />
+            <FooterCard />
 
-          {/* Coupon + Share row */}
-          <CouponAndShareRow />
+            {/* Coupon + Share row */}
+            <CouponAndShareRow />
+          </div>
         </div>
       </section>
     </Layout>
