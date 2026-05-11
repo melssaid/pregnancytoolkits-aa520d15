@@ -21,7 +21,6 @@ import { CouponRedeemer } from "@/components/settings/CouponRedeemer";
 import { SectionFeaturedArticles } from "@/components/articles/SectionFeaturedArticles";
 import DashboardSnapshotCard from "@/components/home/DashboardSnapshotCard";
 import StageAwareSuggestionsCard from "@/components/home/StageAwareSuggestionsCard";
-import StageToolsFollowUp from "@/components/home/StageToolsFollowUp";
 import JourneyPromptCard from "@/components/home/JourneyPromptCard";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
@@ -670,8 +669,8 @@ const Index = () => {
       <SEOHead />
       <div className="pointer-events-none fixed inset-x-0 bottom-0 h-[30vh] bg-gradient-to-t from-[hsl(300,20%,95%)]/30 via-primary/5 to-transparent z-30 dark:from-[hsl(300,15%,8%)]/30" />
 
-      <section className="pt-3 pb-0 relative z-10">
-        <div className="px-2.5 sm:px-4 md:px-6 lg:px-8 max-w-4xl mx-auto space-y-3 pb-6">
+      <section className="pt-2 pb-0 relative z-10">
+        <div className="px-2.5 sm:px-4 md:px-6 lg:px-8 max-w-4xl mx-auto space-y-2 pb-6">
 
           {/* Multi-choice journey prompt — auto-hides after answer */}
           <JourneyPromptCard />
@@ -679,11 +678,8 @@ const Index = () => {
           {/* Dashboard snapshot — native app pattern */}
           <DashboardSnapshotCard />
 
-          {/* Stage + week-aware tip & tool suggestions */}
+          {/* Unified daily focus strip — tip + next action + stage tools rail */}
           <StageAwareSuggestionsCard />
-
-          {/* Remaining stage tools — ordered, no duplication with the strip */}
-          <StageToolsFollowUp />
 
           {orderedJourneyConfigs.map((config, index) => (
             <JourneyCard
