@@ -178,7 +178,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 >
                   {week}
                 </span>
-                <span className="text-[12px] font-bold text-muted-foreground leading-[1.2]">
+                <span className="text-[12px] font-bold text-foreground/75 dark:text-foreground/80 leading-[1.2]">
                   {t("dashboard.weekLabel", "الأسبوع")}
                 </span>
               </div>
