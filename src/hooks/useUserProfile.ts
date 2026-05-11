@@ -158,6 +158,68 @@ export function useUserProfile() {
    
   }, [profile.lastPeriodDate]);
 
+  /**
+   * Daily auto-sync of pregnancy week ↔ lastPeriodDate.
+   *
+   * - Backfill: if the user is pregnant and has entered a `pregnancyWeek`
+   *   but no `lastPeriodDate`, we anchor an LMP at (today − week*7 days)
+   *   so the week can advance automatically going forward.
+   * - Daily refresh: re-derive the current week from the anchored LMP on
+   *   mount, when the tab becomes visible, and once per day via a timer.
+   *   This guarantees the displayed week stays accurate even if the app
+   *   is left open across midnight.
+   */
+  useEffect(() => {
+    const sync = () => {
+      setProfile(prev => {
+        // Backfill LMP from a manually-entered week
+        if (
+          prev.journeyStage === "pregnant" &&
+          !prev.lastPeriodDate &&
+          prev.pregnancyWeek &&
+          prev.pregnancyWeek >= 1 &&
+          prev.pregnancyWeek <= 42
+        ) {
+          const lmp = new Date();
+          lmp.setDate(lmp.getDate() - prev.pregnancyWeek * 7);
+          const lmpIso = lmp.toISOString().split("T")[0];
+          const dueIso = computeDueDateFromLMP(lmpIso);
+          return {
+            ...prev,
+            lastPeriodDate: lmpIso,
+            dueDate: prev.dueDate ?? dueIso,
+            journeyHistory: {
+              ...(prev.journeyHistory ?? {}),
+              pregnancy: {
+                ...(prev.journeyHistory?.pregnancy ?? {}),
+                dueDate: prev.dueDate ?? dueIso,
+              },
+            },
+          };
+        }
+        // Daily refresh of week from existing LMP
+        if (prev.lastPeriodDate) {
+          const week = computeWeekFromLMP(prev.lastPeriodDate);
+          if (week !== prev.pregnancyWeek) {
+            return { ...prev, pregnancyWeek: week };
+          }
+        }
+        return prev;
+      });
+    };
+
+    sync();
+    const onVisible = () => { if (document.visibilityState === "visible") sync(); };
+    document.addEventListener("visibilitychange", onVisible);
+    // Re-check every hour — cheap and catches midnight rollover when the
+    // tab is left open.
+    const interval = window.setInterval(sync, 60 * 60 * 1000);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      window.clearInterval(interval);
+    };
+  }, []);
+
   // Mirror profile.dueDate → journeyHistory.pregnancy.dueDate so JourneyMap
   // and the Today dashboard always read the same value.
   useEffect(() => {
