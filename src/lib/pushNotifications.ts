@@ -12,6 +12,49 @@ export const isPushSupported = (): boolean => {
   return 'serviceWorker' in navigator && 'Notification' in window;
 };
 
+export type PushBlockerReason =
+  | 'ios-not-installed'
+  | 'in-app-browser'
+  | 'incognito'
+  | 'unsupported'
+  | null;
+
+/**
+ * Diagnose why push isn't available so we can guide the user to a fix.
+ * Returns null if push is fully usable on this device.
+ */
+export const detectPushBlocker = (): PushBlockerReason => {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return 'unsupported';
+
+  const ua = navigator.userAgent || '';
+
+  // In-app browsers (Instagram, Facebook, TikTok, Line, WeChat) — block SW & push
+  if (/Instagram|FBAN|FBAV|FB_IAB|Line\/|MicroMessenger|TikTok|Twitter|Snapchat/i.test(ua)) {
+    return 'in-app-browser';
+  }
+
+  const isIOS = /iPhone|iPad|iPod/i.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
+  const isStandalone =
+    (typeof window.matchMedia === 'function' && window.matchMedia('(display-mode: standalone)').matches) ||
+    (navigator as any).standalone === true;
+
+  // iOS only supports Web Push when installed to home screen (iOS 16.4+)
+  if (isIOS && !isStandalone && (!('serviceWorker' in navigator) || !('Notification' in window) || !('PushManager' in window))) {
+    return 'ios-not-installed';
+  }
+
+  if (!('serviceWorker' in navigator) || !('Notification' in window)) {
+    return 'unsupported';
+  }
+
+  // Heuristic: incognito often disables persistent storage / SW
+  try {
+    if (!navigator.cookieEnabled) return 'incognito';
+  } catch {}
+
+  return null;
+};
+
 /**
  * Get current notification permission status
  */
