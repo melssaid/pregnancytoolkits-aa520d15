@@ -72,13 +72,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const completed = priorities.filter((p) => p.done).length;
   const progressPct = (completed / priorities.length) * 100;
 
-  // Time-of-day greeting tone
-  const greeting =
-    timeSlot === "morning"
-      ? t("dashboard.greetingMorning", "صباحك جميل")
-      : timeSlot === "afternoon"
-        ? t("dashboard.greetingAfternoon", "نهارك مشرق")
-        : t("dashboard.greetingEvening", "مساؤكِ هادئ");
 
   // Progress ring geometry
   const ringSize = 44;
