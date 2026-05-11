@@ -147,7 +147,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-3xl overflow-hidden border border-border/40 bg-card"
+      className="relative rounded-t-[34px] rounded-b-3xl overflow-hidden border border-border/40 bg-card"
       style={{
         boxShadow:
           `0 1px 0 0 hsl(0 0% 100% / 0.6) inset, 0 12px 28px -12px hsl(${accent} 60% 35% / 0.30), 0 2px 6px -2px hsl(${accent} 40% 25% / 0.12)`,
@@ -176,6 +176,18 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           background: `linear-gradient(${isRtl ? 90 : 270}deg, hsl(0 0% 100% / 0.45), transparent)`,
         }}
       />
+      {/* Concave top arc — mirrors the header's curved bottom for harmony */}
+      <svg
+        aria-hidden
+        viewBox="0 0 1440 40"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute top-0 left-0 right-0 h-[14px] sm:h-[18px] z-[1]"
+      >
+        <path
+          d="M0,0 L0,8 C320,40 1120,40 1440,8 L1440,0 Z"
+          fill={`hsl(${accent} 50% 100% / 0.55)`}
+        />
+      </svg>
 
       {/* ── Hero row ────────────────────────────────────────────────── */}
       <Link
