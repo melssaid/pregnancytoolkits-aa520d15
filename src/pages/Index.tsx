@@ -674,6 +674,9 @@ const Index = () => {
           {/* Dashboard snapshot — native app pattern */}
           <DashboardSnapshotCard />
 
+          {/* Stage + week-aware tip & tool suggestions */}
+          <StageAwareSuggestionsCard />
+
           {orderedJourneyConfigs.map((config, index) => (
             <JourneyCard
               key={config.key}
