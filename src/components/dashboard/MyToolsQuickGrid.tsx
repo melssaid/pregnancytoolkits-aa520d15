@@ -156,40 +156,47 @@ export function MyToolsQuickGrid() {
         </div>
 
         {/* Row layout — full label always visible, scales to 2 cols at 380px+ */}
-        <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-2">
+        <ul
+          role="list"
+          aria-label={t("dashboard.myTools.title", "أدواتي")}
+          className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-2"
+        >
           {items.map((it, i) => {
             const Icon = it.icon;
+            const label = t(it.labelKey, it.labelDefault);
             return (
-              <motion.div
-                key={it.id}
-                {...m.fadeUp(i)}
-                style={{ willChange: m.disabled ? "auto" : "transform, opacity" }}
-              >
-                <Link
-                  to={it.href}
-                  className={`tool-card-pro group relative flex items-center gap-3 overflow-hidden rounded-2xl px-3.5 py-3.5 bg-gradient-to-br ${it.ring} border border-border/40 hover:border-primary/40 active:scale-[0.98] min-w-0`}
+              <li key={it.id}>
+                <motion.div
+                  {...m.fadeUp(i)}
+                  style={{ willChange: m.disabled ? "auto" : "transform, opacity" }}
                 >
-                  {/* Sheen on hover */}
-                  <span aria-hidden className="pointer-events-none absolute -top-1/2 -end-1/2 h-[140%] w-[60%] rotate-12 bg-gradient-to-b from-white/30 via-white/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <Link
+                    to={it.href}
+                    aria-label={it.count > 0 ? `${label} (${it.count})` : label}
+                    className={`tool-card-pro group relative flex items-center gap-3 overflow-hidden rounded-2xl px-3.5 py-3.5 bg-gradient-to-br ${it.ring} border border-border/40 hover:border-primary/40 active:scale-[0.98] min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary`}
+                  >
+                    {/* Sheen on hover */}
+                    <span aria-hidden className="pointer-events-none absolute -top-1/2 -end-1/2 h-[140%] w-[60%] rotate-12 bg-gradient-to-b from-white/30 via-white/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  <div className={`tool-icon-halo w-11 h-11 rounded-2xl bg-background/80 backdrop-blur flex items-center justify-center flex-shrink-0 ${it.color}`}>
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <p className="flex-1 min-w-0 text-[15px] font-bold text-foreground leading-snug break-words" style={{ overflowWrap: "anywhere" }}>
-                    {t(it.labelKey, it.labelDefault)}
-                  </p>
-                  {it.count > 0 && (
-                    <span className={`flex-shrink-0 inline-flex items-center gap-1 text-[13px] font-extrabold ${it.color} bg-background/80 rounded-full ps-1.5 pe-2.5 py-1 min-w-[34px] justify-center tabular-nums shadow-sm border border-border/30`}>
-                      <span className="tool-active-dot h-1.5 w-1.5 rounded-full bg-current" />
-                      {it.count}
-                    </span>
-                  )}
-                  <Chevron className="flex-shrink-0 w-4 h-4 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-all" />
-                </Link>
-              </motion.div>
+                    <div className={`tool-icon-halo w-11 h-11 rounded-2xl bg-background/80 backdrop-blur flex items-center justify-center flex-shrink-0 ${it.color}`}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <p className="flex-1 min-w-0 text-[15px] font-bold text-foreground leading-snug break-words" style={{ overflowWrap: "anywhere" }}>
+                      {label}
+                    </p>
+                    {it.count > 0 && (
+                      <span aria-hidden="true" className={`flex-shrink-0 inline-flex items-center gap-1 text-[13px] font-extrabold ${it.color} bg-background/80 rounded-full ps-1.5 pe-2.5 py-1 min-w-[34px] justify-center tabular-nums shadow-sm border border-border/30`}>
+                        <span className="tool-active-dot h-1.5 w-1.5 rounded-full bg-current" />
+                        {it.count}
+                      </span>
+                    )}
+                    <Chevron aria-hidden="true" className="flex-shrink-0 w-4 h-4 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-all" />
+                  </Link>
+                </motion.div>
+              </li>
             );
           })}
-        </div>
+        </ul>
 
         <p className="text-[9px] text-muted-foreground/70 text-center mt-3">
           {t("dashboard.myTools.archiveHint", "💡 جميع البيانات تُحفظ يومياً في «أرشيف نتائجي» أدناه")}
