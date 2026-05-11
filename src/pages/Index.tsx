@@ -682,6 +682,9 @@ const Index = () => {
           {/* Stage + week-aware tip & tool suggestions */}
           <StageAwareSuggestionsCard />
 
+          {/* Remaining stage tools — ordered, no duplication with the strip */}
+          <StageToolsFollowUp />
+
           {orderedJourneyConfigs.map((config, index) => (
             <JourneyCard
               key={config.key}
