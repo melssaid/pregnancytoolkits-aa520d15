@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SEOHead } from '@/components/SEOHead';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -35,6 +35,19 @@ const Settings: React.FC = () => {
   const isDeveloperToolsVisible = import.meta.env.DEV && typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
   const navigate = useNavigate();
   const ChevronIcon = isRTL ? ChevronLeft : ChevronRight;
+
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = (typeof window !== 'undefined' ? window.location.hash.replace('#', '') : '') as SettingsView;
+      const valid: SettingsView[] = ['profile', 'language', 'security', 'backup', 'delete', 'notifications', 'sonar'];
+      if (hash && valid.includes(hash)) {
+        setActiveView(hash);
+      }
+    };
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
+    return () => window.removeEventListener('hashchange', applyHash);
+  }, []);
 
   const settingsGroups = [
     {
