@@ -67,7 +67,7 @@ export const WeeklyHealthChallenge = memo(function WeeklyHealthChallenge() {
           </p>
           <div className="mt-1.5 h-1.5 rounded-full bg-muted/40 overflow-hidden">
             <motion.div
-              className={`h-full rounded-full ${done ? 'bg-green-500' : 'bg-primary'}`}
+              className={`h-full rounded-full ${done ? 'gradient-success' : 'bg-primary'}`}
               initial={{ width: 0 }}
               animate={{ width: `${pct}%` }}
               transition={{ duration: 0.5 }}
