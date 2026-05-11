@@ -125,7 +125,7 @@ ${week > 0 ? `\n🤰 ${t('achievements.weekProgress', { week, defaultValue: 'Wee
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 + i * 0.05 }}
-              className="p-4 rounded-2xl bg-card border border-border/50 text-center"
+              className="p-4 rounded-2xl card-achievement text-center"
             >
               <p className={cn("text-2xl font-black", stat.color)}>{stat.value}</p>
               <p className="text-[11px] text-foreground/60 font-medium mt-1">{stat.label}</p>
