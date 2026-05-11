@@ -4,13 +4,10 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import {
   ArrowUpRight,
-  Activity,
-  Pill,
   Hand,
   Utensils,
   Dumbbell,
   Check,
-  Sparkles,
 } from "lucide-react";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { safeParseLocalStorage } from "@/lib/safeStorage";
@@ -36,7 +33,7 @@ function hasSavedToday(toolId: string): boolean {
 
 const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const { t, i18n } = useTranslation();
-  const { stats, week, isPregnant, timeSlot } = useDashboardData();
+  const { stats, week, isPregnant } = useDashboardData();
   const isRtl = i18n.language === "ar";
 
   const todayKicks = stats?.dailyTracking?.todayKicks || 0;
@@ -75,13 +72,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const completed = priorities.filter((p) => p.done).length;
   const progressPct = (completed / priorities.length) * 100;
 
-  // Time-of-day greeting tone
-  const greeting =
-    timeSlot === "morning"
-      ? t("dashboard.greetingMorning", "صباحك جميل")
-      : timeSlot === "afternoon"
-        ? t("dashboard.greetingAfternoon", "نهارك مشرق")
-        : t("dashboard.greetingEvening", "مساؤكِ هادئ");
 
   // Progress ring geometry
   const ringSize = 44;
@@ -116,13 +106,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
         <div className="flex items-start justify-between gap-3">
           {/* Left: greeting + hero metric */}
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5 mb-1">
-              <Sparkles className="w-3 h-3 text-[hsl(340,70%,32%)] dark:text-[hsl(340,55%,72%)]" strokeWidth={2.6} />
-              <span className="text-[10.5px] font-bold text-[hsl(340,65%,22%)] dark:text-[hsl(340,45%,82%)] tracking-wide uppercase">
-                {greeting}
-              </span>
-            </div>
-
             {isPregnant && week > 0 ? (
               <div className="flex items-baseline gap-1.5">
                 <span
@@ -189,13 +172,11 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
         {/* ── Today's pulse: 2 quick stats inline ─────────────────── */}
         <div className="mt-3 flex items-center gap-2">
           <StatChip
-            icon={Activity}
             value={todayKicks}
             label={t("dashboard.kicks", "ركلات")}
             color="hsl(340,60%,52%)"
           />
           <StatChip
-            icon={Pill}
             value={vitamins}
             label={t("dashboard.vitamins", "فيتامين")}
             color="hsl(280,50%,55%)"
@@ -225,28 +206,17 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
               >
                 <Link
                   to={p.href}
-                  className={`group/pill relative flex items-center gap-1.5 px-2 py-1.5 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
+                  className={`group/pill relative flex items-center justify-center gap-1.5 px-2 py-2 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
                     p.done
                       ? "bg-gradient-to-br from-[hsl(160,55%,94%)] to-[hsl(160,45%,90%)] dark:from-[hsl(160,30%,16%)] dark:to-[hsl(160,25%,13%)] border-[hsl(160,50%,75%)]/50 dark:border-[hsl(160,40%,30%)]/50"
                       : "bg-white/70 dark:bg-white/[0.04] border-white/80 dark:border-white/[0.06] hover:border-[hsl(340,50%,75%)]/60 backdrop-blur-sm"
                   }`}
                 >
-                  <div
-                    className={`relative w-5 h-5 rounded-lg flex items-center justify-center shrink-0 ${
-                      p.done
-                        ? "bg-gradient-to-br from-[hsl(160,55%,45%)] to-[hsl(160,55%,38%)] shadow-[0_2px_5px_-1px_hsl(160_55%_42%_/_0.45)]"
-                        : "bg-gradient-to-br from-[hsl(340,40%,96%)] to-[hsl(320,35%,93%)] dark:from-[hsl(340,25%,18%)] dark:to-[hsl(320,20%,15%)]"
-                    }`}
-                  >
-                    {p.done ? (
-                      <Check className="w-3 h-3 text-white" strokeWidth={3.2} />
-                    ) : (
-                      <Icon
-                        className="w-[11px] h-[11px] text-[hsl(340,50%,50%)]"
-                        strokeWidth={2.4}
-                      />
-                    )}
-                  </div>
+                  {p.done && (
+                    <div className="relative w-4 h-4 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-br from-[hsl(160,55%,45%)] to-[hsl(160,55%,38%)] shadow-[0_2px_5px_-1px_hsl(160_55%_42%_/_0.45)]">
+                      <Check className="w-2.5 h-2.5 text-white" strokeWidth={3.2} />
+                    </div>
+                  )}
                   <span
                     className={`text-[10px] font-bold leading-tight truncate ${
                       p.done
@@ -268,21 +238,18 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
 
 /* ── Stat chip — compact, glassy ─────────────────────────────────── */
 const StatChip = memo(function StatChip({
-  icon: Icon,
   value,
   label,
   color,
 }: {
-  icon: typeof Activity;
   value: number | string;
   label: string;
   color: string;
 }) {
   return (
     <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/80 dark:bg-white/[0.04] border border-white/90 dark:border-white/[0.06] shadow-[0_1px_3px_-1px_hsl(340_40%_40%_/_0.18)] dark:shadow-none backdrop-blur-sm">
-      <Icon className="w-3 h-3 shrink-0" style={{ color }} strokeWidth={2.6} />
       <div className="flex items-baseline gap-1 min-w-0">
-        <span className="text-[12px] font-extrabold text-foreground leading-none tabular-nums">
+        <span className="text-[12px] font-extrabold leading-none tabular-nums" style={{ color }}>
           {value}
         </span>
         <span className="text-[10px] font-semibold text-[hsl(340,18%,28%)] dark:text-[hsl(340,15%,82%)] leading-none truncate">
