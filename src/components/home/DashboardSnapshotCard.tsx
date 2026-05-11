@@ -279,13 +279,13 @@ const StatChip = memo(function StatChip({
   color: string;
 }) {
   return (
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/70 dark:bg-white/[0.04] border border-white/80 dark:border-white/[0.06] backdrop-blur-sm">
-      <Icon className="w-3 h-3 shrink-0" style={{ color }} strokeWidth={2.5} />
+    <div className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/80 dark:bg-white/[0.04] border border-white/90 dark:border-white/[0.06] shadow-[0_1px_3px_-1px_hsl(340_40%_40%_/_0.18)] dark:shadow-none backdrop-blur-sm">
+      <Icon className="w-3 h-3 shrink-0" style={{ color }} strokeWidth={2.6} />
       <div className="flex items-baseline gap-1 min-w-0">
         <span className="text-[12px] font-extrabold text-foreground leading-none tabular-nums">
           {value}
         </span>
-        <span className="text-[9.5px] text-muted-foreground leading-none truncate">
+        <span className="text-[9.5px] font-semibold text-foreground/70 dark:text-muted-foreground leading-none truncate">
           {label}
         </span>
       </div>
