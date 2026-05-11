@@ -1,7 +1,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { articleUiCopy, getFeaturedSectionBundle, type ArticleSectionKey } from "@/data/articles";
+import { articleUiCopy, getCurrentRotationSeed, getFeaturedSectionBundle, type ArticleSectionKey } from "@/data/articles";
 import { ArticleFeatureCard, ArticleTitleLink } from "@/components/articles/ArticleCards";
 
 export function SectionFeaturedArticles({ sectionKey }: { sectionKey: ArticleSectionKey }) {
@@ -9,7 +9,8 @@ export function SectionFeaturedArticles({ sectionKey }: { sectionKey: ArticleSec
   const lang = i18n.language?.split("-")[0] || "en";
   const isRTL = lang === "ar";
   const copy = articleUiCopy(lang);
-  const bundle = useMemo(() => getFeaturedSectionBundle(sectionKey, lang), [lang, sectionKey]);
+  const rotationSeed = getCurrentRotationSeed();
+  const bundle = useMemo(() => getFeaturedSectionBundle(sectionKey, lang), [lang, sectionKey, rotationSeed]);
 
   if (!bundle.main) return null;
 

@@ -1,7 +1,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { articleUiCopy, getGlobalFeaturedArticles } from "@/data/articles";
+import { articleUiCopy, getCurrentRotationSeed, getGlobalFeaturedArticles } from "@/data/articles";
 import { ArticleCompactLink, ArticleFeatureCard } from "@/components/articles/ArticleCards";
 import { resolveArticleLocale } from "@/lib/articleLocale";
 
@@ -10,7 +10,8 @@ export function FeaturedArticlesRail({ limit = 4, embedded = false }: { limit?: 
   const lang = i18n.language?.split("-")[0] || "en";
   const locale = resolveArticleLocale(lang);
   const copy = articleUiCopy(lang);
-  const articles = useMemo(() => getGlobalFeaturedArticles(lang, limit), [lang, limit]);
+  const rotationSeed = getCurrentRotationSeed();
+  const articles = useMemo(() => getGlobalFeaturedArticles(lang, limit), [lang, limit, rotationSeed]);
 
   if (!articles.length) return null;
 
