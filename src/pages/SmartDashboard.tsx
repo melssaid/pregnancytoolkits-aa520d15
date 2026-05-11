@@ -8,6 +8,7 @@ import { useSmartConversionPrompt } from "@/hooks/useSmartConversionPrompt";
 import { useTrimesterTheme } from "@/hooks/useTrimesterTheme";
 import { useStageTheme } from "@/hooks/useStageTheme";
 import { JourneyProgressRibbon } from "@/components/journey/JourneyProgressRibbon";
+import { TrustStrip } from "@/components/dashboard/TrustStrip";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -169,6 +170,9 @@ const SmartDashboard = () => {
           >
             <JourneyProgressRibbon onSelect={() => navigate("/my-journey")} />
           </motion.div>
+
+          {/* Persistent trust signal — privacy + scope */}
+          <TrustStrip />
         </header>
 
 
