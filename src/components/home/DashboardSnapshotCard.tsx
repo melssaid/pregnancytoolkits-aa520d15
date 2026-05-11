@@ -185,14 +185,14 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           <div className="min-w-0 flex-1">
             {isPregnant && week > 0 ? (
               <div className="flex items-baseline gap-1.5">
+                <span className="text-[12px] font-bold text-foreground/75 dark:text-foreground/80 leading-[1.2]">
+                  {t("dashboard.weekLabel", "الأسبوع")}
+                </span>
                 <span
                   className="text-[30px] sm:text-[32px] leading-[1] font-black text-foreground tracking-tight tabular-nums"
                   style={{ fontFamily: "'Tajawal', system-ui, sans-serif" }}
                 >
                   {week}
-                </span>
-                <span className="text-[12px] font-bold text-foreground/75 dark:text-foreground/80 leading-[1.2]">
-                  {t("dashboard.weekLabel", "الأسبوع")}
                 </span>
               </div>
             ) : (
