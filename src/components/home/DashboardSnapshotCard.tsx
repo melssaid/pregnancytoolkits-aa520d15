@@ -208,8 +208,8 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                   to={p.href}
                   className={`group/pill relative flex items-center justify-center gap-1.5 px-2 py-2 rounded-2xl border transition-all duration-200 active:scale-[0.96] min-w-0 overflow-hidden ${
                     p.done
-                      ? "bg-gradient-to-br from-[hsl(160,55%,94%)] to-[hsl(160,45%,90%)] dark:from-[hsl(160,30%,16%)] dark:to-[hsl(160,25%,13%)] border-[hsl(160,50%,75%)]/50 dark:border-[hsl(160,40%,30%)]/50"
-                      : "bg-white/70 dark:bg-white/[0.04] border-white/80 dark:border-white/[0.06] hover:border-[hsl(340,50%,75%)]/60 backdrop-blur-sm"
+                      ? "bg-gradient-to-br from-[hsl(160,55%,94%)] to-[hsl(160,45%,90%)] dark:from-[hsl(160,30%,16%)] dark:to-[hsl(160,25%,13%)] border-[hsl(160,50%,75%)]/50 dark:border-[hsl(160,40%,30%)]/50 shadow-[-6px_8px_16px_-6px_hsl(160_55%_38%_/_0.35),-2px_3px_6px_-2px_hsl(160_50%_40%_/_0.22),inset_0_1px_0_0_hsl(0_0%_100%/0.7)] dark:shadow-[-6px_8px_14px_-6px_hsl(0_0%_0%/0.55),inset_0_1px_0_0_hsl(0_0%_100%/0.05)]"
+                      : "bg-white/75 dark:bg-white/[0.04] border-white/80 dark:border-white/[0.06] hover:border-[hsl(340,50%,75%)]/60 backdrop-blur-sm shadow-[-6px_8px_16px_-6px_hsl(340_65%_45%_/_0.32),-2px_3px_6px_-2px_hsl(290_50%_45%_/_0.22),inset_0_1px_0_0_hsl(0_0%_100%/0.85)] dark:shadow-[-6px_8px_14px_-6px_hsl(0_0%_0%/0.55),inset_0_1px_0_0_hsl(0_0%_100%/0.05)]"
                   }`}
                 >
                   {p.done && (
