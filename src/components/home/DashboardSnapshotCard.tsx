@@ -33,7 +33,7 @@ function hasSavedToday(toolId: string): boolean {
 
 const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const { t, i18n } = useTranslation();
-  const { stats, week, isPregnant, timeSlot } = useDashboardData();
+  const { stats, week, isPregnant } = useDashboardData();
   const isRtl = i18n.language === "ar";
 
   const todayKicks = stats?.dailyTracking?.todayKicks || 0;
