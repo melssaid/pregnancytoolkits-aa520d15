@@ -276,12 +276,14 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             label={t("dashboard.kicks", "ركلات")}
             colorLight={`hsl(${accent} 70% 32%)`}
             colorDark={`hsl(${accent} 75% 78%)`}
+            isRefreshing={isRefreshing}
           />
           <StatChip
             value={vitamins}
             label={t("dashboard.vitamins", "فيتامين")}
             colorLight={`hsl(${accentAlt} 65% 32%)`}
             colorDark={`hsl(${accentAlt} 70% 78%)`}
+            isRefreshing={isRefreshing}
           />
           <div className="ms-auto flex items-baseline gap-0.5 px-1">
             <AnimatePresence mode="popLayout" initial={false}>
