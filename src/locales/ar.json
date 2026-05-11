@@ -1028,7 +1028,13 @@
     },
     "savedResults": {
       "label": "نتيجة ذكاء اصطناعي محفوظة"
-    }
+    },
+    "snapshotTitle": "لوحتي",
+    "openCta": "فتح",
+    "weekLabel": "الأسبوع",
+    "kicks": "ركلات",
+    "vitamins": "فيتامين",
+    "priorities": "أولويات"
   },
   "layout": {
     "trustBar": {

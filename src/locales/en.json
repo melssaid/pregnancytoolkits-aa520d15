@@ -1028,7 +1028,13 @@
     },
     "savedResults": {
       "label": "AI result saved"
-    }
+    },
+    "snapshotTitle": "My Dashboard",
+    "openCta": "Open",
+    "weekLabel": "Week",
+    "kicks": "Kicks",
+    "vitamins": "Vitamin",
+    "priorities": "Tasks"
   },
   "layout": {
     "trustBar": {

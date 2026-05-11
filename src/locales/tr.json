@@ -764,7 +764,13 @@
     },
     "savedResults": {
       "label": "Kayıtlı YZ sonucu"
-    }
+    },
+    "snapshotTitle": "Panelim",
+    "openCta": "Aç",
+    "weekLabel": "Hafta",
+    "kicks": "Tekme",
+    "vitamins": "Vitamin",
+    "priorities": "Görevler"
   },
   "layout": {
     "trustBar": {
