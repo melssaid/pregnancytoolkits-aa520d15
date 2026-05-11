@@ -81,7 +81,7 @@ export function MilestonesTimeline() {
                 {/* Time badge */}
                 <div className="flex-shrink-0">
                   {passed ? (
-                    <span className="text-[9px] font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full">✓</span>
+                    <span className="text-[9px] font-bold badge-done-soft px-2 py-0.5 rounded-full">✓</span>
                   ) : (
                     <span className="text-[9px] font-semibold text-muted-foreground bg-muted/30 px-2 py-0.5 rounded-full">
                       {weeksUntil > 0 ? t("milestones.weeksLeft", { count: weeksUntil }) : ""}
