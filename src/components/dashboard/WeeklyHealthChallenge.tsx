@@ -47,10 +47,10 @@ export const WeeklyHealthChallenge = memo(function WeeklyHealthChallenge() {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-xl bg-gradient-to-r from-primary/[0.04] to-transparent border border-border/20 p-3"
+      className="rounded-xl bg-gradient-to-r from-primary/[0.05] via-accent/[0.04] to-transparent border border-primary/15 p-3"
     >
       <div className="flex items-center gap-2.5">
-        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${done ? 'bg-[hsl(var(--success-soft))]/100' : 'bg-primary/10'}`}>
+        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${done ? 'bg-[hsl(var(--success-soft))]/100' : 'bg-gradient-to-br from-primary/12 to-accent/12'}`}>
           {done ? <Check className="w-4 h-4 text-done" /> : <Icon className="w-4 h-4 text-primary" />}
         </div>
         <div className="flex-1 min-w-0">
@@ -67,7 +67,7 @@ export const WeeklyHealthChallenge = memo(function WeeklyHealthChallenge() {
           </p>
           <div className="mt-1.5 h-1.5 rounded-full bg-muted/40 overflow-hidden">
             <motion.div
-              className={`h-full rounded-full ${done ? 'gradient-success' : 'bg-primary'}`}
+              className={`h-full rounded-full ${done ? 'gradient-success' : 'bg-gradient-to-r from-primary to-accent'}`}
               initial={{ width: 0 }}
               animate={{ width: `${pct}%` }}
               transition={{ duration: 0.5 }}
@@ -77,7 +77,7 @@ export const WeeklyHealthChallenge = memo(function WeeklyHealthChallenge() {
         {!done && (
           <button
             onClick={increment}
-            className="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-[10px] font-bold hover:opacity-90 transition-opacity"
+            className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-primary to-accent text-primary-foreground text-[10px] font-bold hover:opacity-90 transition-opacity"
           >
             +1
           </button>
