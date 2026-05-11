@@ -4,13 +4,10 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import {
   ArrowUpRight,
-  Activity,
-  Pill,
   Hand,
   Utensils,
   Dumbbell,
   Check,
-  Sparkles,
 } from "lucide-react";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { safeParseLocalStorage } from "@/lib/safeStorage";
