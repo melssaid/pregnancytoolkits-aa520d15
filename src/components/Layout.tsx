@@ -31,6 +31,7 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
   const { t, i18n } = useTranslation();
   const { tier } = useSubscriptionStatus();
   const isPremium = tier === "premium";
+  const { unreadCount } = useNotifications();
   useEngagementSignals();
   const isRtl = i18n.language === 'ar';
   const trustItems = [
