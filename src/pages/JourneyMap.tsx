@@ -427,8 +427,13 @@ const JourneyMap = () => {
               {pendingStage &&
                 t("journey.map.confirm.description", {
                   stage: t(`journey.ribbon.stages.${pendingStage}`),
-                  defaultValue: "This will set your active stage to {{stage}}.",
+                  defaultValue: "سيتم ضبط مرحلتكِ النشطة على {{stage}}.",
                 })}
+              {" "}
+              {t(
+                "journey.map.confirm.autoOff",
+                "سيتم إيقاف الاكتشاف التلقائي للمرحلة بناءً على تواريخكِ.",
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
