@@ -5,10 +5,10 @@
  * scientifically-prioritized prompt (vitamin → water → meal → kicks).
  * Includes a calm, ungamified progress ribbon (n/total today).
  */
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -16,6 +16,8 @@ import { safeParseLocalStorage } from "@/lib/safeStorage";
 import type { SavedAIResult } from "@/hooks/useSavedResults";
 import { pickDailyFocus, countCompleted, DAILY_TASK_TOTAL } from "@/lib/dailyFocus";
 import { haptic } from "@/lib/haptics";
+import { publishDataChange } from "@/lib/dataBus";
+import { getUserId } from "@/hooks/useSupabase";
 
 function hasSavedToday(toolId: string): boolean {
   const all = safeParseLocalStorage<SavedAIResult[]>(
