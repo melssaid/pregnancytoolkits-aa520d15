@@ -34,9 +34,21 @@ const StageAwareSuggestionsCard = memo(function StageAwareSuggestionsCard() {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-      className="relative rounded-2xl border border-border/40 bg-card/70 backdrop-blur-sm px-3.5 py-3 sm:px-4"
+      className="relative rounded-t-[28px] rounded-b-2xl border border-border/40 bg-card/70 backdrop-blur-sm px-3.5 pt-4 pb-3 sm:px-4 overflow-hidden"
       aria-label={isRTL ? "نصيحة اليوم" : "Today's insight"}
     >
+      {/* Concave top arc — echoes header & snapshot card curve */}
+      <svg
+        aria-hidden
+        viewBox="0 0 1440 40"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute top-0 left-0 right-0 h-[10px] sm:h-[14px]"
+      >
+        <path
+          d="M0,0 L0,6 C320,38 1120,38 1440,6 L1440,0 Z"
+          fill="hsl(340 50% 99% / 0.7)"
+        />
+      </svg>
       <div className="flex items-start gap-3">
         {/* Icon badge */}
         <div
