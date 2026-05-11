@@ -135,18 +135,45 @@ export function useUserProfile() {
       const computedDue = computeDueDateFromLMP(profile.lastPeriodDate);
       // Only update if values actually changed to prevent re-render loops
       setProfile(prev => {
-        if (prev.pregnancyWeek === computedWeek && (prev.dueDate || computedDue) === (prev.dueDate ?? computedDue)) {
+        const nextDue = prev.dueDate ?? computedDue;
+        const histDue = prev.journeyHistory?.pregnancy?.dueDate ?? null;
+        const dueInSync = histDue === nextDue;
+        if (prev.pregnancyWeek === computedWeek && nextDue === prev.dueDate && dueInSync) {
           return prev; // No change — skip update
         }
         return {
           ...prev,
           pregnancyWeek: computedWeek,
-          dueDate: prev.dueDate ?? computedDue,
+          dueDate: nextDue,
+          journeyHistory: {
+            ...(prev.journeyHistory ?? {}),
+            pregnancy: {
+              ...(prev.journeyHistory?.pregnancy ?? {}),
+              dueDate: nextDue,
+            },
+          },
         };
       });
     }
    
   }, [profile.lastPeriodDate]);
+
+  // Mirror profile.dueDate → journeyHistory.pregnancy.dueDate so JourneyMap
+  // and the Today dashboard always read the same value.
+  useEffect(() => {
+    if (!profile.dueDate) return;
+    if (profile.journeyHistory?.pregnancy?.dueDate === profile.dueDate) return;
+    setProfile(prev => ({
+      ...prev,
+      journeyHistory: {
+        ...(prev.journeyHistory ?? {}),
+        pregnancy: {
+          ...(prev.journeyHistory?.pregnancy ?? {}),
+          dueDate: prev.dueDate,
+        },
+      },
+    }));
+  }, [profile.dueDate, profile.journeyHistory?.pregnancy?.dueDate]);
 
   /**
    * Smart stage auto-detection.
