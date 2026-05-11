@@ -245,12 +245,10 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
 
 /* ── Stat chip — compact, glassy ─────────────────────────────────── */
 const StatChip = memo(function StatChip({
-  icon: Icon,
   value,
   label,
   color,
 }: {
-  icon: typeof Activity;
   value: number | string;
   label: string;
   color: string;
