@@ -276,12 +276,14 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             label={t("dashboard.kicks", "ركلات")}
             colorLight={`hsl(${accent} 70% 32%)`}
             colorDark={`hsl(${accent} 75% 78%)`}
+            isRefreshing={isRefreshing}
           />
           <StatChip
             value={vitamins}
             label={t("dashboard.vitamins", "فيتامين")}
             colorLight={`hsl(${accentAlt} 65% 32%)`}
             colorDark={`hsl(${accentAlt} 70% 78%)`}
+            isRefreshing={isRefreshing}
           />
           <div className="ms-auto flex items-baseline gap-0.5 px-1">
             <AnimatePresence mode="popLayout" initial={false}>
@@ -366,15 +368,17 @@ const StatChip = memo(function StatChip({
   label,
   colorLight,
   colorDark,
+  isRefreshing = false,
 }: {
   value: number | string;
   label: string;
   colorLight: string;
   colorDark: string;
+  isRefreshing?: boolean;
 }) {
   return (
     <div
-      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-card/90 dark:bg-white/[0.06] border border-border/60 backdrop-blur-sm shadow-[0_1px_2px_0_hsl(0_0%_0%/0.05),inset_0_1px_0_0_hsl(0_0%_100%/0.65)]"
+      className="relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-card/90 dark:bg-white/[0.06] border border-border/60 backdrop-blur-sm shadow-[0_1px_2px_0_hsl(0_0%_0%/0.05),inset_0_1px_0_0_hsl(0_0%_100%/0.65)] overflow-hidden"
       style={
         {
           "--chip-color-light": colorLight,
@@ -382,23 +386,48 @@ const StatChip = memo(function StatChip({
         } as React.CSSProperties
       }
     >
-      <div className="flex items-baseline gap-1 min-w-0">
-        <AnimatePresence mode="popLayout" initial={false}>
+      {/* Skeleton shimmer overlay during refresh */}
+      <AnimatePresence>
+        {isRefreshing && (
           <motion.span
-            key={String(value)}
-            initial={{ opacity: 0, y: -5, scale: 0.85 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 5, scale: 0.85 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[12.5px] font-extrabold leading-[1] tabular-nums inline-block text-[var(--chip-color-light)] dark:text-[var(--chip-color-dark)]"
-          >
-            {value}
-          </motion.span>
-        </AnimatePresence>
+            key="chip-shimmer"
+            aria-hidden
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-foreground/[0.06] to-transparent"
+            style={{
+              backgroundSize: "200% 100%",
+              animation: "shimmer-chip 1.1s ease-in-out infinite",
+            }}
+          />
+        )}
+      </AnimatePresence>
+      <style>{`@keyframes shimmer-chip{0%{background-position:200% 0}100%{background-position:-200% 0}}`}</style>
+      <motion.div
+        animate={{ opacity: isRefreshing ? 0.55 : 1 }}
+        transition={{ duration: 0.2 }}
+        className="relative flex items-baseline gap-1 min-w-0"
+      >
+        <span className="inline-block text-center tabular-nums" style={{ minWidth: "1.1ch" }}>
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={String(value)}
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              className="text-[12.5px] font-extrabold leading-[1] tabular-nums inline-block text-[var(--chip-color-light)] dark:text-[var(--chip-color-dark)]"
+            >
+              {value}
+            </motion.span>
+          </AnimatePresence>
+        </span>
         <span className="text-[10.5px] font-semibold text-foreground/70 dark:text-foreground/75 leading-[1] truncate">
           {label}
         </span>
-      </div>
+      </motion.div>
     </div>
   );
 });
