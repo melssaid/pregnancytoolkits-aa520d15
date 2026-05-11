@@ -1,4 +1,5 @@
-import { forwardRef, useState, memo, useMemo } from "react";
+import { forwardRef, useState, memo, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Home, LayoutDashboard, Grid3X3, Menu, Search, Bell, Settings, X, Crown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -55,7 +56,14 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
       { id: "settings", icon: Settings, labelKey: "nav.settings", action: "settings" as const, href: "/settings" },
     ];
 
-    return (
+    // Portal target — render at <body> level so any ancestor `transform`
+    // (e.g. PageTransition's animation) can't break `position: fixed`.
+    const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+    useEffect(() => {
+      setPortalTarget(typeof document !== "undefined" ? document.body : null);
+    }, []);
+
+    const navMarkup = (
       <>
         {/* Notifications Panel */}
         <AnimatePresence>
@@ -475,6 +483,9 @@ export const BottomNavigation = memo(forwardRef<HTMLDivElement, Record<string, n
         <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
       </>
     );
+
+    if (!portalTarget) return null;
+    return createPortal(navMarkup, portalTarget);
   }
 ));
 
