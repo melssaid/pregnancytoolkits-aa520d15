@@ -126,6 +126,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
 
   const accent = theme.accentHue;
   const accentAlt = theme.accentHueAlt;
+  const gradAngle = isRtl ? 225 : 135;
 
   return (
     <motion.div
