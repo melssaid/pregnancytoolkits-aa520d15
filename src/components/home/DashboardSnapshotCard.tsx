@@ -285,7 +285,7 @@ const StatChip = memo(function StatChip({
         <span className="text-[12px] font-extrabold text-foreground leading-none tabular-nums">
           {value}
         </span>
-        <span className="text-[9.5px] font-semibold text-foreground/70 dark:text-muted-foreground leading-none truncate">
+        <span className="text-[10px] font-semibold text-[hsl(340,18%,28%)] dark:text-[hsl(340,15%,82%)] leading-none truncate">
           {label}
         </span>
       </div>
