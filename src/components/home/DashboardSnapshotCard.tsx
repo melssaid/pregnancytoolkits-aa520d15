@@ -274,12 +274,14 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           <StatChip
             value={todayKicks}
             label={t("dashboard.kicks", "ركلات")}
-            color={`hsl(${accent} 55% 48%)`}
+            colorLight={`hsl(${accent} 70% 32%)`}
+            colorDark={`hsl(${accent} 75% 78%)`}
           />
           <StatChip
             value={vitamins}
             label={t("dashboard.vitamins", "فيتامين")}
-            color={`hsl(${accentAlt} 50% 48%)`}
+            colorLight={`hsl(${accentAlt} 65% 32%)`}
+            colorDark={`hsl(${accentAlt} 70% 78%)`}
           />
           <div className="ms-auto flex items-baseline gap-0.5 px-1">
             <AnimatePresence mode="popLayout" initial={false}>
@@ -294,7 +296,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 {completed}
               </motion.span>
             </AnimatePresence>
-            <span className="text-[10px] font-bold text-muted-foreground leading-[1]">
+            <span className="text-[11px] font-bold text-foreground/65 dark:text-foreground/70 leading-[1]">
               /{priorities.length}
             </span>
           </div>
