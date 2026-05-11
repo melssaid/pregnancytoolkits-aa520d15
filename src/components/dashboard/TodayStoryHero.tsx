@@ -55,13 +55,17 @@ export const TodayStoryHero = memo(function TodayStoryHero() {
     return () => window.removeEventListener("storage", onStorage);
   }, [today]);
 
-  // Time-based wellness tip (translated via i18n in 7 languages) — greeting label removed per design
+  // Stage + week aware wellness tip — falls back to time-based tip when
+  // stage data is unavailable (e.g., onboarding not completed).
   const greeting = useMemo(() => {
-    const slot = timeSlot;
-    return {
-      tip: t(`dashboardV2.greeting.${slot}Tip`),
-    };
-  }, [timeSlot, t]);
+    const lang = isAr ? "ar" : "en";
+    const stage = profile.journeyStage;
+    if (stage) {
+      const content = getStageContent(stage, week || 0, lang);
+      return { tip: content.tip };
+    }
+    return { tip: t(`dashboardV2.greeting.${timeSlot}Tip`) };
+  }, [profile.journeyStage, week, isAr, timeSlot, t]);
 
   // Pregnancy progress — only real data, no synthetic fallback
   const hasRealWeek = isPregnant && week > 0;
