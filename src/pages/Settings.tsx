@@ -26,7 +26,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-type SettingsView = 'main' | 'profile' | 'language' | 'security' | 'backup' | 'delete' | 'notifications' | 'sonar';
+type SettingsView = 'main' | 'profile' | 'language' | 'security' | 'backup' | 'delete' | 'notifications' | 'sonar' | 'reonboard';
 
 const APP_VERSION = '1.0.16';
 
