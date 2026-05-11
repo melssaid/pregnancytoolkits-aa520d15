@@ -117,8 +117,8 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           {/* Left: greeting + hero metric */}
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 mb-1">
-              <Sparkles className="w-3 h-3 text-[hsl(340,65%,42%)] dark:text-[hsl(340,55%,62%)]" strokeWidth={2.6} />
-              <span className="text-[10.5px] font-bold text-[hsl(340,55%,28%)] dark:text-[hsl(340,40%,75%)] tracking-wide uppercase">
+              <Sparkles className="w-3 h-3 text-[hsl(340,70%,32%)] dark:text-[hsl(340,55%,72%)]" strokeWidth={2.6} />
+              <span className="text-[10.5px] font-bold text-[hsl(340,65%,22%)] dark:text-[hsl(340,45%,82%)] tracking-wide uppercase">
                 {greeting}
               </span>
             </div>
@@ -131,7 +131,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 >
                   {week}
                 </span>
-                <span className="text-[12px] font-bold text-foreground/85 leading-tight">
+                <span className="text-[12px] font-bold text-[hsl(340,30%,18%)] dark:text-[hsl(340,20%,90%)] leading-tight">
                   {t("dashboard.weekLabel", "الأسبوع")}
                 </span>
               </div>
@@ -204,7 +204,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
             <span className="text-[14px] font-black tabular-nums text-foreground leading-none">
               {completed}
             </span>
-            <span className="text-[10px] font-bold text-foreground/65 dark:text-muted-foreground leading-none">
+            <span className="text-[10px] font-bold text-[hsl(340,15%,28%)] dark:text-[hsl(340,15%,82%)] leading-none">
               /{priorities.length}
             </span>
           </div>
@@ -248,10 +248,10 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                     )}
                   </div>
                   <span
-                    className={`text-[9.5px] font-bold leading-tight truncate ${
+                    className={`text-[10px] font-bold leading-tight truncate ${
                       p.done
-                        ? "text-[hsl(160,55%,22%)] dark:text-[hsl(160,40%,75%)]"
-                        : "text-foreground/95"
+                        ? "text-[hsl(160,70%,18%)] dark:text-[hsl(160,45%,82%)]"
+                        : "text-[hsl(340,20%,18%)] dark:text-[hsl(340,15%,90%)]"
                     }`}
                   >
                     {p.label}
@@ -285,7 +285,7 @@ const StatChip = memo(function StatChip({
         <span className="text-[12px] font-extrabold text-foreground leading-none tabular-nums">
           {value}
         </span>
-        <span className="text-[9.5px] font-semibold text-foreground/70 dark:text-muted-foreground leading-none truncate">
+        <span className="text-[10px] font-semibold text-[hsl(340,18%,28%)] dark:text-[hsl(340,15%,82%)] leading-none truncate">
           {label}
         </span>
       </div>
