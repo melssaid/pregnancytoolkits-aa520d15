@@ -821,3 +821,110 @@ html[dir="rtl"] .rtl-flip {
     animation: none !important;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Unified Tools Measurement System
+   Applied via .tool-content wrapper inside ToolFrame to keep
+   spacing, font sizes, line-heights, and radii identical across
+   every /tools/* route (vitamins, meals, kicks, weight, etc.).
+   Component-level overrides remain possible but the defaults
+   here guarantee a consistent rhythm.
+   ───────────────────────────────────────────────────────────── */
+.tool-content {
+  /* Spacing scale (mobile-first) */
+  --tool-gap-xs: 0.5rem;    /* 8px  */
+  --tool-gap-sm: 0.75rem;   /* 12px */
+  --tool-gap-md: 1rem;      /* 16px */
+  --tool-gap-lg: 1.25rem;   /* 20px */
+  --tool-gap-xl: 1.5rem;    /* 24px */
+
+  /* Padding scale */
+  --tool-pad-card: 0.875rem;     /* 14px */
+  --tool-pad-card-lg: 1rem;      /* 16px */
+  --tool-pad-section: 1rem;      /* 16px */
+
+  /* Typography scale (unified across all tools) */
+  --tool-fs-h2: 1rem;        /* 16px section heading */
+  --tool-fs-h3: 0.9375rem;   /* 15px sub-heading */
+  --tool-fs-body: 0.875rem;  /* 14px body text */
+  --tool-fs-meta: 0.8125rem; /* 13px meta / labels */
+  --tool-fs-micro: 0.75rem;  /* 12px tiny captions */
+
+  /* Line heights */
+  --tool-lh-tight: 1.35;
+  --tool-lh-body: 1.6;
+
+  /* Radii */
+  --tool-radius-sm: 0.75rem;  /* 12px */
+  --tool-radius-md: 1rem;     /* 16px */
+  --tool-radius-lg: 1.25rem;  /* 20px */
+
+  font-size: var(--tool-fs-body);
+  line-height: var(--tool-lh-body);
+}
+
+/* Vertical rhythm between top-level blocks */
+.tool-content > * + * {
+  margin-top: var(--tool-gap-md);
+}
+
+/* Headings — unified sizes (only when no explicit text-* class is set) */
+.tool-content h2:not([class*="text-"]) {
+  font-size: var(--tool-fs-h2);
+  line-height: var(--tool-lh-tight);
+  font-weight: 700;
+}
+.tool-content h3:not([class*="text-"]) {
+  font-size: var(--tool-fs-h3);
+  line-height: var(--tool-lh-tight);
+  font-weight: 600;
+}
+.tool-content h4:not([class*="text-"]) {
+  font-size: var(--tool-fs-body);
+  line-height: var(--tool-lh-tight);
+  font-weight: 600;
+}
+
+/* Paragraph defaults */
+.tool-content p:not([class*="text-"]) {
+  font-size: var(--tool-fs-body);
+  line-height: var(--tool-lh-body);
+}
+
+/* Labels/meta defaults */
+.tool-content label:not([class*="text-"]),
+.tool-content small:not([class*="text-"]) {
+  font-size: var(--tool-fs-meta);
+  line-height: var(--tool-lh-tight);
+}
+
+/* Prevent text overflow / clipping on Arabic & long words */
+.tool-content,
+.tool-content * {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Buttons inside tools — minimum touch target & consistent text size */
+.tool-content button:not([class*="text-"]) {
+  font-size: var(--tool-fs-meta);
+}
+.tool-content button {
+  min-height: 40px;
+}
+
+/* Cards / bordered surfaces inside tools — unified inner padding */
+.tool-content [class*="rounded-2xl"][class*="border"]:not([class*="p-"]) {
+  padding: var(--tool-pad-card);
+}
+
+@media (min-width: 640px) {
+  .tool-content {
+    --tool-pad-card: 1rem;       /* 16px */
+    --tool-pad-card-lg: 1.25rem; /* 20px */
+    --tool-fs-body: 0.9375rem;   /* 15px on tablet+ */
+  }
+  .tool-content > * + * {
+    margin-top: var(--tool-gap-lg);
+  }
+}
