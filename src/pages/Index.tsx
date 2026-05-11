@@ -668,6 +668,8 @@ const Index = () => {
       <section className="pt-3 pb-0 relative z-10">
         <div className="px-2.5 sm:px-4 md:px-6 lg:px-8 max-w-4xl mx-auto space-y-3 pb-6">
 
+          {/* Dashboard snapshot — native app pattern */}
+          <DashboardSnapshotCard />
 
           {orderedJourneyConfigs.map((config, index) => (
             <JourneyCard
