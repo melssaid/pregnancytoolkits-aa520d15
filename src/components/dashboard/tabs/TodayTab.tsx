@@ -17,6 +17,7 @@ import { WelcomeMomentCard } from "@/components/dashboard/WelcomeMomentCard";
 import { DailyFocusRibbon } from "@/components/dashboard/DailyFocusRibbon";
 import { NextMilestoneCard } from "@/components/dashboard/NextMilestoneCard";
 import { DayCompletionState } from "@/components/dashboard/DayCompletionState";
+import { TodayActivityLog } from "@/components/dashboard/TodayActivityLog";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { countCompleted, DAILY_TASK_TOTAL } from "@/lib/dailyFocus";
@@ -101,6 +102,9 @@ export const TodayTab = memo(function TodayTab() {
 
       {/* Single-action focus OR calm completion state */}
       {dayDone ? <DayCompletionState /> : <DailyFocusRibbon />}
+
+      {/* Compact log of what was done today + direct next-step links */}
+      <TodayActivityLog />
 
       {/* Next pregnancy milestone — gives "next-step certainty" */}
       <NextMilestoneCard />
