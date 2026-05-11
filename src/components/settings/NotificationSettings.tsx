@@ -151,8 +151,8 @@ export function NotificationSettings() {
       {/* Status */}
       {enabled && (
         <div className="flex items-center gap-2 pt-1">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-          <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
+          <CheckCircle2 className="w-3.5 h-3.5 text-done" />
+          <p className="text-[10px] text-done font-medium">
             {t('settings.notifications.statusActive', 'You will receive notifications even when the app is closed')}
           </p>
         </div>
