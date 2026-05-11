@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { SEOHead } from '@/components/SEOHead';
 import { useNavigate } from 'react-router-dom';
 import { 
   Globe, User, Download, Trash2, 
   ChevronRight, ChevronLeft, Lock, RotateCcw,
-  Bell, Info, Mail, ExternalLink, Radar
+  Bell, Info, Mail, ExternalLink, Radar, Edit3
 } from 'lucide-react';
+const OnboardingDisclaimer = lazy(() =>
+  import('@/components/OnboardingDisclaimer').then(m => ({ default: m.OnboardingDisclaimer }))
+);
 import { SonarIntegrationSettings } from '@/components/settings/SonarIntegrationSettings';
 import { useAIUsage } from '@/contexts/AIUsageContext';
 import { toast } from 'sonner';
@@ -35,6 +38,7 @@ const Settings: React.FC = () => {
   const isDeveloperToolsVisible = import.meta.env.DEV && typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
   const navigate = useNavigate();
   const ChevronIcon = isRTL ? ChevronLeft : ChevronRight;
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
     const applyHash = () => {
@@ -60,6 +64,14 @@ const Settings: React.FC = () => {
           desc: t('settings.profile.desc'),
           iconColor: 'text-blue-500',
           iconBg: 'bg-blue-500/10',
+        },
+        {
+          id: 'reonboard' as SettingsView,
+          icon: Edit3,
+          label: t('settings.reonboard.title', 'تحديث ملف الرحلة'),
+          desc: t('settings.reonboard.desc', 'إعادة فتح خطوات التسجيل لتعديل بياناتكِ'),
+          iconColor: 'text-pink-500',
+          iconBg: 'bg-pink-500/10',
         },
         {
           id: 'language' as SettingsView,
