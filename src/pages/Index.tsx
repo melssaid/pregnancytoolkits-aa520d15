@@ -1,4 +1,4 @@
-import { useMemo, memo, useState, useCallback, useEffect } from "react";
+import { useMemo, memo, useState, useCallback, useEffect, lazy, Suspense } from "react";
 import { useAIUsage } from "@/contexts/AIUsageContext";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { ChevronRight, ChevronLeft, ChevronDown, Lock, LockOpen, ShieldCheck, Clock, Sparkles, Brain, Gift, Crown, Share2, Zap, Check } from "lucide-react";
@@ -18,10 +18,12 @@ import QuickActions from "@/components/home/QuickActions";
 import { getToolTitle } from "@/lib/toolCopy";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { CouponRedeemer } from "@/components/settings/CouponRedeemer";
-import Preg10PromoBanner from "@/components/home/Preg10PromoBanner";
 import { SectionFeaturedArticles } from "@/components/articles/SectionFeaturedArticles";
 import DashboardSnapshotCard from "@/components/home/DashboardSnapshotCard";
 import { useUserProfile } from "@/hooks/useUserProfile";
+
+// Lazy-load below-the-fold banner — shaves initial JS for faster LCP/TTI
+const Preg10PromoBanner = lazy(() => import("@/components/home/Preg10PromoBanner"));
 
 // Map journeyStage → journey card key
 const stageToJourneyKey: Record<string, JourneyKey> = {
@@ -683,13 +685,18 @@ const Index = () => {
             />
           ))}
 
-          {/* Exclusive gift banner — below journeys, above footer */}
-          <Preg10PromoBanner lang={lang} />
+          {/* Below-the-fold — content-visibility defers offscreen layout/paint */}
+          <div style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 600px' }} className="space-y-3">
+            {/* Exclusive gift banner — below journeys, above footer */}
+            <Suspense fallback={null}>
+              <Preg10PromoBanner lang={lang} />
+            </Suspense>
 
-          <FooterCard />
+            <FooterCard />
 
-          {/* Coupon + Share row */}
-          <CouponAndShareRow />
+            {/* Coupon + Share row */}
+            <CouponAndShareRow />
+          </div>
         </div>
       </section>
     </Layout>
