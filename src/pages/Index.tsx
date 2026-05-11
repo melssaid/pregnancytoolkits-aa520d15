@@ -20,6 +20,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { CouponRedeemer } from "@/components/settings/CouponRedeemer";
 import Preg10PromoBanner from "@/components/home/Preg10PromoBanner";
 import { SectionFeaturedArticles } from "@/components/articles/SectionFeaturedArticles";
+import DashboardSnapshotCard from "@/components/home/DashboardSnapshotCard";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 // Map journeyStage → journey card key
