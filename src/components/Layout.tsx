@@ -255,25 +255,26 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
               <div className="absolute right-3 flex items-center gap-1.5 sm:right-4">
                 <Link
                   to="/settings#notifications"
-                  className="relative flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground hover:bg-card active:scale-95"
+                  className="relative flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground hover:bg-card active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   title={t('settings.notifications', 'التنبيهات')}
                   aria-label={t('settings.notifications', 'التنبيهات')}
                 >
-                  <Bell className="h-[16px] w-[16px]" strokeWidth={2.2} />
+                  <Bell className="h-[16px] w-[16px]" strokeWidth={2.2} aria-hidden="true" focusable="false" />
                 </Link>
                 {!isPremium && (
                   <Link
                     to="/pricing-demo"
-                    className="relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-secondary text-secondary-foreground shadow-sm transition-all duration-300 hover:border-primary/25 hover:bg-secondary/90 hover:text-foreground"
+                    className="relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-secondary text-secondary-foreground shadow-sm transition-all duration-300 hover:border-primary/25 hover:bg-secondary/90 hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     title={t('pricing.upgradeTitle', 'Upgrade to PRO')}
+                    aria-label={t('pricing.upgradeTitle', 'Upgrade to PRO')}
                   >
                     <motion.div
                       animate={{ scale: [1, 1.05, 1] }}
                       transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Crown className="h-[17px] w-[17px]" strokeWidth={2} />
+                      <Crown className="h-[17px] w-[17px]" strokeWidth={2} aria-hidden="true" focusable="false" />
                     </motion.div>
-                    <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full border border-card bg-primary" />
+                    <span aria-hidden="true" className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full border border-card bg-primary" />
                   </Link>
                 )}
                 <div className="hidden md:flex">
@@ -291,25 +292,26 @@ export function Layout({ children, showBack = false, compactBackHeader = false }
               <LanguageDropdown variant="compact" />
               <Link
                 to="/settings#notifications"
-                className="relative flex items-center justify-center w-9 h-9 rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground active:scale-95"
+                className="relative flex items-center justify-center w-9 h-9 rounded-full border border-border/60 bg-card/80 text-foreground/75 backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:text-foreground active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 title={t('settings.notifications', 'التنبيهات')}
                 aria-label={t('settings.notifications', 'التنبيهات')}
               >
-                <Bell className="w-[16px] h-[16px]" strokeWidth={2.2} />
+                <Bell className="w-[16px] h-[16px]" strokeWidth={2.2} aria-hidden="true" focusable="false" />
               </Link>
               {!isPremium && (
                 <Link
                   to="/pricing-demo"
-                  className="relative flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-amber-400/20 via-rose-400/15 to-pink-500/10 border border-amber-400/30 hover:border-amber-400/50 shadow-[0_2px_12px_-2px_hsl(340,50%,55%/0.2)] hover:shadow-[0_4px_16px_-2px_hsl(340,50%,55%/0.3)] transition-all duration-300 group"
+                  className="relative flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-amber-400/20 via-rose-400/15 to-pink-500/10 border border-amber-400/30 hover:border-amber-400/50 shadow-[0_2px_12px_-2px_hsl(340,50%,55%/0.2)] hover:shadow-[0_4px_16px_-2px_hsl(340,50%,55%/0.3)] transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   title={t('pricing.upgradeTitle', 'Upgrade to PRO')}
+                  aria-label={t('pricing.upgradeTitle', 'Upgrade to PRO')}
                 >
                   <motion.div
                     animate={{ scale: [1, 1.12, 1], rotate: [0, -6, 6, 0] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <Crown className="w-[18px] h-[18px] text-amber-500 drop-shadow-[0_1px_2px_rgba(245,158,11,0.4)] group-hover:text-amber-400 transition-colors" strokeWidth={2.2} />
+                    <Crown className="w-[18px] h-[18px] text-amber-500 drop-shadow-[0_1px_2px_rgba(245,158,11,0.4)] group-hover:text-amber-400 transition-colors" strokeWidth={2.2} aria-hidden="true" focusable="false" />
                   </motion.div>
-                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 border-2 border-background animate-pulse" />
+                  <span aria-hidden="true" className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 border-2 border-background animate-pulse" />
                 </Link>
               )}
               <div className="hidden md:flex">
