@@ -280,6 +280,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           })}
         </div>
       </div>
+      </div>
     </motion.div>
   );
 });
