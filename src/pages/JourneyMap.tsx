@@ -285,7 +285,7 @@ const JourneyMap = () => {
             >
               {t(
                 "journey.map.regions.stagesHint",
-                "Your three stages — review or switch the active one.",
+                "تتحدّث مرحلتكِ تلقائيًا من تواريخكِ. التبديل اليدوي يوقف هذا التحديث التلقائي.",
               )}
             </p>
           </header>
