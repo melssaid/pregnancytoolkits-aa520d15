@@ -289,12 +289,12 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 5, scale: 0.85 }}
                 transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="text-[14px] font-black tabular-nums text-foreground leading-none inline-block"
+                className="text-[14px] font-black tabular-nums text-foreground leading-[1] inline-block"
               >
                 {completed}
               </motion.span>
             </AnimatePresence>
-            <span className="text-[10px] font-bold text-muted-foreground leading-none">
+            <span className="text-[10px] font-bold text-muted-foreground leading-[1]">
               /{priorities.length}
             </span>
           </div>
