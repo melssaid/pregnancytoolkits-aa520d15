@@ -764,7 +764,13 @@
     },
     "savedResults": {
       "label": "Resultado de IA salvo"
-    }
+    },
+    "snapshotTitle": "Meu painel",
+    "openCta": "Abrir",
+    "weekLabel": "Semana",
+    "kicks": "Chutes",
+    "vitamins": "Vitamina",
+    "priorities": "Tarefas"
   },
   "layout": {
     "trustBar": {

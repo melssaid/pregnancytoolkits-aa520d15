@@ -764,7 +764,13 @@
     },
     "savedResults": {
       "label": "Résultat IA enregistré"
-    }
+    },
+    "snapshotTitle": "Mon tableau",
+    "openCta": "Ouvrir",
+    "weekLabel": "Semaine",
+    "kicks": "Coups",
+    "vitamins": "Vitamine",
+    "priorities": "Tâches"
   },
   "layout": {
     "trustBar": {

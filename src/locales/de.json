@@ -764,7 +764,13 @@
     },
     "savedResults": {
       "label": "KI-Ergebnis gespeichert"
-    }
+    },
+    "snapshotTitle": "Mein Dashboard",
+    "openCta": "Öffnen",
+    "weekLabel": "Woche",
+    "kicks": "Tritte",
+    "vitamins": "Vitamin",
+    "priorities": "Aufgaben"
   },
   "layout": {
     "trustBar": {
