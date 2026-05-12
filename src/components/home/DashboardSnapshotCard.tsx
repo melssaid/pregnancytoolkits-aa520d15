@@ -147,7 +147,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-t-[34px] rounded-b-3xl overflow-hidden border border-border/40 bg-card"
+      className="relative rounded-t-[34px] rounded-b-3xl overflow-hidden border-x border-b border-border/40 bg-card"
       style={{
         boxShadow:
           `0 1px 0 0 hsl(0 0% 100% / 0.6) inset, 0 6px 16px -8px hsl(${accent} 60% 35% / 0.16), 0 2px 4px -1px hsl(${accent} 40% 25% / 0.06)`,
@@ -176,16 +176,17 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           background: `linear-gradient(${isRtl ? 90 : 270}deg, hsl(0 0% 100% / 0.45), transparent)`,
         }}
       />
-      {/* Concave top arc — mirrors the header's curved bottom for harmony */}
+      {/* Concave top arc — uses page background so the curve reads as a true
+          scoop into the card, with no white border line at the top edge. */}
       <svg
         aria-hidden
         viewBox="0 0 1440 40"
         preserveAspectRatio="none"
-        className="pointer-events-none absolute top-0 left-0 right-0 h-[14px] sm:h-[18px] z-[1]"
+        className="pointer-events-none absolute -top-px left-0 right-0 h-[14px] sm:h-[18px] z-[1]"
       >
         <path
-          d="M0,0 L0,8 C320,40 1120,40 1440,8 L1440,0 Z"
-          fill={`hsl(${accent} 50% 100% / 0.55)`}
+          d="M0,-1 L0,8 C320,40 1120,40 1440,8 L1440,-1 Z"
+          fill="hsl(var(--background))"
         />
       </svg>
 

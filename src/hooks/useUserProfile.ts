@@ -114,6 +114,8 @@ export function computeDueDateFromLMP(lmpDate: string): string {
   return lmp.toISOString().split("T")[0];
 }
 
+const PROFILE_CHANGE_EVENT = "user-profile:changed";
+
 export function useUserProfile() {
   const [profile, setProfile] = useState<UserProfile>(() => {
     const saved = safeParseLocalStorage<UserProfile | null>(PROFILE_KEY, null);
@@ -123,10 +125,37 @@ export function useUserProfile() {
     return { ...DEFAULT_PROFILE, ...legacy };
   });
 
-  // Persist to localStorage on every change
+  // Persist to localStorage on every change + broadcast to other hook instances
   useEffect(() => {
     safeSaveToLocalStorage(PROFILE_KEY, profile);
+    try {
+      window.dispatchEvent(
+        new CustomEvent(PROFILE_CHANGE_EVENT, { detail: profile })
+      );
+    } catch {}
   }, [profile]);
+
+  // Listen for updates from other instances of this hook (and other tabs)
+  useEffect(() => {
+    const onChange = (e: Event) => {
+      const next = (e as CustomEvent<UserProfile>).detail;
+      if (!next) return;
+      setProfile(prev => (prev.updatedAt === next.updatedAt ? prev : next));
+    };
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== PROFILE_KEY || !e.newValue) return;
+      try {
+        const next = JSON.parse(e.newValue) as UserProfile;
+        setProfile(prev => (prev.updatedAt === next.updatedAt ? prev : next));
+      } catch {}
+    };
+    window.addEventListener(PROFILE_CHANGE_EVENT, onChange as EventListener);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener(PROFILE_CHANGE_EVENT, onChange as EventListener);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
 
   // Auto-compute week from LMP if no week overridden
   useEffect(() => {
