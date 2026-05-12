@@ -36,7 +36,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const isRtl = i18n.language === "ar";
 
   const todayKicks = stats?.dailyTracking?.todayKicks || 0;
-  const vitamins = stats?.dailyTracking?.vitaminsTaken || 0;
 
   // Live-sync: refresh derived values when storage / save events fire.
   const [syncTick, setSyncTick] = useState(0);
