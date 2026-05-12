@@ -296,40 +296,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           </div>
         </div>
 
-        {/* ── Stats row ─────────────────────────────────────────────── */}
-        <div className="mt-3.5 flex items-center gap-2">
-          <StatChip
-            value={todayKicks}
-            label={t("dashboard.kicks", "ركلات")}
-            colorLight={`hsl(${accent} 70% 32%)`}
-            colorDark={`hsl(${accent} 75% 78%)`}
-            isRefreshing={isRefreshing}
-          />
-          <StatChip
-            value={vitamins}
-            label={t("dashboard.vitamins", "فيتامين")}
-            colorLight={`hsl(${accentAlt} 65% 32%)`}
-            colorDark={`hsl(${accentAlt} 70% 78%)`}
-            isRefreshing={isRefreshing}
-          />
-          <div className="ms-auto flex items-baseline gap-0.5 px-1">
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={completed}
-                initial={{ opacity: 0, y: -5, scale: 0.85 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 5, scale: 0.85 }}
-                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="text-[14px] font-black tabular-nums text-foreground leading-[1] inline-block"
-              >
-                {completed}
-              </motion.span>
-            </AnimatePresence>
-            <span className="text-[11px] font-bold text-foreground/65 dark:text-foreground/70 leading-[1]">
-              /{priorities.length}
-            </span>
-          </div>
-        </div>
       </Link>
 
       {/* ── Priorities strip ────────────────────────────────────────── */}
