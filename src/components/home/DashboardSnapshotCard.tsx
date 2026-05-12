@@ -260,7 +260,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
               className="relative flex items-center justify-center w-7 h-7 rounded-full group-active:scale-95 transition-transform"
               style={{
                 background: `linear-gradient(${gradAngle}deg, hsl(${accent} 60% 52%), hsl(${accentAlt} 55% 48%))`,
-                boxShadow: `0 3px 10px -2px hsl(${accent} 55% 45% / 0.45), inset 0 1px 0 0 hsl(0 0% 100% / 0.35)`,
+                boxShadow: `0 3px 8px -2px hsl(${accent} 55% 45% / 0.28), inset 0 1px 0 0 hsl(0 0% 100% / 0.35)`,
               }}
             >
               <ArrowUpRight
@@ -367,7 +367,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
                       className="relative w-4 h-4 rounded-full flex items-center justify-center shrink-0"
                       style={{
                         background: `linear-gradient(${gradAngle}deg, hsl(${accent} 65% 52%), hsl(${accentAlt} 58% 50%))`,
-                        boxShadow: `0 2px 4px -1px hsl(${accent} 60% 45% / 0.45)`,
+                        boxShadow: `0 2px 4px -1px hsl(${accent} 60% 45% / 0.22)`,
                       }}
                     >
                       <Check className="w-2.5 h-2.5 text-white" strokeWidth={3.2} />

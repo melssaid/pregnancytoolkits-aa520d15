@@ -92,7 +92,7 @@ export default function JourneyPromptCard() {
         exit={{ opacity: 0, y: -6 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-[hsl(340,40%,98%)] via-[hsl(20,30%,98%)] to-[hsl(300,25%,98%)] dark:from-[hsl(340,15%,11%)] dark:via-[hsl(20,12%,10%)] dark:to-[hsl(300,12%,11%)] p-4"
-        style={{ boxShadow: "0 4px 20px -6px hsl(340 50% 55% / 0.18)" }}
+        style={{ boxShadow: "0 4px 16px -8px hsl(340 50% 55% / 0.12)" }}
       >
         {/* Soft botanical glows */}
         <div className="pointer-events-none absolute -top-10 -end-10 h-28 w-28 rounded-full bg-primary/10 blur-3xl" />
@@ -137,7 +137,7 @@ export default function JourneyPromptCard() {
                     key={s.id}
                     type="button"
                     onClick={() => handlePick(s.id)}
-                    className="group relative flex flex-col items-center gap-1.5 rounded-2xl border border-border/40 bg-background/60 backdrop-blur-sm p-2.5 text-center transition-all hover:border-primary/30 hover:-translate-y-[1px] hover:shadow-[0_2px_10px_-4px_hsl(var(--primary)/0.3)] active:scale-[0.97]"
+                    className="group relative flex flex-col items-center gap-1.5 rounded-2xl border border-border/40 bg-background/60 backdrop-blur-sm p-2.5 text-center transition-all hover:border-primary/30 hover:-translate-y-[1px] hover:shadow-[0_2px_8px_-4px_hsl(var(--primary)/0.18)] active:scale-[0.97]"
                   >
                     <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/15 to-accent/15">
                       <Icon className="h-4 w-4 text-primary" strokeWidth={2.2} />
