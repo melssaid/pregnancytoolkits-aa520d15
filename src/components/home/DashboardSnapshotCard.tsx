@@ -300,6 +300,18 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
 
       {/* ── Priorities strip ────────────────────────────────────────── */}
       <div className="relative px-4 sm:px-5 pb-3 pt-1">
+        <div className="flex items-baseline justify-between mb-1.5 px-0.5">
+          <span
+            className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-foreground/55 dark:text-foreground/60"
+            style={{ fontFamily: "'Tajawal', system-ui, sans-serif" }}
+          >
+            {t("dashboard.todayPriorities", isRtl ? "أولويات اليوم" : "Today")}
+          </span>
+          <span className="text-[11px] font-black tabular-nums text-foreground/80 dark:text-foreground/85 leading-none">
+            {completed}
+            <span className="text-[10px] font-bold text-foreground/55">/{priorities.length}</span>
+          </span>
+        </div>
         <div className="grid grid-cols-3 gap-2">
           {priorities.map((p, i) => {
             const Icon = p.icon;
