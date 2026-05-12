@@ -131,7 +131,7 @@ const StageAwareSuggestionsCard = memo(function StageAwareSuggestionsCard() {
               aria-current={isNext ? "true" : undefined}
               className={`group shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold transition-all active:scale-[0.97] ${
                 isNext
-                  ? "border border-[hsl(340,55%,75%)] bg-white text-[hsl(340,60%,40%)] shadow-[0_2px_8px_-3px_hsl(340_50%_55%/0.4)]"
+                  ? "border border-[hsl(340,55%,75%)] bg-white text-[hsl(340,60%,40%)] shadow-[0_2px_6px_-3px_hsl(340_50%_55%/0.20)]"
                   : "border border-border/50 bg-white/60 text-foreground/75 hover:bg-white"
               }`}
             >
