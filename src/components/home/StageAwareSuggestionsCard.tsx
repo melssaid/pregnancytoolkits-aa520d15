@@ -67,7 +67,7 @@ const StageAwareSuggestionsCard = memo(function StageAwareSuggestionsCard() {
       transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
       dir={isRTL ? "rtl" : "ltr"}
       aria-label={eyebrow}
-      className="relative overflow-hidden rounded-t-[24px] rounded-b-2xl border border-border/40 px-3 pt-2.5 pb-2 shadow-[0_1px_0_hsl(0_0%_100%/0.6)_inset,0_6px_18px_-14px_hsl(340_40%_40%/0.22)]"
+      className="relative overflow-hidden rounded-t-[24px] rounded-b-2xl border border-border/40 px-3 pt-2.5 pb-2 shadow-[0_1px_0_hsl(0_0%_100%/0.6)_inset,0_6px_16px_-8px_hsl(340_40%_40%/0.16),0_2px_4px_-1px_hsl(340_40%_40%/0.06)]"
       style={{
         background:
           "linear-gradient(135deg, hsl(340 60% 99%) 0%, hsl(20 55% 99%) 50%, hsl(280 50% 99%) 100%)",
