@@ -147,7 +147,7 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
       initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-t-[34px] rounded-b-3xl overflow-hidden border border-border/40 bg-card"
+      className="relative rounded-t-[34px] rounded-b-3xl overflow-hidden border-x border-b border-border/40 bg-card"
       style={{
         boxShadow:
           `0 1px 0 0 hsl(0 0% 100% / 0.6) inset, 0 6px 16px -8px hsl(${accent} 60% 35% / 0.16), 0 2px 4px -1px hsl(${accent} 40% 25% / 0.06)`,
