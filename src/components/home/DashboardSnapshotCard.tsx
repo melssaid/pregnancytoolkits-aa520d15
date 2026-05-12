@@ -36,7 +36,6 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   const isRtl = i18n.language === "ar";
 
   const todayKicks = stats?.dailyTracking?.todayKicks || 0;
-  const vitamins = stats?.dailyTracking?.vitaminsTaken || 0;
 
   // Live-sync: refresh derived values when storage / save events fire.
   const [syncTick, setSyncTick] = useState(0);
@@ -296,44 +295,22 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
           </div>
         </div>
 
-        {/* ── Stats row ─────────────────────────────────────────────── */}
-        <div className="mt-3.5 flex items-center gap-2">
-          <StatChip
-            value={todayKicks}
-            label={t("dashboard.kicks", "ركلات")}
-            colorLight={`hsl(${accent} 70% 32%)`}
-            colorDark={`hsl(${accent} 75% 78%)`}
-            isRefreshing={isRefreshing}
-          />
-          <StatChip
-            value={vitamins}
-            label={t("dashboard.vitamins", "فيتامين")}
-            colorLight={`hsl(${accentAlt} 65% 32%)`}
-            colorDark={`hsl(${accentAlt} 70% 78%)`}
-            isRefreshing={isRefreshing}
-          />
-          <div className="ms-auto flex items-baseline gap-0.5 px-1">
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={completed}
-                initial={{ opacity: 0, y: -5, scale: 0.85 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 5, scale: 0.85 }}
-                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="text-[14px] font-black tabular-nums text-foreground leading-[1] inline-block"
-              >
-                {completed}
-              </motion.span>
-            </AnimatePresence>
-            <span className="text-[11px] font-bold text-foreground/65 dark:text-foreground/70 leading-[1]">
-              /{priorities.length}
-            </span>
-          </div>
-        </div>
       </Link>
 
       {/* ── Priorities strip ────────────────────────────────────────── */}
       <div className="relative px-4 sm:px-5 pb-3 pt-1">
+        <div className="flex items-baseline justify-between mb-1.5 px-0.5">
+          <span
+            className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-foreground/55 dark:text-foreground/60"
+            style={{ fontFamily: "'Tajawal', system-ui, sans-serif" }}
+          >
+            {t("dashboard.todayPriorities", isRtl ? "أولويات اليوم" : "Today")}
+          </span>
+          <span className="text-[11px] font-black tabular-nums text-foreground/80 dark:text-foreground/85 leading-none">
+            {completed}
+            <span className="text-[10px] font-bold text-foreground/55">/{priorities.length}</span>
+          </span>
+        </div>
         <div className="grid grid-cols-3 gap-2">
           {priorities.map((p, i) => {
             const Icon = p.icon;
@@ -400,74 +377,5 @@ const DashboardSnapshotCard = memo(function DashboardSnapshotCard() {
   );
 });
 
-/* ── Stat chip ─────────────────────────────────────────────────────── */
-const StatChip = memo(function StatChip({
-  value,
-  label,
-  colorLight,
-  colorDark,
-  isRefreshing = false,
-}: {
-  value: number | string;
-  label: string;
-  colorLight: string;
-  colorDark: string;
-  isRefreshing?: boolean;
-}) {
-  return (
-    <div
-      className="relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-card/90 dark:bg-white/[0.06] border border-border/60 backdrop-blur-sm shadow-[0_1px_2px_0_hsl(0_0%_0%/0.05),inset_0_1px_0_0_hsl(0_0%_100%/0.65)] overflow-hidden"
-      style={
-        {
-          "--chip-color-light": colorLight,
-          "--chip-color-dark": colorDark,
-        } as React.CSSProperties
-      }
-    >
-      {/* Skeleton shimmer overlay during refresh */}
-      <AnimatePresence>
-        {isRefreshing && (
-          <motion.span
-            key="chip-shimmer"
-            aria-hidden
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-foreground/[0.06] to-transparent"
-            style={{
-              backgroundSize: "200% 100%",
-              animation: "shimmer-chip 1.1s ease-in-out infinite",
-            }}
-          />
-        )}
-      </AnimatePresence>
-      <style>{`@keyframes shimmer-chip{0%{background-position:200% 0}100%{background-position:-200% 0}}`}</style>
-      <motion.div
-        animate={{ opacity: isRefreshing ? 0.55 : 1 }}
-        transition={{ duration: 0.2 }}
-        className="relative flex items-baseline gap-1 min-w-0"
-      >
-        <span className="inline-block text-center tabular-nums" style={{ minWidth: "1.1ch" }}>
-          <AnimatePresence mode="popLayout" initial={false}>
-            <motion.span
-              key={String(value)}
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 4 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[12.5px] font-extrabold leading-[1] tabular-nums inline-block text-[var(--chip-color-light)] dark:text-[var(--chip-color-dark)]"
-            >
-              {value}
-            </motion.span>
-          </AnimatePresence>
-        </span>
-        <span className="text-[10.5px] font-semibold text-foreground/70 dark:text-foreground/75 leading-[1] truncate">
-          {label}
-        </span>
-      </motion.div>
-    </div>
-  );
-});
 
 export default DashboardSnapshotCard;
