@@ -28,7 +28,7 @@ import { cn } from '@/lib/utils';
 
 type SettingsView = 'main' | 'profile' | 'language' | 'security' | 'backup' | 'delete' | 'notifications' | 'sonar' | 'reonboard';
 
-const APP_VERSION = '1.0.16';
+const APP_VERSION = '1.0.17';
 
 const Settings: React.FC = () => {
   const { t, i18n } = useTranslation();
