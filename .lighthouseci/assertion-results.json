@@ -1,16 +1,16 @@
 [
   {
     "name": "minScore",
-    "expected": 0.95,
-    "actual": 0.61,
+    "expected": 0.9,
+    "actual": 0.86,
     "values": [
-      0.61
+      0.86
     ],
     "operator": ">=",
     "passed": false,
-    "auditProperty": "seo",
+    "auditProperty": "accessibility",
     "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:45306/index.html"
+    "level": "warn",
+    "url": "http://localhost:26412/"
   }
 ]
