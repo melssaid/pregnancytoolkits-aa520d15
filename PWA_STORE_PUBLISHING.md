@@ -45,7 +45,7 @@ The following PWA optimizations were just applied to the project:
    - Package ID: `app.pregnancytoolkits.windows`
    - Publisher display name: (your Partner Center display name — must match exactly)
    - Publisher ID: copy from Partner Center → Account Settings → "Publisher ID"
-   - App version: `1.0.16`
+   - App version: `1.0.17`
 3. Click **Download Package** — you get a `.msixbundle` file + `.classic.appxbundle`
 4. In Partner Center → Apps → Submit your app → Upload both files
 5. Set: Pricing = Free, Markets = All, Age rating = use IARC certificate (auto-filled from manifest `iarc_rating_id`)
