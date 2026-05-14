@@ -1,0 +1,16 @@
+[
+  {
+    "name": "minScore",
+    "expected": 0.95,
+    "actual": 0.61,
+    "values": [
+      0.61
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditProperty": "seo",
+    "auditId": "categories",
+    "level": "error",
+    "url": "http://localhost:45306/index.html"
+  }
+]
