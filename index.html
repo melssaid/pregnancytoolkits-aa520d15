@@ -70,7 +70,6 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" title="Pregnancy Toolkits RSS" href="/rss.xml" />
     <link rel="preload" as="video" href="/splash-video.mp4" type="video/mp4" fetchpriority="high" />
-    <link rel="preload" as="video" href="/splash-video.mp4" type="video/mp4" />
     <!-- Preload Arabic font to prevent FOUT -->
     <link rel="preload" as="font" href="/fonts/Tajawal-Regular.ttf" type="font/ttf" crossorigin />
     <link rel="preload" as="font" href="/fonts/Tajawal-Bold.ttf" type="font/ttf" crossorigin />
@@ -108,6 +107,42 @@
     <meta name="google-play-app" content="app-id=app.pregnancytoolkits.android" />
     <link rel="alternate" href="android-app://app.pregnancytoolkits.android/https/pregnancytoolkits.lovable.app" />
     
+    <!-- Structured Data — WebSite + Organization (Sitelinks Search Box & brand entity) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://pregnancytoolkits.lovable.app/#website",
+          "url": "https://pregnancytoolkits.lovable.app/",
+          "name": "Pregnancy Toolkits",
+          "description": "Free pregnancy tracker & wellness companion with 33+ smart tools.",
+          "inLanguage": ["en", "ar", "de", "fr", "es", "tr", "pt"],
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://pregnancytoolkits.lovable.app/discover?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          },
+          "publisher": { "@id": "https://pregnancytoolkits.lovable.app/#organization" }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://pregnancytoolkits.lovable.app/#organization",
+          "name": "Pregnancy Toolkits",
+          "url": "https://pregnancytoolkits.lovable.app/",
+          "logo": "https://pregnancytoolkits.lovable.app/icons/icon-512x512.png",
+          "sameAs": [
+            "https://play.google.com/store/apps/details?id=app.pregnancytoolkits.android"
+          ]
+        }
+      ]
+    }
+    </script>
+
     <!-- Structured Data - WebApplication + FAQ + Organization -->
     <script type="application/ld+json">
     {
