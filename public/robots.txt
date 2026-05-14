@@ -1,13 +1,15 @@
-# Pregnancy Toolkits - SEO Optimized Robots.txt
+# Pregnancy Toolkits — robots.txt
+# Updated for AI search engines (SGE, ChatGPT, Perplexity, Claude)
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /share-target
+Disallow: /welcome-result
 
 User-agent: Googlebot
 Allow: /
-Allow: /tools/
-Allow: /en
-Allow: /dashboard
-Allow: /why-us
-Allow: /testimonials
-Allow: /discover
+Disallow: /admin/
 Crawl-delay: 1
 
 User-agent: Googlebot-Image
@@ -20,6 +22,12 @@ User-agent: Bingbot
 Allow: /
 Crawl-delay: 2
 
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
 User-agent: Twitterbot
 Allow: /
 
@@ -29,20 +37,55 @@ Allow: /
 User-agent: LinkedInBot
 Allow: /
 
-User-agent: Pinterest
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# AI crawlers — explicitly allow indexing for visibility in AI Overviews / AI search
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
 Allow: /
 
 User-agent: Applebot
 Allow: /
 
-User-agent: *
+User-agent: Applebot-Extended
 Allow: /
-Crawl-delay: 3
 
-# Block internal/admin paths
-Disallow: /settings
-Disallow: /pricing
-Disallow: /admin/
+User-agent: Bytespider
+Allow: /
 
-# Sitemap
+User-agent: CCBot
+Allow: /
+
+# Sitemaps
 Sitemap: https://pregnancytoolkits.lovable.app/sitemap.xml
+Sitemap: https://pregnancytoolkits.lovable.app/sitemap-pages.xml
+Sitemap: https://pregnancytoolkits.lovable.app/sitemap-tools.xml
+Sitemap: https://pregnancytoolkits.lovable.app/sitemap-articles.xml
+Sitemap: https://pregnancytoolkits.lovable.app/sitemap-locales.xml
+
+# Host
+Host: https://pregnancytoolkits.lovable.app

@@ -1,0 +1,52 @@
+# Pregnancy Toolkits
+
+> Free, multilingual pregnancy & wellness companion with 33+ smart tools — due-date calculator, baby kick counter, contraction timer, week-by-week growth tracker, ovulation & cycle tracker, AI meal planner, hospital bag checklist, birth plan generator, postpartum recovery guide and more. Privacy-first, works offline, no account required.
+
+Pregnancy Toolkits is a Progressive Web App (also published on Google Play as a Trusted Web Activity) for women planning pregnancy, currently pregnant, or in the postpartum stage. All tracking data is stored locally on the user's device. AI insights are generated via Google Gemini through the Lovable AI Gateway. The product is positioned as a wellness companion and is not a medical device — content is educational only.
+
+Available in 7 languages: English, Arabic, German, French, Spanish, Turkish, Portuguese.
+
+## Core Tools
+
+- [Due Date Calculator](/tools/due-date-calculator): Calculates estimated delivery date from last menstrual period.
+- [Smart Kick Counter](/tools/kick-counter): Logs baby movement sessions with rule-based pattern insights.
+- [Contraction Timer](/tools/contraction-timer): Tracks intervals and duration of contractions.
+- [Baby Growth Tracker](/tools/baby-growth): Week-by-week baby development reference.
+- [Cycle Tracker](/tools/cycle-tracker): Period & ovulation tracking for conception planning.
+- [Weight Gain Analyzer](/tools/weight-gain): Pregnancy weight gain trend with reference bands.
+- [Vitamin Tracker](/tools/vitamin-tracker): Daily vitamin and supplement adherence heatmap.
+- [Diaper Tracker](/tools/diaper-tracker): Newborn diaper logging.
+- [Baby Sleep Tracker](/tools/baby-sleep-tracker): Newborn sleep pattern logging.
+
+## AI-Powered Tools
+
+- [Pregnancy Assistant](/tools/pregnancy-assistant): Conversational AI guidance.
+- [Smart Pregnancy Plan](/tools/smart-plan): Personalized weekly plan integrating dashboard data.
+- [AI Meal Suggestion](/tools/ai-meal-suggestion): Pregnancy-safe meal ideas.
+- [AI Hospital Bag](/tools/ai-hospital-bag): Personalized hospital bag checklist.
+- [AI Birth Plan](/tools/ai-birth-plan): Birth plan generator.
+- [AI Fitness Coach](/tools/ai-fitness-coach): Trimester-safe exercise plans.
+- [AI Skincare](/tools/ai-skincare): Pregnancy-safe skincare routines.
+- [AI Bump Photos](/tools/ai-bump-photos): Weekly bump photo journal.
+- [Postpartum Recovery Guide](/tools/postpartum-recovery): Recovery support after birth.
+- [Mental Health Coach](/tools/mental-health-coach): Postpartum emotional wellness.
+- [Baby Cry Translator](/tools/baby-cry-translator): Newborn cry pattern interpretation.
+
+## Pages
+
+- [Homepage](/): All tools dashboard.
+- [Why Us](/why-us): Product positioning and trust signals.
+- [Discover Tools](/discover): Tool catalog browser.
+- [Daily Insights](/daily-insights): Personalized daily content.
+- [My Journey](/my-journey): Stage-aware journey map.
+- [Articles](/articles): Educational articles in 7 languages.
+- [Privacy Policy](/privacy): Local-first data storage policy.
+- [Terms of Service](/terms): Educational-use terms.
+- [Contact](/contact): Support contact.
+
+## Optional
+
+- [Premium Pricing](/pricing-demo): Subscription plans.
+- [Testimonials](/testimonials): User reviews.
+- [Achievements](/achievements): Weekly milestones.
+- [Video Library](/videos): Educational video content.
