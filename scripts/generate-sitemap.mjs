@@ -33,7 +33,7 @@ const pageRoutes = publicRoutes.filter((p) => !p.startsWith("/tools/"));
 let articleSlugs = [];
 try {
   const articlesSrc = readFileSync(resolve(ROOT, "src/data/articles.ts"), "utf8");
-  const slugRegex = /slug:\s*['"]([a-z0-9-]+)['"]/g;
+  const slugRegex = /["']?slug["']?\s*:\s*["']([a-z0-9-]+)["']/g;
   articleSlugs = [...new Set([...articlesSrc.matchAll(slugRegex)].map((m) => m[1]))];
 } catch { /* ignore */ }
 
