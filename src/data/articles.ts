@@ -2567,10 +2567,12 @@ export const getLocalizedArticleBySlug = (slug: string, lang?: string, date: Dat
 // (no daily AI generation). Same rotation seed applies to all languages so the
 // swap cadence is consistent across ar/en/de/fr/es/tr/pt.
 const ROTATION_DAYS = 1;
+// Use LOCAL date so "daily rotation" matches the user's calendar day, not UTC.
 const getDaySeed = (date: Date = new Date()) =>
   Math.floor(
-    Math.floor(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / DAY_IN_MS) /
-      ROTATION_DAYS,
+    Math.floor(
+      new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() / DAY_IN_MS,
+    ) / ROTATION_DAYS,
   );
 
 /** Public seed for memo dependencies — changes every ROTATION_DAYS days. */
