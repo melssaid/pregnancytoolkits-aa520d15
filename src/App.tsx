@@ -108,6 +108,54 @@ const App = () => {
     };
   }, []);
 
+  // Auto-request fullscreen on all pages (best-effort across platforms)
+  useEffect(() => {
+    const requestFs = async () => {
+      const doc = document as any;
+      const el = document.documentElement as any;
+      if (doc.fullscreenElement || doc.webkitFullscreenElement) return;
+
+      const method =
+        el.requestFullscreen ||
+        el.webkitRequestFullscreen ||
+        el.mozRequestFullScreen ||
+        el.msRequestFullscreen;
+      if (!method) return;
+
+      try {
+        await method.call(el);
+      } catch {
+        // Most browsers block auto-fullscreen without user gesture;
+        // fall through to one-shot interaction listener below.
+      }
+    };
+
+    // Immediate attempt (works in TWA / installed contexts on Android)
+    void requestFs();
+
+    // Fallback: trigger on first user interaction (tap/click) anywhere
+    const oneShot = () => {
+      void requestFs();
+      window.removeEventListener("click", oneShot, true);
+      window.removeEventListener("touchstart", oneShot, true);
+    };
+    window.addEventListener("click", oneShot, true);
+    window.addEventListener("touchstart", oneShot, true);
+
+    // iOS Safari: no Fullscreen API, so fake it via scrolling & viewport locking
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    if (iOS) {
+      // Scroll address bar away then prevent scroll bounce
+      setTimeout(() => window.scrollTo(0, 1), 100);
+      document.body.style.overscrollBehaviorY = "none";
+    }
+
+    return () => {
+      window.removeEventListener("click", oneShot, true);
+      window.removeEventListener("touchstart", oneShot, true);
+    };
+  }, []);
+
   return (
     <HelmetProvider>
     <QueryClientProvider client={queryClient}>
