@@ -23,8 +23,8 @@
     "path": "./android.keystore",
     "alias": "android"
   },
-  "appVersionCode": 18,
-  "appVersionName": "1.0.18",
+  "appVersionCode": 17,
+  "appVersionName": "1.0.17",
   "categories": ["health_and_fitness", "parenting", "lifestyle"],
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
