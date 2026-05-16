@@ -64,42 +64,45 @@ export type InsightWeight = 0 | 1 | 2 | 5 | 7;
  * THIS MUST NEVER BE BYPASSED. All weight resolution goes through resolveWeight().
  */
 export const TOOL_WEIGHT_REGISTRY: Record<AIToolType, InsightWeight> = {
-  "symptom-analysis": 1,
-  "meal-suggestion": 1,
-  "pregnancy-assistant": 1,
-  "weekly-summary": 2,          // ⬆ high-value editorial — recap of full week
-  "posture-coach": 1,
-  "walking-coach": 1,
-  "stretch-reminder": 1,
-  "back-pain-relief": 1,
-  "leg-cramp-preventer": 1,
-  "smoothie-generator": 1,
-  "daily-tips": 0,              // free — encourages daily engagement
-  "labor-tracker": 1,
-  "appointment-prep": 1,
-  "kick-analysis": 2,           // ⬆ deep multi-session pattern analysis
-  "sleep-analysis": 1,
-  "sleep-meditation": 1,
-  "sleep-routine": 1,
-  "vitamin-advice": 1,
-  "bump-photos": 5,             // ultrasound photo analysis — multimodal vision + deep clinical context
-  "baby-cry-analysis": 1,
-  "postpartum-recovery": 2,     // ⬆ multi-phase recovery plan
-  "hospital-bag": 1,
-  "birth-position": 1,
-  "partner-guide": 1,
-  "lactation-prep": 1,
-  "nausea-relief": 1,
-  "skincare-advice": 1,
-  "birth-plan": 2,              // ⬆ comprehensive personalized birth plan
-  "mental-health": 2,           // ⬆ sensitive deep emotional analysis
-  "pregnancy-plan": 2,          // ⬆ flagship holistic plan — high perceived value
-  "baby-growth-analysis": 1,
-  "weight-analysis": 2,         // ⬆ trend analysis across multiple weeks
-  "contraction-analysis": 2,    // ⬆ critical pattern analysis (labor signals)
-  "craving-alternatives": 1,
-  "grocery-list": 1,
-  "live-search": 5,             // Perplexity Sonar — real-time web search with citations
+  // ── Standard AI tools — minimum 2 points (all AI buttons must consume quota) ──
+  "symptom-analysis": 2,
+  "meal-suggestion": 2,
+  "pregnancy-assistant": 2,
+  "posture-coach": 2,
+  "walking-coach": 2,
+  "stretch-reminder": 2,
+  "back-pain-relief": 2,
+  "leg-cramp-preventer": 2,
+  "smoothie-generator": 2,
+  "daily-tips": 2,
+  "labor-tracker": 2,
+  "appointment-prep": 2,
+  "sleep-analysis": 2,
+  "sleep-meditation": 2,
+  "sleep-routine": 2,
+  "vitamin-advice": 2,
+  "baby-cry-analysis": 2,
+  "hospital-bag": 2,
+  "birth-position": 2,
+  "partner-guide": 2,
+  "lactation-prep": 2,
+  "nausea-relief": 2,
+  "skincare-advice": 2,
+  "baby-growth-analysis": 2,
+  "craving-alternatives": 2,
+  "grocery-list": 2,
+  // ── Heavy / multi-step AI tools — 2 pts (already minimum) ──
+  "weekly-summary": 2,          // high-value editorial — recap of full week
+  "kick-analysis": 2,           // deep multi-session pattern analysis
+  "postpartum-recovery": 2,     // multi-phase recovery plan
+  "birth-plan": 2,              // comprehensive personalized birth plan
+  "mental-health": 2,           // sensitive deep emotional analysis
+  "pregnancy-plan": 2,          // flagship holistic plan
+  "weight-analysis": 2,         // trend analysis across multiple weeks
+  "contraction-analysis": 2,    // critical pattern analysis (labor signals)
+  // ── Premium-tier multimodal & research ──
+  "bump-photos": 5,             // ultrasound photo analysis — multimodal vision
+  "live-search": 5,             // Perplexity Sonar — real-time web search
   "holistic-dashboard": 7,      // Premium dashboard-wide cross-data analysis (Pro model)
 };
 
