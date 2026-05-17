@@ -556,6 +556,9 @@ const AIBumpPhotos: React.FC = () => {
               );
             })()}
 
+            {/* Plan-bound usage bar */}
+            <MiniUsageBar toolType="bump-photos" section="bump-photos" />
+
             {/* Upgrade CTA when quota exhausted */}
             <div className="pt-1 space-y-2">
               {isLimitReached && (
