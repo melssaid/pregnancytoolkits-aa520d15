@@ -54,7 +54,7 @@ export const AIActionButton: React.FC<AIActionButtonProps> = ({
   icon: CustomIcon,
   className = '',
   variant = 'default',
-  showUsage = false,
+  showUsage = true,
   toolType,
   section,
 }) => {
