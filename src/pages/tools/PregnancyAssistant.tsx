@@ -11,6 +11,7 @@ import { ToolFrame } from "@/components/ToolFrame";
 import { useSmartChat, type ChatMessage } from "@/hooks/useSmartChat";
 import { useResetOnLanguageChange } from "@/hooks/useResetOnLanguageChange";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
+import { MiniUsageBar } from "@/components/ai/MiniUsageBar";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { safeParseLocalStorage } from "@/lib/safeStorage";
 import { STORAGE_KEYS, subscribeToData } from "@/lib/dataBus";
@@ -269,6 +270,13 @@ export default function PregnancyAssistant() {
             liveSearch={liveSearch}
           />
         </div>
+
+        {/* Plan-bound usage bar — chat is metered too */}
+        <MiniUsageBar
+          toolType={liveSearch ? "live-search" : "pregnancy-assistant"}
+          section="pregnancy-plan"
+          className="px-2"
+        />
 
         <div className="pb-1">
           <TrustIndicators />

@@ -24,6 +24,7 @@ import { UltrasoundAbbreviationsGuide } from '@/components/UltrasoundAbbreviatio
 import { useLanguage } from '@/contexts/LanguageContext';
 import { compressImage, estimateDataUrlSize, formatBytes } from '@/lib/imageCompression';
 import { triggerUpgradeBanner } from '@/components/TrialExpiryBanner';
+import { MiniUsageBar } from '@/components/ai/MiniUsageBar';
 
 interface BumpPhoto {
   id: string;
@@ -554,6 +555,9 @@ const AIBumpPhotos: React.FC = () => {
                 </Button>
               );
             })()}
+
+            {/* Plan-bound usage bar */}
+            <MiniUsageBar toolType="bump-photos" section="bump-photos" />
 
             {/* Upgrade CTA when quota exhausted */}
             <div className="pt-1 space-y-2">
