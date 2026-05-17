@@ -271,6 +271,13 @@ export default function PregnancyAssistant() {
           />
         </div>
 
+        {/* Plan-bound usage bar — chat is metered too */}
+        <MiniUsageBar
+          toolType={liveSearch ? "live-search" : "pregnancy-assistant"}
+          section="pregnancy-plan"
+          className="px-2"
+        />
+
         <div className="pb-1">
           <TrustIndicators />
         </div>
