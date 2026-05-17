@@ -24,6 +24,7 @@ import { UltrasoundAbbreviationsGuide } from '@/components/UltrasoundAbbreviatio
 import { useLanguage } from '@/contexts/LanguageContext';
 import { compressImage, estimateDataUrlSize, formatBytes } from '@/lib/imageCompression';
 import { triggerUpgradeBanner } from '@/components/TrialExpiryBanner';
+import { MiniUsageBar } from '@/components/ai/MiniUsageBar';
 
 interface BumpPhoto {
   id: string;
