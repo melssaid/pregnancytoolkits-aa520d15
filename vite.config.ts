@@ -33,21 +33,32 @@ export default defineConfig(({ mode }) => ({
     minify: "esbuild",
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks: (id) => {
           // Vendor core — cached across all pages
-          "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-ui": ["framer-motion", "lucide-react", "sonner", "class-variance-authority", "clsx", "tailwind-merge"],
-          "vendor-radix": [
-            "@radix-ui/react-dialog", "@radix-ui/react-popover", "@radix-ui/react-select",
-            "@radix-ui/react-tabs", "@radix-ui/react-accordion", "@radix-ui/react-dropdown-menu",
-            "@radix-ui/react-tooltip", "@radix-ui/react-switch", "@radix-ui/react-checkbox",
-            "@radix-ui/react-slider", "@radix-ui/react-progress", "@radix-ui/react-scroll-area",
-          ],
-          "vendor-query": ["@tanstack/react-query"],
-          "vendor-i18n": ["i18next", "react-i18next"],
-          "vendor-date": ["date-fns"],
-          "vendor-charts": ["recharts"],
-          "vendor-supabase": ["@supabase/supabase-js"],
+          if (id.includes("node_modules/react/") || id.includes("node_modules/react-dom/") || id.includes("node_modules/react-router-dom/")) {
+            return "vendor-react";
+          }
+          if (id.includes("node_modules/framer-motion/") || id.includes("node_modules/lucide-react/") || id.includes("node_modules/sonner/") || id.includes("node_modules/class-variance-authority/") || id.includes("node_modules/clsx/") || id.includes("node_modules/tailwind-merge/")) {
+            return "vendor-ui";
+          }
+          if (id.includes("node_modules/@radix-ui/")) {
+            return "vendor-radix";
+          }
+          if (id.includes("node_modules/@tanstack/react-query/")) {
+            return "vendor-query";
+          }
+          if (id.includes("node_modules/i18next/") || id.includes("node_modules/react-i18next/")) {
+            return "vendor-i18n";
+          }
+          if (id.includes("node_modules/date-fns/")) {
+            return "vendor-date";
+          }
+          if (id.includes("node_modules/recharts/")) {
+            return "vendor-charts";
+          }
+          if (id.includes("node_modules/@supabase/supabase-js/")) {
+            return "vendor-supabase";
+          }
         },
         // Content-hash for long-term caching
         chunkFileNames: "assets/js/[name]-[hash].js",
