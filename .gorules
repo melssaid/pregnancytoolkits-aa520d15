@@ -1,0 +1,124 @@
+# Goose AI Agent Rules Configuration
+# تخصيص سلوك Goose AI Agent للمشروع
+# https://goose-docs.ai/
+
+# Project Context - سياق المشروع
+name: "Pregnancy Toolkits - Goose Configuration"
+description: "Configuration for using Goose AI Agent to develop and maintain Pregnancy Toolkits"
+version: "1.0"
+
+# Code Style and Patterns - معايير الكود
+rules:
+  # TypeScript/React Patterns
+  - pattern: "typescript"
+    enforce_types: true
+    strict_mode: true
+    
+  # Project Structure
+  - rule: "follow_src_structure"
+    description: "Place new tools in /src/pages/tools/ directory"
+    
+  - rule: "component_naming"
+    description: "Use PascalCase for React components"
+    
+  - rule: "service_naming"
+    description: "Use camelCase for service files"
+
+# Tool Development Guidelines - إرشادات تطوير الأدوات
+tool_development:
+  # New Tool Template Location
+  template_dir: "src/pages/tools"
+  
+  # Required File Structure for New Tools
+  required_files:
+    - "{ToolName}.tsx"  # Main component
+    - "index.ts"        # Export file (if applicable)
+  
+  # Localization Files
+  localization:
+    - "src/locales/ar.json"   # Arabic translations
+    - "src/locales/en.json"   # English translations
+    required_keys:
+      - "tools.{toolName}.title"
+      - "tools.{toolName}.description"
+      
+  # Tool Registration
+  registration: "src/lib/tools-data.ts"
+
+# Code Quality Standards - معايير جودة الكود
+quality:
+  # Linting
+  linter: "eslint"
+  lint_command: "npm run lint"
+  
+  # Testing
+  test_framework: "vitest"
+  test_command: "npm run test"
+  
+  # Type Checking
+  type_check: true
+  typescript_strict: true
+
+# AI Assistance Guidelines - إرشادات المساعدة الذكية
+ai_assistance:
+  # What Goose should help with
+  capabilities:
+    - "Generate new tool components"
+    - "Write test cases for tools"
+    - "Generate translation files"
+    - "Improve code documentation"
+    - "Optimize performance"
+    - "Find and fix bugs"
+    - "Create helper functions"
+    - "Refactor existing code"
+  
+  # What Goose should NOT modify
+  protected_areas:
+    - "src/lib/tools-data.ts (use careful review before changes)"
+    - "src/locales/* (preserve existing translations)"
+    - ".github/workflows/* (CI/CD configuration)"
+    - "package.json (dependencies management)"
+  
+  # Project Context for Goose
+  context:
+    - "This is a women's health application with 35+ specialized tools"
+    - "All data is saved locally for privacy (optional Supabase integration)"
+    - "Full support for Arabic and English languages"
+    - "Use Tailwind CSS for styling, shadcn/ui for components"
+    - "Use Framer Motion for animations"
+    - "Use React Router for navigation"
+
+# Technology Stack - تقنيات المشروع
+tech_stack:
+  - React 18.3+
+  - TypeScript 5.8+
+  - Vite 5.4+
+  - Tailwind CSS 3.4+
+  - shadcn/ui
+  - Framer Motion 12+
+  - Recharts 2.15+
+  - i18next 25+
+  - Supabase 2.91+
+  - React Router 6.30+
+
+# File Patterns to Ignore - الملفات المراد تجاهلها
+ignore:
+  - "node_modules/**"
+  - ".git/**"
+  - "dist/**"
+  - "build/**"
+  - "*.lock"
+  - ".env*"
+  - ".lovable/**"
+  - ".prewarm/**"
+
+# Common Commands - الأوامر الشائعة
+commands:
+  lint: "npm run lint"
+  lint_fix: "npm run lint --fix"
+  test: "npm run test"
+  test_watch: "npm run test:watch"
+  dev: "npm run dev"
+  build: "npm run build"
+  validate_locales: "npm run validate:locales"
+  validate_cards: "npm run validate:cards"
