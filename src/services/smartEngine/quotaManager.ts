@@ -93,8 +93,8 @@ export interface QuotaSourceInfo {
  * (server snapshot vs local) plus freshness info — for badges/tooltips.
  */
 export function getQuotaSourceInfo(): QuotaSourceInfo {
-  const snap = readServerSnapshot();
   const local = readQuota();
+  const snap = readServerSnapshot();
   if (!snap) {
     return {
       source: "local",
@@ -185,6 +185,9 @@ function readQuota(): StoredQuota {
       const parsed: StoredQuota = JSON.parse(raw);
       // Reset if month changed
       if (parsed.monthKey === getCurrentMonthKey()) return parsed;
+      try {
+        localStorage.removeItem(SERVER_SNAPSHOT_KEY);
+      } catch { /* ignore */ }
     }
   } catch { /* corrupted */ }
   return { monthKey: getCurrentMonthKey(), used: 0, tier: "free" };

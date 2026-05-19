@@ -3,6 +3,7 @@ import { getQuotaState, canAfford, consumeQuota, setTier, clearAdminBypass, sync
 import { resolveWeight, TOOL_WEIGHT_REGISTRY, QUOTA_TIERS } from '../types';
 
 const STORAGE_KEY = 'smart_quota_v2';
+const SERVER_SNAPSHOT_KEY = 'smart_quota_server_snapshot_v1';
 const ADMIN_KEY = 'smart_admin_bypass';
 
 const FREE_LIMIT = 8;
@@ -92,6 +93,37 @@ describe('quotaManager', () => {
     const state = getQuotaState();
     expect(state.used).toBe(0);
     expect(state.remaining).toBe(FREE_LIMIT);
+  });
+
+  it('ignores a fresh server snapshot after the stored month rolls over', () => {
+    const previousMonth = (() => {
+      const d = new Date();
+      d.setMonth(d.getMonth() - 1);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    })();
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      monthKey: previousMonth,
+      used: 8,
+      tier: 'free',
+    }));
+    localStorage.setItem(SERVER_SNAPSHOT_KEY, JSON.stringify({
+      used: 8,
+      limit: FREE_LIMIT,
+      tier: 'free',
+      baseLimit: FREE_LIMIT,
+      couponBonus: 0,
+      periodStart: new Date().toISOString(),
+      receivedAt: Date.now(),
+      responseVersion: 'v1',
+      localUsedAtSnapshot: 8,
+    }));
+
+    const state = getQuotaState();
+
+    expect(state.used).toBe(0);
+    expect(state.remaining).toBe(FREE_LIMIT);
+    expect(localStorage.getItem(SERVER_SNAPSHOT_KEY)).toBeNull();
   });
 
   it('does not double-deduct on sequential calls', () => {

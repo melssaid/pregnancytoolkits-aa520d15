@@ -254,11 +254,13 @@ export function AIUsageProvider({ children }: { children: ReactNode }) {
     window.addEventListener('focus', refresh);
     window.addEventListener('subscription-activated', onSubscriptionActivated);
     window.addEventListener('quota-consumed', onQuotaConsumed as EventListener);
+    const renewalPoll = window.setInterval(refresh, 60_000);
     return () => {
       window.removeEventListener('storage', onStorage);
       window.removeEventListener('focus', refresh);
       window.removeEventListener('subscription-activated', onSubscriptionActivated);
       window.removeEventListener('quota-consumed', onQuotaConsumed as EventListener);
+      window.clearInterval(renewalPoll);
       if (resyncTimer.current !== null) window.clearTimeout(resyncTimer.current);
     };
   }, [refresh, scheduleResync]);
