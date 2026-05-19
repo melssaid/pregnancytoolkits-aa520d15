@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
+        # Temporary workaround: vite@8 currently conflicts with @vitejs/plugin-react-swc peer ranges.
         run: npm ci --legacy-peer-deps
       - name: Build production bundle
         run: npm run build
