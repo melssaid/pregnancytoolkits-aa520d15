@@ -183,8 +183,7 @@ workflow_trace_run() {
     fi
     IFS=',' read -r -a affected_parts <<< "$affected_files"
     for affected in "${affected_parts[@]}"; do
-        trimmed="$(echo "$affected" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
-        if [[ "$trimmed" == .github/workflows/* ]] || [[ "$trimmed" == src/locales/* ]] || [[ "$trimmed" == "package.json" ]] || [[ "$trimmed" == "src/lib/tools-data.ts" ]]; then
+        if [[ "$affected" == .github/workflows/* ]] || [[ "$affected" == src/locales/* ]] || [[ "$affected" == "package.json" ]] || [[ "$affected" == "src/lib/tools-data.ts" ]]; then
             review_required="yes"
             break
         fi

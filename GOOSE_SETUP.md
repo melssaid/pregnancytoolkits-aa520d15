@@ -105,7 +105,7 @@ The `.gorules` file in this repository contains project-specific rules for Goose
 - `GOOSE_SETUP.md` = the official reference for AI-assisted workflows.
 - `.gorules` = execution and quality rules.
 - `scripts/goose-workflows.sh` = standardized executable workflows.
-- Lovable can be used, but it must follow the same governance and evidence rules documented here.
+- Lovable (the AI app builder assistant used by this project team) can be used, but it must follow the same governance and evidence rules documented here.
 
 ### Documented Source of Answers (Required)
 
