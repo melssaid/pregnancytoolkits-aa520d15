@@ -32,7 +32,8 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        # Temporary workaround: vite@8 currently conflicts with @vitejs/plugin-react-swc peer ranges.
+        run: npm ci --legacy-peer-deps
 
       - name: Lint
         run: npm run lint --if-present
