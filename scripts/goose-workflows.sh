@@ -78,6 +78,151 @@ validate_project() {
     print_success "Project validation passed"
 }
 
+# Run command and capture pass/fail + log
+run_check_with_log() {
+    local check_name="$1"
+    local command="$2"
+    local log_file="$3"
+    local status_file="$4"
+
+    print_info "Running: $check_name"
+    if bash -c "$command" > "$log_file" 2>&1; then
+        echo "PASS" > "$status_file"
+        print_success "$check_name passed"
+        return 0
+    else
+        echo "FAIL" > "$status_file"
+        print_warning "$check_name failed (see log: $log_file)"
+        return 1
+    fi
+}
+
+# Normalize comma-separated file list: trim spaces and drop empties
+normalize_csv_files() {
+    local input="$1"
+    local normalized=""
+    IFS=',' read -r -a file_parts <<< "$input"
+    for raw_part in "${file_parts[@]}"; do
+        local part
+        part="$(echo "$raw_part" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+        if [ -n "$part" ]; then
+            if [ -z "$normalized" ]; then
+                normalized="$part"
+            else
+                normalized="$normalized, $part"
+            fi
+        fi
+    done
+    echo "$normalized"
+}
+
+# Workflow: Capture AI traceability record
+workflow_trace_run() {
+    print_info "Starting AI traceability workflow..."
+    echo ""
+
+    local timestamp
+    timestamp="$(date -u +"%Y%m%dT%H%M%SZ")"
+
+    local trace_root="artifacts/ai-trace"
+    local run_dir="$trace_root/$timestamp"
+    mkdir -p "$run_dir"
+
+    local commit_sha
+    commit_sha="$(git rev-parse HEAD)"
+
+    read -p "Prompt summary (short): " PROMPT_SUMMARY
+    read -p "Tool/Agent used (e.g. Goose, Lovable): " TOOL_AGENT
+    read -p "Model used (e.g. gpt-5, claude-sonnet): " MODEL_NAME
+    read -p "Affected files (comma-separated, e.g. src/a.ts, src/b.ts): " AFFECTED_FILES_INPUT
+    read -p "Confidence level [high/medium/low]: " CONFIDENCE_LEVEL
+
+    CONFIDENCE_LEVEL="$(echo "$CONFIDENCE_LEVEL" | tr '[:upper:]' '[:lower:]')"
+    if [[ "$CONFIDENCE_LEVEL" != "high" && "$CONFIDENCE_LEVEL" != "medium" && "$CONFIDENCE_LEVEL" != "low" ]]; then
+        CONFIDENCE_LEVEL="medium"
+    fi
+
+    local affected_files
+    affected_files="$(normalize_csv_files "$AFFECTED_FILES_INPUT")"
+    if [ -z "$affected_files" ]; then
+        affected_files="N/A"
+    fi
+
+    local repo_root
+    repo_root="$(pwd)"
+    local abs_run_dir="$repo_root/$run_dir"
+
+    local lint_status_file="$abs_run_dir/lint.status"
+    local test_status_file="$abs_run_dir/test.status"
+    local locales_status_file="$abs_run_dir/validate-locales.status"
+    local lint_log_file="$abs_run_dir/lint.log"
+    local test_log_file="$abs_run_dir/test.log"
+    local locales_log_file="$abs_run_dir/validate-locales.log"
+
+    run_check_with_log "lint" "npm run lint" "$lint_log_file" "$lint_status_file" || true
+    run_check_with_log "test" "npm run test" "$test_log_file" "$test_status_file" || true
+    run_check_with_log "validate:locales" "npm run validate:locales" "$locales_log_file" "$locales_status_file" || true
+
+    local lint_status
+    local test_status
+    local locales_status
+    lint_status="$(cat "$lint_status_file")"
+    test_status="$(cat "$test_status_file")"
+    locales_status="$(cat "$locales_status_file")"
+
+    local ci_logs_url="N/A"
+    local ci_artifacts_url="N/A"
+    if [ -n "$GITHUB_SERVER_URL" ] && [ -n "$GITHUB_REPOSITORY" ] && [ -n "$GITHUB_RUN_ID" ]; then
+        ci_logs_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+        ci_artifacts_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts"
+    fi
+
+    local review_required="no"
+    if [ "$CONFIDENCE_LEVEL" = "low" ] || [ "$lint_status" = "FAIL" ] || [ "$test_status" = "FAIL" ] || [ "$locales_status" = "FAIL" ]; then
+        review_required="yes"
+    fi
+    IFS=',' read -r -a affected_parts <<< "$affected_files"
+    for affected in "${affected_parts[@]}"; do
+        if [[ "$affected" == .github/workflows/* ]] || [[ "$affected" == src/locales/* ]] || [[ "$affected" == "package.json" ]] || [[ "$affected" == "src/lib/tools-data.ts" ]]; then
+            review_required="yes"
+            break
+        fi
+    done
+
+    local trace_report_file="$abs_run_dir/trace-report.md"
+
+    cat > "$trace_report_file" << EOF
+# AI Trace Report
+
+- Executed at (UTC): $timestamp
+- Prompt summary: $PROMPT_SUMMARY
+- Tool/Agent: $TOOL_AGENT
+- Model: $MODEL_NAME
+- Affected files: $affected_files
+- Commit SHA: $commit_sha
+- Confidence: $CONFIDENCE_LEVEL
+- Human review required: $review_required
+
+## Validation Results (Pass/Fail)
+
+- lint: $lint_status (evidence: $run_dir/lint.log)
+- test: $test_status (evidence: $run_dir/test.log)
+- validate:locales: $locales_status (evidence: $run_dir/validate-locales.log)
+
+## CI Evidence
+
+- Logs URL: $ci_logs_url
+- Artifacts URL: $ci_artifacts_url
+EOF
+
+    print_success "AI trace report created: $trace_report_file"
+    echo ""
+    echo "Monthly KPIs to track:"
+    echo "  - test_success_rate"
+    echo "  - eslint_fixes_count"
+    echo "  - delivery_time"
+}
+
 # Show help
 show_help() {
     cat << EOF
@@ -120,6 +265,10 @@ ${GREEN}COMMANDS:${NC}
     Check Goose setup and configuration
     Usage: ./scripts/goose-workflows.sh check
 
+  ${YELLOW}trace-run${NC}
+    Capture AI evidence + run lint/test/validate:locales + emit pass/fail report
+    Usage: ./scripts/goose-workflows.sh trace-run
+
   ${YELLOW}help${NC}
     Show this help message
 
@@ -133,6 +282,9 @@ ${GREEN}EXAMPLES:${NC}
 
   # Generate Arabic translations
   ./scripts/goose-workflows.sh generate-translations
+
+  # Capture AI traceability evidence
+  ./scripts/goose-workflows.sh trace-run
 
 ${GREEN}TIPS:${NC}
   • Review all Goose suggestions before applying
@@ -525,6 +677,10 @@ main() {
         check)
             validate_project
             workflow_check
+            ;;
+        trace-run)
+            validate_project
+            workflow_trace_run
             ;;
         help|--help|-h)
             show_help

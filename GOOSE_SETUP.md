@@ -7,10 +7,11 @@
 
 1. [Installation](#installation)
 2. [Configuration](#configuration)
-3. [Use Cases](#use-cases)
-4. [Common Workflows](#common-workflows)
-5. [Best Practices](#best-practices)
-6. [Troubleshooting](#troubleshooting)
+3. [Official Reference and Governance](#official-reference-and-governance)
+4. [Use Cases](#use-cases)
+5. [Common Workflows](#common-workflows)
+6. [Best Practices](#best-practices)
+7. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -94,6 +95,64 @@ The `.gorules` file in this repository contains project-specific rules for Goose
 - ✅ Common commands
 
 **The `.gorules` file is automatically loaded when you run Goose in this directory.**
+
+---
+
+## Official Reference and Governance
+
+### Single Source of Truth
+
+- `GOOSE_SETUP.md` = the official reference for AI-assisted workflows.
+- `.gorules` = execution and quality rules.
+- `scripts/goose-workflows.sh` = standardized executable workflows.
+- Lovable (the AI app builder assistant used by this project team) can be used, but it must follow the same governance and evidence rules documented here.
+
+### Documented Source of Answers (Required)
+
+For every AI-assisted change, capture:
+
+1. Prompt used.
+2. Tool and model used.
+3. Execution time (UTC).
+4. Affected files.
+5. commit SHA.
+
+Use:
+
+```bash
+./scripts/goose-workflows.sh trace-run
+```
+
+This creates a trace record under `artifacts/ai-trace/`.
+
+### Documented Source of Results (Required)
+
+Each AI output must be linked to:
+
+- `npm run lint`
+- `npm run test`
+- `npm run validate:locales`
+- CI logs/artifacts (when available)
+
+The trace record shows **PASS/FAIL** and links to evidence files.
+
+### Quality & Governance
+
+- Add a confidence indicator to each AI answer (`high`, `medium`, `low`).
+- Mark whether human review is required.
+- Human review is mandatory when confidence is low, checks fail, or sensitive files are touched.
+- Track monthly KPIs:
+  - Test success rate.
+  - Number of ESLint fixes.
+  - End-to-end delivery time.
+
+Recommended KPI formulas:
+
+- Test success rate = `(passed test runs / total test runs) × 100`.
+- ESLint fixes count = total number of fixed violations from lint runs (manual + `--fix`) during the month.
+- Delivery time = time from AI prompt start to merged commit (median per month).
+
+Store monthly KPI snapshots in your team reporting channel or dashboard and keep the metric names aligned with `.gorules`.
 
 ---
 

@@ -87,6 +87,48 @@ ai_assistance:
     - "Use Tailwind CSS for styling, shadcn/ui for components"
     - "Use Framer Motion for animations"
     - "Use React Router for navigation"
+    - "Lovable is allowed when it follows the same governance and evidence requirements"
+
+# AI Governance and Traceability - حوكمة وتتبع مخرجات الذكاء الاصطناعي
+governance:
+  official_reference: "GOOSE_SETUP.md"
+  execution_rules: ".gorules"
+  workflow_script: "scripts/goose-workflows.sh"
+
+  documented_source_of_answers:
+    required_fields:
+      - "prompt"
+      - "tool_or_agent"
+      - "model"
+      - "executed_at_utc"
+      - "affected_files"
+      - "commit_sha"
+
+  documented_source_of_results:
+    required_checks:
+      - "npm run lint"
+      - "npm run test"
+      - "npm run validate:locales"
+    ci_evidence:
+      - "workflow logs URL"
+      - "artifacts URL (if available)"
+    report_format: "Pass/Fail + evidence links"
+
+  confidence:
+    allowed_levels:
+      - "high"
+      - "medium"
+      - "low"
+
+  human_review_required_when:
+    - "confidence is low"
+    - "any required check fails"
+    - "changes touch sensitive files (.github/workflows, package.json, src/lib/tools-data.ts, src/locales/*)"
+
+  monthly_kpis:
+    - "test_success_rate"
+    - "eslint_fixes_count"
+    - "delivery_time"
 
 # Technology Stack - تقنيات المشروع
 tech_stack:
