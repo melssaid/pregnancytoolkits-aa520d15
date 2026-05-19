@@ -97,6 +97,25 @@ run_check_with_log() {
     fi
 }
 
+# Normalize comma-separated file list: trim spaces and drop empties
+normalize_csv_files() {
+    local input="$1"
+    local normalized=""
+    IFS=',' read -r -a file_parts <<< "$input"
+    for raw_part in "${file_parts[@]}"; do
+        local part
+        part="$(echo "$raw_part" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+        if [ -n "$part" ]; then
+            if [ -z "$normalized" ]; then
+                normalized="$part"
+            else
+                normalized="$normalized, $part"
+            fi
+        fi
+    done
+    echo "$normalized"
+}
+
 # Workflow: Capture AI traceability record
 workflow_trace_run() {
     print_info "Starting AI traceability workflow..."
@@ -115,7 +134,7 @@ workflow_trace_run() {
     read -p "Prompt summary (short): " PROMPT_SUMMARY
     read -p "Tool/Agent used (e.g. Goose, Lovable): " TOOL_AGENT
     read -p "Model used (e.g. gpt-5, claude-sonnet): " MODEL_NAME
-    read -p "Affected files (comma-separated): " AFFECTED_FILES
+    read -p "Affected files (comma-separated, e.g. src/a.ts, src/b.ts): " AFFECTED_FILES_INPUT
     read -p "Confidence level [high/medium/low]: " CONFIDENCE_LEVEL
 
     CONFIDENCE_LEVEL="$(echo "$CONFIDENCE_LEVEL" | tr '[:upper:]' '[:lower:]')"
@@ -123,13 +142,26 @@ workflow_trace_run() {
         CONFIDENCE_LEVEL="medium"
     fi
 
-    local lint_status_file="$run_dir/lint.status"
-    local test_status_file="$run_dir/test.status"
-    local locales_status_file="$run_dir/validate-locales.status"
+    local affected_files
+    affected_files="$(normalize_csv_files "$AFFECTED_FILES_INPUT")"
+    if [ -z "$affected_files" ]; then
+        affected_files="N/A"
+    fi
 
-    run_check_with_log "lint" "npm run lint" "$run_dir/lint.log" "$lint_status_file" || true
-    run_check_with_log "test" "npm run test" "$run_dir/test.log" "$test_status_file" || true
-    run_check_with_log "validate:locales" "npm run validate:locales" "$run_dir/validate-locales.log" "$locales_status_file" || true
+    local repo_root
+    repo_root="$(pwd)"
+    local abs_run_dir="$repo_root/$run_dir"
+
+    local lint_status_file="$abs_run_dir/lint.status"
+    local test_status_file="$abs_run_dir/test.status"
+    local locales_status_file="$abs_run_dir/validate-locales.status"
+    local lint_log_file="$abs_run_dir/lint.log"
+    local test_log_file="$abs_run_dir/test.log"
+    local locales_log_file="$abs_run_dir/validate-locales.log"
+
+    run_check_with_log "lint" "npm run lint" "$lint_log_file" "$lint_status_file" || true
+    run_check_with_log "test" "npm run test" "$test_log_file" "$test_status_file" || true
+    run_check_with_log "validate:locales" "npm run validate:locales" "$locales_log_file" "$locales_status_file" || true
 
     local lint_status
     local test_status
@@ -149,18 +181,25 @@ workflow_trace_run() {
     if [ "$CONFIDENCE_LEVEL" = "low" ] || [ "$lint_status" = "FAIL" ] || [ "$test_status" = "FAIL" ] || [ "$locales_status" = "FAIL" ]; then
         review_required="yes"
     fi
-    if echo "$AFFECTED_FILES" | grep -Eq "\.github/workflows|package\.json|src/lib/tools-data\.ts|src/locales/"; then
-        review_required="yes"
-    fi
+    IFS=',' read -r -a affected_parts <<< "$affected_files"
+    for affected in "${affected_parts[@]}"; do
+        trimmed="$(echo "$affected" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+        if [[ "$trimmed" == .github/workflows/* ]] || [[ "$trimmed" == src/locales/* ]] || [[ "$trimmed" == "package.json" ]] || [[ "$trimmed" == "src/lib/tools-data.ts" ]]; then
+            review_required="yes"
+            break
+        fi
+    done
 
-    cat > "$run_dir/trace-report.md" << EOF
+    local trace_report_file="$abs_run_dir/trace-report.md"
+
+    cat > "$trace_report_file" << EOF
 # AI Trace Report
 
 - Executed at (UTC): $timestamp
 - Prompt summary: $PROMPT_SUMMARY
 - Tool/Agent: $TOOL_AGENT
 - Model: $MODEL_NAME
-- Affected files: $AFFECTED_FILES
+- Affected files: $affected_files
 - Commit SHA: $commit_sha
 - Confidence: $CONFIDENCE_LEVEL
 - Human review required: $review_required
@@ -177,7 +216,7 @@ workflow_trace_run() {
 - Artifacts URL: $ci_artifacts_url
 EOF
 
-    print_success "AI trace report created: $run_dir/trace-report.md"
+    print_success "AI trace report created: $trace_report_file"
     echo ""
     echo "Monthly KPIs to track:"
     echo "  - test_success_rate"
