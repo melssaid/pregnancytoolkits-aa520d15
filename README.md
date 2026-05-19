@@ -299,6 +299,34 @@ npm run lint       # فحص الأخطاء
 npm run lint:fix   # إصلاح الأخطاء تلقائياً
 ```
 
+#### استخدام Goose AI للتطوير السريع
+
+يمكنك استخدام **Goose AI Agent** لتسريع عملية التطوير:
+
+```bash
+# تثبيت Goose
+brew install goose-ai/tap/goose  # macOS/Linux
+# أو
+cargo install goose                # Rust
+
+# إنشاء أداة جديدة
+./scripts/goose-workflows.sh new-tool
+
+# كتابة الاختبارات تلقائياً
+./scripts/goose-workflows.sh write-tests src/pages/tools/MyTool.tsx
+
+# توليد الترجمات
+./scripts/goose-workflows.sh generate-translations
+
+# تحسين التوثيق
+./scripts/goose-workflows.sh improve-docs src/services/myService.ts
+
+# المزيد من الخيارات
+./scripts/goose-workflows.sh help
+```
+
+**📖 للمزيد من المعلومات:** اقرأ [GOOSE_SETUP.md](GOOSE_SETUP.md)
+
 ---
 
 ## ⚠️ ملاحظة مهمة
