@@ -20,6 +20,7 @@ import { getBackendFunctionUrl, getBackendPublishableKey } from '@/lib/backendCo
 import { getDeviceFingerprint } from '@/lib/deviceFingerprint';
 
 const FINGERPRINT_STORAGE_KEY = 'ai_client_id_v2';
+const QUOTA_REFRESH_INTERVAL_MS = 5 * 60_000;
 
 /** Get a stable client ID derived from device fingerprint (survives data clearing) */
 async function getStableClientId(): Promise<{ clientId: string; fingerprint: string }> {
@@ -254,7 +255,8 @@ export function AIUsageProvider({ children }: { children: ReactNode }) {
     window.addEventListener('focus', refresh);
     window.addEventListener('subscription-activated', onSubscriptionActivated);
     window.addEventListener('quota-consumed', onQuotaConsumed as EventListener);
-    const renewalPoll = window.setInterval(refresh, 60_000);
+    // Local-only poll so month rollover and other background changes surface even if the tab stays open.
+    const renewalPoll = window.setInterval(refresh, QUOTA_REFRESH_INTERVAL_MS);
     return () => {
       window.removeEventListener('storage', onStorage);
       window.removeEventListener('focus', refresh);

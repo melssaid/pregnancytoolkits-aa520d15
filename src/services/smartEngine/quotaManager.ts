@@ -93,6 +93,8 @@ export interface QuotaSourceInfo {
  * (server snapshot vs local) plus freshness info — for badges/tooltips.
  */
 export function getQuotaSourceInfo(): QuotaSourceInfo {
+  // Read local quota first so a month rollover can invalidate any stale snapshot
+  // before we decide whether the server snapshot is still authoritative.
   const local = readQuota();
   const snap = readServerSnapshot();
   if (!snap) {
@@ -187,7 +189,9 @@ function readQuota(): StoredQuota {
       if (parsed.monthKey === getCurrentMonthKey()) return parsed;
       try {
         localStorage.removeItem(SERVER_SNAPSHOT_KEY);
-      } catch { /* ignore */ }
+      } catch {
+        // Safe to ignore: localStorage may be unavailable or already cleared in private mode/tests.
+      }
     }
   } catch { /* corrupted */ }
   return { monthKey: getCurrentMonthKey(), used: 0, tier: "free" };
