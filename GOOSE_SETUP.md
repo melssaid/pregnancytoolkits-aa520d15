@@ -115,7 +115,7 @@ For every AI-assisted change, capture:
 2. Tool and model used.
 3. Execution time (UTC).
 4. Affected files.
-5. `commit SHA`.
+5. commit SHA.
 
 Use:
 
@@ -145,6 +145,14 @@ The trace record shows **PASS/FAIL** and links to evidence files.
   - Test success rate.
   - Number of ESLint fixes.
   - End-to-end delivery time.
+
+Recommended KPI formulas:
+
+- Test success rate = `(passed test runs / total test runs) × 100`.
+- ESLint fixes count = total number of fixed violations from lint runs (manual + `--fix`) during the month.
+- Delivery time = time from AI prompt start to merged commit (median per month).
+
+Store monthly KPI snapshots in your team reporting channel or dashboard and keep the metric names aligned with `.gorules`.
 
 ---
 
