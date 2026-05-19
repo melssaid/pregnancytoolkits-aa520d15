@@ -78,6 +78,113 @@ validate_project() {
     print_success "Project validation passed"
 }
 
+# Run command and capture pass/fail + log
+run_check_with_log() {
+    local check_name="$1"
+    local command="$2"
+    local log_file="$3"
+    local status_file="$4"
+
+    print_info "Running: $check_name"
+    if bash -c "$command" > "$log_file" 2>&1; then
+        echo "PASS" > "$status_file"
+        print_success "$check_name passed"
+        return 0
+    else
+        echo "FAIL" > "$status_file"
+        print_warning "$check_name failed (see log: $log_file)"
+        return 1
+    fi
+}
+
+# Workflow: Capture AI traceability record
+workflow_trace_run() {
+    print_info "Starting AI traceability workflow..."
+    echo ""
+
+    local timestamp
+    timestamp="$(date -u +"%Y%m%dT%H%M%SZ")"
+
+    local trace_root="artifacts/ai-trace"
+    local run_dir="$trace_root/$timestamp"
+    mkdir -p "$run_dir"
+
+    local commit_sha
+    commit_sha="$(git rev-parse HEAD)"
+
+    read -p "Prompt summary (short): " PROMPT_SUMMARY
+    read -p "Tool/Agent used (e.g. Goose, Lovable): " TOOL_AGENT
+    read -p "Model used (e.g. gpt-5, claude-sonnet): " MODEL_NAME
+    read -p "Affected files (comma-separated): " AFFECTED_FILES
+    read -p "Confidence level [high/medium/low]: " CONFIDENCE_LEVEL
+
+    CONFIDENCE_LEVEL="$(echo "$CONFIDENCE_LEVEL" | tr '[:upper:]' '[:lower:]')"
+    if [[ "$CONFIDENCE_LEVEL" != "high" && "$CONFIDENCE_LEVEL" != "medium" && "$CONFIDENCE_LEVEL" != "low" ]]; then
+        CONFIDENCE_LEVEL="medium"
+    fi
+
+    local lint_status_file="$run_dir/lint.status"
+    local test_status_file="$run_dir/test.status"
+    local locales_status_file="$run_dir/validate-locales.status"
+
+    run_check_with_log "lint" "npm run lint" "$run_dir/lint.log" "$lint_status_file" || true
+    run_check_with_log "test" "npm run test" "$run_dir/test.log" "$test_status_file" || true
+    run_check_with_log "validate:locales" "npm run validate:locales" "$run_dir/validate-locales.log" "$locales_status_file" || true
+
+    local lint_status
+    local test_status
+    local locales_status
+    lint_status="$(cat "$lint_status_file")"
+    test_status="$(cat "$test_status_file")"
+    locales_status="$(cat "$locales_status_file")"
+
+    local ci_logs_url="N/A"
+    local ci_artifacts_url="N/A"
+    if [ -n "$GITHUB_SERVER_URL" ] && [ -n "$GITHUB_REPOSITORY" ] && [ -n "$GITHUB_RUN_ID" ]; then
+        ci_logs_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+        ci_artifacts_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts"
+    fi
+
+    local review_required="no"
+    if [ "$CONFIDENCE_LEVEL" = "low" ] || [ "$lint_status" = "FAIL" ] || [ "$test_status" = "FAIL" ] || [ "$locales_status" = "FAIL" ]; then
+        review_required="yes"
+    fi
+    if echo "$AFFECTED_FILES" | grep -Eq "\.github/workflows|package\.json|src/lib/tools-data\.ts|src/locales/"; then
+        review_required="yes"
+    fi
+
+    cat > "$run_dir/trace-report.md" << EOF
+# AI Trace Report
+
+- Executed at (UTC): $timestamp
+- Prompt summary: $PROMPT_SUMMARY
+- Tool/Agent: $TOOL_AGENT
+- Model: $MODEL_NAME
+- Affected files: $AFFECTED_FILES
+- Commit SHA: $commit_sha
+- Confidence: $CONFIDENCE_LEVEL
+- Human review required: $review_required
+
+## Validation Results (Pass/Fail)
+
+- lint: $lint_status (evidence: $run_dir/lint.log)
+- test: $test_status (evidence: $run_dir/test.log)
+- validate:locales: $locales_status (evidence: $run_dir/validate-locales.log)
+
+## CI Evidence
+
+- Logs URL: $ci_logs_url
+- Artifacts URL: $ci_artifacts_url
+EOF
+
+    print_success "AI trace report created: $run_dir/trace-report.md"
+    echo ""
+    echo "Monthly KPIs to track:"
+    echo "  - test_success_rate"
+    echo "  - eslint_fixes_count"
+    echo "  - delivery_time"
+}
+
 # Show help
 show_help() {
     cat << EOF
@@ -120,6 +227,10 @@ ${GREEN}COMMANDS:${NC}
     Check Goose setup and configuration
     Usage: ./scripts/goose-workflows.sh check
 
+  ${YELLOW}trace-run${NC}
+    Capture AI evidence + run lint/test/validate:locales + emit pass/fail report
+    Usage: ./scripts/goose-workflows.sh trace-run
+
   ${YELLOW}help${NC}
     Show this help message
 
@@ -133,6 +244,9 @@ ${GREEN}EXAMPLES:${NC}
 
   # Generate Arabic translations
   ./scripts/goose-workflows.sh generate-translations
+
+  # Capture AI traceability evidence
+  ./scripts/goose-workflows.sh trace-run
 
 ${GREEN}TIPS:${NC}
   • Review all Goose suggestions before applying
@@ -525,6 +639,10 @@ main() {
         check)
             validate_project
             workflow_check
+            ;;
+        trace-run)
+            validate_project
+            workflow_trace_run
             ;;
         help|--help|-h)
             show_help
